@@ -1,0 +1,512 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0451611E9933FDA98F22AA50 /* Pods_Salsette.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4A7EBEAF4AC4F4083A3DDE9 /* Pods_Salsette.framework */; };
+		1089BF821E708553006E091A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF811E708553006E091A /* AppDelegate.swift */; };
+		1089BF841E708553006E091A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF831E708553006E091A /* SearchViewController.swift */; };
+		1089BF871E708553006E091A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1089BF851E708553006E091A /* Main.storyboard */; };
+		1089BF891E708553006E091A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1089BF881E708553006E091A /* Assets.xcassets */; };
+		1089BF8C1E708553006E091A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1089BF8A1E708553006E091A /* LaunchScreen.storyboard */; };
+		1089BF971E708553006E091A /* SalsetteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF961E708553006E091A /* SalsetteTests.swift */; };
+		10D733431E728E7600F47A52 /* StoryboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D733421E728E7600F47A52 /* StoryboardHelper.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1089BF931E708553006E091A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1089BF761E708553006E091A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1089BF7D1E708553006E091A;
+			remoteInfo = Salsette;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1089BF7E1E708553006E091A /* Salsette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Salsette.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1089BF811E708553006E091A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1089BF831E708553006E091A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		1089BF861E708553006E091A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1089BF881E708553006E091A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1089BF8B1E708553006E091A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		1089BF8D1E708553006E091A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1089BF921E708553006E091A /* SalsetteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalsetteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1089BF961E708553006E091A /* SalsetteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalsetteTests.swift; sourceTree = "<group>"; };
+		1089BF981E708553006E091A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		10D733421E728E7600F47A52 /* StoryboardHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardHelper.swift; sourceTree = "<group>"; };
+		3116C0615A92BACF892E9C63 /* Pods-Salsette.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Salsette.release.xcconfig"; path = "Pods/Target Support Files/Pods-Salsette/Pods-Salsette.release.xcconfig"; sourceTree = "<group>"; };
+		A26ECBEDA3D5B5A569304D7F /* Pods-Salsette.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Salsette.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Salsette/Pods-Salsette.debug.xcconfig"; sourceTree = "<group>"; };
+		E4A7EBEAF4AC4F4083A3DDE9 /* Pods_Salsette.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Salsette.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1089BF7B1E708553006E091A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0451611E9933FDA98F22AA50 /* Pods_Salsette.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1089BF8F1E708553006E091A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1089BF751E708553006E091A = {
+			isa = PBXGroup;
+			children = (
+				1089BF801E708553006E091A /* Salsette */,
+				1089BF951E708553006E091A /* SalsetteTests */,
+				1089BF7F1E708553006E091A /* Products */,
+				4CEF28E96403B60C28B1613B /* Pods */,
+				C2AFA80863CEB3978B100868 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		1089BF7F1E708553006E091A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1089BF7E1E708553006E091A /* Salsette.app */,
+				1089BF921E708553006E091A /* SalsetteTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1089BF801E708553006E091A /* Salsette */ = {
+			isa = PBXGroup;
+			children = (
+				1089BF811E708553006E091A /* AppDelegate.swift */,
+				1089BF831E708553006E091A /* SearchViewController.swift */,
+				10D733421E728E7600F47A52 /* StoryboardHelper.swift */,
+				1089BF851E708553006E091A /* Main.storyboard */,
+				1089BF881E708553006E091A /* Assets.xcassets */,
+				1089BF8A1E708553006E091A /* LaunchScreen.storyboard */,
+				1089BF8D1E708553006E091A /* Info.plist */,
+			);
+			path = Salsette;
+			sourceTree = "<group>";
+		};
+		1089BF951E708553006E091A /* SalsetteTests */ = {
+			isa = PBXGroup;
+			children = (
+				1089BF961E708553006E091A /* SalsetteTests.swift */,
+				1089BF981E708553006E091A /* Info.plist */,
+			);
+			path = SalsetteTests;
+			sourceTree = "<group>";
+		};
+		4CEF28E96403B60C28B1613B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A26ECBEDA3D5B5A569304D7F /* Pods-Salsette.debug.xcconfig */,
+				3116C0615A92BACF892E9C63 /* Pods-Salsette.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		C2AFA80863CEB3978B100868 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E4A7EBEAF4AC4F4083A3DDE9 /* Pods_Salsette.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1089BF7D1E708553006E091A /* Salsette */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1089BF9B1E708554006E091A /* Build configuration list for PBXNativeTarget "Salsette" */;
+			buildPhases = (
+				686C8561308FB2E9E6F4CA7B /* [CP] Check Pods Manifest.lock */,
+				1089BF7A1E708553006E091A /* Sources */,
+				1089BF7B1E708553006E091A /* Frameworks */,
+				1089BF7C1E708553006E091A /* Resources */,
+				78FB332136A44D9008D033B6 /* [CP] Embed Pods Frameworks */,
+				A18D88349D3DB1639B753F32 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Salsette;
+			productName = Salsette;
+			productReference = 1089BF7E1E708553006E091A /* Salsette.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1089BF911E708553006E091A /* SalsetteTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1089BF9E1E708554006E091A /* Build configuration list for PBXNativeTarget "SalsetteTests" */;
+			buildPhases = (
+				1089BF8E1E708553006E091A /* Sources */,
+				1089BF8F1E708553006E091A /* Frameworks */,
+				1089BF901E708553006E091A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1089BF941E708553006E091A /* PBXTargetDependency */,
+			);
+			name = SalsetteTests;
+			productName = SalsetteTests;
+			productReference = 1089BF921E708553006E091A /* SalsetteTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1089BF761E708553006E091A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "Marton Kerekes";
+				TargetAttributes = {
+					1089BF7D1E708553006E091A = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = HQQ63777MM;
+						ProvisioningStyle = Automatic;
+					};
+					1089BF911E708553006E091A = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = HQQ63777MM;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 1089BF7D1E708553006E091A;
+					};
+				};
+			};
+			buildConfigurationList = 1089BF791E708553006E091A /* Build configuration list for PBXProject "Salsette" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1089BF751E708553006E091A;
+			productRefGroup = 1089BF7F1E708553006E091A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1089BF7D1E708553006E091A /* Salsette */,
+				1089BF911E708553006E091A /* SalsetteTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1089BF7C1E708553006E091A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1089BF8C1E708553006E091A /* LaunchScreen.storyboard in Resources */,
+				1089BF891E708553006E091A /* Assets.xcassets in Resources */,
+				1089BF871E708553006E091A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1089BF901E708553006E091A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		686C8561308FB2E9E6F4CA7B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		78FB332136A44D9008D033B6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Salsette/Pods-Salsette-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A18D88349D3DB1639B753F32 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Salsette/Pods-Salsette-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1089BF7A1E708553006E091A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				10D733431E728E7600F47A52 /* StoryboardHelper.swift in Sources */,
+				1089BF841E708553006E091A /* SearchViewController.swift in Sources */,
+				1089BF821E708553006E091A /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1089BF8E1E708553006E091A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1089BF971E708553006E091A /* SalsetteTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1089BF941E708553006E091A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1089BF7D1E708553006E091A /* Salsette */;
+			targetProxy = 1089BF931E708553006E091A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1089BF851E708553006E091A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1089BF861E708553006E091A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		1089BF8A1E708553006E091A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1089BF8B1E708553006E091A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1089BF991E708553006E091A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1089BF9A1E708554006E091A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1089BF9C1E708554006E091A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A26ECBEDA3D5B5A569304D7F /* Pods-Salsette.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = HQQ63777MM;
+				INFOPLIST_FILE = Salsette/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mk.Salsette;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		1089BF9D1E708554006E091A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3116C0615A92BACF892E9C63 /* Pods-Salsette.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = HQQ63777MM;
+				INFOPLIST_FILE = Salsette/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mk.Salsette;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		1089BF9F1E708554006E091A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = HQQ63777MM;
+				INFOPLIST_FILE = SalsetteTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mk.SalsetteTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Salsette.app/Salsette";
+			};
+			name = Debug;
+		};
+		1089BFA01E708554006E091A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = HQQ63777MM;
+				INFOPLIST_FILE = SalsetteTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mk.SalsetteTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Salsette.app/Salsette";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1089BF791E708553006E091A /* Build configuration list for PBXProject "Salsette" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1089BF991E708553006E091A /* Debug */,
+				1089BF9A1E708554006E091A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1089BF9B1E708554006E091A /* Build configuration list for PBXNativeTarget "Salsette" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1089BF9C1E708554006E091A /* Debug */,
+				1089BF9D1E708554006E091A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1089BF9E1E708554006E091A /* Build configuration list for PBXNativeTarget "SalsetteTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1089BF9F1E708554006E091A /* Debug */,
+				1089BFA01E708554006E091A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1089BF761E708553006E091A /* Project object */;
+}
