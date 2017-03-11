@@ -18,8 +18,8 @@ private enum ViewControllers {
 }
 
 extension UIStoryboard {
-    class func calendarViewController() -> (CalendarViewController) {
-        let storyBoard = UIStoryboard(name: Storyboards.Main, bundle: nil)
-        return storyBoard.instantiateViewController(withIdentifier: ViewControllers.CalendarViewController) as! CalendarViewController
-    }
+//    class func calendarViewController() -> (CalendarViewController) {
+//        let storyBoard = UIStoryboard(name: Storyboards.Main, bundle: nil)
+//        return storyBoard.instantiateViewController(withIdentifier: ViewControllers.CalendarViewController) as! CalendarViewController
+//    }
 }
