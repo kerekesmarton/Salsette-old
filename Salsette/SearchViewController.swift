@@ -14,16 +14,28 @@ import ChameleonFramework
 
 struct SearchFeatureLauncher {
 
-    static func setupSearch(viewController: SearchViewController) {
-        
+    static func presentSearch(in hostViewController: UIViewController!) -> SearchViewController {
+        let searchViewController = UIStoryboard.searchViewControllerWithNavigation()
         let presenter = SearchPresenter()
         let interactor = SearchInteractor(presenter: presenter)
-        viewController.searchInteractor = interactor
-        presenter.searchView = viewController
+        searchViewController.searchInteractor = interactor
+        presenter.searchView = searchViewController
+        
+        return searchViewController
+    }
+    
+    static func launchSearch() -> SearchViewController {
+        let searchViewController = UIStoryboard.searchViewController()
+        let presenter = SearchPresenter()
+        let interactor = SearchInteractor(presenter: presenter)
+        searchViewController.searchInteractor = interactor
+        presenter.searchView = searchViewController
+        
+        return searchViewController
     }
 }
 
-class SearchViewController: UITableViewController {
+class SearchViewController: UITableViewController, PDTSimpleCalendarViewDelegate {
 
     @IBOutlet weak var nameField: HoshiTextField!
     @IBOutlet weak var dateField: HoshiTextField!
@@ -32,20 +44,19 @@ class SearchViewController: UITableViewController {
     var calendarViewController: CalendarViewController?
     var calendarView: UIView {
         calendarViewController = CalendarViewController(nibName: "keyboard", bundle: nil)
-        calendarViewController?.delegate = searchInteractor
+        calendarViewController?.delegate = self
         return calendarViewController!.view
     }
     
     var searchInteractor: SearchInteractor?
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        SearchFeatureLauncher.setupSearch(viewController: self)
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         dateField.inputView = calendarView
+    }
+    
+    func simpleCalendarViewController(_ controller: PDTSimpleCalendarViewController!, didSelect date: Date?) {
+        searchInteractor?.newDate = date
     }
 }
 
@@ -58,57 +69,70 @@ extension SearchViewController {
         case typde(String)
     }
     
-    func set(_ viewModel: SearchViewModel) {
-     
+    func set(_ viewModel: SearchViewModel) {     
         switch viewModel {
         case .dates(let dateString):
             dateField.text = dateString
-            calendarViewController?.collectionView?.reloadData()
         default:
             return
         }
     }
+    
+    func resetCellForDate(date: Date) {
+        guard let cell: CalendarViewCell = calendarViewController?.cellForItem(at: date) as? CalendarViewCell,
+        let indexPath = calendarViewController?.collectionView?.indexPath(for: cell) else {
+            return
+        }
+        calendarViewController?.collectionView?.reloadItems(at: [indexPath])
+    }
 }
 
-class SearchInteractor: NSObject, PDTSimpleCalendarViewDelegate {
+extension SearchViewController: SideMenuChildViewProtocol {
+    func resizeViewsToFit(frame: CGRect) {
+        view.frame = frame
+        tableView.frame = frame
+    }
+}
+
+class SearchInteractor {
     let searchPresenter: SearchPresenter
     
     init(presenter: SearchPresenter) {
         self.searchPresenter = presenter
     }
     
-    func simpleCalendarViewController(_ controller: PDTSimpleCalendarViewController!, didSelect date: Date!) {
-        if startDate == nil {
-            startDate = date
-            searchPresenter.update(startDate: date)
-        } else if endDate == nil {
-            endDate = date
-            searchPresenter.update(startDate: startDate, endDate: date)
-        } else {
-            startDate = date
-            searchPresenter.update(startDate: date)
-            endDate = nil
-        }
-    }
-    
     func simpleCalendarViewController(_ controller: PDTSimpleCalendarViewController!, textColorFor date: Date!) -> UIColor! {
-        if date == startDate || date == endDate {
-            return UIColor.flatBlack
-        }
-        return UIColor.flatGray
+        return UIColor.flatBlack
     }
     
     func simpleCalendarViewController(_ controller: PDTSimpleCalendarViewController!, circleColorFor date: Date!) -> UIColor! {
-        if date == startDate || date == endDate {
-            return UIColor.flatRed
+        return UIColor.flatForestGreen
+    }
+    
+    var newDate: Date? {
+        willSet {
+            guard let oldDate = newDate else {
+                return
+            }
+            searchPresenter.reset(oldDate: oldDate)
         }
-        return UIColor(white: 0, alpha: 0)
+        didSet {
+            guard let date = newDate else {
+                return
+            }
+            if startDate == nil {
+                startDate = date
+                searchPresenter.update(startDate: date)
+            } else if endDate == nil {
+                endDate = date
+                searchPresenter.update(startDate: startDate, endDate: date)
+            } else {
+                startDate = date
+                searchPresenter.update(startDate: date)
+                endDate = nil
+            }
+        }
     }
-    
-    func simpleCalendarViewController(_ controller: PDTSimpleCalendarViewController!, shouldUseCustomColorsFor date: Date!) -> Bool {
-        return true
-    }
-    
     var startDate: Date?
     var endDate: Date?
 }
@@ -117,6 +141,9 @@ class SearchPresenter {
     
     weak var searchView: SearchViewController?
     
+    func reset(oldDate: Date) {
+        searchView?.resetCellForDate(date: oldDate)
+    }
     func update(startDate: Date?) {
         guard let safeDate = startDate else {
             searchView?.set(.dates(""))
@@ -141,12 +168,4 @@ class SearchPresenter {
         return aFormatter
     }()
 }
-
-class CalendarViewController: PDTSimpleCalendarViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.collectionView?.isPagingEnabled = true
-    }
-}
-
+ 

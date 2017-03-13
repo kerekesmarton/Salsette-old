@@ -9,13 +9,29 @@
 /* Begin PBXBuildFile section */
 		0451611E9933FDA98F22AA50 /* Pods_Salsette.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4A7EBEAF4AC4F4083A3DDE9 /* Pods_Salsette.framework */; };
 		1033E5291E734437002D1615 /* keyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1033E5281E734437002D1615 /* keyboard.xib */; };
+		1033E52B1E7589BA002D1615 /* CalendartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E52A1E7589BA002D1615 /* CalendartViewController.swift */; };
+		1033E5301E75A9DF002D1615 /* AddPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E52D1E75A9DF002D1615 /* AddPopoverViewController.swift */; };
+		1033E5311E75A9DF002D1615 /* MenuViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E52E1E75A9DF002D1615 /* MenuViewContoller.swift */; };
+		1033E5321E75A9DF002D1615 /* StubContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E52F1E75A9DF002D1615 /* StubContentViewController.swift */; };
+		1033E5361E75AA04002D1615 /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5351E75AA04002D1615 /* TabItem.swift */; };
+		1033E53A1E75AA11002D1615 /* ControllersProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5381E75AA11002D1615 /* ControllersProvider.swift */; };
+		1033E53B1E75AA11002D1615 /* TabSwitcherItemsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5391E75AA11002D1615 /* TabSwitcherItemsProvider.swift */; };
+		1033E53F1E75AA23002D1615 /* ExampleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E53D1E75AA23002D1615 /* ExampleTableViewCell.swift */; };
+		1033E5401E75AA23002D1615 /* ExampleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1033E53E1E75AA23002D1615 /* ExampleTableViewCell.xib */; };
+		1033E5421E75AA8E002D1615 /* MenuAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1033E5411E75AA8E002D1615 /* MenuAssets.xcassets */; };
+		1033E5441E75AAB3002D1615 /* UIFont+Zeplin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5431E75AAB3002D1615 /* UIFont+Zeplin.swift */; };
+		1033E54B1E75AB21002D1615 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1033E54A1E75AB21002D1615 /* Main.storyboard */; };
+		1033E54D1E75C5BB002D1615 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E54C1E75C5BB002D1615 /* SideMenuViewController.swift */; };
+		1033E5521E75C7AA002D1615 /* UINavigationBar+Flat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E54F1E75C7AA002D1615 /* UINavigationBar+Flat.swift */; };
+		1033E5531E75C7AA002D1615 /* UIFont+Avenir.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5501E75C7AA002D1615 /* UIFont+Avenir.swift */; };
+		1033E5541E75C7AA002D1615 /* String+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5511E75C7AA002D1615 /* String+Convenience.swift */; };
 		1089BF821E708553006E091A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF811E708553006E091A /* AppDelegate.swift */; };
 		1089BF841E708553006E091A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF831E708553006E091A /* SearchViewController.swift */; };
-		1089BF871E708553006E091A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1089BF851E708553006E091A /* Main.storyboard */; };
+		1089BF871E708553006E091A /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1089BF851E708553006E091A /* Search.storyboard */; };
 		1089BF891E708553006E091A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1089BF881E708553006E091A /* Assets.xcassets */; };
 		1089BF8C1E708553006E091A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1089BF8A1E708553006E091A /* LaunchScreen.storyboard */; };
 		1089BF971E708553006E091A /* SalsetteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF961E708553006E091A /* SalsetteTests.swift */; };
-		10D733431E728E7600F47A52 /* StoryboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D733421E728E7600F47A52 /* StoryboardHelper.swift */; };
+		10D733431E728E7600F47A52 /* UIStoryboard+Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,17 +46,37 @@
 
 /* Begin PBXFileReference section */
 		1033E5281E734437002D1615 /* keyboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = keyboard.xib; sourceTree = "<group>"; };
+		1033E52A1E7589BA002D1615 /* CalendartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendartViewController.swift; sourceTree = "<group>"; };
+		1033E52D1E75A9DF002D1615 /* AddPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPopoverViewController.swift; sourceTree = "<group>"; };
+		1033E52E1E75A9DF002D1615 /* MenuViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewContoller.swift; sourceTree = "<group>"; };
+		1033E52F1E75A9DF002D1615 /* StubContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubContentViewController.swift; sourceTree = "<group>"; };
+		1033E5351E75AA04002D1615 /* TabItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
+		1033E5381E75AA11002D1615 /* ControllersProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllersProvider.swift; sourceTree = "<group>"; };
+		1033E5391E75AA11002D1615 /* TabSwitcherItemsProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabSwitcherItemsProvider.swift; sourceTree = "<group>"; };
+		1033E53D1E75AA23002D1615 /* ExampleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleTableViewCell.swift; sourceTree = "<group>"; };
+		1033E53E1E75AA23002D1615 /* ExampleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExampleTableViewCell.xib; sourceTree = "<group>"; };
+		1033E5411E75AA8E002D1615 /* MenuAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = MenuAssets.xcassets; sourceTree = "<group>"; };
+		1033E5431E75AAB3002D1615 /* UIFont+Zeplin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Zeplin.swift"; sourceTree = "<group>"; };
+		1033E5451E75AAC5002D1615 /* GothamProBlack.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GothamProBlack.ttf; sourceTree = "<group>"; };
+		1033E5461E75AAC5002D1615 /* GothamProBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GothamProBold.ttf; sourceTree = "<group>"; };
+		1033E5471E75AAC5002D1615 /* GothamProMedium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GothamProMedium.ttf; sourceTree = "<group>"; };
+		1033E5481E75AAC5002D1615 /* GothamProRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GothamProRegular.ttf; sourceTree = "<group>"; };
+		1033E54A1E75AB21002D1615 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		1033E54C1E75C5BB002D1615 /* SideMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
+		1033E54F1E75C7AA002D1615 /* UINavigationBar+Flat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Flat.swift"; sourceTree = "<group>"; };
+		1033E5501E75C7AA002D1615 /* UIFont+Avenir.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Avenir.swift"; sourceTree = "<group>"; };
+		1033E5511E75C7AA002D1615 /* String+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Convenience.swift"; sourceTree = "<group>"; };
 		1089BF7E1E708553006E091A /* Salsette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Salsette.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1089BF811E708553006E091A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1089BF831E708553006E091A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		1089BF861E708553006E091A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1089BF861E708553006E091A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Search.storyboard; sourceTree = "<group>"; };
 		1089BF881E708553006E091A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1089BF8B1E708553006E091A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1089BF8D1E708553006E091A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1089BF921E708553006E091A /* SalsetteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalsetteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1089BF961E708553006E091A /* SalsetteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalsetteTests.swift; sourceTree = "<group>"; };
 		1089BF981E708553006E091A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		10D733421E728E7600F47A52 /* StoryboardHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardHelper.swift; sourceTree = "<group>"; };
+		10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Functions.swift"; sourceTree = "<group>"; };
 		3116C0615A92BACF892E9C63 /* Pods-Salsette.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Salsette.release.xcconfig"; path = "Pods/Target Support Files/Pods-Salsette/Pods-Salsette.release.xcconfig"; sourceTree = "<group>"; };
 		A26ECBEDA3D5B5A569304D7F /* Pods-Salsette.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Salsette.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Salsette/Pods-Salsette.debug.xcconfig"; sourceTree = "<group>"; };
 		E4A7EBEAF4AC4F4083A3DDE9 /* Pods_Salsette.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Salsette.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,6 +101,83 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1033E52C1E75A955002D1615 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				1089BF831E708553006E091A /* SearchViewController.swift */,
+				1089BF851E708553006E091A /* Search.storyboard */,
+				1033E52A1E7589BA002D1615 /* CalendartViewController.swift */,
+				1033E5281E734437002D1615 /* keyboard.xib */,
+			);
+			name = Search;
+			sourceTree = "<group>";
+		};
+		1033E5331E75A9E3002D1615 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				1033E5491E75AADC002D1615 /* Resources */,
+				1033E53C1E75AA14002D1615 /* DataProviders */,
+				1033E5371E75AA08002D1615 /* Model */,
+				1033E5341E75A9F2002D1615 /* ViewControllers */,
+			);
+			name = Menu;
+			sourceTree = "<group>";
+		};
+		1033E5341E75A9F2002D1615 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				1033E52E1E75A9DF002D1615 /* MenuViewContoller.swift */,
+				1033E54C1E75C5BB002D1615 /* SideMenuViewController.swift */,
+				1033E52D1E75A9DF002D1615 /* AddPopoverViewController.swift */,
+				1033E54A1E75AB21002D1615 /* Main.storyboard */,
+				1033E53D1E75AA23002D1615 /* ExampleTableViewCell.swift */,
+				1033E53E1E75AA23002D1615 /* ExampleTableViewCell.xib */,
+				1033E52F1E75A9DF002D1615 /* StubContentViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		1033E5371E75AA08002D1615 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1033E5351E75AA04002D1615 /* TabItem.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		1033E53C1E75AA14002D1615 /* DataProviders */ = {
+			isa = PBXGroup;
+			children = (
+				1033E5381E75AA11002D1615 /* ControllersProvider.swift */,
+				1033E5391E75AA11002D1615 /* TabSwitcherItemsProvider.swift */,
+			);
+			name = DataProviders;
+			sourceTree = "<group>";
+		};
+		1033E5491E75AADC002D1615 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1033E5411E75AA8E002D1615 /* MenuAssets.xcassets */,
+				1033E5451E75AAC5002D1615 /* GothamProBlack.ttf */,
+				1033E5461E75AAC5002D1615 /* GothamProBold.ttf */,
+				1033E5471E75AAC5002D1615 /* GothamProMedium.ttf */,
+				1033E5481E75AAC5002D1615 /* GothamProRegular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		1033E54E1E75C7A0002D1615 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1033E5431E75AAB3002D1615 /* UIFont+Zeplin.swift */,
+				1033E54F1E75C7AA002D1615 /* UINavigationBar+Flat.swift */,
+				1033E5501E75C7AA002D1615 /* UIFont+Avenir.swift */,
+				1033E5511E75C7AA002D1615 /* String+Convenience.swift */,
+				10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		1089BF751E708553006E091A = {
 			isa = PBXGroup;
 			children = (
@@ -88,11 +201,10 @@
 		1089BF801E708553006E091A /* Salsette */ = {
 			isa = PBXGroup;
 			children = (
+				1033E54E1E75C7A0002D1615 /* Extensions */,
 				1089BF811E708553006E091A /* AppDelegate.swift */,
-				1089BF831E708553006E091A /* SearchViewController.swift */,
-				10D733421E728E7600F47A52 /* StoryboardHelper.swift */,
-				1089BF851E708553006E091A /* Main.storyboard */,
-				1033E5281E734437002D1615 /* keyboard.xib */,
+				1033E5331E75A9E3002D1615 /* Menu */,
+				1033E52C1E75A955002D1615 /* Search */,
 				1089BF881E708553006E091A /* Assets.xcassets */,
 				1089BF8A1E708553006E091A /* LaunchScreen.storyboard */,
 				1089BF8D1E708553006E091A /* Info.plist */,
@@ -214,10 +326,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1033E54B1E75AB21002D1615 /* Main.storyboard in Resources */,
 				1089BF8C1E708553006E091A /* LaunchScreen.storyboard in Resources */,
+				1033E5401E75AA23002D1615 /* ExampleTableViewCell.xib in Resources */,
 				1089BF891E708553006E091A /* Assets.xcassets in Resources */,
 				1033E5291E734437002D1615 /* keyboard.xib in Resources */,
-				1089BF871E708553006E091A /* Main.storyboard in Resources */,
+				1089BF871E708553006E091A /* Search.storyboard in Resources */,
+				1033E5421E75AA8E002D1615 /* MenuAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,9 +398,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10D733431E728E7600F47A52 /* StoryboardHelper.swift in Sources */,
+				1033E53B1E75AA11002D1615 /* TabSwitcherItemsProvider.swift in Sources */,
+				1033E5311E75A9DF002D1615 /* MenuViewContoller.swift in Sources */,
+				1033E5541E75C7AA002D1615 /* String+Convenience.swift in Sources */,
+				10D733431E728E7600F47A52 /* UIStoryboard+Functions.swift in Sources */,
+				1033E54D1E75C5BB002D1615 /* SideMenuViewController.swift in Sources */,
+				1033E5521E75C7AA002D1615 /* UINavigationBar+Flat.swift in Sources */,
+				1033E52B1E7589BA002D1615 /* CalendartViewController.swift in Sources */,
+				1033E5301E75A9DF002D1615 /* AddPopoverViewController.swift in Sources */,
+				1033E5531E75C7AA002D1615 /* UIFont+Avenir.swift in Sources */,
+				1033E53A1E75AA11002D1615 /* ControllersProvider.swift in Sources */,
 				1089BF841E708553006E091A /* SearchViewController.swift in Sources */,
 				1089BF821E708553006E091A /* AppDelegate.swift in Sources */,
+				1033E5441E75AAB3002D1615 /* UIFont+Zeplin.swift in Sources */,
+				1033E53F1E75AA23002D1615 /* ExampleTableViewCell.swift in Sources */,
+				1033E5361E75AA04002D1615 /* TabItem.swift in Sources */,
+				1033E5321E75A9DF002D1615 /* StubContentViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,12 +436,12 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1089BF851E708553006E091A /* Main.storyboard */ = {
+		1089BF851E708553006E091A /* Search.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1089BF861E708553006E091A /* Base */,
 			);
-			name = Main.storyboard;
+			name = Search.storyboard;
 			sourceTree = "<group>";
 		};
 		1089BF8A1E708553006E091A /* LaunchScreen.storyboard */ = {

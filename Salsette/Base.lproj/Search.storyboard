@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="qhh-lc-jAX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Search View Controller-->
+        <!--Filters-->
         <scene sceneID="eWy-J7-Pa1">
             <objects>
-                <tableViewController id="qhh-lc-jAX" customClass="SearchViewController" customModule="Salsette" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SearchViewController" title="Filters" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qhh-lc-jAX" customClass="SearchViewController" customModule="Salsette" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="dJs-yE-EtO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -28,9 +28,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="neH-5I-9Op" customClass="HoshiTextField" customModule="TextFieldEffects">
-                                                    <rect key="frame" x="8" y="7" width="359" height="43.5"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="neH-5I-9Op" customClass="HoshiTextField" customModule="TextFieldEffects">
+                                                    <rect key="frame" x="8" y="8" width="359" height="44"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -47,6 +46,12 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="neH-5I-9Op" firstAttribute="top" secondItem="dDk-bX-AOX" secondAttribute="topMargin" id="18P-Ik-3z4"/>
+                                                <constraint firstItem="neH-5I-9Op" firstAttribute="trailing" secondItem="dDk-bX-AOX" secondAttribute="trailingMargin" id="CeG-cD-Z5d"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="neH-5I-9Op" secondAttribute="bottom" id="YBM-R0-h2C"/>
+                                                <constraint firstItem="neH-5I-9Op" firstAttribute="leading" secondItem="dDk-bX-AOX" secondAttribute="leadingMargin" id="uFE-vT-d8K"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="oXX-mu-IrP">
@@ -57,7 +62,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TUw-ge-nfy" customClass="HoshiTextField" customModule="TextFieldEffects">
-                                                    <rect key="frame" x="8" y="8" width="359" height="43.5"/>
+                                                    <rect key="frame" x="8" y="8" width="359" height="44"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -91,7 +96,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AR3-Vr-eEC" customClass="HoshiTextField" customModule="TextFieldEffects">
-                                                    <rect key="frame" x="8" y="8" width="359" height="43.5"/>
+                                                    <rect key="frame" x="8" y="8" width="359" height="44"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -117,40 +122,6 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="c5g-Ip-vbk">
-                                        <rect key="frame" x="0.0" y="208" width="375" height="60"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="c5g-Ip-vbk" id="2YH-9w-svS">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Type" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rZ3-qk-rV3" customClass="HoshiTextField" customModule="TextFieldEffects">
-                                                    <rect key="frame" x="8" y="8" width="359" height="43.5"/>
-                                                    <nil key="textColor"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderInactiveColor">
-                                                            <color key="value" red="0.51784205439999997" green="0.58159953360000005" blue="0.58617168659999996" alpha="1" colorSpace="calibratedRGB"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderActiveColor">
-                                                            <color key="value" red="0.42655369640000002" green="0.475846082" blue="0.4802647531" alpha="1" colorSpace="calibratedRGB"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
-                                                            <color key="value" red="0.111818932" green="0.11183650050000001" blue="0.1118125319" alpha="1" colorSpace="calibratedRGB"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </textField>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottomMargin" secondItem="rZ3-qk-rV3" secondAttribute="bottom" id="G7b-0p-Hs3"/>
-                                                <constraint firstItem="rZ3-qk-rV3" firstAttribute="leading" secondItem="2YH-9w-svS" secondAttribute="leadingMargin" id="Svj-Ph-OEA"/>
-                                                <constraint firstAttribute="bottom" secondItem="rZ3-qk-rV3" secondAttribute="bottom" constant="8" id="URK-St-5Uq"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="rZ3-qk-rV3" secondAttribute="trailing" id="j4v-IO-aH8"/>
-                                                <constraint firstItem="rZ3-qk-rV3" firstAttribute="top" secondItem="2YH-9w-svS" secondAttribute="topMargin" id="qzo-4Y-RzK"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -159,14 +130,34 @@
                             <outlet property="delegate" destination="qhh-lc-jAX" id="IaB-y6-ssN"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="LZH-3J-jsb"/>
                     <connections>
                         <outlet property="dateField" destination="TUw-ge-nfy" id="Zhi-ur-pIv"/>
                         <outlet property="locationField" destination="AR3-Vr-eEC" id="ICA-uP-2Fl"/>
                         <outlet property="nameField" destination="neH-5I-9Op" id="TMn-KH-5rP"/>
-                        <outlet property="typeField" destination="rZ3-qk-rV3" id="sAR-dQ-3Pu"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ueZ-6u-EJr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1708" y="136.28185907046478"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="x0g-Jz-Zu4">
+            <objects>
+                <navigationController storyboardIdentifier="SearchViewControllerNavigation" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bKh-ti-HOr" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="667"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="T66-A7-lix">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="qhh-lc-jAX" kind="relationship" relationship="rootViewController" id="VLp-oH-Dpo"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EwS-5T-BdS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="768.79999999999995" y="136.28185907046478"/>
         </scene>

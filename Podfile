@@ -18,4 +18,5 @@ target 'Salsette' do
     pod 'PermissionScope'
     pod 'FontAwesomeKit'
     pod 'SnapKit'
+    pod 'Segmentio', :path => 'Pods/Segmentio'
 end

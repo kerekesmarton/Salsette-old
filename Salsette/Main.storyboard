@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="gek-RD-9TH">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="WWT-8T-jL7">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="gek-RD-9TH" sceneMemberID="viewController">
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="667"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="aGm-nW-deq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="s2V-v5-uSP" kind="relationship" relationship="rootViewController" id="Mw4-Er-wzS"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GHY-C7-nha" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-760.5" y="701.5"/>
+        </scene>
+        <!--Salsette-->
+        <scene sceneID="aHG-x5-r4h">
+            <objects>
+                <viewController title="Salsette" id="s2V-v5-uSP" customClass="MenuViewController" customModule="Salsette" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Fgx-YW-5aZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="nV1-uL-Hsk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="DNi-RV-Jeu">
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="u5F-Up-Ltv">
+                        <nil key="title"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RS8-U4-qHQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-6" y="701"/>
+        </scene>
+        <!--Side Menu View Controller-->
+        <scene sceneID="7qP-Vq-Y3P">
+            <objects>
+                <viewController storyboardIdentifier="SideMenuViewController" id="4lF-S0-ww5" customClass="SideMenuViewController" customModule="Salsette" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yxk-d2-6Th"/>
+                        <viewControllerLayoutGuide type="bottom" id="aWh-Qj-YBJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="c5P-sT-jvz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vMP-ab-vqU">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="375" id="mQP-Ep-rqr"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="aWh-Qj-YBJ" firstAttribute="top" secondItem="vMP-ab-vqU" secondAttribute="bottom" id="XSQ-5R-nlP"/>
+                            <constraint firstItem="vMP-ab-vqU" firstAttribute="leading" secondItem="c5P-sT-jvz" secondAttribute="leadingMargin" constant="-16" id="gzh-OO-six"/>
+                            <constraint firstItem="vMP-ab-vqU" firstAttribute="top" secondItem="yxk-d2-6Th" secondAttribute="bottom" constant="-20" id="lbB-lX-0ED"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="containerView" destination="vMP-ab-vqU" id="dkD-2E-w6W"/>
+                        <outlet property="sideMenuContainerViewWidthConstraint" destination="mQP-Ep-rqr" id="1gf-k8-u3m"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Y5k-8h-EHB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-7" y="1364"/>
+        </scene>
+    </scenes>
+</document>
