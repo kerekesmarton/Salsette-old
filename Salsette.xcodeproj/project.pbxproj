@@ -26,6 +26,8 @@
 		1033E5531E75C7AA002D1615 /* UIFont+Avenir.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5501E75C7AA002D1615 /* UIFont+Avenir.swift */; };
 		1033E5541E75C7AA002D1615 /* String+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5511E75C7AA002D1615 /* String+Convenience.swift */; };
 		1033E5571E79CA44002D1615 /* Calendar.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1033E5561E79CA44002D1615 /* Calendar.xcassets */; };
+		1033E5591E7A77A8002D1615 /* Workshops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5581E7A77A8002D1615 /* Workshops.swift */; };
+		1033E55C1E7A78E7002D1615 /* Workshops.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1033E55B1E7A78E7002D1615 /* Workshops.storyboard */; };
 		1089BF821E708553006E091A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF811E708553006E091A /* AppDelegate.swift */; };
 		1089BF841E708553006E091A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF831E708553006E091A /* SearchViewController.swift */; };
 		1089BF871E708553006E091A /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1089BF851E708553006E091A /* Search.storyboard */; };
@@ -69,6 +71,8 @@
 		1033E5511E75C7AA002D1615 /* String+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Convenience.swift"; sourceTree = "<group>"; };
 		1033E5551E79C2C4002D1615 /* Objc-Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Objc-Bridge-Header.h"; sourceTree = "<group>"; };
 		1033E5561E79CA44002D1615 /* Calendar.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Calendar.xcassets; sourceTree = "<group>"; };
+		1033E5581E7A77A8002D1615 /* Workshops.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Workshops.swift; sourceTree = "<group>"; };
+		1033E55B1E7A78E7002D1615 /* Workshops.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Workshops.storyboard; sourceTree = "<group>"; };
 		1089BF7E1E708553006E091A /* Salsette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Salsette.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1089BF811E708553006E091A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1089BF831E708553006E091A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -182,6 +186,15 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		1033E55A1E7A77AD002D1615 /* Salsette */ = {
+			isa = PBXGroup;
+			children = (
+				1033E5581E7A77A8002D1615 /* Workshops.swift */,
+				1033E55B1E7A78E7002D1615 /* Workshops.storyboard */,
+			);
+			name = Salsette;
+			sourceTree = "<group>";
+		};
 		1089BF751E708553006E091A = {
 			isa = PBXGroup;
 			children = (
@@ -207,6 +220,7 @@
 			children = (
 				1033E54E1E75C7A0002D1615 /* Extensions */,
 				1089BF811E708553006E091A /* AppDelegate.swift */,
+				1033E55A1E7A77AD002D1615 /* Salsette */,
 				1033E5331E75A9E3002D1615 /* Menu */,
 				1033E52C1E75A955002D1615 /* Search */,
 				1089BF881E708553006E091A /* Assets.xcassets */,
@@ -336,6 +350,7 @@
 				1033E5401E75AA23002D1615 /* ExampleTableViewCell.xib in Resources */,
 				1089BF891E708553006E091A /* Assets.xcassets in Resources */,
 				1033E5291E734437002D1615 /* keyboard.xib in Resources */,
+				1033E55C1E7A78E7002D1615 /* Workshops.storyboard in Resources */,
 				1089BF871E708553006E091A /* Search.storyboard in Resources */,
 				1033E5421E75AA8E002D1615 /* MenuAssets.xcassets in Resources */,
 				1033E5571E79CA44002D1615 /* Calendar.xcassets in Resources */,
@@ -416,6 +431,7 @@
 				1033E53A1E75AA11002D1615 /* ControllersProvider.swift in Sources */,
 				1089BF841E708553006E091A /* SearchViewController.swift in Sources */,
 				1089BF821E708553006E091A /* AppDelegate.swift in Sources */,
+				1033E5591E7A77A8002D1615 /* Workshops.swift in Sources */,
 				1033E5441E75AAB3002D1615 /* UIFont+Zeplin.swift in Sources */,
 				1033E53F1E75AA23002D1615 /* ExampleTableViewCell.swift in Sources */,
 				1033E5361E75AA04002D1615 /* TabItem.swift in Sources */,
