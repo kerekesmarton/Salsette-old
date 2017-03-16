@@ -25,6 +25,7 @@
 		1033E5521E75C7AA002D1615 /* UINavigationBar+Flat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E54F1E75C7AA002D1615 /* UINavigationBar+Flat.swift */; };
 		1033E5531E75C7AA002D1615 /* UIFont+Avenir.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5501E75C7AA002D1615 /* UIFont+Avenir.swift */; };
 		1033E5541E75C7AA002D1615 /* String+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5511E75C7AA002D1615 /* String+Convenience.swift */; };
+		1033E5571E79CA44002D1615 /* Calendar.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1033E5561E79CA44002D1615 /* Calendar.xcassets */; };
 		1089BF821E708553006E091A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF811E708553006E091A /* AppDelegate.swift */; };
 		1089BF841E708553006E091A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF831E708553006E091A /* SearchViewController.swift */; };
 		1089BF871E708553006E091A /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1089BF851E708553006E091A /* Search.storyboard */; };
@@ -66,6 +67,8 @@
 		1033E54F1E75C7AA002D1615 /* UINavigationBar+Flat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Flat.swift"; sourceTree = "<group>"; };
 		1033E5501E75C7AA002D1615 /* UIFont+Avenir.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Avenir.swift"; sourceTree = "<group>"; };
 		1033E5511E75C7AA002D1615 /* String+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Convenience.swift"; sourceTree = "<group>"; };
+		1033E5551E79C2C4002D1615 /* Objc-Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Objc-Bridge-Header.h"; sourceTree = "<group>"; };
+		1033E5561E79CA44002D1615 /* Calendar.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Calendar.xcassets; sourceTree = "<group>"; };
 		1089BF7E1E708553006E091A /* Salsette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Salsette.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1089BF811E708553006E091A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1089BF831E708553006E091A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +107,7 @@
 		1033E52C1E75A955002D1615 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				1033E5561E79CA44002D1615 /* Calendar.xcassets */,
 				1089BF831E708553006E091A /* SearchViewController.swift */,
 				1089BF851E708553006E091A /* Search.storyboard */,
 				1033E52A1E7589BA002D1615 /* CalendartViewController.swift */,
@@ -208,6 +212,7 @@
 				1089BF881E708553006E091A /* Assets.xcassets */,
 				1089BF8A1E708553006E091A /* LaunchScreen.storyboard */,
 				1089BF8D1E708553006E091A /* Info.plist */,
+				1033E5551E79C2C4002D1615 /* Objc-Bridge-Header.h */,
 			);
 			path = Salsette;
 			sourceTree = "<group>";
@@ -333,6 +338,7 @@
 				1033E5291E734437002D1615 /* keyboard.xib in Resources */,
 				1089BF871E708553006E091A /* Search.storyboard in Resources */,
 				1033E5421E75AA8E002D1615 /* MenuAssets.xcassets in Resources */,
+				1033E5571E79CA44002D1615 /* Calendar.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

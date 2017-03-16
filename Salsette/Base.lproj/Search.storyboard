@@ -141,25 +141,5 @@
             </objects>
             <point key="canvasLocation" x="1708" y="136.28185907046478"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="x0g-Jz-Zu4">
-            <objects>
-                <navigationController storyboardIdentifier="SearchViewControllerNavigation" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bKh-ti-HOr" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="375" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="T66-A7-lix">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="qhh-lc-jAX" kind="relationship" relationship="rootViewController" id="VLp-oH-Dpo"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="EwS-5T-BdS" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="768.79999999999995" y="136.28185907046478"/>
-        </scene>
     </scenes>
 </document>

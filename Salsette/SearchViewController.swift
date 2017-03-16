@@ -9,7 +9,6 @@
 import ObjectiveC
 import UIKit
 import TextFieldEffects
-import PDTSimpleCalendar
 import ChameleonFramework
 
 struct SearchFeatureLauncher {
@@ -35,7 +34,7 @@ struct SearchFeatureLauncher {
     }
 }
 
-class SearchViewController: UITableViewController, PDTSimpleCalendarViewDelegate {
+class SearchViewController: UITableViewController {
 
     @IBOutlet weak var nameField: HoshiTextField!
     @IBOutlet weak var dateField: HoshiTextField!
@@ -44,7 +43,7 @@ class SearchViewController: UITableViewController, PDTSimpleCalendarViewDelegate
     var calendarViewController: CalendarViewController?
     var calendarView: UIView {
         calendarViewController = CalendarViewController(nibName: "keyboard", bundle: nil)
-        calendarViewController?.delegate = self
+        calendarViewController?.interactor = self.searchInteractor
         return calendarViewController!.view
     }
     
@@ -53,10 +52,6 @@ class SearchViewController: UITableViewController, PDTSimpleCalendarViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         dateField.inputView = calendarView
-    }
-    
-    func simpleCalendarViewController(_ controller: PDTSimpleCalendarViewController!, didSelect date: Date?) {
-        searchInteractor?.newDate = date
     }
 }
 
@@ -77,14 +72,6 @@ extension SearchViewController {
             return
         }
     }
-    
-    func resetCellForDate(date: Date) {
-        guard let cell: CalendarViewCell = calendarViewController?.cellForItem(at: date) as? CalendarViewCell,
-        let indexPath = calendarViewController?.collectionView?.indexPath(for: cell) else {
-            return
-        }
-        calendarViewController?.collectionView?.reloadItems(at: [indexPath])
-    }
 }
 
 extension SearchViewController: SideMenuChildViewProtocol {
@@ -101,21 +88,13 @@ class SearchInteractor {
         self.searchPresenter = presenter
     }
     
-    func simpleCalendarViewController(_ controller: PDTSimpleCalendarViewController!, textColorFor date: Date!) -> UIColor! {
-        return UIColor.flatBlack
-    }
-    
-    func simpleCalendarViewController(_ controller: PDTSimpleCalendarViewController!, circleColorFor date: Date!) -> UIColor! {
-        return UIColor.flatForestGreen
-    }
-    
     var newDate: Date? {
-        willSet {
-            guard let oldDate = newDate else {
-                return
-            }
-            searchPresenter.reset(oldDate: oldDate)
-        }
+//        willSet {
+//            guard let oldDate = newDate else {
+//                return
+//            }
+//            searchPresenter.reset(oldDate: oldDate)
+//        }
         didSet {
             guard let date = newDate else {
                 return
@@ -137,12 +116,60 @@ class SearchInteractor {
     var endDate: Date?
 }
 
+extension SearchInteractor: CalendarViewControllerInteractor {
+    
+    func calendarViewController(_ controller: CalendarViewController, shouldSelect date: Date, from selectedDates: [Date]) -> Bool {
+        guard let startDate = startDate else {
+            return true // no start date, pick it
+        }
+        if startDate > date {
+            return false
+        }
+        guard let endDate = endDate else {
+            return true // no end date, pick it
+        }
+        if startDate < date && endDate > date {
+            return true
+        } else {
+            searchPresenter.reset(oldDate: date)
+            controller.deselectAll()
+            self.startDate = nil
+            self.endDate = nil
+            return false
+        }
+    }
+    
+    func calendarViewController(didSelect date: Date) {
+        if startDate == nil {
+            newDate = date
+            return
+        }
+        if endDate == nil {
+            newDate = date
+        }
+    }
+    
+    func calendarViewController(shouldDeselect date: Date, from selectedDates: [Date]) -> Bool {
+        return true
+    }
+    
+    func calendarViewController(didDeselect date: Date) {
+        if startDate == date {
+            startDate = nil
+        }
+        if endDate == date {
+            endDate = nil
+        }
+        searchPresenter.reset(oldDate: date)
+    }
+}
+
 class SearchPresenter {
     
     weak var searchView: SearchViewController?
     
     func reset(oldDate: Date) {
-        searchView?.resetCellForDate(date: oldDate)
+        searchView?.set(.dates(""))
     }
     func update(startDate: Date?) {
         guard let safeDate = startDate else {
