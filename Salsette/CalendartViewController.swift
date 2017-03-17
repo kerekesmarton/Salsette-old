@@ -12,7 +12,7 @@ import FSCalendar
 
 protocol CalendarViewControllerInteractor: class {
     func calendarViewController(_ controller: CalendarViewController, shouldSelect date: Date, from selectedDates: [Date]) -> Bool
-    func calendarViewController(didSelect date: Date)
+    func calendarViewController(_ controller: CalendarViewController,didSelect date: Date)
     func calendarViewController(shouldDeselect date: Date, from selectedDates: [Date]) -> Bool
     func calendarViewController(didDeselect date: Date)
 }
@@ -65,6 +65,15 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         calendar.addGestureRecognizer(scopeGesture)
     }
     
+    func markSelectedBetween(startDate: Date, endDate: Date) {
+        
+        var date = startDate
+        while (date < endDate) {
+            date = gregorian.date(byAdding: .day, value: 1, to: date)!
+            calendar.select(date, scrollToDate: false)
+        }
+    }
+    
     func deselectAll() {
         calendar.selectedDates.forEach { calendar.deselect($0) }
         configureVisibleCells()
@@ -114,7 +123,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         if let interactor = interactor {
-            interactor.calendarViewController(didSelect: date)
+            interactor.calendarViewController(self, didSelect: date)
         }
         configureVisibleCells()
     }

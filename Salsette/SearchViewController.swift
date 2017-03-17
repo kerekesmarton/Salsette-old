@@ -138,8 +138,7 @@ extension SearchInteractor: CalendarViewControllerInteractor {
             return false
         }
     }
-    
-    func calendarViewController(didSelect date: Date) {
+    func calendarViewController(_ controller: CalendarViewController, didSelect date: Date) {
         if startDate == nil {
             newDate = date
             return
@@ -147,9 +146,19 @@ extension SearchInteractor: CalendarViewControllerInteractor {
         if endDate == nil {
             newDate = date
         }
+        guard let start = startDate,
+            let end = endDate else { return }
+        controller.markSelectedBetween(startDate: start, endDate: end)
     }
     
     func calendarViewController(shouldDeselect date: Date, from selectedDates: [Date]) -> Bool {
+        
+        guard let start = startDate, let end = endDate else {
+            return true
+        }
+        if start < date && end > date {
+            return false
+        }
         return true
     }
     
