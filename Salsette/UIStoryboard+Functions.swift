@@ -14,7 +14,6 @@ private enum Storyboards {
 }
 
 private enum ViewControllers {
-    static let CalendarViewController = "CalendarViewController"
     static let SearchViewControllerNavigation = "SearchViewControllerNavigation"
     static let SearchViewController = "SearchViewController"
     

@@ -3,6 +3,7 @@
 //  ColorMatchTabs
 //
 //  Created by Serhii Butenko on 26/6/16.
+//  Modified by Kerekes Marton
 //  Copyright © 2016 Yalantis. All rights reserved.
 //
 

@@ -3,6 +3,7 @@
 //  Segmentio
 //
 //  Created by Dmitriy Demchenko
+//  Modified by Kerekes Marton
 //  Copyright © 2016 Yalantis Mobile. All rights reserved.
 //
 
