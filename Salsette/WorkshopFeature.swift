@@ -8,26 +8,24 @@
 
 import UIKit
 
-class WorkshopViewController: ContentViewController {
+struct WorkshopFeatureLauncher {
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        //load
+    static func launch() -> ContentViewController {
+        let viewController = UIStoryboard.contentViewController()
+        viewController.interactor = WorkshopInteractor()
+        return viewController
     }
 }
 
-struct WorkshopInteractor {
-    
+fileprivate struct WorkshopInteractor: ContentInteractorInterface {
+    fileprivate let dataSource = WorkshopDataSource()
     func load(completion: (([ContentEntityInterface])->Void)) {
-        
-        completion([])
+        completion(dataSource.dummyWorkshops)
     }
 }
 
-struct WorkshopDataSource {
-    
-    fileprivate static var dummyWorkshops = [WorkshopEntity(image: UIImage(named: "class")!,
+fileprivate struct WorkshopDataSource {
+    fileprivate var dummyWorkshops = [WorkshopEntity(image: UIImage(named: "class")!,
                                                             title: "Mambo",
                                                             organiser: "Adolfo & Tania"),
                                              WorkshopEntity(image: UIImage(named: "class")!,
@@ -35,12 +33,7 @@ struct WorkshopDataSource {
                                                             organiser: "Terry & Cecile"),]
 }
 
-struct WorkshopPresenter {
-    
-    
-}
-
-struct WorkshopEntity: ContentEntityInterface {
+fileprivate struct WorkshopEntity: ContentEntityInterface {
     var image: UIImage?
     var title: String?
     var organiser: String?

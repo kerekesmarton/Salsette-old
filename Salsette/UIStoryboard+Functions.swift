@@ -11,12 +11,13 @@ import UIKit
 private enum Storyboards {
     static let Main = "Main"
     static let Search = "Search"
+    static let Content = "Content"
 }
 
 private enum ViewControllers {
     static let SearchViewControllerNavigation = "SearchViewControllerNavigation"
     static let SearchViewController = "SearchViewController"
-    
+    static let ContentViewController = "ContentViewController"
 }
 
 extension UIStoryboard {
@@ -31,5 +32,11 @@ extension UIStoryboard {
         let storyBoard = UIStoryboard(name: Storyboards.Search, bundle: nil)
         let searchVC = storyBoard.instantiateViewController(withIdentifier: ViewControllers.SearchViewController) as! SearchViewController
         return searchVC
+    }
+    
+    class func contentViewController() -> ContentViewController {
+        let storyBoard = UIStoryboard(name: Storyboards.Content, bundle: nil)
+        let viewController = storyBoard.instantiateViewController(withIdentifier: ViewControllers.ContentViewController) as! ContentViewController
+        return viewController
     }
 }

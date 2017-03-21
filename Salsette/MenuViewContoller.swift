@@ -22,6 +22,10 @@ class MenuViewController: ColorMatchTabsViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showMenu(_:)))
         dataSource = self
         reloadData()
+        StubContentViewControllersProvider.viewControllers.forEach {
+            self.addChildViewController($0)
+            $0.didMove(toParentViewController: self)
+        }
     }
     var sideMenuViewController: SideMenuViewController?
     func showMenu(_ sender: UIBarButtonItem) {

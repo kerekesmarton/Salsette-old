@@ -21,9 +21,22 @@ protocol ContentEntityInterface {
     var organiser: String? { get }
 }
 
+protocol ContentInteractorInterface {
+    func load(completion: (([ContentEntityInterface])->Void))
+}
+
 class ContentViewController: UICollectionViewController {
  
     var items = [ContentEntityInterface]()
+    var interactor: ContentInteractorInterface?
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        interactor?.load(completion: { items in
+            self.items = items
+            self.collectionView?.reloadData()
+        })
+    }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
@@ -65,8 +78,7 @@ class ContentViewLayout: UICollectionViewFlowLayout {
             
             self.itemSize = CGSize(width: cellSize, height: cellSize + CGFloat(ContentViewConstants.labelPadding))
         default:
-            super.prepare()
-            return
+            ()
         }
         super.prepare()
     }

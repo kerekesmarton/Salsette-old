@@ -27,7 +27,7 @@
 		1033E5571E79CA44002D1615 /* Calendar.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1033E5561E79CA44002D1615 /* Calendar.xcassets */; };
 		1033E5591E7A77A8002D1615 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5581E7A77A8002D1615 /* ContentViewController.swift */; };
 		1033E55C1E7A78E7002D1615 /* Content.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1033E55B1E7A78E7002D1615 /* Content.storyboard */; };
-		10855A911E7FBFB9005B8E24 /* WorkshopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10855A901E7FBFB9005B8E24 /* WorkshopViewController.swift */; };
+		10855A911E7FBFB9005B8E24 /* WorkshopFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10855A901E7FBFB9005B8E24 /* WorkshopFeature.swift */; };
 		1089BF821E708553006E091A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF811E708553006E091A /* AppDelegate.swift */; };
 		1089BF841E708553006E091A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF831E708553006E091A /* SearchViewController.swift */; };
 		1089BF871E708553006E091A /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1089BF851E708553006E091A /* Search.storyboard */; };
@@ -74,7 +74,7 @@
 		1033E5561E79CA44002D1615 /* Calendar.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Calendar.xcassets; sourceTree = "<group>"; };
 		1033E5581E7A77A8002D1615 /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		1033E55B1E7A78E7002D1615 /* Content.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Content.storyboard; sourceTree = "<group>"; };
-		10855A901E7FBFB9005B8E24 /* WorkshopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkshopViewController.swift; sourceTree = "<group>"; };
+		10855A901E7FBFB9005B8E24 /* WorkshopFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkshopFeature.swift; sourceTree = "<group>"; };
 		1089BF7E1E708553006E091A /* Salsette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Salsette.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1089BF811E708553006E091A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1089BF831E708553006E091A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -176,9 +176,9 @@
 				1033E5501E75C7AA002D1615 /* UIFont+Avenir.swift */,
 				1033E54F1E75C7AA002D1615 /* UINavigationBar+Flat.swift */,
 				1033E5511E75C7AA002D1615 /* String+Additions.swift */,
-				10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */,
 				10B9AF751E7DA2900033A6BF /* UImage+Additions.swift */,
 				10B9AF771E7E96870033A6BF /* CGSize+Additions.swift */,
+				10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -187,7 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				1033E5581E7A77A8002D1615 /* ContentViewController.swift */,
-				10855A901E7FBFB9005B8E24 /* WorkshopViewController.swift */,
+				10855A901E7FBFB9005B8E24 /* WorkshopFeature.swift */,
 				1033E55B1E7A78E7002D1615 /* Content.storyboard */,
 			);
 			name = Salsette;
@@ -425,7 +425,7 @@
 				1033E54D1E75C5BB002D1615 /* SideMenuViewController.swift in Sources */,
 				1033E5521E75C7AA002D1615 /* UINavigationBar+Flat.swift in Sources */,
 				1033E52B1E7589BA002D1615 /* CalendartViewController.swift in Sources */,
-				10855A911E7FBFB9005B8E24 /* WorkshopViewController.swift in Sources */,
+				10855A911E7FBFB9005B8E24 /* WorkshopFeature.swift in Sources */,
 				1033E5301E75A9DF002D1615 /* AddPopoverViewController.swift in Sources */,
 				1033E5531E75C7AA002D1615 /* UIFont+Avenir.swift in Sources */,
 				1033E53A1E75AA11002D1615 /* ControllersProvider.swift in Sources */,
