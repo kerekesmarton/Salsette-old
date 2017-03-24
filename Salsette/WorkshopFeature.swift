@@ -10,15 +10,16 @@ import UIKit
 
 struct WorkshopFeatureLauncher {
     
-    static func launch() -> ContentViewController {
+    static func launch(with title: String) -> ContentViewController {
         let viewController = UIStoryboard.contentViewController()
-        viewController.interactor = WorkshopInteractor()
+        viewController.interactor = WorkshopInteractor(title: title)
         return viewController
     }
 }
 
 fileprivate struct WorkshopInteractor: ContentInteractorInterface {
     fileprivate let dataSource = WorkshopDataSource()
+    fileprivate var title: String
     func load(completion: (([ContentEntityInterface])->Void)) {
         completion(dataSource.dummyWorkshops)
     }

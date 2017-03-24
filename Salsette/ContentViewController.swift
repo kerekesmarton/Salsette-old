@@ -22,6 +22,7 @@ protocol ContentEntityInterface {
 }
 
 protocol ContentInteractorInterface {
+    var title: String {get}
     func load(completion: (([ContentEntityInterface])->Void))
 }
 
@@ -32,6 +33,11 @@ class ContentViewController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.title = interactor?.title
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         interactor?.load(completion: { items in
             self.items = items
             self.collectionView?.reloadData()
@@ -75,7 +81,6 @@ class ContentViewLayout: UICollectionViewFlowLayout {
             self.itemSize = CGSize(width: safeCollectionView.bounds.width, height: CGFloat(ContentViewConstants.iphoneCellFixedHeight))
         case .pad:
             let cellSize = calculateDynamicCellSize(forCells: ContentViewConstants.iPadNumberOfCellsPerRow, padding: minimumLineSpacing, margin: ContentViewConstants.margin)
-            
             self.itemSize = CGSize(width: cellSize, height: cellSize + CGFloat(ContentViewConstants.labelPadding))
         default:
             ()

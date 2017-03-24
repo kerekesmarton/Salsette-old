@@ -16,38 +16,32 @@
                 <navigationController definesPresentationContext="YES" id="gek-RD-9TH" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="667"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="aGm-nW-deq">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="aGm-nW-deq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="s2V-v5-uSP" kind="relationship" relationship="rootViewController" id="Mw4-Er-wzS"/>
+                        <segue destination="8Rk-x6-yWW" kind="relationship" relationship="rootViewController" id="S3O-Ho-4dX"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GHY-C7-nha" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-760.5" y="701.5"/>
+            <point key="canvasLocation" x="-809" y="700"/>
         </scene>
         <!--Salsette-->
-        <scene sceneID="aHG-x5-r4h">
+        <scene sceneID="qyk-2Y-mol">
             <objects>
-                <viewController title="Salsette" id="s2V-v5-uSP" customClass="MenuViewController" customModule="Salsette" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Fgx-YW-5aZ"/>
-                        <viewControllerLayoutGuide type="bottom" id="nV1-uL-Hsk"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="DNi-RV-Jeu">
-                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="u5F-Up-Ltv">
-                        <nil key="title"/>
-                    </navigationItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RS8-U4-qHQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tabBarController title="Salsette" id="8Rk-x6-yWW" customClass="MenuViewController" customModule="Salsette" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="rj6-0t-USQ"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="8B0-fB-erh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gtA-6d-xb9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6" y="701"/>
+            <point key="canvasLocation" x="-25" y="701"/>
         </scene>
         <!--Side Menu View Controller-->
         <scene sceneID="7qP-Vq-Y3P">

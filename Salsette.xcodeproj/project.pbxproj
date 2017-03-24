@@ -34,6 +34,7 @@
 		1089BF891E708553006E091A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1089BF881E708553006E091A /* Assets.xcassets */; };
 		1089BF8C1E708553006E091A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1089BF8A1E708553006E091A /* LaunchScreen.storyboard */; };
 		1089BF971E708553006E091A /* SalsetteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF961E708553006E091A /* SalsetteTests.swift */; };
+		10964C451E82E66300CDFE3F /* EventsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10964C441E82E66300CDFE3F /* EventsFeature.swift */; };
 		10B9AF761E7DA2900033A6BF /* UImage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B9AF751E7DA2900033A6BF /* UImage+Additions.swift */; };
 		10B9AF781E7E96870033A6BF /* CGSize+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B9AF771E7E96870033A6BF /* CGSize+Additions.swift */; };
 		10D733431E728E7600F47A52 /* UIStoryboard+Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */; };
@@ -85,6 +86,7 @@
 		1089BF921E708553006E091A /* SalsetteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalsetteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1089BF961E708553006E091A /* SalsetteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalsetteTests.swift; sourceTree = "<group>"; };
 		1089BF981E708553006E091A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		10964C441E82E66300CDFE3F /* EventsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsFeature.swift; sourceTree = "<group>"; };
 		10B9AF751E7DA2900033A6BF /* UImage+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UImage+Additions.swift"; sourceTree = "<group>"; };
 		10B9AF771E7E96870033A6BF /* CGSize+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Additions.swift"; sourceTree = "<group>"; };
 		10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Functions.swift"; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 			children = (
 				1033E5581E7A77A8002D1615 /* ContentViewController.swift */,
 				10855A901E7FBFB9005B8E24 /* WorkshopFeature.swift */,
+				10964C441E82E66300CDFE3F /* EventsFeature.swift */,
 				1033E55B1E7A78E7002D1615 /* Content.storyboard */,
 			);
 			name = Salsette;
@@ -432,6 +435,7 @@
 				10B9AF781E7E96870033A6BF /* CGSize+Additions.swift in Sources */,
 				1089BF841E708553006E091A /* SearchViewController.swift in Sources */,
 				1089BF821E708553006E091A /* AppDelegate.swift in Sources */,
+				10964C451E82E66300CDFE3F /* EventsFeature.swift in Sources */,
 				1033E5591E7A77A8002D1615 /* ContentViewController.swift in Sources */,
 				1033E5441E75AAB3002D1615 /* UIFont+Zeplin.swift in Sources */,
 				1033E53F1E75AA23002D1615 /* ExampleTableViewCell.swift in Sources */,

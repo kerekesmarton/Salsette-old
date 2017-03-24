@@ -74,13 +74,6 @@ extension SearchViewController {
     }
 }
 
-extension SearchViewController: SideMenuChildViewProtocol {
-    func resizeViewsToFit(frame: CGRect) {
-        view.frame = frame
-        tableView.frame = frame
-    }
-}
-
 class SearchInteractor {
     let searchPresenter: SearchPresenter
     
@@ -89,12 +82,6 @@ class SearchInteractor {
     }
     
     var newDate: Date? {
-//        willSet {
-//            guard let oldDate = newDate else {
-//                return
-//            }
-//            searchPresenter.reset(oldDate: oldDate)
-//        }
         didSet {
             guard let date = newDate else {
                 return

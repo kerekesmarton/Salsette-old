@@ -13,8 +13,8 @@ import ColorMatchTabs
 class StubContentViewControllersProvider {
     
     static let viewControllers: [UIViewController] = {
-        let classesViewController = WorkshopFeatureLauncher.launch()
-        let partiesViewController = WorkshopFeatureLauncher.launch()
+        let classesViewController = WorkshopFeatureLauncher.launch(with: "Classes")
+        let partiesViewController = EventFeatureLauncher.launch(with: "Events")
         
         return [classesViewController, partiesViewController]
     }()
