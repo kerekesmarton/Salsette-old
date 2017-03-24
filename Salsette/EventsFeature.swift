@@ -31,7 +31,10 @@ fileprivate struct EventDataSource {
                                                      organiser: "London"),
                                       EventEntity(image: UIImage(named: "party")!,
                                                      title: "Saturday Party",
-                                                     organiser: "Milano"),]
+                                                     organiser: "Milano"),
+                                      EventEntity(image: UIImage(named: "party")!,
+                                                  title: "Sunday Social",
+                                                  organiser: "Paris")]
 }
 
 fileprivate struct EventEntity: ContentEntityInterface {

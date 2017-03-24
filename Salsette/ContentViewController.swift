@@ -10,9 +10,11 @@ import UIKit
 fileprivate let contentCellIdentifier = "ContentCell"
 enum ContentViewConstants {
     static let margin: CGFloat = 16.0
-    static let iPadNumberOfCellsPerRow: CGFloat = 3
     static let labelPadding: CGFloat = 56
-    static let iphoneCellFixedHeight: CGFloat = 300
+    static let iPhoneCellFixedHeight: CGFloat = 300
+    static let iPadNumberOfCellsPortrait: Int = 3
+    static let iPadNumberOfCellsLandscape: Int = 5
+    static let iPhoneCellNumberOfCellsLandscape: Int = 3
 }
 
 protocol ContentEntityInterface {
@@ -43,6 +45,11 @@ class ContentViewController: UICollectionViewController {
             self.collectionView?.reloadData()
         })
     }
+
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        collectionView?.collectionViewLayout.invalidateLayout()
+        collectionView?.reloadData()
+    }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
@@ -68,24 +75,34 @@ class ContentViewCell: UICollectionViewCell {
 
 class ContentViewLayout: UICollectionViewFlowLayout {
     var idiom: UIUserInterfaceIdiom = UIDevice.current.userInterfaceIdiom
-    
+    var numberOfCellPerRow = 1
+
     override func prepare() {
-        self.scrollDirection = .vertical
-        self.minimumLineSpacing = idiom == .pad ? 16 : 0
-        self.minimumInteritemSpacing = idiom == .pad ? 16 : 0
-        self.sectionInset = UIEdgeInsets(top: minimumLineSpacing, left: minimumLineSpacing, bottom: self.minimumLineSpacing, right: minimumLineSpacing)
-        
+        scrollDirection = .vertical
+        minimumLineSpacing = idiom == .pad ? 16 : 0
+        minimumInteritemSpacing = idiom == .pad ? 16 : 0
+
+        sectionInset = UIEdgeInsets(top: minimumLineSpacing, left: minimumLineSpacing, bottom: self.minimumLineSpacing, right: minimumLineSpacing)
         switch idiom {
         case .phone:
-            guard let safeCollectionView = collectionView else { return }
-            self.itemSize = CGSize(width: safeCollectionView.bounds.width, height: CGFloat(ContentViewConstants.iphoneCellFixedHeight))
+            numberOfCellPerRow = UIDevice.current.orientation.isPortrait ? 1 : ContentViewConstants.iPhoneCellNumberOfCellsLandscape
+            let cellSize = calculateDynamicCellSize(forCells: CGFloat(numberOfCellPerRow), padding: 0, margin: 0)
+            self.itemSize = CGSize(width: cellSize, height: CGFloat(ContentViewConstants.iPhoneCellFixedHeight))
         case .pad:
-            let cellSize = calculateDynamicCellSize(forCells: ContentViewConstants.iPadNumberOfCellsPerRow, padding: minimumLineSpacing, margin: ContentViewConstants.margin)
+            numberOfCellPerRow = UIDevice.current.orientation.isPortrait ? ContentViewConstants.iPadNumberOfCellsPortrait : ContentViewConstants.iPadNumberOfCellsLandscape
+            let cellSize = calculateDynamicCellSize(forCells: CGFloat(numberOfCellPerRow), padding: minimumLineSpacing, margin: ContentViewConstants.margin)
             self.itemSize = CGSize(width: cellSize, height: cellSize + CGFloat(ContentViewConstants.labelPadding))
         default:
             ()
         }
         super.prepare()
+    }
+
+    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+        if collectionView?.bounds.width == newBounds.width {
+            return false
+        }
+        return true
     }
     
     func calculateDynamicCellSize(forCells numberOfCellsPerRow: CGFloat, padding: CGFloat, margin: CGFloat) -> CGFloat {

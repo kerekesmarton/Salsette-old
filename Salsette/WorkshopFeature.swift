@@ -29,9 +29,12 @@ fileprivate struct WorkshopDataSource {
     fileprivate var dummyWorkshops = [WorkshopEntity(image: UIImage(named: "class")!,
                                                             title: "Mambo",
                                                             organiser: "Adolfo & Tania"),
-                                             WorkshopEntity(image: UIImage(named: "class")!,
+                                      WorkshopEntity(image: UIImage(named: "class")!,
                                                             title: "Body Movement",
-                                                            organiser: "Terry & Cecile"),]
+                                                            organiser: "Terry & Cecile"),
+                                      WorkshopEntity(image: UIImage(named: "class")!,
+                                                     title: "Styling",
+                                                     organiser: "Anita")]
 }
 
 fileprivate struct WorkshopEntity: ContentEntityInterface {

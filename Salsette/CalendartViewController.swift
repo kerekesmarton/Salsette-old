@@ -35,14 +35,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         // Uncomment this to perform an 'initial-week-scope'
 //        calendar.scope = FSCalendarScope.week
         setup()
-//        let dates = [
-//            gregorian.date(byAdding: .day, value: -1, to: Date()),
-//            Date(),
-//            gregorian.date(byAdding: .day, value: 1, to: Date())
-//        ]
-//        dates.forEach { (date) in
-//            calendar.select(date, scrollToDate: false)
-//        }
         // For UITest
         calendar.accessibilityIdentifier = "calendar"
     }
@@ -54,10 +46,10 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     
     fileprivate func setup() {
         calendar.allowsMultipleSelection = true
-        calendar.calendarHeaderView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.1)
-        calendar.calendarWeekdayView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.1)
-        calendar.appearance.eventSelectionColor = UIColor.white
+        calendar.calendarHeaderView.backgroundColor = UIColor.white
+        calendar.calendarWeekdayView.backgroundColor = UIColor.white
         calendar.appearance.eventOffset = CGPoint(x: 0, y: -7)
+        calendar.backgroundColor = UIColor.white
         calendar.today = nil // Hide the today circle
         calendar.register(CalendarViewCell.self, forCellReuseIdentifier: "cell")
         //        calendar.clipsToBounds = true // Remove top/bottom line
@@ -69,7 +61,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     }
     
     func markSelectedBetween(startDate: Date, endDate: Date) {
-        
         var date = startDate
         while (date < endDate) {
             date = gregorian.date(byAdding: .day, value: 1, to: date)!
@@ -141,7 +132,7 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         }
         return [appearance.eventDefaultColor]
     }
-    
+
     // MARK: - Private functions
     
     private func configureVisibleCells() {
@@ -233,13 +224,8 @@ class CalendarViewCell: FSCalendarCell {
         selectionLayer.actions = ["hidden": NSNull()]
         contentView.layer.insertSublayer(selectionLayer, below: titleLabel!.layer)
         self.selectionLayer = selectionLayer
-        
         shapeLayer.isHidden = true
-        
-        let view = UIView(frame: bounds)
-        view.backgroundColor = UIColor.lightGray.withAlphaComponent(0.12)
-        backgroundView = view;
-        
+        backgroundView = UIView(frame: bounds)
     }
     
     override func layoutSubviews() {
@@ -273,4 +259,3 @@ class CalendarViewCell: FSCalendarCell {
     }
     
 }
-

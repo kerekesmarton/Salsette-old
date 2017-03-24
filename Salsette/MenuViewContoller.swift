@@ -24,11 +24,17 @@ class MenuViewController: UITabBarController {
     
     var sideMenuViewController: SideMenuViewController?
     func showMenu(_ sender: UIBarButtonItem) {
-        let searchViewController = SearchFeatureLauncher.launchSearch()
+        let searchViewController = SearchFeatureLauncher.launchSearch(for: self)
         sideMenuViewController =  SideMenuViewController.create()
         sideMenuViewController?.showSideMenu(in: self, with: searchViewController, sideMenuDidHide: { [weak self] in
                 self?.dismiss(animated: false, completion:nil)
             }
         )
+    }
+}
+
+extension MenuViewController: SearchResultsDelegate {
+    func didUpdateSearch(parameters: SearchParameters) {
+        
     }
 }

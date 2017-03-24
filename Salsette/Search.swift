@@ -11,22 +11,33 @@ import UIKit
 import TextFieldEffects
 import ChameleonFramework
 
+protocol SearchResultsDelegate {
+    func didUpdateSearch(parameters: SearchParameters)
+}
+
+struct SearchParameters {
+    var name: String?
+    var startDate: Date?
+    var endDate: Date?
+    var location: String?
+    var type: String?
+}
+
+class GlobalSearch: SearchResultsDelegate {
+
+    func didUpdateSearch(parameters: SearchParameters) {
+        searchParameters = parameters
+    }
+
+    var searchParameters = SearchParameters()
+}
+
 struct SearchFeatureLauncher {
 
-    static func presentSearch(in hostViewController: UIViewController!) -> SearchViewController {
-        let searchViewController = UIStoryboard.searchViewControllerWithNavigation()
-        let presenter = SearchPresenter()
-        let interactor = SearchInteractor(presenter: presenter)
-        searchViewController.searchInteractor = interactor
-        presenter.searchView = searchViewController
-        
-        return searchViewController
-    }
-    
     static func launchSearch() -> SearchViewController {
         let searchViewController = UIStoryboard.searchViewController()
         let presenter = SearchPresenter()
-        let interactor = SearchInteractor(presenter: presenter)
+        let interactor = SearchInteractor(presenter: presenter, delegate: GlobalSearch())
         searchViewController.searchInteractor = interactor
         presenter.searchView = searchViewController
         
@@ -76,9 +87,10 @@ extension SearchViewController {
 
 class SearchInteractor {
     let searchPresenter: SearchPresenter
-    
-    init(presenter: SearchPresenter) {
+    let searchResultsDelegate: SearchResultsDelegate
+    init(presenter: SearchPresenter, delegate: SearchResultsDelegate) {
         self.searchPresenter = presenter
+        self.searchResultsDelegate = delegate
     }
     
     var newDate: Date? {
@@ -125,6 +137,7 @@ extension SearchInteractor: CalendarViewControllerInteractor {
             return false
         }
     }
+
     func calendarViewController(_ controller: CalendarViewController, didSelect date: Date) {
         if startDate == nil {
             newDate = date
@@ -167,6 +180,7 @@ class SearchPresenter {
     func reset(oldDate: Date) {
         searchView?.set(.dates(""))
     }
+    
     func update(startDate: Date?) {
         guard let safeDate = startDate else {
             searchView?.set(.dates(""))
@@ -191,4 +205,3 @@ class SearchPresenter {
         return aFormatter
     }()
 }
- 
