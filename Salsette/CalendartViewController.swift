@@ -22,20 +22,18 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     fileprivate let gregorian = Calendar(identifier: .gregorian)
     fileprivate let formatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.dateFormat = "dd"
         return formatter
     }()
     var interactor: CalendarViewControllerInteractor?
-    
     @IBOutlet fileprivate weak var calendar: FSCalendar!
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Choose dates when you visit"
+        title = "Choose dates for your visit"
         // Uncomment this to perform an 'initial-week-scope'
-        // calendar.scope = FSCalendarScopeWeek;
+//        calendar.scope = FSCalendarScope.week
         setup()
 //        let dates = [
 //            gregorian.date(byAdding: .day, value: -1, to: Date()),
@@ -47,6 +45,11 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
 //        }
         // For UITest
         calendar.accessibilityIdentifier = "calendar"
+    }
+
+    deinit {
+        calendar.removeFromSuperview()
+        calendar = nil
     }
     
     fileprivate func setup() {
@@ -91,9 +94,6 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     }
     
     func calendar(_ calendar: FSCalendar, titleFor date: Date) -> String? {
-//        if gregorian.isDateInToday(date) {
-//            return "😀"
-//        }
         return nil
     }
     
