@@ -36,14 +36,25 @@ class ContentViewController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = interactor?.title
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         interactor?.load(completion: { items in
             self.items = items
             self.collectionView?.reloadData()
         })
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showMenu(_:)))
+    }
+    
+    var sideMenuViewController: SideMenuViewController?
+    func showMenu(_ sender: UIBarButtonItem) {
+        let searchViewController = SearchFeatureLauncher.launchSearch()
+        sideMenuViewController = SideMenuViewController.create()
+        sideMenuViewController?.showSideMenu(in: self, with: searchViewController, sideMenuDidHide: { [weak self] in
+            self?.dismiss(animated: false, completion:nil)
+            }
+        )
     }
 
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -75,8 +86,7 @@ class ContentViewCell: UICollectionViewCell {
 
 class ContentViewLayout: UICollectionViewFlowLayout {
     var idiom: UIUserInterfaceIdiom = UIDevice.current.userInterfaceIdiom
-    var numberOfCellPerRow = 1
-
+    
     override func prepare() {
         scrollDirection = .vertical
         minimumLineSpacing = idiom == .pad ? 16 : 0
@@ -85,15 +95,11 @@ class ContentViewLayout: UICollectionViewFlowLayout {
         sectionInset = UIEdgeInsets(top: minimumLineSpacing, left: minimumLineSpacing, bottom: self.minimumLineSpacing, right: minimumLineSpacing)
         switch idiom {
         case .phone:
-            numberOfCellPerRow = UIDevice.current.orientation.isPortrait ? 1 : ContentViewConstants.iPhoneCellNumberOfCellsLandscape
-            let cellSize = calculateDynamicCellSize(forCells: CGFloat(numberOfCellPerRow), padding: 0, margin: 0)
+            let cellSize = calculateDynamicCellSize(forCells: numberOfCellPerRow(), padding: 0, margin: 0)
             self.itemSize = CGSize(width: cellSize, height: CGFloat(ContentViewConstants.iPhoneCellFixedHeight))
-        case .pad:
-            numberOfCellPerRow = UIDevice.current.orientation.isPortrait ? ContentViewConstants.iPadNumberOfCellsPortrait : ContentViewConstants.iPadNumberOfCellsLandscape
-            let cellSize = calculateDynamicCellSize(forCells: CGFloat(numberOfCellPerRow), padding: minimumLineSpacing, margin: ContentViewConstants.margin)
-            self.itemSize = CGSize(width: cellSize, height: cellSize + CGFloat(ContentViewConstants.labelPadding))
         default:
-            ()
+            let cellSize = calculateDynamicCellSize(forCells: numberOfCellPerRow(), padding: minimumLineSpacing, margin: ContentViewConstants.margin)
+            self.itemSize = CGSize(width: cellSize, height: cellSize + CGFloat(ContentViewConstants.labelPadding))
         }
         super.prepare()
     }
@@ -103,6 +109,17 @@ class ContentViewLayout: UICollectionViewFlowLayout {
             return false
         }
         return true
+    }
+    
+    func numberOfCellPerRow() -> CGFloat {
+        switch idiom {
+        case .phone:
+            return CGFloat(UIDevice.current.orientation.isLandscape ? ContentViewConstants.iPhoneCellNumberOfCellsLandscape : 1)
+        case .pad:
+            return CGFloat(UIDevice.current.orientation.isLandscape ? ContentViewConstants.iPadNumberOfCellsLandscape : ContentViewConstants.iPadNumberOfCellsPortrait)
+        default:
+            return 1.0
+        }
     }
     
     func calculateDynamicCellSize(forCells numberOfCellsPerRow: CGFloat, padding: CGFloat, margin: CGFloat) -> CGFloat {

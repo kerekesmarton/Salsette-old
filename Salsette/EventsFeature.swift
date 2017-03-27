@@ -15,6 +15,12 @@ struct EventFeatureLauncher {
         viewController.interactor = EventInteractor(title: title)
         return viewController
     }
+    
+    static func launchInNavigation(with title: String) -> UINavigationController {
+        let viewController = UIStoryboard.contentViewControllerInNavigation()
+        viewController.interactor = EventInteractor(title: title)
+        return viewController.navigationController!
+    }
 }
 
 fileprivate struct EventInteractor: ContentInteractorInterface {
@@ -27,14 +33,23 @@ fileprivate struct EventInteractor: ContentInteractorInterface {
 
 fileprivate struct EventDataSource {
     fileprivate var dummyEvents = [EventEntity(image: UIImage(named: "party")!,
-                                                     title: "Friday Party",
-                                                     organiser: "London"),
-                                      EventEntity(image: UIImage(named: "party")!,
-                                                     title: "Saturday Party",
-                                                     organiser: "Milano"),
-                                      EventEntity(image: UIImage(named: "party")!,
-                                                  title: "Sunday Social",
-                                                  organiser: "Paris")]
+                                               title: "Friday Party",
+                                               organiser: "London"),
+                                   EventEntity(image: UIImage(named: "party")!,
+                                               title: "Saturday Party",
+                                               organiser: "Milano"),
+                                   EventEntity(image: UIImage(named: "party")!,
+                                               title: "Sunday Social",
+                                               organiser: "Paris"),
+                                   EventEntity(image: UIImage(named: "party")!,
+                                               title: "Friday Party",
+                                               organiser: "London"),
+                                   EventEntity(image: UIImage(named: "party")!,
+                                               title: "Saturday Party",
+                                               organiser: "Milano"),
+                                   EventEntity(image: UIImage(named: "party")!,
+                                               title: "Sunday Social",
+                                               organiser: "Paris")]
 }
 
 fileprivate struct EventEntity: ContentEntityInterface {

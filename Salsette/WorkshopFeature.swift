@@ -9,11 +9,16 @@
 import UIKit
 
 struct WorkshopFeatureLauncher {
-    
     static func launch(with title: String) -> ContentViewController {
-        let viewController = UIStoryboard.contentViewController()
+        let viewController = UIStoryboard.contentViewControllerInNavigation()
         viewController.interactor = WorkshopInteractor(title: title)
         return viewController
+    }
+    
+    static func launchInNavigation(with title: String) -> UINavigationController {
+        let viewController = UIStoryboard.contentViewControllerInNavigation()
+        viewController.interactor = WorkshopInteractor(title: title)
+        return viewController.navigationController!
     }
 }
 
@@ -27,11 +32,20 @@ fileprivate struct WorkshopInteractor: ContentInteractorInterface {
 
 fileprivate struct WorkshopDataSource {
     fileprivate var dummyWorkshops = [WorkshopEntity(image: UIImage(named: "class")!,
-                                                            title: "Mambo",
-                                                            organiser: "Adolfo & Tania"),
+                                                     title: "Mambo",
+                                                     organiser: "Adolfo & Tania"),
                                       WorkshopEntity(image: UIImage(named: "class")!,
-                                                            title: "Body Movement",
-                                                            organiser: "Terry & Cecile"),
+                                                     title: "Body Movement",
+                                                     organiser: "Terry & Cecile"),
+                                      WorkshopEntity(image: UIImage(named: "class")!,
+                                                     title: "Styling",
+                                                     organiser: "Anita"),
+                                      WorkshopEntity(image: UIImage(named: "class")!,
+                                                     title: "Mambo",
+                                                     organiser: "Adolfo & Tania"),
+                                      WorkshopEntity(image: UIImage(named: "class")!,
+                                                     title: "Body Movement",
+                                                     organiser: "Terry & Cecile"),
                                       WorkshopEntity(image: UIImage(named: "class")!,
                                                      title: "Styling",
                                                      organiser: "Anita")]
