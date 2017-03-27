@@ -15,6 +15,12 @@ protocol SearchResultsDelegate {
     func didUpdateSearch(parameters: SearchParameters)
 }
 
+struct SearchSize {
+    static let smallSize = 215.0
+    static let calendarSize = 400.0
+    static let mapSize = 400.0
+}
+
 struct SearchParameters {
     var name: String?
     var startDate: Date?
@@ -51,18 +57,37 @@ class SearchViewController: UITableViewController {
     @IBOutlet weak var dateField: HoshiTextField!
     @IBOutlet weak var locationField: HoshiTextField!
     @IBOutlet weak var typeField: HoshiTextField!
-    var calendarViewController: CalendarViewController?
-    var calendarView: UIView {
-        calendarViewController = CalendarViewController(nibName: "keyboard", bundle: nil)
-        calendarViewController?.interactor = self.searchInteractor
-        return calendarViewController!.view
-    }
-    
     var searchInteractor: SearchInteractor?
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        dateField.inputView = calendarView
+        dateField.delegate = self
+    }
+    
+    func addToContainer(childViewController: UIViewController) {
+        self.view.addSubview(childViewController.view)
+        self.addChildViewController(childViewController)
+        childViewController.didMove(toParentViewController: self)
+        
+        view.addSubview(childViewController.view)
+        childViewController.view.translatesAutoresizingMaskIntoConstraints = true
+        childViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        childViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
+        childViewController.view.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        childViewController.view.topAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        childViewController.view.heightAnchor.constraint(equalToConstant: 220.0).isActive = true
+    }
+}
+
+extension SearchViewController: UITextFieldDelegate {
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == dateField {
+            let calendarViewController = UIStoryboard.calendarViewController()
+            calendarViewController.interactor = self.searchInteractor
+            addToContainer(childViewController: calendarViewController)
+            return false
+        }
+        return true
     }
 }
 

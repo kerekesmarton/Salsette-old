@@ -28,8 +28,13 @@ protocol ContentInteractorInterface {
     func load(completion: (([ContentEntityInterface])->Void))
 }
 
-class ContentViewController: UICollectionViewController {
+@objc protocol ContentLayoutDelegate: class {
+    func heightForHeader()->CGFloat
+}
+
+class ContentViewController: UICollectionViewController, ContentLayoutDelegate {
  
+    var isSearching = false
     var items = [ContentEntityInterface]()
     var interactor: ContentInteractorInterface?
     override func viewWillAppear(_ animated: Bool) {
@@ -44,20 +49,19 @@ class ContentViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showMenu))
+        guard let layout = collectionView?.collectionViewLayout as? ContentViewLayout else { return }
+        layout.sizeDelegate = self
     }
     
     var sideMenuViewController: SideMenuViewController?
-    func showMenu() {
-        let searchViewController = SearchFeatureLauncher.launchSearch()
-        sideMenuViewController = SideMenuViewController.create()
-        sideMenuViewController?.showSideMenu(in: self, with: searchViewController, sideMenuDidHide: { [weak self] in
-            self?.hideMenu()
-            }
-        )
+    @IBAction func showMenu() {
+        isSearching = true
+        collectionView?.reloadSections(IndexSet(integer: 0))
     }
     
     func hideMenu() {
-        dismiss(animated: false, completion:nil)
+        isSearching = false
+        collectionView?.reloadSections(IndexSet(integer: 0))
     }
 
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -84,16 +88,32 @@ class ContentViewController: UICollectionViewController {
         
         if (kind == UICollectionElementKindSectionHeader) {
             let headerView: ContentSearchBar = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "ContentSearchBar", for: indexPath) as! ContentSearchBar
+            if isSearching {
+                let searchVC = SearchFeatureLauncher.launchSearch()
+                headerView.addToContainer(childView: (searchVC.view)!)
+                self.addChildViewController(searchVC)
+                searchVC.didMove(toParentViewController: self)
+            }
             return headerView
         }
         
         return UICollectionReusableView()
-        
+    }
+
+    func heightForHeader() -> CGFloat {
+        return isSearching ? 208 : 60.0
     }
 }
 
 class ContentSearchBar: UICollectionReusableView {
-    
+    func addToContainer(childView: UIView) {
+        self.addSubview(childView)
+        childView.translatesAutoresizingMaskIntoConstraints = true
+        childView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
+        childView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
+        childView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        childView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+    }
 }
 
 class ContentViewCell: UICollectionViewCell {
@@ -104,12 +124,11 @@ class ContentViewCell: UICollectionViewCell {
 
 class ContentViewLayout: UICollectionViewFlowLayout {
     var idiom: UIUserInterfaceIdiom = UIDevice.current.userInterfaceIdiom
-    
+    weak var sizeDelegate: ContentLayoutDelegate?
     override func prepare() {
         scrollDirection = .vertical
         minimumLineSpacing = idiom == .pad ? 16 : 0
         minimumInteritemSpacing = idiom == .pad ? 16 : 0
-
         sectionInset = UIEdgeInsets(top: minimumLineSpacing, left: minimumLineSpacing, bottom: self.minimumLineSpacing, right: minimumLineSpacing)
         switch idiom {
         case .phone:
@@ -119,6 +138,7 @@ class ContentViewLayout: UICollectionViewFlowLayout {
             let cellSize = calculateDynamicCellSize(forCells: numberOfCellPerRow(), padding: minimumLineSpacing, margin: ContentViewConstants.margin)
             self.itemSize = CGSize(width: cellSize, height: cellSize + CGFloat(ContentViewConstants.labelPadding))
         }
+        headerReferenceSize = CGSize(width: itemSize.width, height: sizeDelegate?.heightForHeader() ?? 60)
         super.prepare()
     }
 

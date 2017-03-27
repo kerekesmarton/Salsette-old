@@ -23,7 +23,7 @@ class SideMenuViewController: UIViewController {
     let presenter: Presentr = {
         let presenter = Presentr(presentationType: .topHalf)
         presenter.transitionType = .coverVerticalFromTop
-        presenter.blurBackground = true
+//        presenter.blurBackground = true
 //        presenter.blurStyle = UIBlurEffectStyle.light
         return presenter
     }()

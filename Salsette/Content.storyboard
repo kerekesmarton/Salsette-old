@@ -80,14 +80,22 @@
                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Search.." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vdl-JE-0J9">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lKe-DG-cDW">
+                                    <rect key="frame" x="8" y="8" width="359" height="34"/>
+                                    <state key="normal" title="Search">
+                                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="showMenu" destination="UJa-Ue-JfG" eventType="touchUpInside" id="V1O-HB-vrc"/>
+                                    </connections>
+                                </button>
                             </subviews>
+                            <constraints>
+                                <constraint firstAttribute="bottomMargin" secondItem="lKe-DG-cDW" secondAttribute="bottom" id="Ayc-DB-hxN"/>
+                                <constraint firstItem="lKe-DG-cDW" firstAttribute="leading" secondItem="OpS-UA-7s8" secondAttribute="leadingMargin" id="CH7-0f-Tyg"/>
+                                <constraint firstAttribute="trailingMargin" secondItem="lKe-DG-cDW" secondAttribute="trailing" id="fHn-5M-0n9"/>
+                                <constraint firstItem="lKe-DG-cDW" firstAttribute="top" secondItem="OpS-UA-7s8" secondAttribute="topMargin" id="wj9-De-sUb"/>
+                            </constraints>
                         </collectionReusableView>
                         <connections>
                             <outlet property="dataSource" destination="UJa-Ue-JfG" id="D2t-oV-8PY"/>

@@ -19,6 +19,7 @@ private enum ViewControllers {
     static let SearchViewController = "SearchViewController"
     static let ContentViewController = "ContentViewController"
     static let ContentViewControllerNavigation = "ContentViewControllerNavigation"
+    static let CalendarViewController = "CalendarViewController"
 }
 
 extension UIStoryboard {
@@ -45,5 +46,10 @@ extension UIStoryboard {
         let storyBoard = UIStoryboard(name: Storyboards.Content, bundle: nil)
         let navController = storyBoard.instantiateViewController(withIdentifier: ViewControllers.ContentViewControllerNavigation) as! UINavigationController
         return navController.topViewController as! ContentViewController
+    }
+    
+    class func calendarViewController() -> CalendarViewController {
+        let storyBoard = UIStoryboard(name: Storyboards.Search, bundle: nil)
+        return storyBoard.instantiateViewController(withIdentifier: ViewControllers.CalendarViewController) as! CalendarViewController
     }
 }
