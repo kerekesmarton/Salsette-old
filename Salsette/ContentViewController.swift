@@ -32,7 +32,6 @@ class ContentViewController: UICollectionViewController {
  
     var items = [ContentEntityInterface]()
     var interactor: ContentInteractorInterface?
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = interactor?.title
@@ -44,17 +43,21 @@ class ContentViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showMenu(_:)))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showMenu))
     }
     
     var sideMenuViewController: SideMenuViewController?
-    func showMenu(_ sender: UIBarButtonItem) {
+    func showMenu() {
         let searchViewController = SearchFeatureLauncher.launchSearch()
         sideMenuViewController = SideMenuViewController.create()
         sideMenuViewController?.showSideMenu(in: self, with: searchViewController, sideMenuDidHide: { [weak self] in
-            self?.dismiss(animated: false, completion:nil)
+            self?.hideMenu()
             }
         )
+    }
+    
+    func hideMenu() {
+        dismiss(animated: false, completion:nil)
     }
 
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -76,6 +79,21 @@ class ContentViewController: UICollectionViewController {
         
         return cell
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        if (kind == UICollectionElementKindSectionHeader) {
+            let headerView: ContentSearchBar = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "ContentSearchBar", for: indexPath) as! ContentSearchBar
+            return headerView
+        }
+        
+        return UICollectionReusableView()
+        
+    }
+}
+
+class ContentSearchBar: UICollectionReusableView {
+    
 }
 
 class ContentViewCell: UICollectionViewCell {
