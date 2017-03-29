@@ -26,17 +26,12 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         return formatter
     }()
     var interactor: CalendarViewControllerInteractor?
-    @IBOutlet fileprivate weak var calendar: FSCalendar!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        title = "Choose dates for your visit"
-        // Uncomment this to perform an 'initial-week-scope'
-//        calendar.scope = FSCalendarScope.week
+    @IBOutlet fileprivate var calendar: FSCalendar!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setup()
-        // For UITest
-        calendar.accessibilityIdentifier = "calendar"
+        calendar.reloadData()
     }
 
     deinit {
@@ -45,6 +40,8 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
     }
     
     fileprivate func setup() {
+        calendar.dataSource = self
+        calendar.delegate = self
         calendar.allowsMultipleSelection = true
         calendar.calendarHeaderView.backgroundColor = UIColor.white
         calendar.calendarWeekdayView.backgroundColor = UIColor.white
