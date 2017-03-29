@@ -10,7 +10,7 @@ import UIKit
 
 struct WorkshopFeatureLauncher {
     static func launch(with title: String) -> ContentViewController {
-        let viewController = UIStoryboard.contentViewControllerInNavigation()
+        let viewController = UIStoryboard.contentViewController()
         viewController.interactor = WorkshopInteractor(title: title)
         return viewController
     }
@@ -31,28 +31,23 @@ fileprivate struct WorkshopInteractor: ContentInteractorInterface {
 }
 
 fileprivate struct WorkshopDataSource {
-    fileprivate var dummyWorkshops = [WorkshopEntity(image: UIImage(named: "class")!,
-                                                     title: "Mambo",
-                                                     organiser: "Adolfo & Tania"),
-                                      WorkshopEntity(image: UIImage(named: "class")!,
-                                                     title: "Body Movement",
-                                                     organiser: "Terry & Cecile"),
-                                      WorkshopEntity(image: UIImage(named: "class")!,
-                                                     title: "Styling",
-                                                     organiser: "Anita"),
-                                      WorkshopEntity(image: UIImage(named: "class")!,
-                                                     title: "Mambo",
-                                                     organiser: "Adolfo & Tania"),
-                                      WorkshopEntity(image: UIImage(named: "class")!,
-                                                     title: "Body Movement",
-                                                     organiser: "Terry & Cecile"),
-                                      WorkshopEntity(image: UIImage(named: "class")!,
-                                                     title: "Styling",
-                                                     organiser: "Anita")]
+    fileprivate var dummyWorkshops = [WorkshopEntity(organiser: "Adolfo & Tania", name: "Partnerwork", image: UIImage(named: "class")!),
+                                      WorkshopEntity(organiser: "Terry & Cecile", name: "Body movement", image: UIImage(named: "class")!),
+                                      WorkshopEntity(organiser: "Adrian & Anita", name: "Spinning", image: UIImage(named: "class")!)]
 }
 
 fileprivate struct WorkshopEntity: ContentEntityInterface {
     var image: UIImage?
-    var title: String?
     var organiser: String?
+    var name: String?
+    var startDate: Date?
+    var endDate: Date?
+    var location: String?
+    var type: String?
+
+    init(organiser: String, name: String, image: UIImage) {
+        self.organiser = organiser
+        self.name = name
+        self.image = image
+    }
 }

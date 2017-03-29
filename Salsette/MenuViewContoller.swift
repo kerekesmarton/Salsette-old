@@ -12,12 +12,7 @@ import ColorMatchTabs
 
 class MenuViewController: UITabBarController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()        
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showMenu(_:)))
-    }
-    
-    override func awakeFromNib() {
+        override func awakeFromNib() {
         super.awakeFromNib()
         self.viewControllers = StubContentViewControllersProvider.viewControllers
     }

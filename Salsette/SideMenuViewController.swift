@@ -21,10 +21,10 @@ class SideMenuViewController: UIViewController {
     @IBOutlet fileprivate weak var sideMenuContainerViewWidthConstraint: NSLayoutConstraint!
     var sideMenuDidHide: SideMenuHandler?
     let presenter: Presentr = {
-        let presenter = Presentr(presentationType: .popup)
-        presenter.transitionType = .coverHorizontalFromLeft
-        presenter.blurBackground = true
-        presenter.blurStyle = UIBlurEffectStyle.light
+        let presenter = Presentr(presentationType: .topHalf)
+        presenter.transitionType = .coverVerticalFromTop
+//        presenter.blurBackground = true
+//        presenter.blurStyle = UIBlurEffectStyle.light
         return presenter
     }()
     

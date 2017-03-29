@@ -10,14 +10,14 @@ import UIKit
 import ChameleonFramework
 import FSCalendar
 
-protocol CalendarViewControllerInteractor: class {
-    func calendarViewController(_ controller: CalendarViewController, shouldSelect date: Date, from selectedDates: [Date]) -> Bool
-    func calendarViewController(_ controller: CalendarViewController,didSelect date: Date)
+protocol CalendarViewSelectionDelegate: class {
+    func calendarViewController(_ controller: CalendarProxy, shouldSelect date: Date, from selectedDates: [Date]) -> Bool
+    func calendarViewController(_ controller: CalendarProxy,didSelect date: Date)
     func calendarViewController(shouldDeselect date: Date, from selectedDates: [Date]) -> Bool
     func calendarViewController(didDeselect date: Date)
 }
 
-class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
+class CalendarProxy: NSObject, FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
     
     fileprivate let gregorian = Calendar(identifier: .gregorian)
     fileprivate let formatter: DateFormatter = {
@@ -25,26 +25,22 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         formatter.dateFormat = "dd"
         return formatter
     }()
-    var interactor: CalendarViewControllerInteractor?
-    @IBOutlet fileprivate weak var calendar: FSCalendar!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        title = "Choose dates for your visit"
-        // Uncomment this to perform an 'initial-week-scope'
-//        calendar.scope = FSCalendarScope.week
+    var interactor: CalendarViewSelectionDelegate?
+    @IBOutlet var calendar: FSCalendar!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
         setup()
-        // For UITest
-        calendar.accessibilityIdentifier = "calendar"
     }
-
+        
     deinit {
         calendar.removeFromSuperview()
         calendar = nil
     }
     
     fileprivate func setup() {
+        calendar.dataSource = self
+        calendar.delegate = self
         calendar.allowsMultipleSelection = true
         calendar.calendarHeaderView.backgroundColor = UIColor.white
         calendar.calendarWeekdayView.backgroundColor = UIColor.white

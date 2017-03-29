@@ -32,28 +32,23 @@ fileprivate struct EventInteractor: ContentInteractorInterface {
 }
 
 fileprivate struct EventDataSource {
-    fileprivate var dummyEvents = [EventEntity(image: UIImage(named: "party")!,
-                                               title: "Friday Party",
-                                               organiser: "London"),
-                                   EventEntity(image: UIImage(named: "party")!,
-                                               title: "Saturday Party",
-                                               organiser: "Milano"),
-                                   EventEntity(image: UIImage(named: "party")!,
-                                               title: "Sunday Social",
-                                               organiser: "Paris"),
-                                   EventEntity(image: UIImage(named: "party")!,
-                                               title: "Friday Party",
-                                               organiser: "London"),
-                                   EventEntity(image: UIImage(named: "party")!,
-                                               title: "Saturday Party",
-                                               organiser: "Milano"),
-                                   EventEntity(image: UIImage(named: "party")!,
-                                               title: "Sunday Social",
-                                               organiser: "Paris")]
+    fileprivate var dummyEvents = [EventEntity(organiser: "organiser", name: "party", image: UIImage(named: "party")!),
+                                   EventEntity(organiser: "organiser", name: "party", image: UIImage(named: "party")!),
+                                   EventEntity(organiser: "organiser", name: "party", image: UIImage(named: "party")!)]
 }
 
 fileprivate struct EventEntity: ContentEntityInterface {
     var image: UIImage?
-    var title: String?
     var organiser: String?
+    var name: String?
+    var startDate: Date?
+    var endDate: Date?
+    var location: String?
+    var type: String?
+
+    init(organiser: String, name: String, image: UIImage) {
+        self.organiser = organiser
+        self.name = name
+        self.image = image
+    }
 }
