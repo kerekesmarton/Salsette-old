@@ -7,20 +7,22 @@
 
 import UIKit
 
-fileprivate let contentCellIdentifier = "ContentCell"
-enum ContentViewConstants {
-    static let margin: CGFloat = 16.0
-    static let labelPadding: CGFloat = 56
-    static let iPhoneCellFixedHeight: CGFloat = 300
-    static let iPadNumberOfCellsPortrait: Int = 3
-    static let iPadNumberOfCellsLandscape: Int = 5
-    static let iPhoneCellNumberOfCellsLandscape: Int = 3
-}
-
 protocol ContentEntityInterface {
     var image: UIImage? { get }
-    var title: String? { get }
     var organiser: String? { get }
+    var name: String? { get }
+    var startDate: Date? { get }
+    var endDate: Date? { get }
+    var location: String? { get }
+    var type: String? { get }
+}
+
+extension ContentEntityInterface {
+
+    func matches(searchParameters: SearchParameters) -> Bool {
+        if name?.contains(<#T##other: String##String#>)
+        return true
+    }
 }
 
 protocol ContentInteractorInterface {
@@ -33,13 +35,21 @@ protocol ContentInteractorInterface {
 }
 
 class ContentViewController: UICollectionViewController, ContentLayoutDelegate {
- 
-    var isSearching = false
+    fileprivate let contentCellIdentifier = "ContentCell"
+    var isSearching = false {
+        didSet {
+            collectionView?.reloadSections(IndexSet(integer: 0))
+        }
+    }
     var items = [ContentEntityInterface]()
     var interactor: ContentInteractorInterface?
+    lazy var searchViewController: SearchViewController = {
+        return SearchFeatureLauncher.launchSearch()
+    }()
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = interactor?.title
+        GlobalSearch.sharedInstance.searchResultsDelegate = self
         interactor?.load(completion: { items in
             self.items = items
             self.collectionView?.reloadData()
@@ -48,20 +58,16 @@ class ContentViewController: UICollectionViewController, ContentLayoutDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showMenu))
         guard let layout = collectionView?.collectionViewLayout as? ContentViewLayout else { return }
         layout.sizeDelegate = self
     }
-    
-    var sideMenuViewController: SideMenuViewController?
-    @IBAction func showMenu() {
+
+    func showMenu() {
         isSearching = true
-        collectionView?.reloadSections(IndexSet(integer: 0))
     }
     
     func hideMenu() {
         isSearching = false
-        collectionView?.reloadSections(IndexSet(integer: 0))
     }
 
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -78,7 +84,7 @@ class ContentViewController: UICollectionViewController, ContentLayoutDelegate {
         let cell: ContentViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: contentCellIdentifier, for: indexPath) as! ContentViewCell
         
         cell.imageView.image = presentableContent.image
-        cell.titleLabel.text = presentableContent.title
+        cell.titleLabel.text = presentableContent.name
         cell.organiserLabel.text = presentableContent.organiser
         
         return cell
@@ -89,10 +95,13 @@ class ContentViewController: UICollectionViewController, ContentLayoutDelegate {
         if (kind == UICollectionElementKindSectionHeader) {
             let headerView: ContentSearchBar = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "ContentSearchBar", for: indexPath) as! ContentSearchBar
             if isSearching {
-                let searchVC = SearchFeatureLauncher.launchSearch()
-                headerView.addToContainer(childView: (searchVC.view)!)
-                self.addChildViewController(searchVC)
-                searchVC.didMove(toParentViewController: self)
+                guard let childView = searchViewController.view else { return UICollectionReusableView() }
+                headerView.addToContainer(childView: childView)
+                self.addChildViewController(searchViewController)
+                searchViewController.didMove(toParentViewController: self)
+            } else {
+                searchViewController.view.removeFromSuperview()
+                searchViewController.didMove(toParentViewController: nil)
             }
             return headerView
         }
@@ -101,13 +110,25 @@ class ContentViewController: UICollectionViewController, ContentLayoutDelegate {
     }
 
     func heightForHeader() -> CGFloat {
-        return isSearching ? 208 : 60.0
+        return isSearching ? SearchViewController.searchSize : 60.0
     }
     
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         if isSearching {
             hideMenu()
         }
+    }
+
+    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if scrollView.contentOffset.y < 0 && !isSearching{
+            showMenu()
+        }
+    }
+}
+
+extension ContentViewController: SearchResultsDelegate {
+    func didUpdateSearch(parameters: SearchParameters) {
+//        self.items = self.items.filter(<#T##isIncluded: (ContentEntityInterface) throws -> Bool##(ContentEntityInterface) throws -> Bool#>)
     }
 }
 
@@ -129,6 +150,14 @@ class ContentViewCell: UICollectionViewCell {
 }
 
 class ContentViewLayout: UICollectionViewFlowLayout {
+    enum ContentViewConstants {
+        static let margin: CGFloat = 16.0
+        static let labelPadding: CGFloat = 56
+        static let iPhoneCellFixedHeight: CGFloat = 300
+        static let iPadNumberOfCellsPortrait: Int = 3
+        static let iPadNumberOfCellsLandscape: Int = 5
+        static let iPhoneCellNumberOfCellsLandscape: Int = 3
+    }
     var idiom: UIUserInterfaceIdiom = UIDevice.current.userInterfaceIdiom
     weak var sizeDelegate: ContentLayoutDelegate?
     override func prepare() {

@@ -11,7 +11,7 @@ import UIKit
 import TextFieldEffects
 import ChameleonFramework
 
-protocol SearchResultsDelegate {
+protocol SearchResultsDelegate: class {
     func didUpdateSearch(parameters: SearchParameters)
 }
 
@@ -23,13 +23,15 @@ struct SearchParameters {
     var type: String?
 }
 
-class GlobalSearch: SearchResultsDelegate {
-
-    func didUpdateSearch(parameters: SearchParameters) {
-        searchParameters = parameters
+class GlobalSearch {
+    private init() { }
+    static let sharedInstance = GlobalSearch()
+    weak var searchResultsDelegate: SearchResultsDelegate?
+    var searchParameters = SearchParameters() {
+        didSet {
+            searchResultsDelegate?.didUpdateSearch(parameters: searchParameters)
+        }
     }
-
-    var searchParameters = SearchParameters()
 }
 
 struct SearchFeatureLauncher {
@@ -37,7 +39,7 @@ struct SearchFeatureLauncher {
     static func launchSearch() -> SearchViewController {
         let searchViewController = UIStoryboard.searchViewController()
         let presenter = SearchPresenter()
-        let interactor = SearchInteractor(presenter: presenter, delegate: GlobalSearch())
+        let interactor = SearchInteractor(presenter: presenter)
         searchViewController.searchInteractor = interactor
         presenter.searchView = searchViewController
         
@@ -46,7 +48,7 @@ struct SearchFeatureLauncher {
 }
 
 class SearchViewController: UITableViewController {
-
+    static let searchSize: CGFloat = 268.0
     @IBOutlet weak var nameField: HoshiTextField!
     @IBOutlet weak var dateField: HoshiTextField!
     @IBOutlet weak var locationField: HoshiTextField!
@@ -64,6 +66,40 @@ class SearchViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         dateField.inputView = calendarView
+    }
+}
+
+extension SearchViewController: UITextFieldDelegate {
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        switch textField {
+        case nameField:
+            searchInteractor?.didChange(.name(nameField.text!))
+        case dateField:
+            break
+        case locationField:
+            searchInteractor?.didChange(.location(locationField.text!))
+        case typeField:
+            searchInteractor?.didChange(.type(typeField.text!))
+        default:
+            ()
+        }
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case nameField:
+            dateField.becomeFirstResponder()
+        case dateField:
+            locationField.becomeFirstResponder()
+        case locationField:
+            typeField.becomeFirstResponder()
+        case typeField:
+            typeField.resignFirstResponder()
+        default:
+            ()
+        }
+        return true
     }
 }
 
@@ -87,11 +123,14 @@ extension SearchViewController {
 }
 
 class SearchInteractor {
+    enum DataType{
+        case name(String)
+        case location(String)
+        case type(String)
+    }
     let searchPresenter: SearchPresenter
-    let searchResultsDelegate: SearchResultsDelegate
-    init(presenter: SearchPresenter, delegate: SearchResultsDelegate) {
+    init(presenter: SearchPresenter) {
         self.searchPresenter = presenter
-        self.searchResultsDelegate = delegate
     }
     
     var newDate: Date? {
@@ -112,8 +151,28 @@ class SearchInteractor {
             }
         }
     }
-    var startDate: Date?
-    var endDate: Date?
+
+    func didChange(_ dataType: DataType) {
+        switch dataType {
+        case .name(let value):
+            GlobalSearch.sharedInstance.searchParameters.name = value
+        case .location(let value):
+            GlobalSearch.sharedInstance.searchParameters.location = value
+        case .type(let value):
+            GlobalSearch.sharedInstance.searchParameters.type = value
+        }
+    }
+
+    var startDate: Date? {
+        didSet {
+            GlobalSearch.sharedInstance.searchParameters.startDate = startDate
+        }
+    }
+    var endDate: Date? {
+        didSet {
+            GlobalSearch.sharedInstance.searchParameters.endDate = endDate
+        }
+    }
 }
 
 extension SearchInteractor: CalendarViewSelectionDelegate {
@@ -157,7 +216,7 @@ extension SearchInteractor: CalendarViewSelectionDelegate {
         guard let start = startDate, let end = endDate else {
             return true
         }
-        if start < date && end > date {
+        if start <= date && end >= date {
             return false
         }
         return true
