@@ -26,6 +26,7 @@
 		1033E5571E79CA44002D1615 /* Calendar.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1033E5561E79CA44002D1615 /* Calendar.xcassets */; };
 		1033E5591E7A77A8002D1615 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5581E7A77A8002D1615 /* ContentViewController.swift */; };
 		1033E55C1E7A78E7002D1615 /* Content.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1033E55B1E7A78E7002D1615 /* Content.storyboard */; };
+		106306AE1E8B951C0089DA00 /* Calendar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 106306AD1E8B951C0089DA00 /* Calendar.xib */; };
 		10855A911E7FBFB9005B8E24 /* WorkshopFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10855A901E7FBFB9005B8E24 /* WorkshopFeature.swift */; };
 		1089BF821E708553006E091A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF811E708553006E091A /* AppDelegate.swift */; };
 		1089BF841E708553006E091A /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF831E708553006E091A /* Search.swift */; };
@@ -73,6 +74,7 @@
 		1033E5561E79CA44002D1615 /* Calendar.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Calendar.xcassets; sourceTree = "<group>"; };
 		1033E5581E7A77A8002D1615 /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		1033E55B1E7A78E7002D1615 /* Content.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Content.storyboard; sourceTree = "<group>"; };
+		106306AD1E8B951C0089DA00 /* Calendar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Calendar.xib; sourceTree = "<group>"; };
 		10855A901E7FBFB9005B8E24 /* WorkshopFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkshopFeature.swift; sourceTree = "<group>"; };
 		1089BF7E1E708553006E091A /* Salsette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Salsette.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1089BF811E708553006E091A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -117,8 +119,9 @@
 			children = (
 				1033E5561E79CA44002D1615 /* Calendar.xcassets */,
 				1089BF831E708553006E091A /* Search.swift */,
-				1033E52A1E7589BA002D1615 /* Calendar.swift */,
 				1089BF851E708553006E091A /* Search.storyboard */,
+				1033E52A1E7589BA002D1615 /* Calendar.swift */,
+				106306AD1E8B951C0089DA00 /* Calendar.xib */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				1033E55C1E7A78E7002D1615 /* Content.storyboard in Resources */,
 				1089BF871E708553006E091A /* Search.storyboard in Resources */,
 				1033E5421E75AA8E002D1615 /* MenuAssets.xcassets in Resources */,
+				106306AE1E8B951C0089DA00 /* Calendar.xib in Resources */,
 				1033E5571E79CA44002D1615 /* Calendar.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,14 +10,14 @@ import UIKit
 import ChameleonFramework
 import FSCalendar
 
-protocol CalendarViewControllerInteractor: class {
-    func calendarViewController(_ controller: CalendarViewController, shouldSelect date: Date, from selectedDates: [Date]) -> Bool
-    func calendarViewController(_ controller: CalendarViewController,didSelect date: Date)
+protocol CalendarViewSelectionDelegate: class {
+    func calendarViewController(_ controller: CalendarProxy, shouldSelect date: Date, from selectedDates: [Date]) -> Bool
+    func calendarViewController(_ controller: CalendarProxy,didSelect date: Date)
     func calendarViewController(shouldDeselect date: Date, from selectedDates: [Date]) -> Bool
     func calendarViewController(didDeselect date: Date)
 }
 
-class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
+class CalendarProxy: NSObject, FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
     
     fileprivate let gregorian = Calendar(identifier: .gregorian)
     fileprivate let formatter: DateFormatter = {
@@ -25,15 +25,9 @@ class CalendarViewController: UIViewController, FSCalendarDataSource, FSCalendar
         formatter.dateFormat = "dd"
         return formatter
     }()
-    var interactor: CalendarViewControllerInteractor?
-    @IBOutlet fileprivate var calendar: FSCalendar!
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setup()
-        calendar.reloadData()
-    }
-
+    var interactor: CalendarViewSelectionDelegate?
+    @IBOutlet var calendar: FSCalendar!
+        
     deinit {
         calendar.removeFromSuperview()
         calendar = nil

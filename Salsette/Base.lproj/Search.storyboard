@@ -141,28 +141,5 @@
             </objects>
             <point key="canvasLocation" x="1708" y="136.28185907046478"/>
         </scene>
-        <!--CalendarViewController-->
-        <scene sceneID="Qwb-uZ-4Zp">
-            <objects>
-                <viewController storyboardIdentifier="CalendarViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="AB3-RD-CDu" userLabel="CalendarViewController" customClass="CalendarViewController" customModule="Salsette" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="xxe-KM-XX6"/>
-                        <viewControllerLayoutGuide type="bottom" id="kZ8-Dj-9Xu"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="CpF-K5-tlF" customClass="FSCalendar">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="220"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="375" height="220"/>
-                    <connections>
-                        <outlet property="calendar" destination="CpF-K5-tlF" id="Frv-Du-piU"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BCd-Vd-fq1" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2649" y="-25"/>
-        </scene>
     </scenes>
 </document>

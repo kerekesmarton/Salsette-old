@@ -51,11 +51,12 @@ class SearchViewController: UITableViewController {
     @IBOutlet weak var dateField: HoshiTextField!
     @IBOutlet weak var locationField: HoshiTextField!
     @IBOutlet weak var typeField: HoshiTextField!
-    var calendarViewController: CalendarViewController?
+    lazy var calendarProxy: CalendarProxy = {
+        return UINib(nibName: "Calendar", bundle: nil).instantiate(withOwner: self, options: nil)[1] as! CalendarProxy
+    }()
     var calendarView: UIView {
-        calendarViewController = UIStoryboard.calendarViewController()
-        calendarViewController?.interactor = self.searchInteractor
-        return calendarViewController!.view
+        calendarProxy.interactor = self.searchInteractor
+        return calendarProxy.calendar
     }
     
     var searchInteractor: SearchInteractor?
@@ -115,9 +116,9 @@ class SearchInteractor {
     var endDate: Date?
 }
 
-extension SearchInteractor: CalendarViewControllerInteractor {
+extension SearchInteractor: CalendarViewSelectionDelegate {
     
-    func calendarViewController(_ controller: CalendarViewController, shouldSelect date: Date, from selectedDates: [Date]) -> Bool {
+    func calendarViewController(_ controller: CalendarProxy, shouldSelect date: Date, from selectedDates: [Date]) -> Bool {
         guard let startDate = startDate else {
             return true // no start date, pick it
         }
@@ -138,7 +139,7 @@ extension SearchInteractor: CalendarViewControllerInteractor {
         }
     }
 
-    func calendarViewController(_ controller: CalendarViewController, didSelect date: Date) {
+    func calendarViewController(_ controller: CalendarProxy, didSelect date: Date) {
         if startDate == nil {
             newDate = date
             return
