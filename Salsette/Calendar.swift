@@ -27,6 +27,11 @@ class CalendarProxy: NSObject, FSCalendarDataSource, FSCalendarDelegate, FSCalen
     }()
     var interactor: CalendarViewSelectionDelegate?
     @IBOutlet var calendar: FSCalendar!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setup()
+    }
         
     deinit {
         calendar.removeFromSuperview()

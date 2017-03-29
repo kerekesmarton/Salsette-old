@@ -15,8 +15,12 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="dataSource" destination="LPy-ld-KCg" id="oHg-Wx-fLW"/>
+                <outlet property="delegate" destination="LPy-ld-KCg" id="jNg-YF-J2w"/>
+            </connections>
         </view>
-        <customObject id="LPy-ld-KCg" customClass="CalendarProxy" customModule="Salsette" customModuleProvider="target">
+        <customObject id="LPy-ld-KCg" userLabel="Proxy" customClass="CalendarProxy" customModule="Salsette" customModuleProvider="target">
             <connections>
                 <outlet property="calendar" destination="7Kb-A5-sLp" id="u71-Bo-Iin"/>
             </connections>

@@ -103,6 +103,12 @@ class ContentViewController: UICollectionViewController, ContentLayoutDelegate {
     func heightForHeader() -> CGFloat {
         return isSearching ? 208 : 60.0
     }
+    
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if isSearching {
+            hideMenu()
+        }
+    }
 }
 
 class ContentSearchBar: UICollectionReusableView {
