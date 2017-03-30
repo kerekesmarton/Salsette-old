@@ -24,11 +24,11 @@ public extension ContentEntityInterface {
     
     public func matches() -> Bool {
         let params = GlobalSearch.sharedInstance.searchParameters
-        let first = (match(member: name, to: params.name) || match(member: organiser, to: params.name))
-        let second = match(member: location, to: params.location)
-        let third = matchDates(start: startDate, end: endDate, between: params.startDate, criteriaEnd: params.endDate)
-        return first && second && third
-//            match(member: type, to: params.type) &&
+        let nameAndOrg = (match(member: name, to: params.name) || match(member: organiser, to: params.name))
+        let loc = match(member: location, to: params.location)
+        let date = matchDates(start: startDate, end: endDate, between: params.startDate, criteriaEnd: params.endDate)
+//        let type = matchType(member: type, to: params.type)
+        return nameAndOrg && loc && date
     }
     
     private func match(member: String, to criteria: String?) -> Bool {
@@ -38,12 +38,34 @@ public extension ContentEntityInterface {
         return member.contains(exisitingCriteria)
     }
     
+//    private func matchType(member: EventTypes, to criteria: String?) -> Bool {
+//        guard let exisitingCriteria = criteria, isValid(name: exisitingCriteria) else {
+//            return true // if there's no criteria, it should pass
+//        }
+//        return member.contains(exisitingCriteria)
+//    }
+    
+    private func matching(member: String, to criteria: String?) -> ContentEntityInterface? {
+        guard let exisitingCriteria = criteria, isValid(name: exisitingCriteria) else {
+            return self // if there's no criteria, it should pass
+        }
+        return member.contains(exisitingCriteria) ? self : nil
+    }
+    
     private func matchDates(start: Date, end: Date, between criteriaStart: Date?, criteriaEnd: Date?) -> Bool {
         guard let existingCriteriaStart = criteriaStart,
             let existingCriteriaEnd = criteriaEnd else {
             return true
         }
         return startDate > existingCriteriaStart && endDate < existingCriteriaEnd
+    }
+    
+    private func matchingDates(start: Date, end: Date, between criteriaStart: Date?, criteriaEnd: Date?) -> ContentEntityInterface? {
+        guard let existingCriteriaStart = criteriaStart,
+            let existingCriteriaEnd = criteriaEnd else {
+                return self
+        }
+        return startDate > existingCriteriaStart && endDate < existingCriteriaEnd ? self: nil
     }
     
     func isValid(name: String) -> Bool {

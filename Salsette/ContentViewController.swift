@@ -9,7 +9,7 @@ import UIKit
 
 protocol ContentInteractorInterface {
     var title: String {get}
-    func load(completion: (([ContentEntityInterface])->Void))
+    func load(with parameters: SearchParameters?, completion: (([ContentEntityInterface])->Void))
 }
 
 @objc protocol ContentLayoutDelegate: class {
@@ -18,7 +18,8 @@ protocol ContentInteractorInterface {
 
 class ContentViewController: UICollectionViewController, ContentLayoutDelegate {
     fileprivate let contentCellIdentifier = "ContentCell"
-    var isSearching = false {
+    var search: GlobalSearch?
+    var isSearching = true {
         didSet {
             DispatchQueue.main.async {
                 self.collectionView?.reloadSections(IndexSet(integer: 0))
@@ -33,14 +34,13 @@ class ContentViewController: UICollectionViewController, ContentLayoutDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.title = interactor?.title
-        GlobalSearch.sharedInstance.searchResultsDelegate = self
+        search?.searchResultsDelegate = self
         load()
     }
     
     func load() {
-        interactor?.load(completion: { items in
-            self.items = items.filter({$0.matches()})
+        interactor?.load(with: search?.searchParameters,  completion: { items in
+            self.items = items
             self.collectionView?.reloadData()
         })
     }
@@ -56,7 +56,7 @@ class ContentViewController: UICollectionViewController, ContentLayoutDelegate {
     }
     
     func hideMenu() {
-        isSearching = false
+//        isSearching = false
     }
 
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {

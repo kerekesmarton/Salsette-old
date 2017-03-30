@@ -20,7 +20,7 @@ struct SearchParameters {
     var startDate: Date?
     var endDate: Date?
     var location: String?
-    var type: String?
+    var type: EventTypes?
 }
 
 class GlobalSearch {
@@ -89,11 +89,12 @@ extension SearchViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {        
-        return EventTypes.item(at: row)
+        return EventTypes.string(at: row)
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        typeField.text = EventTypes.item(at: row)
+        typeField.text = EventTypes.string(at: row)
+        searchInteractor?.didChange(.type(EventTypes.item(at: row)))
     }
 }
 
@@ -103,12 +104,8 @@ extension SearchViewController: UITextFieldDelegate {
         switch textField {
         case nameField:
             searchInteractor?.didChange(.name(nameField.text!))
-        case dateField:
-            break
         case locationField:
             searchInteractor?.didChange(.location(locationField.text!))
-        case typeField:
-            searchInteractor?.didChange(.type(typeField.text!))
         default:
             ()
         }
@@ -158,7 +155,8 @@ class SearchInteractor {
     enum DataType{
         case name(String)
         case location(String)
-        case type(String)
+        case dates(Date?,Date?)
+        case type(EventTypes)
     }
     let searchPresenter: SearchPresenter
     init(presenter: SearchPresenter) {
@@ -176,8 +174,7 @@ class SearchInteractor {
             } else if endDate == nil {
                 endDate = date
                 searchPresenter.update(startDate: startDate, endDate: date)
-                GlobalSearch.sharedInstance.searchParameters.startDate = startDate
-                GlobalSearch.sharedInstance.searchParameters.endDate = endDate                
+                didChange(.dates(startDate, endDate))
             } else {
                 startDate = date
                 searchPresenter.update(startDate: date)
@@ -194,6 +191,9 @@ class SearchInteractor {
             GlobalSearch.sharedInstance.searchParameters.location = value
         case .type(let value):
             GlobalSearch.sharedInstance.searchParameters.type = value
+        case .dates(let start, let end):
+            GlobalSearch.sharedInstance.searchParameters.startDate = start
+            GlobalSearch.sharedInstance.searchParameters.endDate = end
         }
     }
 
@@ -220,6 +220,7 @@ extension SearchInteractor: CalendarViewSelectionDelegate {
             controller.deselectAll()
             self.startDate = nil
             self.endDate = nil
+            didChange(.dates(nil, nil))
             return false
         }
     }
@@ -246,18 +247,6 @@ extension SearchInteractor: CalendarViewSelectionDelegate {
             return false
         }
         return true
-    }
-    
-    func calendarViewController(didDeselect date: Date) {
-        if startDate == date {
-            startDate = nil
-        }
-        if endDate == date {
-            endDate = nil
-        }
-        GlobalSearch.sharedInstance.searchParameters.startDate = nil
-        GlobalSearch.sharedInstance.searchParameters.endDate = nil
-        searchPresenter.reset(oldDate: date)
     }
 }
 

@@ -14,7 +14,7 @@ protocol CalendarViewSelectionDelegate: class {
     func calendarViewController(_ controller: CalendarProxy, shouldSelect date: Date, from selectedDates: [Date]) -> Bool
     func calendarViewController(_ controller: CalendarProxy,didSelect date: Date)
     func calendarViewController(shouldDeselect date: Date, from selectedDates: [Date]) -> Bool
-    func calendarViewController(didDeselect date: Date)
+//    func calendarViewController(didDeselect date: Date)
 }
 
 class CalendarProxy: NSObject, FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
@@ -116,9 +116,9 @@ class CalendarProxy: NSObject, FSCalendarDataSource, FSCalendarDelegate, FSCalen
     }
     
     func calendar(_ calendar: FSCalendar, didDeselect date: Date) {
-        if let interactor = interactor {
-            interactor.calendarViewController(didDeselect: date)
-        }
+//        if let interactor = interactor {
+//            interactor.calendarViewController(didDeselect: date)
+//        }
         configureVisibleCells()
     }
     
