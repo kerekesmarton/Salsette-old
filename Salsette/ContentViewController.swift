@@ -7,24 +7,6 @@
 
 import UIKit
 
-protocol ContentEntityInterface {
-    var image: UIImage? { get }
-    var organiser: String? { get }
-    var name: String? { get }
-    var startDate: Date? { get }
-    var endDate: Date? { get }
-    var location: String? { get }
-    var type: String? { get }
-}
-
-extension ContentEntityInterface {
-
-    func matches(searchParameters: SearchParameters) -> Bool {
-        if name?.contains(<#T##other: String##String#>)
-        return true
-    }
-}
-
 protocol ContentInteractorInterface {
     var title: String {get}
     func load(completion: (([ContentEntityInterface])->Void))
@@ -38,7 +20,9 @@ class ContentViewController: UICollectionViewController, ContentLayoutDelegate {
     fileprivate let contentCellIdentifier = "ContentCell"
     var isSearching = false {
         didSet {
-            collectionView?.reloadSections(IndexSet(integer: 0))
+            DispatchQueue.main.async {
+                self.collectionView?.reloadSections(IndexSet(integer: 0))
+            }
         }
     }
     var items = [ContentEntityInterface]()
@@ -46,12 +30,17 @@ class ContentViewController: UICollectionViewController, ContentLayoutDelegate {
     lazy var searchViewController: SearchViewController = {
         return SearchFeatureLauncher.launchSearch()
     }()
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = interactor?.title
         GlobalSearch.sharedInstance.searchResultsDelegate = self
+        load()
+    }
+    
+    func load() {
         interactor?.load(completion: { items in
-            self.items = items
+            self.items = items.filter({$0.matches()})
             self.collectionView?.reloadData()
         })
     }
@@ -128,7 +117,7 @@ class ContentViewController: UICollectionViewController, ContentLayoutDelegate {
 
 extension ContentViewController: SearchResultsDelegate {
     func didUpdateSearch(parameters: SearchParameters) {
-//        self.items = self.items.filter(<#T##isIncluded: (ContentEntityInterface) throws -> Bool##(ContentEntityInterface) throws -> Bool#>)
+        load()
     }
 }
 

@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -24,42 +23,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gtA-6d-xb9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-25" y="701"/>
-        </scene>
-        <!--Side Menu View Controller-->
-        <scene sceneID="7qP-Vq-Y3P">
-            <objects>
-                <viewController storyboardIdentifier="SideMenuViewController" id="4lF-S0-ww5" customClass="SideMenuViewController" customModule="Salsette" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="yxk-d2-6Th"/>
-                        <viewControllerLayoutGuide type="bottom" id="aWh-Qj-YBJ"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="c5P-sT-jvz">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vMP-ab-vqU">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="375" id="mQP-Ep-rqr"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="aWh-Qj-YBJ" firstAttribute="top" secondItem="vMP-ab-vqU" secondAttribute="bottom" id="XSQ-5R-nlP"/>
-                            <constraint firstItem="vMP-ab-vqU" firstAttribute="leading" secondItem="c5P-sT-jvz" secondAttribute="leadingMargin" constant="-16" id="gzh-OO-six"/>
-                            <constraint firstItem="vMP-ab-vqU" firstAttribute="top" secondItem="yxk-d2-6Th" secondAttribute="bottom" constant="-20" id="lbB-lX-0ED"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="containerView" destination="vMP-ab-vqU" id="dkD-2E-w6W"/>
-                        <outlet property="sideMenuContainerViewWidthConstraint" destination="mQP-Ep-rqr" id="1gf-k8-u3m"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Y5k-8h-EHB" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="687" y="700"/>
         </scene>
     </scenes>
 </document>

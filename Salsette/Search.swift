@@ -53,6 +53,8 @@ class SearchViewController: UITableViewController {
     @IBOutlet weak var dateField: HoshiTextField!
     @IBOutlet weak var locationField: HoshiTextField!
     @IBOutlet weak var typeField: HoshiTextField!
+    @IBOutlet var fields: [UITextField]!
+    @IBOutlet var typePicker: UIPickerView!
     lazy var calendarProxy: CalendarProxy = {
         return UINib(nibName: "Calendar", bundle: nil).instantiate(withOwner: self, options: nil)[1] as! CalendarProxy
     }()
@@ -66,6 +68,32 @@ class SearchViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         dateField.inputView = calendarView
+        typeField.inputView = typePicker
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fields.forEach({$0.endEditing(true)})
+        
+    }
+}
+
+extension SearchViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return EventTypes.count()
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {        
+        return EventTypes.item(at: row)
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        typeField.text = EventTypes.item(at: row)
     }
 }
 
@@ -89,16 +117,20 @@ extension SearchViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case nameField:
-            dateField.becomeFirstResponder()
+            nameField.resignFirstResponder()
         case dateField:
-            locationField.becomeFirstResponder()
+            dateField.resignFirstResponder()
         case locationField:
-            typeField.becomeFirstResponder()
+            locationField.resignFirstResponder()
         case typeField:
             typeField.resignFirstResponder()
         default:
             ()
         }
+        return true
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return true
     }
 }
@@ -144,6 +176,8 @@ class SearchInteractor {
             } else if endDate == nil {
                 endDate = date
                 searchPresenter.update(startDate: startDate, endDate: date)
+                GlobalSearch.sharedInstance.searchParameters.startDate = startDate
+                GlobalSearch.sharedInstance.searchParameters.endDate = endDate                
             } else {
                 startDate = date
                 searchPresenter.update(startDate: date)
@@ -163,16 +197,8 @@ class SearchInteractor {
         }
     }
 
-    var startDate: Date? {
-        didSet {
-            GlobalSearch.sharedInstance.searchParameters.startDate = startDate
-        }
-    }
-    var endDate: Date? {
-        didSet {
-            GlobalSearch.sharedInstance.searchParameters.endDate = endDate
-        }
-    }
+    var startDate: Date?
+    var endDate: Date?
 }
 
 extension SearchInteractor: CalendarViewSelectionDelegate {
@@ -229,6 +255,8 @@ extension SearchInteractor: CalendarViewSelectionDelegate {
         if endDate == date {
             endDate = nil
         }
+        GlobalSearch.sharedInstance.searchParameters.startDate = nil
+        GlobalSearch.sharedInstance.searchParameters.endDate = nil
         searchPresenter.reset(oldDate: date)
     }
 }
