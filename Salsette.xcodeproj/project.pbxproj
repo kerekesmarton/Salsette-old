@@ -27,8 +27,10 @@
 		1033E5591E7A77A8002D1615 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5581E7A77A8002D1615 /* ContentViewController.swift */; };
 		1033E55C1E7A78E7002D1615 /* Content.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1033E55B1E7A78E7002D1615 /* Content.storyboard */; };
 		106306AE1E8B951C0089DA00 /* Calendar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 106306AD1E8B951C0089DA00 /* Calendar.xib */; };
-		106306B21E8C30DF0089DA00 /* ContentSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306B11E8C30DF0089DA00 /* ContentSearch.swift */; };
-		106306B41E8CE3BF0089DA00 /* ContentConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306B31E8CE3BF0089DA00 /* ContentConstants.swift */; };
+		106306B41E8CE3BF0089DA00 /* ContentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306B31E8CE3BF0089DA00 /* ContentEntity.swift */; };
+		106306B71E8E75C60089DA00 /* AppDelegate+Facebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306B61E8E75C60089DA00 /* AppDelegate+Facebook.swift */; };
+		106306BC1E8E99600089DA00 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306BB1E8E99600089DA00 /* Profile.swift */; };
+		106306C01E8EA0670089DA00 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306BF1E8EA0670089DA00 /* Login.swift */; };
 		10855A911E7FBFB9005B8E24 /* Workshops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10855A901E7FBFB9005B8E24 /* Workshops.swift */; };
 		1089BF821E708553006E091A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF811E708553006E091A /* AppDelegate.swift */; };
 		1089BF841E708553006E091A /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF831E708553006E091A /* Search.swift */; };
@@ -77,8 +79,10 @@
 		1033E5581E7A77A8002D1615 /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		1033E55B1E7A78E7002D1615 /* Content.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Content.storyboard; sourceTree = "<group>"; };
 		106306AD1E8B951C0089DA00 /* Calendar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Calendar.xib; sourceTree = "<group>"; };
-		106306B11E8C30DF0089DA00 /* ContentSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentSearch.swift; sourceTree = "<group>"; };
-		106306B31E8CE3BF0089DA00 /* ContentConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentConstants.swift; sourceTree = "<group>"; };
+		106306B31E8CE3BF0089DA00 /* ContentEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentEntity.swift; sourceTree = "<group>"; };
+		106306B61E8E75C60089DA00 /* AppDelegate+Facebook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Facebook.swift"; sourceTree = "<group>"; };
+		106306BB1E8E99600089DA00 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		106306BF1E8EA0670089DA00 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		10855A901E7FBFB9005B8E24 /* Workshops.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Workshops.swift; sourceTree = "<group>"; };
 		1089BF7E1E708553006E091A /* Salsette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Salsette.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1089BF811E708553006E091A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -194,13 +198,29 @@
 			children = (
 				1033E52C1E75A955002D1615 /* Search */,
 				1033E5581E7A77A8002D1615 /* ContentViewController.swift */,
-				106306B11E8C30DF0089DA00 /* ContentSearch.swift */,
-				106306B31E8CE3BF0089DA00 /* ContentConstants.swift */,
-				10855A901E7FBFB9005B8E24 /* Workshops.swift */,
-				10964C441E82E66300CDFE3F /* Events.swift */,
+				106306B31E8CE3BF0089DA00 /* ContentEntity.swift */,
+				106306B51E8E6E2B0089DA00 /* Content Interactor and DataStore */,
 				1033E55B1E7A78E7002D1615 /* Content.storyboard */,
 			);
 			name = Salsette;
+			sourceTree = "<group>";
+		};
+		106306B51E8E6E2B0089DA00 /* Content Interactor and DataStore */ = {
+			isa = PBXGroup;
+			children = (
+				10855A901E7FBFB9005B8E24 /* Workshops.swift */,
+				10964C441E82E66300CDFE3F /* Events.swift */,
+			);
+			name = "Content Interactor and DataStore";
+			sourceTree = "<group>";
+		};
+		106306BA1E8E96740089DA00 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				106306BB1E8E99600089DA00 /* Profile.swift */,
+				106306BF1E8EA0670089DA00 /* Login.swift */,
+			);
+			name = Profile;
 			sourceTree = "<group>";
 		};
 		1089BF751E708553006E091A = {
@@ -228,6 +248,8 @@
 			children = (
 				1033E54E1E75C7A0002D1615 /* Extensions */,
 				1089BF811E708553006E091A /* AppDelegate.swift */,
+				106306B61E8E75C60089DA00 /* AppDelegate+Facebook.swift */,
+				106306BA1E8E96740089DA00 /* Profile */,
 				1033E55A1E7A77AD002D1615 /* Salsette */,
 				1033E5331E75A9E3002D1615 /* Menu */,
 				1089BF881E708553006E091A /* Assets.xcassets */,
@@ -427,9 +449,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1033E53B1E75AA11002D1615 /* TabItemsProvider.swift in Sources */,
-				106306B21E8C30DF0089DA00 /* ContentSearch.swift in Sources */,
 				1033E5311E75A9DF002D1615 /* MenuViewContoller.swift in Sources */,
 				1033E5541E75C7AA002D1615 /* String+Additions.swift in Sources */,
+				106306BC1E8E99600089DA00 /* Profile.swift in Sources */,
 				10B9AF761E7DA2900033A6BF /* UImage+Additions.swift in Sources */,
 				10D733431E728E7600F47A52 /* UIStoryboard+Functions.swift in Sources */,
 				1033E54D1E75C5BB002D1615 /* SideMenuViewController.swift in Sources */,
@@ -439,12 +461,14 @@
 				1033E5301E75A9DF002D1615 /* AddPopoverViewController.swift in Sources */,
 				1033E5531E75C7AA002D1615 /* UIFont+Avenir.swift in Sources */,
 				1033E53A1E75AA11002D1615 /* ControllersProvider.swift in Sources */,
-				106306B41E8CE3BF0089DA00 /* ContentConstants.swift in Sources */,
+				106306B41E8CE3BF0089DA00 /* ContentEntity.swift in Sources */,
 				10B9AF781E7E96870033A6BF /* CGSize+Additions.swift in Sources */,
+				106306C01E8EA0670089DA00 /* Login.swift in Sources */,
 				1089BF841E708553006E091A /* Search.swift in Sources */,
 				1089BF821E708553006E091A /* AppDelegate.swift in Sources */,
 				10964C451E82E66300CDFE3F /* Events.swift in Sources */,
 				1033E5591E7A77A8002D1615 /* ContentViewController.swift in Sources */,
+				106306B71E8E75C60089DA00 /* AppDelegate+Facebook.swift in Sources */,
 				1033E5441E75AAB3002D1615 /* UIFont+Zeplin.swift in Sources */,
 				1033E53F1E75AA23002D1615 /* ExampleTableViewCell.swift in Sources */,
 				1033E5361E75AA04002D1615 /* TabItem.swift in Sources */,

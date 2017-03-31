@@ -11,10 +11,9 @@ import UIKit
 import ColorMatchTabs
 
 class MenuViewController: UITabBarController {
-    
-        override func awakeFromNib() {
+
+    override func awakeFromNib() {
         super.awakeFromNib()
-        self.viewControllers = StubContentViewControllersProvider.viewControllers
     }
     
     var sideMenuViewController: SideMenuViewController?

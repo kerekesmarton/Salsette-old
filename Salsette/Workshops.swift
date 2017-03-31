@@ -27,6 +27,14 @@ struct WorkshopFeatureLauncher {
     }
 }
 
+class WorkshopViewController: ContentViewController {
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        WorkshopFeatureLauncher.configure(self, with: "Workshops")
+    }
+}
+
 fileprivate struct WorkshopInteractor: ContentInteractorInterface {
     fileprivate let dataSource = WorkshopDataSource()
     fileprivate var title: String

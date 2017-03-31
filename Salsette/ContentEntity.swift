@@ -6,7 +6,17 @@
 //  Copyright © 2017 Marton Kerekes. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+public protocol ContentEntityInterface {
+    var image: UIImage? { get }
+    var organiser: String { get }
+    var name: String { get }
+    var startDate: Date { get }
+    var endDate: Date { get }
+    var location: String { get }
+    var type: EventTypes { get }
+}
 
 public enum EventTypes: String {
     

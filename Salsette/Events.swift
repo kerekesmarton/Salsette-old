@@ -28,6 +28,14 @@ struct EventFeatureLauncher {
     }
 }
 
+class EventViewController: ContentViewController {
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()        
+        EventFeatureLauncher.configure(self, with: "Events")
+    }
+}
+
 fileprivate struct EventInteractor: ContentInteractorInterface {
     fileprivate let dataSource = EventDataSource()
     fileprivate var title: String

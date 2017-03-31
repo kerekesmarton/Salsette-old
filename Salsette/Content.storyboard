@@ -111,7 +111,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Xh-aS-nan" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="759.20000000000005" y="216.34182908545728"/>
+            <point key="canvasLocation" x="740" y="216"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="i7r-02-EmR">

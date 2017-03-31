@@ -1,8 +1,20 @@
 PODS:
+  - Bolts (1.8.4):
+    - Bolts/AppLinks (= 1.8.4)
+    - Bolts/Tasks (= 1.8.4)
+  - Bolts/AppLinks (1.8.4):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.8.4)
   - ChameleonFramework/Default (2.1.0)
   - ChameleonFramework/Swift (2.1.0):
     - ChameleonFramework/Default
   - ColorMatchTabs (2.0.1)
+  - FBSDKCoreKit (4.20.2):
+    - Bolts (~> 1.7)
+  - FBSDKLoginKit (4.20.2):
+    - FBSDKCoreKit
+  - FBSDKShareKit (4.20.2):
+    - FBSDKCoreKit
   - FSCalendar (2.7.3)
   - Presentr (1.1.1)
   - TextFieldEffects (1.3.1)
@@ -10,6 +22,9 @@ PODS:
 DEPENDENCIES:
   - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
   - ColorMatchTabs
+  - FBSDKCoreKit
+  - FBSDKLoginKit
+  - FBSDKShareKit
   - FSCalendar
   - Presentr
   - TextFieldEffects
@@ -24,12 +39,16 @@ CHECKOUT OPTIONS:
     :git: https://github.com/ViccAlexander/Chameleon.git
 
 SPEC CHECKSUMS:
+  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   ColorMatchTabs: f92f9ff526340c9816570ff2ee9abfc6d85d4a2b
+  FBSDKCoreKit: 82eac696eb6157da5f4266c3a241f00e9bd72471
+  FBSDKLoginKit: 2211bede07c83391349eacc1fd86cf6d9289ce38
+  FBSDKShareKit: ca9b22264ea49a896dafb2467c1a4f72aa41996f
   FSCalendar: 574388d70778c22719eed9341653e1743b345573
   Presentr: 389acebf4361e0913d942232d70211e279e38645
   TextFieldEffects: faa47d428ee8eafb781a8413ac4345420d2328c4
 
-PODFILE CHECKSUM: 109970f7c241db7cf85ebe8b53590de764d1ef9c
+PODFILE CHECKSUM: 58e8cef7e795e9bad063e491204ae8803a443754
 
 COCOAPODS: 1.1.1
