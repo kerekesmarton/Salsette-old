@@ -8,30 +8,37 @@
 
 import UIKit
 import FBSDKLoginKit
+import DZNEmptyDataSet
 
 class ProfileFeatureLauncher {
     
     static func configure(_ vc: ProfileViewController) {
-        
-        vc.interactor = ProfileInteractor(with: ProfilePresenter(with: vc))
+        vc.interactor = ProfileInteractor(with: ProfilePresenter(with: vc), fbManager: FBSDKLoginManager())
     }
 }
 
-protocol ProfileView: class {
-    func performSegue(withIdentifier identifier: String)
-}
-
-class ProfileViewController: UIViewController {
-    
+class ProfileViewController: UITableViewController {
+    enum ViewStates {
+        case profilePicture(String)
+        case displayName(String)
+    }
+    @IBOutlet weak var nameLbl: UILabel!
+    @IBOutlet weak var profilePictureView: FBSDKProfilePictureView!
+    @IBOutlet var loginBtn: FBSDKLoginButton!
     var interactor: ProfileInteractor?
     override func awakeFromNib() {
         super.awakeFromNib()
         ProfileFeatureLauncher.configure(self)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         interactor?.viewReady()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        interactor?.cancel()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -39,40 +46,93 @@ class ProfileViewController: UIViewController {
             //
         }
     }
-}
-
-extension ProfileViewController: ProfileView {
- 
+    
+    @IBAction func loginTapped(_ sender: Any) {
+        interactor?.login(with: self)
+    }
+    
+    func set(viewState: ViewStates) {
+        switch viewState {
+        case .profilePicture(let pictureIdentifier):
+            profilePictureView.profileID = pictureIdentifier
+        case .displayName(let displayName):
+            nameLbl.text = displayName
+        default:
+            ()
+        }
+    }
+    
     func performSegue(withIdentifier identifier: String) {
         performSegue(withIdentifier: identifier, sender: self)
     }
 }
 
 class ProfileInteractor {
-    var presenter: ProfilePresenter
-    
-    init(with presenter: ProfilePresenter) {
+    private var presenter: ProfilePresenter
+    private var fbManager: FBSDKLoginManager
+    private var connection: FBSDKGraphRequestConnection?
+    init(with presenter: ProfilePresenter, fbManager: FBSDKLoginManager) {
         self.presenter = presenter
+        self.fbManager = fbManager
     }
     
     func viewReady() {
-        if FBSDKAccessToken.current() == nil {
-            DispatchQueue.main.async { [weak self] in
-                self?.presenter.presentLogin()
+        if FBSDKAccessToken.current() != nil {
+            presenter.setupProfile(pictureId: "me")
+            fetchMe()
+        }
+    }
+    
+    func cancel() {
+    }
+    
+    func login(with vc: UIViewController) {
+        fbManager.logIn(withReadPermissions: ["public_profile", "email", "user_friends"], from: vc) { (result, error) in
+            if let  error = error {
+                print(error)
+            } else if let canceled = result?.isCancelled {
+                print("login cancelled: \(canceled)")
+            } else {
+                print("good")
             }
         }
     }
+    private func fetchMe() {
+        let meRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
+        if let existingConnection = connection {
+            existingConnection.cancel()
+        }
+        connection = meRequest?.start(completionHandler: { [weak self] (connection, result, error) in
+            guard let error = error else {
+                self?.parse(me: result ?? [:])
+                return
+            }
+            print(error)
+        })
+    }
+    
+    func parse(me: Any) {
+        guard let result = me as? [String: Any], let name = result["name"] as? String else {
+            return
+        }
+        presenter.setupProfile(name: name)
+    }
+    
 }
 
 class ProfilePresenter {
-    weak var view: ProfileView?
+    private weak var view: ProfileViewController?
     
-    init(with view: ProfileView) {
+    init(with view: ProfileViewController) {
         self.view = view
     }
     
-    func presentLogin() {
-        view?.performSegue(withIdentifier: ProfileSegues.login)
+    func setupProfile(pictureId: String) {
+        view?.set(viewState: .profilePicture("me"))
+    }
+    
+    func setupProfile(name: String) {
+        view?.set(viewState: .displayName(name))
     }
 }
 

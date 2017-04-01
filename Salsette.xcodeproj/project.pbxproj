@@ -30,7 +30,6 @@
 		106306B41E8CE3BF0089DA00 /* ContentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306B31E8CE3BF0089DA00 /* ContentEntity.swift */; };
 		106306B71E8E75C60089DA00 /* AppDelegate+Facebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306B61E8E75C60089DA00 /* AppDelegate+Facebook.swift */; };
 		106306BC1E8E99600089DA00 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306BB1E8E99600089DA00 /* Profile.swift */; };
-		106306C01E8EA0670089DA00 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306BF1E8EA0670089DA00 /* Login.swift */; };
 		10855A911E7FBFB9005B8E24 /* Workshops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10855A901E7FBFB9005B8E24 /* Workshops.swift */; };
 		1089BF821E708553006E091A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF811E708553006E091A /* AppDelegate.swift */; };
 		1089BF841E708553006E091A /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF831E708553006E091A /* Search.swift */; };
@@ -82,7 +81,6 @@
 		106306B31E8CE3BF0089DA00 /* ContentEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentEntity.swift; sourceTree = "<group>"; };
 		106306B61E8E75C60089DA00 /* AppDelegate+Facebook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Facebook.swift"; sourceTree = "<group>"; };
 		106306BB1E8E99600089DA00 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
-		106306BF1E8EA0670089DA00 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		10855A901E7FBFB9005B8E24 /* Workshops.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Workshops.swift; sourceTree = "<group>"; };
 		1089BF7E1E708553006E091A /* Salsette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Salsette.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1089BF811E708553006E091A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +93,7 @@
 		1089BF961E708553006E091A /* SalsetteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalsetteTests.swift; sourceTree = "<group>"; };
 		1089BF981E708553006E091A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		10964C441E82E66300CDFE3F /* Events.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
+		109AFB581E8F98B500E424F6 /* Salsette.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Salsette.entitlements; sourceTree = "<group>"; };
 		10B9AF751E7DA2900033A6BF /* UImage+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UImage+Additions.swift"; sourceTree = "<group>"; };
 		10B9AF771E7E96870033A6BF /* CGSize+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Additions.swift"; sourceTree = "<group>"; };
 		10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Functions.swift"; sourceTree = "<group>"; };
@@ -218,7 +217,6 @@
 			isa = PBXGroup;
 			children = (
 				106306BB1E8E99600089DA00 /* Profile.swift */,
-				106306BF1E8EA0670089DA00 /* Login.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -255,6 +253,7 @@
 				1089BF881E708553006E091A /* Assets.xcassets */,
 				1089BF8A1E708553006E091A /* LaunchScreen.storyboard */,
 				1089BF8D1E708553006E091A /* Info.plist */,
+				109AFB581E8F98B500E424F6 /* Salsette.entitlements */,
 				1033E5551E79C2C4002D1615 /* Objc-Bridge-Header.h */,
 			);
 			path = Salsette;
@@ -341,6 +340,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = HQQ63777MM;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					1089BF911E708553006E091A = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -463,7 +467,6 @@
 				1033E53A1E75AA11002D1615 /* ControllersProvider.swift in Sources */,
 				106306B41E8CE3BF0089DA00 /* ContentEntity.swift in Sources */,
 				10B9AF781E7E96870033A6BF /* CGSize+Additions.swift in Sources */,
-				106306C01E8EA0670089DA00 /* Login.swift in Sources */,
 				1089BF841E708553006E091A /* Search.swift in Sources */,
 				1089BF821E708553006E091A /* AppDelegate.swift in Sources */,
 				10964C451E82E66300CDFE3F /* Events.swift in Sources */,
@@ -612,6 +615,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Salsette/Salsette.entitlements;
 				DEVELOPMENT_TEAM = HQQ63777MM;
 				INFOPLIST_FILE = Salsette/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -627,6 +631,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Salsette/Salsette.entitlements;
 				DEVELOPMENT_TEAM = HQQ63777MM;
 				INFOPLIST_FILE = Salsette/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

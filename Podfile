@@ -11,7 +11,7 @@ target 'Salsette' do
     pod 'ColorMatchTabs'
     #pod 'Firebase/Core'
     #pod 'Firebase/Database'
-    #pod 'DZNEmptyDataSet'
+    pod 'DZNEmptyDataSet'
     pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
     pod 'TextFieldEffects'
     #pod 'PermissionScope'
