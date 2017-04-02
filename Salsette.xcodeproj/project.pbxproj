@@ -38,6 +38,8 @@
 		1089BF8C1E708553006E091A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1089BF8A1E708553006E091A /* LaunchScreen.storyboard */; };
 		1089BF971E708553006E091A /* SalsetteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF961E708553006E091A /* SalsetteTests.swift */; };
 		10964C451E82E66300CDFE3F /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10964C441E82E66300CDFE3F /* Events.swift */; };
+		109AFB5A1E90191400E424F6 /* CreateEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109AFB591E90191400E424F6 /* CreateEvents.swift */; };
+		109AFB5C1E902EA700E424F6 /* Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109AFB5B1E902EA700E424F6 /* Permissions.swift */; };
 		10B9AF761E7DA2900033A6BF /* UImage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B9AF751E7DA2900033A6BF /* UImage+Additions.swift */; };
 		10B9AF781E7E96870033A6BF /* CGSize+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B9AF771E7E96870033A6BF /* CGSize+Additions.swift */; };
 		10D733431E728E7600F47A52 /* UIStoryboard+Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */; };
@@ -94,6 +96,8 @@
 		1089BF981E708553006E091A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		10964C441E82E66300CDFE3F /* Events.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		109AFB581E8F98B500E424F6 /* Salsette.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Salsette.entitlements; sourceTree = "<group>"; };
+		109AFB591E90191400E424F6 /* CreateEvents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEvents.swift; sourceTree = "<group>"; };
+		109AFB5B1E902EA700E424F6 /* Permissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Permissions.swift; sourceTree = "<group>"; };
 		10B9AF751E7DA2900033A6BF /* UImage+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UImage+Additions.swift"; sourceTree = "<group>"; };
 		10B9AF771E7E96870033A6BF /* CGSize+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Additions.swift"; sourceTree = "<group>"; };
 		10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Functions.swift"; sourceTree = "<group>"; };
@@ -149,7 +153,6 @@
 				1033E52E1E75A9DF002D1615 /* MenuViewContoller.swift */,
 				1033E54C1E75C5BB002D1615 /* SideMenuViewController.swift */,
 				1033E52D1E75A9DF002D1615 /* AddPopoverViewController.swift */,
-				1033E54A1E75AB21002D1615 /* Main.storyboard */,
 				1033E53D1E75AA23002D1615 /* ExampleTableViewCell.swift */,
 				1033E53E1E75AA23002D1615 /* ExampleTableViewCell.xib */,
 			);
@@ -217,6 +220,8 @@
 			isa = PBXGroup;
 			children = (
 				106306BB1E8E99600089DA00 /* Profile.swift */,
+				109AFB591E90191400E424F6 /* CreateEvents.swift */,
+				109AFB5B1E902EA700E424F6 /* Permissions.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -247,6 +252,7 @@
 				1033E54E1E75C7A0002D1615 /* Extensions */,
 				1089BF811E708553006E091A /* AppDelegate.swift */,
 				106306B61E8E75C60089DA00 /* AppDelegate+Facebook.swift */,
+				1033E54A1E75AB21002D1615 /* Main.storyboard */,
 				106306BA1E8E96740089DA00 /* Profile */,
 				1033E55A1E7A77AD002D1615 /* Salsette */,
 				1033E5331E75A9E3002D1615 /* Menu */,
@@ -458,6 +464,7 @@
 				106306BC1E8E99600089DA00 /* Profile.swift in Sources */,
 				10B9AF761E7DA2900033A6BF /* UImage+Additions.swift in Sources */,
 				10D733431E728E7600F47A52 /* UIStoryboard+Functions.swift in Sources */,
+				109AFB5A1E90191400E424F6 /* CreateEvents.swift in Sources */,
 				1033E54D1E75C5BB002D1615 /* SideMenuViewController.swift in Sources */,
 				1033E5521E75C7AA002D1615 /* UINavigationBar+Flat.swift in Sources */,
 				1033E52B1E7589BA002D1615 /* Calendar.swift in Sources */,
@@ -471,6 +478,7 @@
 				1089BF821E708553006E091A /* AppDelegate.swift in Sources */,
 				10964C451E82E66300CDFE3F /* Events.swift in Sources */,
 				1033E5591E7A77A8002D1615 /* ContentViewController.swift in Sources */,
+				109AFB5C1E902EA700E424F6 /* Permissions.swift in Sources */,
 				106306B71E8E75C60089DA00 /* AppDelegate+Facebook.swift in Sources */,
 				1033E5441E75AAB3002D1615 /* UIFont+Zeplin.swift in Sources */,
 				1033E53F1E75AA23002D1615 /* ExampleTableViewCell.swift in Sources */,

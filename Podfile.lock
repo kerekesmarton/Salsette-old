@@ -8,6 +8,7 @@ PODS:
   - ChameleonFramework/Default (2.1.0)
   - ChameleonFramework/Swift (2.1.0):
     - ChameleonFramework/Default
+  - CircleMenu (2.0.1)
   - ColorMatchTabs (2.0.1)
   - DZNEmptyDataSet (1.8.1)
   - FBSDKCoreKit (4.20.2):
@@ -22,6 +23,7 @@ PODS:
 
 DEPENDENCIES:
   - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
+  - CircleMenu (~> 2.0.1)
   - ColorMatchTabs
   - DZNEmptyDataSet
   - FBSDKCoreKit
@@ -43,6 +45,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
+  CircleMenu: a964e8b03aae58c84b40d5cf64630b62bef077eb
   ColorMatchTabs: f92f9ff526340c9816570ff2ee9abfc6d85d4a2b
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   FBSDKCoreKit: 82eac696eb6157da5f4266c3a241f00e9bd72471
@@ -52,6 +55,6 @@ SPEC CHECKSUMS:
   Presentr: 389acebf4361e0913d942232d70211e279e38645
   TextFieldEffects: faa47d428ee8eafb781a8413ac4345420d2328c4
 
-PODFILE CHECKSUM: c0f517a2eee5574714724efb6cae38dd9e814493
+PODFILE CHECKSUM: 51a6f8be1ac510f490578295dfcf03524eac3d87
 
 COCOAPODS: 1.1.1

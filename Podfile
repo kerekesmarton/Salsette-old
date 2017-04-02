@@ -9,8 +9,6 @@ use_frameworks!
 target 'Salsette' do
     project 'Salsette.xcodeproj'
     pod 'ColorMatchTabs'
-    #pod 'Firebase/Core'
-    #pod 'Firebase/Database'
     pod 'DZNEmptyDataSet'
     pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
     pod 'TextFieldEffects'
@@ -21,4 +19,5 @@ target 'Salsette' do
     pod 'FBSDKCoreKit'
     pod 'FBSDKLoginKit'
     pod 'FBSDKShareKit'
+    pod 'CircleMenu', '~> 2.0.1'
 end
