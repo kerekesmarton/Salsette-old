@@ -16,7 +16,7 @@ class PermissionManager {
     }
     private var loginManager: FBSDKLoginManager
     
-    static let sharedInstance: PermissionManager = PermissionManager()
+    static let shared: PermissionManager = PermissionManager()
     
     func askFor(permissions: [String], from vc: UIViewController, completion:@escaping (Bool, Error?)->Void) {
         

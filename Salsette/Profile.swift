@@ -8,12 +8,11 @@
 
 import UIKit
 import FBSDKLoginKit
-import CircleMenu
 
 class ProfileFeatureLauncher {
     
     static func configure(_ vc: ProfileViewController) {
-        vc.interactor = ProfileInteractor(with: vc, manager: PermissionManager.sharedInstance)
+        vc.interactor = ProfileInteractor(with: vc, manager: PermissionManager.shared)
     }
 }
 
@@ -36,6 +35,7 @@ class ProfileViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         loginBtn.delegate = self
+        loginBtn.readPermissions = ["public_profile", "email", "user_friends"]
         interactor?.viewReady()
     }
     
@@ -48,10 +48,6 @@ class ProfileViewController: UITableViewController {
         if segue.identifier == ProfileSegues.login {
             //
         }
-    }
-    
-    @IBAction func loginTapped(_ sender: Any) {
-        interactor?.login(with: self)
     }
     
     func set(viewState: ViewStates) {
@@ -110,16 +106,8 @@ class ProfileInteractor {
         }
     }
     
-    func login(with vc: UIViewController) {        
-        permissionManager.askFor(permissions: ["public_profile", "email", "user_friends"], from: vc, completion: { (result, error) in
-            if let  error = error {
-                print(error)
-            }
-        })
-    }
-    
     private func fetchMe() {
-        let meRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
+        let meRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"name"])
         cancel()
         connection = FBSDKGraphRequestConnection()
         connection?.add(meRequest, completionHandler: { [weak self] (connection, result, error) in
@@ -134,12 +122,10 @@ class ProfileInteractor {
     }
     
     func parse(me: Any) {
-        guard let result = me as? [String: Any], let name = result["name"] as? String else {
-            return
+        if let name = JSON(me)["name"].string {
+            view?.set(viewState: .displayName(name))
         }
-        view?.set(viewState: .displayName(name))
     }
-    
 }
 
 enum ProfileSegues {

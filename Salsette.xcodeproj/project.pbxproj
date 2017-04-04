@@ -30,6 +30,11 @@
 		106306B41E8CE3BF0089DA00 /* ContentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306B31E8CE3BF0089DA00 /* ContentEntity.swift */; };
 		106306B71E8E75C60089DA00 /* AppDelegate+Facebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306B61E8E75C60089DA00 /* AppDelegate+Facebook.swift */; };
 		106306BC1E8E99600089DA00 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306BB1E8E99600089DA00 /* Profile.swift */; };
+		106EAF3B1E92DFA8004686B5 /* DateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF3A1E92DFA8004686B5 /* DateFormatters.swift */; };
+		106EAF3E1E92E3B1004686B5 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF3D1E92E3B1004686B5 /* ImageDownloader.swift */; };
+		106EAF401E93200D004686B5 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF3F1E93200D004686B5 /* SwiftyJSON.swift */; };
+		106EAF441E94333E004686B5 /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 106EAF431E94333D004686B5 /* Auth0.plist */; };
+		106EAF461E9435FE004686B5 /* Autho.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF451E9435FE004686B5 /* Autho.swift */; };
 		10855A911E7FBFB9005B8E24 /* Workshops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10855A901E7FBFB9005B8E24 /* Workshops.swift */; };
 		1089BF821E708553006E091A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF811E708553006E091A /* AppDelegate.swift */; };
 		1089BF841E708553006E091A /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF831E708553006E091A /* Search.swift */; };
@@ -83,6 +88,11 @@
 		106306B31E8CE3BF0089DA00 /* ContentEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentEntity.swift; sourceTree = "<group>"; };
 		106306B61E8E75C60089DA00 /* AppDelegate+Facebook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Facebook.swift"; sourceTree = "<group>"; };
 		106306BB1E8E99600089DA00 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		106EAF3A1E92DFA8004686B5 /* DateFormatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatters.swift; sourceTree = "<group>"; };
+		106EAF3D1E92E3B1004686B5 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
+		106EAF3F1E93200D004686B5 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		106EAF431E94333D004686B5 /* Auth0.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
+		106EAF451E9435FE004686B5 /* Autho.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Autho.swift; sourceTree = "<group>"; };
 		10855A901E7FBFB9005B8E24 /* Workshops.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Workshops.swift; sourceTree = "<group>"; };
 		1089BF7E1E708553006E091A /* Salsette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Salsette.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1089BF811E708553006E091A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -191,6 +201,8 @@
 				10B9AF751E7DA2900033A6BF /* UImage+Additions.swift */,
 				10B9AF771E7E96870033A6BF /* CGSize+Additions.swift */,
 				10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */,
+				106EAF3A1E92DFA8004686B5 /* DateFormatters.swift */,
+				106EAF3F1E93200D004686B5 /* SwiftyJSON.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -220,10 +232,19 @@
 			isa = PBXGroup;
 			children = (
 				106306BB1E8E99600089DA00 /* Profile.swift */,
+				106EAF451E9435FE004686B5 /* Autho.swift */,
 				109AFB591E90191400E424F6 /* CreateEvents.swift */,
-				109AFB5B1E902EA700E424F6 /* Permissions.swift */,
 			);
 			name = Profile;
+			sourceTree = "<group>";
+		};
+		106EAF3C1E92E394004686B5 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				109AFB5B1E902EA700E424F6 /* Permissions.swift */,
+				106EAF3D1E92E3B1004686B5 /* ImageDownloader.swift */,
+			);
+			name = Shared;
 			sourceTree = "<group>";
 		};
 		1089BF751E708553006E091A = {
@@ -253,12 +274,14 @@
 				1089BF811E708553006E091A /* AppDelegate.swift */,
 				106306B61E8E75C60089DA00 /* AppDelegate+Facebook.swift */,
 				1033E54A1E75AB21002D1615 /* Main.storyboard */,
+				106EAF3C1E92E394004686B5 /* Shared */,
 				106306BA1E8E96740089DA00 /* Profile */,
 				1033E55A1E7A77AD002D1615 /* Salsette */,
 				1033E5331E75A9E3002D1615 /* Menu */,
 				1089BF881E708553006E091A /* Assets.xcassets */,
 				1089BF8A1E708553006E091A /* LaunchScreen.storyboard */,
 				1089BF8D1E708553006E091A /* Info.plist */,
+				106EAF431E94333D004686B5 /* Auth0.plist */,
 				109AFB581E8F98B500E424F6 /* Salsette.entitlements */,
 				1033E5551E79C2C4002D1615 /* Objc-Bridge-Header.h */,
 			);
@@ -389,6 +412,7 @@
 				1033E5401E75AA23002D1615 /* ExampleTableViewCell.xib in Resources */,
 				1089BF891E708553006E091A /* Assets.xcassets in Resources */,
 				1033E55C1E7A78E7002D1615 /* Content.storyboard in Resources */,
+				106EAF441E94333E004686B5 /* Auth0.plist in Resources */,
 				1089BF871E708553006E091A /* Search.storyboard in Resources */,
 				1033E5421E75AA8E002D1615 /* MenuAssets.xcassets in Resources */,
 				106306AE1E8B951C0089DA00 /* Calendar.xib in Resources */,
@@ -472,8 +496,12 @@
 				1033E5301E75A9DF002D1615 /* AddPopoverViewController.swift in Sources */,
 				1033E5531E75C7AA002D1615 /* UIFont+Avenir.swift in Sources */,
 				1033E53A1E75AA11002D1615 /* ControllersProvider.swift in Sources */,
+				106EAF461E9435FE004686B5 /* Autho.swift in Sources */,
 				106306B41E8CE3BF0089DA00 /* ContentEntity.swift in Sources */,
+				106EAF401E93200D004686B5 /* SwiftyJSON.swift in Sources */,
 				10B9AF781E7E96870033A6BF /* CGSize+Additions.swift in Sources */,
+				106EAF3E1E92E3B1004686B5 /* ImageDownloader.swift in Sources */,
+				106EAF3B1E92DFA8004686B5 /* DateFormatters.swift in Sources */,
 				1089BF841E708553006E091A /* Search.swift in Sources */,
 				1089BF821E708553006E091A /* AppDelegate.swift in Sources */,
 				10964C451E82E66300CDFE3F /* Events.swift in Sources */,

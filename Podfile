@@ -19,5 +19,6 @@ target 'Salsette' do
     pod 'FBSDKCoreKit'
     pod 'FBSDKLoginKit'
     pod 'FBSDKShareKit'
-    pod 'CircleMenu', '~> 2.0.1'
+#    pod 'CircleMenu', '~> 2.0.1'
+    pod 'Lock', '~> 2.1.0'
 end

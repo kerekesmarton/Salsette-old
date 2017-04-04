@@ -84,28 +84,30 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "$BUILT_PRODUCTS_DIR/Auth0/Auth0.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Bolts/Bolts.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ChameleonFramework/ChameleonFramework.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/CircleMenu/CircleMenu.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ColorMatchTabs/ColorMatchTabs.framework"
   install_framework "$BUILT_PRODUCTS_DIR/DZNEmptyDataSet/DZNEmptyDataSet.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKCoreKit/FBSDKCoreKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKLoginKit/FBSDKLoginKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKShareKit/FBSDKShareKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FSCalendar/FSCalendar.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Lock/Lock.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Presentr/Presentr.framework"
   install_framework "$BUILT_PRODUCTS_DIR/TextFieldEffects/TextFieldEffects.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "$BUILT_PRODUCTS_DIR/Auth0/Auth0.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Bolts/Bolts.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ChameleonFramework/ChameleonFramework.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/CircleMenu/CircleMenu.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ColorMatchTabs/ColorMatchTabs.framework"
   install_framework "$BUILT_PRODUCTS_DIR/DZNEmptyDataSet/DZNEmptyDataSet.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKCoreKit/FBSDKCoreKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKLoginKit/FBSDKLoginKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKShareKit/FBSDKShareKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FSCalendar/FSCalendar.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Lock/Lock.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Presentr/Presentr.framework"
   install_framework "$BUILT_PRODUCTS_DIR/TextFieldEffects/TextFieldEffects.framework"
 fi

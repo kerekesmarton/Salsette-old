@@ -9,6 +9,7 @@
 import Foundation
 import FBSDKCoreKit
 import FBSDKLoginKit
+import Lock
 
 
 extension AppDelegate {

@@ -21,7 +21,7 @@ public extension UIImage {
         return image!.resizableImage(withCapInsets: UIEdgeInsets(top: cornerRadius, left: cornerRadius, bottom: cornerRadius, right: cornerRadius))
     }
 
-    func scale(to goalSize: CGSize) -> UIImage {
+    private func scale(to goalSize: CGSize) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(goalSize, true, 1.0)
         self.draw(in: CGRect(origin: .zero, size: goalSize))
         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
