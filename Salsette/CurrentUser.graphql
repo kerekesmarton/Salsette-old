@@ -1,0 +1,17 @@
+query CurrentUser {
+    user {
+        createdAt
+    }
+}
+
+mutation CreateUser($idToken: String!){
+    createUser(authProvider: {
+        auth0: {
+            idToken: $idToken
+        }
+
+    })
+    {
+        id
+    }
+}

@@ -1,3 +1,0 @@
-type User {
-    auth0UserId
-}

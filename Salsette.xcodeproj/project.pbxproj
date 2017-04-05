@@ -34,10 +34,10 @@
 		106EAF3E1E92E3B1004686B5 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF3D1E92E3B1004686B5 /* ImageDownloader.swift */; };
 		106EAF401E93200D004686B5 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF3F1E93200D004686B5 /* SwiftyJSON.swift */; };
 		106EAF441E94333E004686B5 /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 106EAF431E94333D004686B5 /* Auth0.plist */; };
-		106EAF461E9435FE004686B5 /* Autho.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF451E9435FE004686B5 /* Autho.swift */; };
+		106EAF461E9435FE004686B5 /* AuthoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF451E9435FE004686B5 /* AuthoViewController.swift */; };
 		106EB0261E946343004686B5 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 106EB0251E946343004686B5 /* schema.json */; };
 		106EB0281E94636E004686B5 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EB0271E94636E004686B5 /* API.swift */; };
-		106EB02C1E94661A004686B5 /* User.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 106EB02B1E94661A004686B5 /* User.graphql */; };
+		106EB02C1E94661A004686B5 /* CurrentUser.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 106EB02B1E94661A004686B5 /* CurrentUser.graphql */; };
 		10855A911E7FBFB9005B8E24 /* Workshops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10855A901E7FBFB9005B8E24 /* Workshops.swift */; };
 		1089BF821E708553006E091A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF811E708553006E091A /* AppDelegate.swift */; };
 		1089BF841E708553006E091A /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF831E708553006E091A /* Search.swift */; };
@@ -95,10 +95,10 @@
 		106EAF3D1E92E3B1004686B5 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		106EAF3F1E93200D004686B5 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		106EAF431E94333D004686B5 /* Auth0.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
-		106EAF451E9435FE004686B5 /* Autho.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Autho.swift; sourceTree = "<group>"; };
+		106EAF451E9435FE004686B5 /* AuthoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthoViewController.swift; sourceTree = "<group>"; };
 		106EB0251E946343004686B5 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		106EB0271E94636E004686B5 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
-		106EB02B1E94661A004686B5 /* User.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = User.graphql; sourceTree = "<group>"; };
+		106EB02B1E94661A004686B5 /* CurrentUser.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CurrentUser.graphql; sourceTree = "<group>"; };
 		10855A901E7FBFB9005B8E24 /* Workshops.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Workshops.swift; sourceTree = "<group>"; };
 		1089BF7E1E708553006E091A /* Salsette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Salsette.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1089BF811E708553006E091A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -238,7 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				106306BB1E8E99600089DA00 /* Profile.swift */,
-				106EAF451E9435FE004686B5 /* Autho.swift */,
+				FB08BD021E94EE6000686193 /* Sign In */,
 				109AFB591E90191400E424F6 /* CreateEvents.swift */,
 			);
 			name = Profile;
@@ -282,7 +282,6 @@
 				1033E54A1E75AB21002D1615 /* Main.storyboard */,
 				106EAF3C1E92E394004686B5 /* Shared */,
 				106EB0271E94636E004686B5 /* API.swift */,
-				106EB02B1E94661A004686B5 /* User.graphql */,
 				106306BA1E8E96740089DA00 /* Profile */,
 				1033E55A1E7A77AD002D1615 /* Salsette */,
 				1033E5331E75A9E3002D1615 /* Menu */,
@@ -323,6 +322,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FB08BD021E94EE6000686193 /* Sign In */ = {
+			isa = PBXGroup;
+			children = (
+				106EAF451E9435FE004686B5 /* AuthoViewController.swift */,
+				106EB02B1E94661A004686B5 /* CurrentUser.graphql */,
+			);
+			name = "Sign In";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -330,8 +338,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1089BF9B1E708554006E091A /* Build configuration list for PBXNativeTarget "Salsette" */;
 			buildPhases = (
-				106EB0201E945144004686B5 /* Generate Apollo GraphQL API */,
 				686C8561308FB2E9E6F4CA7B /* [CP] Check Pods Manifest.lock */,
+				106EB0201E945144004686B5 /* Generate Apollo GraphQL API */,
 				1089BF7A1E708553006E091A /* Sources */,
 				1089BF7B1E708553006E091A /* Frameworks */,
 				1089BF7C1E708553006E091A /* Resources */,
@@ -422,7 +430,7 @@
 				1033E5401E75AA23002D1615 /* ExampleTableViewCell.xib in Resources */,
 				1089BF891E708553006E091A /* Assets.xcassets in Resources */,
 				106EB0261E946343004686B5 /* schema.json in Resources */,
-				106EB02C1E94661A004686B5 /* User.graphql in Resources */,
+				106EB02C1E94661A004686B5 /* CurrentUser.graphql in Resources */,
 				1033E55C1E7A78E7002D1615 /* Content.storyboard in Resources */,
 				106EAF441E94333E004686B5 /* Auth0.plist in Resources */,
 				1089BF871E708553006E091A /* Search.storyboard in Resources */,
@@ -523,7 +531,7 @@
 				1033E5301E75A9DF002D1615 /* AddPopoverViewController.swift in Sources */,
 				1033E5531E75C7AA002D1615 /* UIFont+Avenir.swift in Sources */,
 				1033E53A1E75AA11002D1615 /* ControllersProvider.swift in Sources */,
-				106EAF461E9435FE004686B5 /* Autho.swift in Sources */,
+				106EAF461E9435FE004686B5 /* AuthoViewController.swift in Sources */,
 				106306B41E8CE3BF0089DA00 /* ContentEntity.swift in Sources */,
 				106EAF401E93200D004686B5 /* SwiftyJSON.swift in Sources */,
 				10B9AF781E7E96870033A6BF /* CGSize+Additions.swift in Sources */,
