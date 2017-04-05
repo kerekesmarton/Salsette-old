@@ -1,4 +1,5 @@
 PODS:
+  - Apollo (0.5.6)
   - Auth0 (1.4.0)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
@@ -27,6 +28,7 @@ PODS:
   - TextFieldEffects (1.3.1)
 
 DEPENDENCIES:
+  - Apollo
   - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
   - ColorMatchTabs
   - DZNEmptyDataSet
@@ -48,6 +50,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/ViccAlexander/Chameleon.git
 
 SPEC CHECKSUMS:
+  Apollo: 124ddbbca48acca75fd5f9ec5045454cb410bb31
   Auth0: 0bb3b5708fbdb732b95c7143d5b383ae92c89442
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
@@ -61,6 +64,6 @@ SPEC CHECKSUMS:
   Presentr: 389acebf4361e0913d942232d70211e279e38645
   TextFieldEffects: faa47d428ee8eafb781a8413ac4345420d2328c4
 
-PODFILE CHECKSUM: 969bc332680c8f842a3a45e33f33f1b36fa12875
+PODFILE CHECKSUM: 4b3b22c3c0f9dc21a6c3545c9fc6ae83e5bf4f92
 
 COCOAPODS: 1.1.1

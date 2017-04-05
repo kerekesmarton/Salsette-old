@@ -35,6 +35,9 @@
 		106EAF401E93200D004686B5 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF3F1E93200D004686B5 /* SwiftyJSON.swift */; };
 		106EAF441E94333E004686B5 /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 106EAF431E94333D004686B5 /* Auth0.plist */; };
 		106EAF461E9435FE004686B5 /* Autho.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF451E9435FE004686B5 /* Autho.swift */; };
+		106EB0261E946343004686B5 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 106EB0251E946343004686B5 /* schema.json */; };
+		106EB0281E94636E004686B5 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EB0271E94636E004686B5 /* API.swift */; };
+		106EB02C1E94661A004686B5 /* User.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 106EB02B1E94661A004686B5 /* User.graphql */; };
 		10855A911E7FBFB9005B8E24 /* Workshops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10855A901E7FBFB9005B8E24 /* Workshops.swift */; };
 		1089BF821E708553006E091A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF811E708553006E091A /* AppDelegate.swift */; };
 		1089BF841E708553006E091A /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF831E708553006E091A /* Search.swift */; };
@@ -93,6 +96,9 @@
 		106EAF3F1E93200D004686B5 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		106EAF431E94333D004686B5 /* Auth0.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
 		106EAF451E9435FE004686B5 /* Autho.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Autho.swift; sourceTree = "<group>"; };
+		106EB0251E946343004686B5 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
+		106EB0271E94636E004686B5 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		106EB02B1E94661A004686B5 /* User.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = User.graphql; sourceTree = "<group>"; };
 		10855A901E7FBFB9005B8E24 /* Workshops.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Workshops.swift; sourceTree = "<group>"; };
 		1089BF7E1E708553006E091A /* Salsette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Salsette.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1089BF811E708553006E091A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -275,11 +281,14 @@
 				106306B61E8E75C60089DA00 /* AppDelegate+Facebook.swift */,
 				1033E54A1E75AB21002D1615 /* Main.storyboard */,
 				106EAF3C1E92E394004686B5 /* Shared */,
+				106EB0271E94636E004686B5 /* API.swift */,
+				106EB02B1E94661A004686B5 /* User.graphql */,
 				106306BA1E8E96740089DA00 /* Profile */,
 				1033E55A1E7A77AD002D1615 /* Salsette */,
 				1033E5331E75A9E3002D1615 /* Menu */,
 				1089BF881E708553006E091A /* Assets.xcassets */,
 				1089BF8A1E708553006E091A /* LaunchScreen.storyboard */,
+				106EB0251E946343004686B5 /* schema.json */,
 				1089BF8D1E708553006E091A /* Info.plist */,
 				106EAF431E94333D004686B5 /* Auth0.plist */,
 				109AFB581E8F98B500E424F6 /* Salsette.entitlements */,
@@ -321,6 +330,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1089BF9B1E708554006E091A /* Build configuration list for PBXNativeTarget "Salsette" */;
 			buildPhases = (
+				106EB0201E945144004686B5 /* Generate Apollo GraphQL API */,
 				686C8561308FB2E9E6F4CA7B /* [CP] Check Pods Manifest.lock */,
 				1089BF7A1E708553006E091A /* Sources */,
 				1089BF7B1E708553006E091A /* Frameworks */,
@@ -411,6 +421,8 @@
 				1089BF8C1E708553006E091A /* LaunchScreen.storyboard in Resources */,
 				1033E5401E75AA23002D1615 /* ExampleTableViewCell.xib in Resources */,
 				1089BF891E708553006E091A /* Assets.xcassets in Resources */,
+				106EB0261E946343004686B5 /* schema.json in Resources */,
+				106EB02C1E94661A004686B5 /* User.graphql in Resources */,
 				1033E55C1E7A78E7002D1615 /* Content.storyboard in Resources */,
 				106EAF441E94333E004686B5 /* Auth0.plist in Resources */,
 				1089BF871E708553006E091A /* Search.storyboard in Resources */,
@@ -430,6 +442,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		106EB0201E945144004686B5 /* Generate Apollo GraphQL API */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Apollo GraphQL API";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\ncd \"${SRCROOT}/${TARGET_NAME}\"\n\necho \"++++\"\necho | find . -name '*.graphql'\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-codegen.sh generate $(find . -name '*.graphql') --schema schema.json --output API.swift";
+		};
 		686C8561308FB2E9E6F4CA7B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -486,6 +512,7 @@
 				1033E5311E75A9DF002D1615 /* MenuViewContoller.swift in Sources */,
 				1033E5541E75C7AA002D1615 /* String+Additions.swift in Sources */,
 				106306BC1E8E99600089DA00 /* Profile.swift in Sources */,
+				106EB0281E94636E004686B5 /* API.swift in Sources */,
 				10B9AF761E7DA2900033A6BF /* UImage+Additions.swift in Sources */,
 				10D733431E728E7600F47A52 /* UIStoryboard+Functions.swift in Sources */,
 				109AFB5A1E90191400E424F6 /* CreateEvents.swift in Sources */,
