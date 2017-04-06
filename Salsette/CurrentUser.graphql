@@ -5,7 +5,8 @@ query CurrentUser {
 }
 
 mutation CreateUser($idToken: String!){
-    createUser(authProvider: {
+    createUser(authProvider:
+    {
         auth0: {
             idToken: $idToken
         }
@@ -13,5 +14,15 @@ mutation CreateUser($idToken: String!){
     })
     {
         id
+    }
+}
+
+mutation SingInUser($idToken: String!){
+    signinUser(auth0:
+    {
+        idToken: $idToken
+    })
+    {
+        token
     }
 }

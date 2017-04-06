@@ -69,3 +69,41 @@ public final class CreateUserMutation: GraphQLMutation {
     }
   }
 }
+
+public final class SingInUserMutation: GraphQLMutation {
+  public static let operationDefinition =
+    "mutation SingInUser($idToken: String!) {" +
+    "  signinUser(auth0: {idToken: $idToken}) {" +
+    "    __typename" +
+    "    token" +
+    "  }" +
+    "}"
+
+  public let idToken: String
+
+  public init(idToken: String) {
+    self.idToken = idToken
+  }
+
+  public var variables: GraphQLMap? {
+    return ["idToken": idToken]
+  }
+
+  public struct Data: GraphQLMappable {
+    public let signinUser: SigninUser
+
+    public init(reader: GraphQLResultReader) throws {
+      signinUser = try reader.value(for: Field(responseName: "signinUser", arguments: ["auth0": ["idToken": reader.variables["idToken"]]]))
+    }
+
+    public struct SigninUser: GraphQLMappable {
+      public let __typename: String
+      public let token: String?
+
+      public init(reader: GraphQLResultReader) throws {
+        __typename = try reader.value(for: Field(responseName: "__typename"))
+        token = try reader.optionalValue(for: Field(responseName: "token"))
+      }
+    }
+  }
+}

@@ -34,7 +34,6 @@
 		106EAF3E1E92E3B1004686B5 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF3D1E92E3B1004686B5 /* ImageDownloader.swift */; };
 		106EAF401E93200D004686B5 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF3F1E93200D004686B5 /* SwiftyJSON.swift */; };
 		106EAF441E94333E004686B5 /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 106EAF431E94333D004686B5 /* Auth0.plist */; };
-		106EAF461E9435FE004686B5 /* AuthoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF451E9435FE004686B5 /* AuthoViewController.swift */; };
 		106EB0261E946343004686B5 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 106EB0251E946343004686B5 /* schema.json */; };
 		106EB0281E94636E004686B5 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EB0271E94636E004686B5 /* API.swift */; };
 		106EB02C1E94661A004686B5 /* CurrentUser.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 106EB02B1E94661A004686B5 /* CurrentUser.graphql */; };
@@ -51,6 +50,8 @@
 		10B9AF761E7DA2900033A6BF /* UImage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B9AF751E7DA2900033A6BF /* UImage+Additions.swift */; };
 		10B9AF781E7E96870033A6BF /* CGSize+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B9AF771E7E96870033A6BF /* CGSize+Additions.swift */; };
 		10D733431E728E7600F47A52 /* UIStoryboard+Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */; };
+		FB08BD041E9522EC00686193 /* Salsette.schema in Resources */ = {isa = PBXBuildFile; fileRef = FB08BD031E9522EC00686193 /* Salsette.schema */; };
+		FBF5A9C21E959FA0000CED7A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF5A9C11E959FA0000CED7A /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,7 +96,6 @@
 		106EAF3D1E92E3B1004686B5 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		106EAF3F1E93200D004686B5 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		106EAF431E94333D004686B5 /* Auth0.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
-		106EAF451E9435FE004686B5 /* AuthoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthoViewController.swift; sourceTree = "<group>"; };
 		106EB0251E946343004686B5 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		106EB0271E94636E004686B5 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		106EB02B1E94661A004686B5 /* CurrentUser.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CurrentUser.graphql; sourceTree = "<group>"; };
@@ -120,6 +120,8 @@
 		3116C0615A92BACF892E9C63 /* Pods-Salsette.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Salsette.release.xcconfig"; path = "Pods/Target Support Files/Pods-Salsette/Pods-Salsette.release.xcconfig"; sourceTree = "<group>"; };
 		A26ECBEDA3D5B5A569304D7F /* Pods-Salsette.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Salsette.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Salsette/Pods-Salsette.debug.xcconfig"; sourceTree = "<group>"; };
 		E4A7EBEAF4AC4F4083A3DDE9 /* Pods_Salsette.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Salsette.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB08BD031E9522EC00686193 /* Salsette.schema */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Salsette.schema; sourceTree = "<group>"; };
+		FBF5A9C11E959FA0000CED7A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				109AFB5B1E902EA700E424F6 /* Permissions.swift */,
+				FBF5A9C11E959FA0000CED7A /* User.swift */,
 				106EAF3D1E92E3B1004686B5 /* ImageDownloader.swift */,
 			);
 			name = Shared;
@@ -288,6 +291,7 @@
 				1089BF881E708553006E091A /* Assets.xcassets */,
 				1089BF8A1E708553006E091A /* LaunchScreen.storyboard */,
 				106EB0251E946343004686B5 /* schema.json */,
+				FB08BD031E9522EC00686193 /* Salsette.schema */,
 				1089BF8D1E708553006E091A /* Info.plist */,
 				106EAF431E94333D004686B5 /* Auth0.plist */,
 				109AFB581E8F98B500E424F6 /* Salsette.entitlements */,
@@ -325,7 +329,6 @@
 		FB08BD021E94EE6000686193 /* Sign In */ = {
 			isa = PBXGroup;
 			children = (
-				106EAF451E9435FE004686B5 /* AuthoViewController.swift */,
 				106EB02B1E94661A004686B5 /* CurrentUser.graphql */,
 			);
 			name = "Sign In";
@@ -431,6 +434,7 @@
 				1089BF891E708553006E091A /* Assets.xcassets in Resources */,
 				106EB0261E946343004686B5 /* schema.json in Resources */,
 				106EB02C1E94661A004686B5 /* CurrentUser.graphql in Resources */,
+				FB08BD041E9522EC00686193 /* Salsette.schema in Resources */,
 				1033E55C1E7A78E7002D1615 /* Content.storyboard in Resources */,
 				106EAF441E94333E004686B5 /* Auth0.plist in Resources */,
 				1089BF871E708553006E091A /* Search.storyboard in Resources */,
@@ -524,6 +528,7 @@
 				10B9AF761E7DA2900033A6BF /* UImage+Additions.swift in Sources */,
 				10D733431E728E7600F47A52 /* UIStoryboard+Functions.swift in Sources */,
 				109AFB5A1E90191400E424F6 /* CreateEvents.swift in Sources */,
+				FBF5A9C21E959FA0000CED7A /* User.swift in Sources */,
 				1033E54D1E75C5BB002D1615 /* SideMenuViewController.swift in Sources */,
 				1033E5521E75C7AA002D1615 /* UINavigationBar+Flat.swift in Sources */,
 				1033E52B1E7589BA002D1615 /* Calendar.swift in Sources */,
@@ -531,7 +536,6 @@
 				1033E5301E75A9DF002D1615 /* AddPopoverViewController.swift in Sources */,
 				1033E5531E75C7AA002D1615 /* UIFont+Avenir.swift in Sources */,
 				1033E53A1E75AA11002D1615 /* ControllersProvider.swift in Sources */,
-				106EAF461E9435FE004686B5 /* AuthoViewController.swift in Sources */,
 				106306B41E8CE3BF0089DA00 /* ContentEntity.swift in Sources */,
 				106EAF401E93200D004686B5 /* SwiftyJSON.swift in Sources */,
 				10B9AF781E7E96870033A6BF /* CGSize+Additions.swift in Sources */,
