@@ -13,7 +13,7 @@ import FBSDKCoreKit
 private struct CreateEventFeatureLauncher {
     
     static func configure(viewController: CreateEventViewController) {
-        viewController.interactor = CreateEventInteractor(with: viewController, manager: PermissionManager.shared, downloader: ImageDownloader.shared)
+        viewController.interactor = CreateEventInteractor(with: viewController, manager: FacebookPermissions.shared, downloader: ImageDownloader.shared)
     }
 }
 
@@ -69,17 +69,17 @@ class CreateEventViewController: UITableViewController {
 
 fileprivate class CreateEventInteractor {
     private weak var view: CreateEventViewController?
-    private var permissionManager: PermissionManager?
+    private var facebookPermissions: FacebookPermissions?
     private var connection: FBSDKGraphRequestConnection?
     private var imageDownloader: ImageDownloader?
-    init(with view: CreateEventViewController, manager: PermissionManager, downloader: ImageDownloader) {
+    init(with view: CreateEventViewController, manager: FacebookPermissions, downloader: ImageDownloader) {
         self.view = view
-        self.permissionManager = manager
+        self.facebookPermissions = manager
         self.imageDownloader = downloader
     }
     
     fileprivate func ready() {
-        permissionManager?.askFor(permissions: ["user_events"], from: view!, completion: { [weak self] (result, error) in
+        facebookPermissions?.askFor(permissions: ["user_events"], from: view!, completion: { [weak self] (result, error) in
             if let  error = error {
                 print(error)
             }

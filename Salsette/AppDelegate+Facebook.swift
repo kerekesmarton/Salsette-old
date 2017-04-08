@@ -11,7 +11,6 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import Lock
 
-
 extension AppDelegate {
     
     func fbDidFinishLaunchingapplication(_ application: UIApplication!, didFinishLaunchingWithOptions launchOptions: [AnyHashable : Any]! = [:]) {
@@ -20,8 +19,9 @@ extension AppDelegate {
         _ = FBSDKProfilePictureView.self
     }
     
-    func fbApplication(_ app: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: sourceApplication, annotation: annotation)
+    func fbApplication(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        _ = Lock.resumeAuth(url, options: options)
+        return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
     }
     
     func fbAppDidBecomeActive(_ app: UIApplication) {

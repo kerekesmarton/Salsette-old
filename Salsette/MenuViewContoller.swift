@@ -1,4 +1,4 @@
-//
+
 //  MenuViewController.swift
 //  ColorMatchTabs
 //
@@ -8,7 +8,6 @@
 //
 
 import UIKit
-import ColorMatchTabs
 
 class MenuViewController: UITabBarController {
 

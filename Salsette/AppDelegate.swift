@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Lock
 
 
 @UIApplicationMain
@@ -47,11 +46,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        return Lock.resumeAuth(url, options: options)
+        return fbApplication(app, open: url, options: options)
     }
     
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        return fbApplication(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
-    }
+//    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+//        return fbApplication(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+//    }
 }
 

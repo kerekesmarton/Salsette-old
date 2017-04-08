@@ -8,9 +8,8 @@
 //
 
 import UIKit
-import ColorMatchTabs
 
-class SearchPopoverViewController: PopoverViewController {
+class SearchPopoverViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,11 +30,11 @@ class SearchPopoverViewController: PopoverViewController {
         guard let searchView = searchViewController.view else {
             return
         }
-        contentView.addSubview(searchView)
+        view.addSubview(searchView)
         
-        searchView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0).isActive = true
-        searchView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0).isActive = true
-        searchView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        searchView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        searchView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        searchView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
+        searchView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        searchView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
 }
