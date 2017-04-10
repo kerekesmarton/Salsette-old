@@ -28,6 +28,8 @@ import Auth0
 fileprivate enum Auth0Keys {
     static let idToken = "idToken"
     static let refreshToken = "refreshToken"
+    static let accessToken = "accessToken"
+    static let expiresIn = "expiresIn"
 }
 
 enum Auth0ManagerError: Error {
@@ -58,30 +60,53 @@ class Auth0Manager {
             KeychainStorage.shared[Auth0Keys.refreshToken] = newValue
         }
     }
+    
+    var accessToken: String? {
+        get {
+            return KeychainStorage.shared[Auth0Keys.accessToken]
+        }
+        set {
+            KeychainStorage.shared[Auth0Keys.accessToken] = newValue
+        }
+    }
+    
+    var expiresIn: String? {
+        get {
+            return KeychainStorage.shared[Auth0Keys.expiresIn]
+        }
+        set {
+            KeychainStorage.shared[Auth0Keys.expiresIn] = newValue
+        }
+    }
 
-    func storeTokens(_ idToken: String, refreshToken: String? = nil) {
+    func storeTokens(_ idToken: String, refreshToken: String?, accessToken: String?, expiresIn: String?) {
 
         self.idToken = idToken
         if let existingRefreshToken = refreshToken {
             self.refreshToken = existingRefreshToken
         }
+        if let existingAccessToken = accessToken {
+            self.accessToken = existingAccessToken
+        }
+        if let exipration = expiresIn {
+            self.expiresIn = exipration
+        }
     }
 
     func retrieveProfile(_ callback: @escaping (Error?) -> ()) {
-        guard let idToken = self.idToken else {
-            return callback(Auth0ManagerError.noIdToken)
-        }
+
         Auth0
             .authentication()
-            .userInfo(token: idToken)
+//            .authentication(clientId: "nrZxfSdXoKwkp7qZ2kWEiwSZeqStauTb", domain: "mkerekes.eu.auth0.com")
+            .loginSocial(token: fbToken, connection: "facebook")
             .start { result in
-                switch(result) {
-                case .success(let profile):
-                    self.profile = profile
+                switch result {
+                case .success(let credentials):
+//                    self.profile = credentials
                     callback(nil)
-                case .failure(_):
-                    self.refreshToken(callback)
-                }
+                case .failure(let error):
+                   callback(error)
+                }            
         }
     }
 

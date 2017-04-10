@@ -36,6 +36,8 @@ class ProfileViewController: UITableViewController {
     override func awakeFromNib() {
         super.awakeFromNib()
         ProfileFeatureLauncher.configure(self)
+        
+        KeychainStorage.shared.clear()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -113,7 +115,7 @@ class ProfileInteractor {
     
     func viewReady() {
         view.set(viewState: .buttonsStack(false))
-        checkToken()
+        lock()
     }
 
     fileprivate func checkToken() {
@@ -150,7 +152,7 @@ class ProfileInteractor {
             }
             .onAuth {
                 guard let idToken = $0.idToken, let refreshToken = $0.refreshToken else { return }
-                Auth0Manager.shared.storeTokens(idToken, refreshToken: refreshToken)
+                Auth0Manager.shared.storeTokens(idToken, refreshToken: refreshToken, accessToken: $0.accessToken, expiresIn: $0.expiresIn)
                 Auth0Manager.shared.retrieveProfile { [weak self] error in
                     self?.view.set(viewState: .showLock(nil))
                     self?.setupAuthenticated()
