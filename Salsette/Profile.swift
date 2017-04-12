@@ -9,6 +9,7 @@
 import UIKit
 import FBSDKLoginKit
 import Lock
+import Auth0
 
 class ProfileFeatureLauncher {
     
@@ -30,21 +31,27 @@ class ProfileViewController: UITableViewController {
 
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var profilePictureView: FBSDKProfilePictureView!
+    @IBOutlet var loginBtn: FBSDKLoginButton!
     @IBOutlet var buttonsStack: UIStackView!
     var interactor: ProfileInteractor?
     weak var lockViewController: LockViewController?
     override func awakeFromNib() {
         super.awakeFromNib()
         ProfileFeatureLauncher.configure(self)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        loginBtn.loginBehavior = .systemAccount
+        loginBtn.readPermissions = ["public_profile", "email", "user_friends", "user_events"]
         
-        KeychainStorage.shared.clear()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         interactor?.viewReady()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         interactor?.cancelFbRequest()
@@ -106,7 +113,7 @@ class ProfileInteractor {
     private var facebookPermissions: FacebookPermissions
     private var connection: FBSDKGraphRequestConnection?
     private var graphManager: GraphManager
-
+    
     init(with view: ProfileViewController, permissionsManager: FacebookPermissions, graphManager: GraphManager) {
         self.view = view
         self.facebookPermissions = permissionsManager
@@ -114,21 +121,42 @@ class ProfileInteractor {
     }
     
     func viewReady() {
-        view.set(viewState: .buttonsStack(false))
-        lock()
+        if let token = FBSDKAccessToken.current() {
+            
+            do {
+                try Auth0Manager.shared.use(fbToken: token.tokenString, with: { (success, error) in
+                    guard let auth0Error = error else {
+                        self.view?.set(viewState: .profilePicture("me"))
+                        self.fetchMe()
+                        return
+                    }
+                    self.view.set(viewState: .error(auth0Error))
+                })
+            } catch {
+                self.view.set(viewState: .error(error))
+            }
+            
+            
+        } else {
+            view?.set(viewState: .buttonsStack(false))
+        }
     }
 
     fileprivate func checkToken() {
         view.set(viewState: .loading(true, nil))
-        Auth0Manager.shared.retrieveProfile { [weak self] error in
-            DispatchQueue.main.async {
-                self?.view.set(viewState: .loading(false, {
-                    guard error == nil else {
-                        self?.lock()
-                        return
-                    }
-                }))
-            }
+        Auth0Manager.shared.retrieveProfile { [weak self] success, error in
+            self?.view.set(viewState: .loading(false, {
+                guard error == nil, success else {
+                    self?.lock()
+                    return
+                }
+                guard let dateString = Auth0Manager.shared.expiresIn else {
+                    return
+                }
+                let date = DateFormatters.dateTimeFormatter.date(from: dateString)
+                self?.setupAuthenticated(Auth0Manager.shared.accessToken, date)
+            }))
+
         }
     }
 
@@ -137,8 +165,6 @@ class ProfileInteractor {
             .classic()
             .withOptions {
                 $0.scope = "openid offline_access"
-                $0.closable = false
-                $0.autoClose = false
                 //                $0.parameters = ["device":"UNIQUE_ID"]
             }
             .withStyle {
@@ -148,15 +174,10 @@ class ProfileInteractor {
                 connections.social(name: "facebook", style: .Facebook)
             }
             .withOptions {
-                $0.connectionScope = ["facebook": "public_profile, email, user_friends"]
+                $0.connectionScope = ["facebook": "public_profile, email, user_events"]
             }
             .onAuth {
-                guard let idToken = $0.idToken, let refreshToken = $0.refreshToken else { return }
-                Auth0Manager.shared.storeTokens(idToken, refreshToken: refreshToken, accessToken: $0.accessToken, expiresIn: $0.expiresIn)
-                Auth0Manager.shared.retrieveProfile { [weak self] error in
-                    self?.view.set(viewState: .showLock(nil))
-                    self?.setupAuthenticated()
-                }
+                Auth0Manager.shared.storeTokens($0.idToken, refreshToken: $0.refreshToken, accessToken: $0.accessToken, expiresIn: $0.expiresIn)
             }
             .onError {
                 self.view.set(viewState: .error($0))
@@ -168,19 +189,32 @@ class ProfileInteractor {
         view.set(viewState: .showLock(lock))
     }
     
-    private func setupAuthenticated() {
-        view.set(viewState: .loading(true, nil))
-        facebookPermissions.refresh { [weak self] (success, error) in
-            guard let returnedError = error else {
-                if success {
-                    self?.fetchMe()
-                } else {
-                    self?.view.set(viewState: .loading(false, nil))
-                }
-                return
-            }
-            self?.view.set(viewState: .error(returnedError))
+    private func setupAuthenticated(_ accessToken: String?, _ expiresIn: Date?) {
+        guard let accessToken = accessToken, let userId = Auth0Manager.shared.userId else {
+            return
         }
+                
+        /*
+         curl -i -X GET \
+         "https://graph.facebook.com/v2.3/me?access_token=EAACEdEose0cBAGT4GfPr2VqEWwVQmscnBqQF7dVbqy8bUmZAsL9g5zZBq1pRYmxTVaTORL57Gu1xZB6UiZAO1I2p5ykd6Up17IbFWBDPJF1Poh28FGl7bBZALWeZCexfbvhfV5Lj18vAZArAJ2idnjUu6yH6ZBblvD80MDiStIfBazDTC0XCaXFqmgrGnnohY9QZD"
+         */
+        
+        guard let url = URL(string: "https://graph.facebook.com/v2.3/me?access_token=\(accessToken)") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] (data, response, error) -> Void in
+            if response != nil {
+                let json = try! JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                print(json)
+                self?.view.set(viewState: .loading(false, nil))
+            }
+            if let error = error {
+                self?.view.set(viewState: .error(error))
+            }
+        })
+        task.resume()
+        
+//        connection?.start()
     }
 
     private func fetchMe() {
