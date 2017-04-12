@@ -8,16 +8,6 @@
 
 import FBSDKLoginKit
 
-private enum FBKeys {
-    static let declinedPermissions = "declinedPermissions"
-    static let expirationDate = "expirationDate"
-    static let fbAccessToken = "fbAccessToken"
-    static let permissions = "permissions"
-    static let refreshDate = "refreshDate"
-    static let userID = "userID"
-
-}
-
 class FacebookPermissions {
     
     private init() {

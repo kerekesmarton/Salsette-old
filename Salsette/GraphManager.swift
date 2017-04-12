@@ -9,11 +9,6 @@
 import Foundation
 import Apollo
 
-fileprivate enum GraphKeys {
-    static let idToken = "idToken" // shared with auth0
-    static let userId = "userId"
-}
-
 class GraphManager {
     private  init() {}
     static let shared = GraphManager()
@@ -32,19 +27,19 @@ class GraphManager {
 
     var idToken: String? {
         get {
-            return KeychainStorage.shared[GraphKeys.idToken]
+            return KeychainStorage.shared[Keys.idToken]
         }
         set {
-            KeychainStorage.shared[GraphKeys.idToken] = newValue
+            KeychainStorage.shared[Keys.idToken] = newValue
         }
     }
 
     var userId: String? {
         get {
-            return KeychainStorage.shared[GraphKeys.userId]
+            return KeychainStorage.shared[Keys.userId]
         }
         set {
-            KeychainStorage.shared[GraphKeys.userId] = newValue
+            KeychainStorage.shared[Keys.userId] = newValue
         }
     }
 

@@ -52,6 +52,7 @@
 		10D733431E728E7600F47A52 /* UIStoryboard+Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */; };
 		FB136E691E989EEA00A5F1E4 /* Auth0Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB136E681E989EEA00A5F1E4 /* Auth0Manager.swift */; };
 		FB136E6B1E989FCA00A5F1E4 /* AlertController+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB136E6A1E989FCA00A5F1E4 /* AlertController+Loading.swift */; };
+		FB9B176F1E9E6ECE00682076 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9B176E1E9E6ECE00682076 /* Keys.swift */; };
 		FBF5A9C21E959FA0000CED7A /* GraphManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF5A9C11E959FA0000CED7A /* GraphManager.swift */; };
 		FBF5A9C61E977810000CED7A /* KeychainStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF5A9C51E977810000CED7A /* KeychainStorage.swift */; };
 /* End PBXBuildFile section */
@@ -124,6 +125,7 @@
 		E4A7EBEAF4AC4F4083A3DDE9 /* Pods_Salsette.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Salsette.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB136E681E989EEA00A5F1E4 /* Auth0Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth0Manager.swift; sourceTree = "<group>"; };
 		FB136E6A1E989FCA00A5F1E4 /* AlertController+Loading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AlertController+Loading.swift"; sourceTree = "<group>"; };
+		FB9B176E1E9E6ECE00682076 /* Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		FBF5A9C11E959FA0000CED7A /* GraphManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphManager.swift; sourceTree = "<group>"; };
 		FBF5A9C51E977810000CED7A /* KeychainStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -259,6 +261,7 @@
 				FBF5A9C51E977810000CED7A /* KeychainStorage.swift */,
 				106EAF3D1E92E3B1004686B5 /* ImageDownloader.swift */,
 				FB136E681E989EEA00A5F1E4 /* Auth0Manager.swift */,
+				FB9B176E1E9E6ECE00682076 /* Keys.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -526,6 +529,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1033E53B1E75AA11002D1615 /* TabItemsProvider.swift in Sources */,
+				FB9B176F1E9E6ECE00682076 /* Keys.swift in Sources */,
 				1033E5311E75A9DF002D1615 /* MenuViewContoller.swift in Sources */,
 				FBF5A9C61E977810000CED7A /* KeychainStorage.swift in Sources */,
 				1033E5541E75C7AA002D1615 /* String+Additions.swift in Sources */,

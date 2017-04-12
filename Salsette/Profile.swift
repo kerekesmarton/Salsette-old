@@ -121,24 +121,33 @@ class ProfileInteractor {
     }
     
     func viewReady() {
-        if let token = FBSDKAccessToken.current() {
-            
-            do {
-                try Auth0Manager.shared.use(fbToken: token.tokenString, with: { (success, error) in
-                    guard let auth0Error = error else {
-                        self.view?.set(viewState: .profilePicture("me"))
-                        self.fetchMe()
-                        return
-                    }
-                    self.view.set(viewState: .error(auth0Error))
-                })
-            } catch {
-                self.view.set(viewState: .error(error))
+//        if let token = FBSDKAccessToken.current() {
+//            
+//            do {
+//                try Auth0Manager.shared.use(fbToken: token.tokenString, with: { (success, error) in
+//                    guard let auth0Error = error else {
+//                        self.view?.set(viewState: .profilePicture("me"))
+//                        self.fetchMe()
+//                        return
+//                    }
+//                    self.view.set(viewState: .error(auth0Error))
+//                })
+//            } catch {
+//                self.view.set(viewState: .error(error))
+//            }
+//            
+//            
+//        } else {
+//            view?.set(viewState: .buttonsStack(false))
+//        }
+
+        Auth0Manager.shared.getToken { (success, error) in
+            guard let auth0Error = error else {
+                self.view?.set(viewState: .profilePicture("me"))
+                self.fetchMe()
+                return
             }
-            
-            
-        } else {
-            view?.set(viewState: .buttonsStack(false))
+            self.view.set(viewState: .error(auth0Error))
         }
     }
 
