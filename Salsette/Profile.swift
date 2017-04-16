@@ -44,7 +44,7 @@ class ProfileViewController: UITableViewController {
         super.viewDidLoad()
         loginBtn.loginBehavior = .systemAccount
         loginBtn.readPermissions = ["public_profile", "email", "user_friends", "user_events"]
-        
+        KeychainStorage.shared.clear()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -108,7 +108,7 @@ class ProfileViewController: UITableViewController {
 }
 
 class ProfileInteractor {
-    private weak var view: ProfileViewController!
+    fileprivate weak var view: ProfileViewController!
     private weak var lockView: LockViewController?
     private var facebookPermissions: FacebookPermissions
     private var connection: FBSDKGraphRequestConnection?
@@ -121,55 +121,107 @@ class ProfileInteractor {
     }
     
     func viewReady() {
-//        if let token = FBSDKAccessToken.current() {
-//            
-//            do {
-//                try Auth0Manager.shared.use(fbToken: token.tokenString, with: { (success, error) in
-//                    guard let auth0Error = error else {
-//                        self.view?.set(viewState: .profilePicture("me"))
-//                        self.fetchMe()
-//                        return
-//                    }
-//                    self.view.set(viewState: .error(auth0Error))
-//                })
-//            } catch {
-//                self.view.set(viewState: .error(error))
-//            }
-//            
-//            
-//        } else {
-//            view?.set(viewState: .buttonsStack(false))
-//        }
-
-        Auth0Manager.shared.getToken { (success, error) in
-            guard let auth0Error = error else {
-                self.view?.set(viewState: .profilePicture("me"))
+        loginWithFacebookSdk()
+    }
+    
+    func loginWithFacebookSdk() {
+        if let token = FBSDKAccessToken.current() {
+            self.createUser(with: token.tokenString)
+        } else {
+            view?.set(viewState: .buttonsStack(false))
+        }
+    }
+    
+    func createUser(with tokenString: String) {
+        graphManager.createUser(with: tokenString, closure: { (success, error) in
+            if success {
                 self.fetchMe()
+            } else {
+                self.auth0SignIn(with: tokenString)
+            }
+        })
+    }
+
+    fileprivate func fetchMe() {
+        let meRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"name"])
+        cancelFbRequest()
+        connection = meRequest?.start(completionHandler: { [weak self] (connection, result, error) in
+            guard let returnedError = error else {
+                self?.view.set(viewState: .loading(false, { 
+                    self?.parse(me: result ?? [:])
+                    self?.view?.set(viewState: .buttonsStack(true))
+                    self?.view?.set(viewState: .profilePicture("me"))
+                }))
                 return
             }
-            self.view.set(viewState: .error(auth0Error))
+            self?.view.set(viewState: .error(returnedError))
+        })
+    }
+    
+    func auth0SignIn(with tokenString: String) {
+//        Auth0
+//            .webAuth()
+//            .connection("facebook")
+//            .scope("openid")
+//            .start { [weak self] result in
+//                switch result {
+//                case .success(let credentials):
+//                    self?.loginWithFacebookSdk()
+//                    print(credentials)
+//                case .failure(let error):
+//                    self?.view.set(viewState: .error(error))
+//                }
+//        }
+        
+        Auth0
+            .authentication()            
+            .loginSocial(token: tokenString, connection: "facebook", scope: "openid", parameters: [:])
+            .start { result in
+                switch (result) {
+                case .success(let credentials):
+                    self.loginWithFacebookSdk()
+                    print(credentials)
+                case .failure(let error):
+                    self.view.set(viewState: .error(error))
+                }
         }
     }
 
-    fileprivate func checkToken() {
+    func cancelFbRequest() {
+        if let existingConnection = connection {
+            existingConnection.cancel()
+        }
+    }
+
+    private func parse(me: Any) {
+        if let name = JSON(me)["name"].string {
+            view?.set(viewState: .displayName(name))
+        }
+    }
+}
+
+enum ProfileSegues {
+    static let login = "Login"
+}
+
+
+// MARK: - not used any more
+
+extension ProfileInteractor {
+    
+    fileprivate func checkAuthorisationToken() {
         view.set(viewState: .loading(true, nil))
         Auth0Manager.shared.retrieveProfile { [weak self] success, error in
-            self?.view.set(viewState: .loading(false, {
-                guard error == nil, success else {
-                    self?.lock()
-                    return
-                }
-                guard let dateString = Auth0Manager.shared.expiresIn else {
-                    return
-                }
-                let date = DateFormatters.dateTimeFormatter.date(from: dateString)
-                self?.setupAuthenticated(Auth0Manager.shared.accessToken, date)
-            }))
-
+            guard error == nil, success else {
+                self?.getManagementToken()
+                return
+            }
+            self?.view.set(viewState: .loading(false, nil))
+            self?.doLogin()
         }
     }
-
-    fileprivate func lock() {
+    
+    fileprivate func doLogin() {
         let lock = Lock
             .classic()
             .withOptions {
@@ -194,68 +246,37 @@ class ProfileInteractor {
             .onCancel
             {
                 self.view.set(viewState: .showLock(nil))
-            }
+        }
         view.set(viewState: .showLock(lock))
     }
     
-    private func setupAuthenticated(_ accessToken: String?, _ expiresIn: Date?) {
-        guard let accessToken = accessToken, let userId = Auth0Manager.shared.userId else {
-            return
+    func getManagementToken() {
+        Auth0Manager.shared.getToken { (success, error) in
+            if success {
+                self.getManagedUserProfile()
+            } else {
+                self.clientGrant()
+            }
         }
-                
-        /*
-         curl -i -X GET \
-         "https://graph.facebook.com/v2.3/me?access_token=EAACEdEose0cBAGT4GfPr2VqEWwVQmscnBqQF7dVbqy8bUmZAsL9g5zZBq1pRYmxTVaTORL57Gu1xZB6UiZAO1I2p5ykd6Up17IbFWBDPJF1Poh28FGl7bBZALWeZCexfbvhfV5Lj18vAZArAJ2idnjUu6yH6ZBblvD80MDiStIfBazDTC0XCaXFqmgrGnnohY9QZD"
-         */
-        
-        guard let url = URL(string: "https://graph.facebook.com/v2.3/me?access_token=\(accessToken)") else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] (data, response, error) -> Void in
-            if response != nil {
-                let json = try! JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                print(json)
-                self?.view.set(viewState: .loading(false, nil))
-            }
-            if let error = error {
-                self?.view.set(viewState: .error(error))
-            }
-        })
-        task.resume()
-        
-//        connection?.start()
     }
-
-    private func fetchMe() {
-        let meRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"name"])
-        cancelFbRequest()
-        connection = meRequest?.start(completionHandler: { [weak self] (connection, result, error) in
-            guard let returnedError = error else {
-                self?.view.set(viewState: .loading(false, { 
-                    self?.parse(me: result ?? [:])
-                    self?.view?.set(viewState: .buttonsStack(true))
-                    self?.view?.set(viewState: .profilePicture("me"))
-                }))
+    
+    func clientGrant() {
+        Auth0Manager.shared.createClientGrant { (success, error) in
+            guard let auth0Error = error else {
+                self.getManagementToken()
                 return
             }
-            self?.view.set(viewState: .error(returnedError))
-        })
-    }
-
-    func cancelFbRequest() {
-        if let existingConnection = connection {
-            existingConnection.cancel()
+            self.view.set(viewState: .error(auth0Error))
         }
     }
-
-    private func parse(me: Any) {
-        if let name = JSON(me)["name"].string {
-            view?.set(viewState: .displayName(name))
+    
+    func getManagedUserProfile() {
+        Auth0Manager.shared.getUserProfile { (success, error) in
+            guard let auth0Error = error else  {
+                self.view.set(viewState: .loading(false, nil))
+                return
+            }
+            self.view.set(viewState: .error(auth0Error))
         }
     }
 }
-
-enum ProfileSegues {
-    static let login = "Login"
-}
-

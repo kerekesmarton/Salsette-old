@@ -9,9 +9,9 @@
 import Foundation
 
 enum Keys {
-    static let idToken = "idToken"
-    static let refreshToken = "refreshToken"
-    static let accessToken = "accessToken"
+    static let graphIdToken = "graphIdToken"
+    static let refreshToken = "refresh_token"
+    static let accessToken = "access_token"
     static let expiresIn = "expiresIn"
     static let userId = "userId"
 

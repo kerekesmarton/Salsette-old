@@ -2,107 +2,129 @@
 
 import Apollo
 
-public final class CurrentUserQuery: GraphQLQuery {
-  public static let operationDefinition =
-    "query CurrentUser {" +
-    "  user {" +
-    "    __typename" +
-    "    createdAt" +
-    "  }" +
-    "}"
-  public init() {
-  }
+public struct LoginUserWithAuth0SocialInput: GraphQLMapConvertible {
+  public var graphQLMap: GraphQLMap
 
-  public struct Data: GraphQLMappable {
-    public let user: User?
-
-    public init(reader: GraphQLResultReader) throws {
-      user = try reader.optionalValue(for: Field(responseName: "user"))
-    }
-
-    public struct User: GraphQLMappable {
-      public let __typename: String
-      public let createdAt: String
-
-      public init(reader: GraphQLResultReader) throws {
-        __typename = try reader.value(for: Field(responseName: "__typename"))
-        createdAt = try reader.value(for: Field(responseName: "createdAt"))
-      }
-    }
+  public init(accessToken: String, connection: ConnectionType, clientMutationId: String? = nil) {
+    graphQLMap = ["access_token": accessToken, "connection": connection, "clientMutationId": clientMutationId]
   }
 }
 
-public final class CreateUserMutation: GraphQLMutation {
-  public static let operationDefinition =
-    "mutation CreateUser($idToken: String!) {" +
-    "  createUser(authProvider: {auth0: {idToken: $idToken}}) {" +
-    "    __typename" +
-    "    id" +
-    "  }" +
-    "}"
-
-  public let idToken: String
-
-  public init(idToken: String) {
-    self.idToken = idToken
-  }
-
-  public var variables: GraphQLMap? {
-    return ["idToken": idToken]
-  }
-
-  public struct Data: GraphQLMappable {
-    public let createUser: CreateUser?
-
-    public init(reader: GraphQLResultReader) throws {
-      createUser = try reader.optionalValue(for: Field(responseName: "createUser", arguments: ["authProvider": ["auth0": ["idToken": reader.variables["idToken"]]]]))
-    }
-
-    public struct CreateUser: GraphQLMappable {
-      public let __typename: String
-      public let id: GraphQLID
-
-      public init(reader: GraphQLResultReader) throws {
-        __typename = try reader.value(for: Field(responseName: "__typename"))
-        id = try reader.value(for: Field(responseName: "id"))
-      }
-    }
-  }
+/// Values for the ConnectionType enum
+public enum ConnectionType: String {
+  case ad = "ad"
+  case adfs = "adfs"
+  case amazon = "amazon"
+  case dropbox = "dropbox"
+  case bitbucket = "bitbucket"
+  case aol = "aol"
+  case auth0Adldap = "auth0_adldap"
+  case auth0Oidc = "auth0_oidc"
+  case auth0 = "auth0"
+  case baidu = "baidu"
+  case bitly = "bitly"
+  case box = "box"
+  case custom = "custom"
+  case dwolla = "dwolla"
+  case email = "email"
+  case evernoteSandbox = "evernote_sandbox"
+  case evernote = "evernote"
+  case exact = "exact"
+  case facebook = "facebook"
+  case fitbit = "fitbit"
+  case flickr = "flickr"
+  case github = "github"
+  case googleApps = "google_apps"
+  case googleOauth2 = "google_oauth2"
+  case guardian = "guardian"
+  case instagram = "instagram"
+  case ip = "ip"
+  case linkedin = "linkedin"
+  case miicard = "miicard"
+  case oauth1 = "oauth1"
+  case oauth2 = "oauth2"
+  case office365 = "office365"
+  case paypal = "paypal"
+  case pingfederate = "pingfederate"
+  case planningcenter = "planningcenter"
+  case renren = "renren"
+  case salesforceCommunity = "salesforce_community"
+  case salesforceSandbox = "salesforce_sandbox"
+  case salesforce = "salesforce"
+  case samlp = "samlp"
+  case sharepoint = "sharepoint"
+  case shopify = "shopify"
+  case sms = "sms"
+  case soundcloud = "soundcloud"
+  case thecitySandbox = "thecity_sandbox"
+  case thecity = "thecity"
+  case thirtysevensignals = "thirtysevensignals"
+  case twitter = "twitter"
+  case untappd = "untappd"
+  case vkontakte = "vkontakte"
+  case waad = "waad"
+  case weibo = "weibo"
+  case windowslive = "windowslive"
+  case wordpress = "wordpress"
+  case yahoo = "yahoo"
+  case yammer = "yammer"
+  case yandex = "yandex"
 }
 
-public final class SingInUserMutation: GraphQLMutation {
+extension ConnectionType: JSONDecodable, JSONEncodable {}
+
+public final class LoginMutation: GraphQLMutation {
   public static let operationDefinition =
-    "mutation SingInUser($idToken: String!) {" +
-    "  signinUser(auth0: {idToken: $idToken}) {" +
+    "mutation Login($token: LoginUserWithAuth0SocialInput!) {" +
+    "  loginUserWithAuth0Social(input: $token) {" +
     "    __typename" +
     "    token" +
+    "    user {" +
+    "      __typename" +
+    "      id" +
+    "      username" +
+    "    }" +
     "  }" +
     "}"
 
-  public let idToken: String
+  public let token: LoginUserWithAuth0SocialInput
 
-  public init(idToken: String) {
-    self.idToken = idToken
+  public init(token: LoginUserWithAuth0SocialInput) {
+    self.token = token
   }
 
   public var variables: GraphQLMap? {
-    return ["idToken": idToken]
+    return ["token": token]
   }
 
   public struct Data: GraphQLMappable {
-    public let signinUser: SigninUser
+    public let loginUserWithAuth0Social: LoginUserWithAuth0Social?
 
     public init(reader: GraphQLResultReader) throws {
-      signinUser = try reader.value(for: Field(responseName: "signinUser", arguments: ["auth0": ["idToken": reader.variables["idToken"]]]))
+      loginUserWithAuth0Social = try reader.optionalValue(for: Field(responseName: "loginUserWithAuth0Social", arguments: ["input": reader.variables["token"]]))
     }
 
-    public struct SigninUser: GraphQLMappable {
+    public struct LoginUserWithAuth0Social: GraphQLMappable {
       public let __typename: String
       public let token: String?
+      public let user: User?
 
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
         token = try reader.optionalValue(for: Field(responseName: "token"))
+        user = try reader.optionalValue(for: Field(responseName: "user"))
+      }
+
+      public struct User: GraphQLMappable {
+        public let __typename: String
+        public let id: GraphQLID
+        public let username: String
+
+        public init(reader: GraphQLResultReader) throws {
+          __typename = try reader.value(for: Field(responseName: "__typename"))
+          id = try reader.value(for: Field(responseName: "id"))
+          username = try reader.value(for: Field(responseName: "username"))
+        }
       }
     }
   }

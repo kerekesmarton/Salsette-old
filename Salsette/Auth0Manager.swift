@@ -41,10 +41,10 @@ class Auth0Manager {
 
     var idToken: String? {
         get {
-            return KeychainStorage.shared[Keys.idToken]
+            return KeychainStorage.shared[Keys.graphIdToken]
         }
         set {
-            KeychainStorage.shared[Keys.idToken] = newValue
+            KeychainStorage.shared[Keys.graphIdToken] = newValue
         }
     }
 
@@ -116,9 +116,9 @@ class Auth0Manager {
 
         var postData: Data?
         do {
-            postData = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+            postData = try JSON(parameters).rawData()
         } catch {
-            print(error)
+            callback(false, error)
         }
 
         guard let url = URL(string: "https://mkerekes.eu.auth0.com/oauth/token") else {
@@ -130,10 +130,47 @@ class Auth0Manager {
         request.httpBody = postData
 
         let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-            if response != nil {
-                let json = try! JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                print(json)
-                callback(true, nil)
+            if let receivedData = data {
+                let json = JSON(data: receivedData)
+                self.accessToken = json[Keys.accessToken].string
+                callback(self.accessToken != nil, nil)
+            }
+            if let error = error {
+                callback(false, error)
+            }
+        })
+        task.resume()
+    }
+    
+    func createClientGrant(with callback: @escaping (Bool, Error?) -> ()) {
+        let headers = ["content-type": "application/json"]
+        let parameters: [String:Any] = [
+            "client_id": "nrZxfSdXoKwkp7qZ2kWEiwSZeqStauTb",
+            "client_secret": "WMyQ00fMIctPz1Uxeo_wnd3e4UTN5-1RJuNRNsmrrhsrwNxcEGAZ7CxypvyMEjiE",
+            "audience": "https://mkerekes.eu.auth0.com/api/v2/",
+            "scope": ["sample-scope"]
+        ]
+        
+        var postData: Data?
+        do {
+            postData = try JSON(parameters).rawData()
+        } catch {
+            callback(false, error)
+        }
+
+        guard let url = URL(string: "https://mkerekes.eu.auth0.com/api/v2/client-grants") else {
+            return
+        }
+        var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
+        request.httpMethod = "POST"
+        request.allHTTPHeaderFields = headers
+        request.httpBody = postData
+        
+        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+            if let receivedData = data {
+                let json = JSON(data: receivedData)
+                self.accessToken = json[Keys.accessToken].string
+                callback(self.accessToken != nil, nil)
             }
             if let error = error {
                 callback(false, error)
@@ -142,11 +179,15 @@ class Auth0Manager {
         task.resume()
     }
 
-    func getUserProfile(with token: String, userID: String, callback: @escaping (Bool, Error?) -> ()) {
+    func getUserProfile(with callback: @escaping (Bool, Error?) -> ()) {
 
+        guard let token = accessToken,
+            let user = userId,
+            let url = URL(string: "https://mkerekes.eu.auth0.com/api/v2/users/\(user)") else {
+                callback(false, nil)
+                return
+        }
         let headers = ["authorization": "Bearer \(token)"]
-
-        guard let url = URL(string: "https://mkerekes.eu.auth0.com/api/v2/users/\(userID)") else { return }
         var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
         request.httpMethod = "GET"
         request.allHTTPHeaderFields = headers
@@ -164,31 +205,22 @@ class Auth0Manager {
         task.resume()
     }
     
-    func use(fbToken: String, with callback: @escaping (Bool, Error?) -> ()) throws {
-//        Auth0
-//            .authentication()
-//            .loginSocial(token: fbToken, connection: "facebook", scope: "openid", parameters: [:])
-//            .start { result in
-//                switch (result) {
-//                case .success(let credentials):
-//                    callback(true, nil)
-//                case .failure(let error):
-//                    callback(false, error)
-//                }
-//        }
-
+    func use(fbToken: String, with callback: @escaping (Bool, Error?) -> ()) {
         
         /*
          POST https://mkerekes.eu.auth0.com/oauth/access_token
          Content-Type: 'application/json'
          {
-             "client_id": "HYFb2FNqiyPdhCwxUVMiQOnf3QA1kAtA",
+             "client_id": "nrZxfSdXoKwkp7qZ2kWEiwSZeqStauTb",
              "access_token": "ACCESS_TOKEN",
              "connection": "CONNECTION",
              "scope": "SCOPE"
          }
          */
         let headers = [
+            "client_id": "nrZxfSdXoKwkp7qZ2kWEiwSZeqStauTb",
+            "client_secret": "WMyQ00fMIctPz1Uxeo_wnd3e4UTN5-1RJuNRNsmrrhsrwNxcEGAZ7CxypvyMEjiE",
+            "audience": "https://mkerekes.eu.auth0.com/api/v2/",            
             "content-type": "application/json",
             "authorization": "Bearer \(fbToken)"
         ]
@@ -196,13 +228,17 @@ class Auth0Manager {
                     "access_token": fbToken,
                     "connection": "facebook",
                     "scope": "openid"]
-        
-        let json: JSON = JSON(dict)
+        var data: Data?
+        do {
+             data = try JSON(dict).rawData()
+        } catch  {
+            callback(false, error)
+        }
         
         guard let url = URL(string: "https://mkerekes.eu.auth0.com/oauth/access_token") else { return }
         var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
         request.httpMethod = "POST"
-        request.httpBody = try json.rawData()
+        request.httpBody = data
         request.allHTTPHeaderFields = headers
         
         
