@@ -9,7 +9,7 @@ use_frameworks!
 target 'Salsette' do
     project 'Salsette.xcodeproj'
 #    pod 'ColorMatchTabs'
-#    pod 'DZNEmptyDataSet'
+    pod 'DZNEmptyDataSet'
     pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
     pod 'TextFieldEffects'
 #    pod 'PermissionScope'

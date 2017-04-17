@@ -14,15 +14,4 @@ enum Keys {
     static let accessToken = "access_token"
     static let expiresIn = "expiresIn"
     static let userId = "userId"
-
-}
-
-enum FBKeys {
-    static let declinedPermissions = "declinedPermissions"
-    static let expirationDate = "expirationDate"
-    static let fbAccessToken = "fbAccessToken"
-    static let permissions = "permissions"
-    static let refreshDate = "refreshDate"
-    static let userID = "userID"
-
 }

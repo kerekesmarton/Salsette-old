@@ -17,6 +17,12 @@ class GraphManager {
         return ApolloClient(url: URL(string: "https://eu-west-1.api.scaphold.io/graphql/dance")!)
     }()
 
+    var isLoggedIn: Bool {
+        get {
+            return (token != nil) ? true : false
+        }
+    }
+
     private var user: LoginMutation.Data.LoginUserWithAuth0Social.User?
     
     private var operation: Cancellable?
@@ -33,7 +39,7 @@ class GraphManager {
             if let serverError = result?.errors {
                 closure(false,serverError.first)
             } else {
-                self.idToken = token
+                self.token = token
                 self.user = newUser
                 closure(true, error)                
             }
@@ -43,8 +49,7 @@ class GraphManager {
 
 
 extension GraphManager {
-
-    var idToken: String? {
+    var token: String? {
         get {
             return KeychainStorage.shared[Keys.graphIdToken]
         }

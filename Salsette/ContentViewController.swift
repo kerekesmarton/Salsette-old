@@ -75,6 +75,7 @@ class ContentViewController: UICollectionViewController, ContentLayoutDelegate {
         cell.imageView.image = presentableContent.image
         cell.titleLabel.text = presentableContent.name
         cell.organiserLabel.text = presentableContent.organiser
+//        cell.timeLabel.text = DateFormatters.dateFormatter.string(from: presentableContent.startDate)
         
         return cell
     }
@@ -136,13 +137,14 @@ class ContentViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var organiserLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
 }
 
 class ContentViewLayout: UICollectionViewFlowLayout {
     enum ContentViewConstants {
         static let margin: CGFloat = 16.0
         static let labelPadding: CGFloat = 56
-        static let iPhoneCellFixedHeight: CGFloat = 300
+        static let iPhoneCellFixedHeight: CGFloat = 340
         static let iPadNumberOfCellsPortrait: Int = 3
         static let iPadNumberOfCellsLandscape: Int = 5
         static let iPhoneCellNumberOfCellsLandscape: Int = 3

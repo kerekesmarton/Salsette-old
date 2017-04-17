@@ -39,6 +39,27 @@ class Auth0Manager {
     }
     private init () { }
 
+    func auth0LoginUsingFacebook(token tokenString: String, callback: @escaping (Bool, Error?) -> ()) {
+        Auth0
+            .authentication()
+            .loginSocial(token: tokenString, connection: "facebook", scope: "openid", parameters: [:])
+            .start { result in
+                switch(result) {
+                case .success(let credentials):
+                    self.accessToken = credentials.accessToken
+                    callback(true, nil)
+                case .failure(let error):
+                    callback(false, error)
+                }
+        }
+    }
+    
+    func logout() {
+        KeychainStorage.shared.clear()
+    }
+}
+
+extension Auth0Manager {
     var idToken: String? {
         get {
             return KeychainStorage.shared[Keys.graphIdToken]
@@ -56,7 +77,7 @@ class Auth0Manager {
             KeychainStorage.shared[Keys.refreshToken] = newValue
         }
     }
-    
+
     var accessToken: String? {
         get {
             return KeychainStorage.shared[Keys.accessToken]
@@ -65,7 +86,7 @@ class Auth0Manager {
             KeychainStorage.shared[Keys.accessToken] = newValue
         }
     }
-    
+
     var expiresIn: String? {
         get {
             return KeychainStorage.shared[Keys.expiresIn]
@@ -74,7 +95,7 @@ class Auth0Manager {
             KeychainStorage.shared[Keys.expiresIn] = newValue
         }
     }
-    
+
     var userId: String? {
         get {
             return KeychainStorage.shared[Keys.userId]
@@ -83,198 +104,4 @@ class Auth0Manager {
             KeychainStorage.shared[Keys.userId] = newValue
         }
     }
-
-    func storeTokens(_ idToken: String?, refreshToken: String? = nil, accessToken: String? = nil, expiresIn: Date? = nil) {
-
-        if let token = idToken {
-            self.idToken = token
-        }
-        if let existingRefreshToken = refreshToken {
-            self.refreshToken = existingRefreshToken
-        }
-        if let existingAccessToken = accessToken {
-            self.accessToken = existingAccessToken
-        }
-        if let accessToken = accessToken {
-            self.accessToken = accessToken
-        }
-        if let date  = expiresIn {
-            let expiryDate = DateFormatters.dateTimeFormatter.string(from: date)
-            self.expiresIn = expiryDate
-        }
-    }
-
-    func getToken(with callback: @escaping (Bool, Error?) -> ()) {
-
-        let headers = ["content-type": "application/json"]
-        let parameters = [
-            "grant_type": "client_credentials",
-            "client_id": "nrZxfSdXoKwkp7qZ2kWEiwSZeqStauTb",
-            "client_secret": "WMyQ00fMIctPz1Uxeo_wnd3e4UTN5-1RJuNRNsmrrhsrwNxcEGAZ7CxypvyMEjiE",
-            "audience": "https://mkerekes.eu.auth0.com/api/v2/"
-        ]
-
-        var postData: Data?
-        do {
-            postData = try JSON(parameters).rawData()
-        } catch {
-            callback(false, error)
-        }
-
-        guard let url = URL(string: "https://mkerekes.eu.auth0.com/oauth/token") else {
-            return
-        }
-        var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
-        request.httpMethod = "POST"
-        request.allHTTPHeaderFields = headers
-        request.httpBody = postData
-
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-            if let receivedData = data {
-                let json = JSON(data: receivedData)
-                self.accessToken = json[Keys.accessToken].string
-                callback(self.accessToken != nil, nil)
-            }
-            if let error = error {
-                callback(false, error)
-            }
-        })
-        task.resume()
-    }
-    
-    func createClientGrant(with callback: @escaping (Bool, Error?) -> ()) {
-        let headers = ["content-type": "application/json"]
-        let parameters: [String:Any] = [
-            "client_id": "nrZxfSdXoKwkp7qZ2kWEiwSZeqStauTb",
-            "client_secret": "WMyQ00fMIctPz1Uxeo_wnd3e4UTN5-1RJuNRNsmrrhsrwNxcEGAZ7CxypvyMEjiE",
-            "audience": "https://mkerekes.eu.auth0.com/api/v2/",
-            "scope": ["sample-scope"]
-        ]
-        
-        var postData: Data?
-        do {
-            postData = try JSON(parameters).rawData()
-        } catch {
-            callback(false, error)
-        }
-
-        guard let url = URL(string: "https://mkerekes.eu.auth0.com/api/v2/client-grants") else {
-            return
-        }
-        var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
-        request.httpMethod = "POST"
-        request.allHTTPHeaderFields = headers
-        request.httpBody = postData
-        
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-            if let receivedData = data {
-                let json = JSON(data: receivedData)
-                self.accessToken = json[Keys.accessToken].string
-                callback(self.accessToken != nil, nil)
-            }
-            if let error = error {
-                callback(false, error)
-            }
-        })
-        task.resume()
-    }
-
-    func getUserProfile(with callback: @escaping (Bool, Error?) -> ()) {
-
-        guard let token = accessToken,
-            let user = userId,
-            let url = URL(string: "https://mkerekes.eu.auth0.com/api/v2/users/\(user)") else {
-                callback(false, nil)
-                return
-        }
-        let headers = ["authorization": "Bearer \(token)"]
-        var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
-        request.httpMethod = "GET"
-        request.allHTTPHeaderFields = headers
-
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-            if response != nil {
-                let json = try! JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                print(json)
-                callback(true, nil)
-            }
-            if let error = error {
-                callback(false, error)
-            }
-        })
-        task.resume()
-    }
-    
-    func use(fbToken: String, with callback: @escaping (Bool, Error?) -> ()) {
-        
-        /*
-         POST https://mkerekes.eu.auth0.com/oauth/access_token
-         Content-Type: 'application/json'
-         {
-             "client_id": "nrZxfSdXoKwkp7qZ2kWEiwSZeqStauTb",
-             "access_token": "ACCESS_TOKEN",
-             "connection": "CONNECTION",
-             "scope": "SCOPE"
-         }
-         */
-        let headers = [
-            "client_id": "nrZxfSdXoKwkp7qZ2kWEiwSZeqStauTb",
-            "client_secret": "WMyQ00fMIctPz1Uxeo_wnd3e4UTN5-1RJuNRNsmrrhsrwNxcEGAZ7CxypvyMEjiE",
-            "audience": "https://mkerekes.eu.auth0.com/api/v2/",            
-            "content-type": "application/json",
-            "authorization": "Bearer \(fbToken)"
-        ]
-        let dict = ["client_id": "nrZxfSdXoKwkp7qZ2kWEiwSZeqStauTb",
-                    "access_token": fbToken,
-                    "connection": "facebook",
-                    "scope": "openid"]
-        var data: Data?
-        do {
-             data = try JSON(dict).rawData()
-        } catch  {
-            callback(false, error)
-        }
-        
-        guard let url = URL(string: "https://mkerekes.eu.auth0.com/oauth/access_token") else { return }
-        var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
-        request.httpMethod = "POST"
-        request.httpBody = data
-        request.allHTTPHeaderFields = headers
-        
-        
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-            if response != nil {
-                let json = try! JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                print(json)
-                callback(true, nil)
-            }
-            if let error = error {
-                callback(false, error)
-            }
-        })
-        task.resume()
-    }
-
-    func retrieveProfile(_ callback: @escaping (Bool, Error?) -> ()) {
-        guard let savedToken = accessToken else {
-            callback(false, nil)
-            return
-        }
-        Auth0.authentication()
-            .userInfo(token: savedToken)
-            .start { result in
-                switch(result) {
-                case .success(let profile):
-                    self.profile = profile
-                    callback(true, nil)
-                case .failure(let error):
-                    callback(false, error)
-                }
-        }
-    }
-    
-    func logout() {
-        KeychainStorage.shared.clear()
-    }
-    
 }

@@ -1,5 +1,5 @@
 //
-//  CreateEvents.swift
+//  SelectFacebookEvents.swift
 //  Salsette
 //
 //  Created by Marton Kerekes on 01/04/2017.
@@ -10,17 +10,17 @@ import Foundation
 import UIKit
 import FBSDKCoreKit
 
-private struct CreateEventFeatureLauncher {
+private struct SelectFacebookEventFeatureLauncher {
     
-    static func configure(viewController: CreateEventViewController) {
-        viewController.interactor = CreateEventInteractor(with: viewController, manager: FacebookPermissions.shared, downloader: ImageDownloader.shared)
+    static func configure(viewController: SelectFacebookEventViewController) {
+        viewController.interactor = SelectFacebookEventInteractor(with: viewController, manager: FacebookPermissions.shared, downloader: ImageDownloader.shared)
     }
 }
 
-class CreateEventViewController: UITableViewController {
-    fileprivate static let cellId = "CreateEventCell"
-    fileprivate var interactor: CreateEventInteractor?
-    var items = [CreateEventEntity]() {
+class SelectFacebookEventViewController: UITableViewController {
+    fileprivate static let cellId = "SelectFacebookEventCell"
+    fileprivate var interactor: SelectFacebookEventInteractor?
+    var items = [SelectFacebookEventEntity]() {
         didSet {
             tableView.reloadData()
         }
@@ -28,7 +28,7 @@ class CreateEventViewController: UITableViewController {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        CreateEventFeatureLauncher.configure(viewController: self)
+        SelectFacebookEventFeatureLauncher.configure(viewController: self)
     }
     
     override func viewDidLoad() {
@@ -48,31 +48,34 @@ class CreateEventViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = items[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: CreateEventViewController.cellId) as! CreateEventCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: SelectFacebookEventViewController.cellId) as! SelectFacebookEventCell
         cell.titleLabel.text = item.name
-        guard let startTime = item.startTime, let endTime = item.endTime, let place = item.place else {
-            return cell
+
+        var timeString: String?
+        if let startTime = item.startTime {
+            timeString = DateFormatters.relativeDateFormatter.string(from: startTime)
         }
-        cell.timeLabel.text = DateFormatters.relativeDateFormatter.string(from: startTime) + " to " + DateFormatters.relativeDateFormatter.string(from: endTime)
-        cell.locationLabel.text = place
+        if let endTime = item.endTime {
+            timeString?.append(" to " + DateFormatters.relativeDateFormatter.string(from: endTime))
+        }
+        cell.timeLabel.text = timeString ?? ""
+        cell.locationLabel.text = item.place ?? ""
         cell.imageUrl = item.imageUrl
         interactor?.getImage(for: item.imageUrl, completion: { (image) in
-            DispatchQueue.main.async {
-                if cell.imageUrl == item.imageUrl {
-                    cell.eventImage?.image = image.fit(intoSize: CGSize(width: 93.5, height: 93.5))
-                }
+            if cell.imageUrl == item.imageUrl {
+                cell.eventImage?.image = image.fit(intoSize: CGSize(width: 93.5, height: 93.5))
             }
         })
         return cell
     }
 }
 
-fileprivate class CreateEventInteractor {
-    private weak var view: CreateEventViewController?
+fileprivate class SelectFacebookEventInteractor {
+    private weak var view: SelectFacebookEventViewController?
     private var facebookPermissions: FacebookPermissions?
     private var connection: FBSDKGraphRequestConnection?
     private var imageDownloader: ImageDownloader?
-    init(with view: CreateEventViewController, manager: FacebookPermissions, downloader: ImageDownloader) {
+    init(with view: SelectFacebookEventViewController, manager: FacebookPermissions, downloader: ImageDownloader) {
         self.view = view
         self.facebookPermissions = manager
         self.imageDownloader = downloader
@@ -83,7 +86,7 @@ fileprivate class CreateEventInteractor {
             if let  error = error {
                 print(error)
             }
-            let request = FBSDKGraphRequest(graphPath: "me/events?type=created", parameters: ["fields":"name,place,start_time,end_time,cover,description"])
+            let request = FBSDKGraphRequest(graphPath: "me/events?type=created&since=now", parameters: ["fields":"name,place,start_time,end_time,cover,description,id"])
             self?.connection = request?.start(completionHandler: { [weak self] (connection, result, error) in
                 guard let error = error else {
                     self?.updateView(with: result)
@@ -99,40 +102,44 @@ fileprivate class CreateEventInteractor {
             existingConnection.cancel()
         }
     }
-    
+
     fileprivate func getImage(for urlString: String?, completion:@escaping ((UIImage)->Void)) {
-        imageDownloader?.downloadImage(for: urlString, completion: completion)
+        imageDownloader?.downloadImage(for: urlString, completion: { (image) in
+            completion(image)
+        })
     }
     
     private func updateView(with results: Any?) {
-        view?.items = CreateEventEntity.parseEvents(from: results)
+        view?.items = parseEvents(from: results)
+    }
+
+    fileprivate func parseEvents(from results: Any?) -> [SelectFacebookEventEntity] {
+        guard let parseableResults = results as? [String: Any],
+            let events = parseableResults["data"] as? [[String: Any]] else {
+                return []
+        }
+        return events.flatMap({ SelectFacebookEventEntity(with: $0)})
     }
 }
 
-class CreateEventEntity {
+class SelectFacebookEventEntity {
     var name: String?
     var place: String?
     var startTime: Date?
     var endTime: Date?
     var imageUrl: String?
-    
-    fileprivate class func parseEvents(from results: Any?) -> [CreateEventEntity] {
-        guard let parseableResults = results as? [String: Any],
-            let events = parseableResults["data"] as? [[String: Any]] else {
-                return []
-        }
-        return events.flatMap({ CreateEventEntity(with: $0)})
-    }
+    var id: String?
     
     convenience init(with dictionary:[String:Any]) {
         self.init()
         let dictionary = JSON(dictionary)
         name = dictionary["name"].string
         place = dictionary["place"]["name"].string
+        id = dictionary["id"].string
         if let time = dictionary["start_time"].string {
             startTime = DateFormatters.dateTimeFormatter.date(from: time)
         }
-        if let url = dictionary["cover"]["souce"].string {
+        if let url = dictionary["cover"]["source"].string {
             self.imageUrl = url
         }
         if let time = dictionary["end_time"].string {
@@ -141,7 +148,7 @@ class CreateEventEntity {
     }
 }
 
-class CreateEventCell: UITableViewCell {
+class SelectFacebookEventCell: UITableViewCell {
     @IBOutlet weak var eventImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!

@@ -10,6 +10,7 @@ PODS:
   - ChameleonFramework/Default (2.1.0)
   - ChameleonFramework/Swift (2.1.0):
     - ChameleonFramework/Default
+  - DZNEmptyDataSet (1.8.1)
   - FBSDKCoreKit (4.20.2):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.20.2):
@@ -29,6 +30,7 @@ PODS:
 DEPENDENCIES:
   - Apollo
   - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
+  - DZNEmptyDataSet
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
@@ -52,6 +54,7 @@ SPEC CHECKSUMS:
   Auth0: 0bb3b5708fbdb732b95c7143d5b383ae92c89442
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   FBSDKCoreKit: 82eac696eb6157da5f4266c3a241f00e9bd72471
   FBSDKLoginKit: 2211bede07c83391349eacc1fd86cf6d9289ce38
   FBSDKShareKit: ca9b22264ea49a896dafb2467c1a4f72aa41996f
@@ -61,6 +64,6 @@ SPEC CHECKSUMS:
   SimpleKeychain: b50cef3b87939d480ea1143425c00f5b4b70fe21
   TextFieldEffects: faa47d428ee8eafb781a8413ac4345420d2328c4
 
-PODFILE CHECKSUM: 62cdbca4558c8f62b2a35936e055977bfacdbe13
+PODFILE CHECKSUM: 8092a6b19c89dcfa1638a544753e68bd3a0bddda
 
 COCOAPODS: 1.1.1

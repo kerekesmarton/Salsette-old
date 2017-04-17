@@ -27,7 +27,9 @@ class ImageDownloader {
         }
         URLSession.shared.dataTask(with: url) { (imageData, urlResponse, error) in
             guard let _ = error else {
-                completion(self.parse(imageData: imageData))
+                DispatchQueue.main.async {
+                    completion(self.parse(imageData: imageData))
+                }
                 return
             }
             completion(self.failedImage)
