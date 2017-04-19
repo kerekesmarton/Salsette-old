@@ -39,6 +39,12 @@ class Auth0Manager {
     }
     private init () { }
 
+    var isLoggedIn: Bool {
+        get {
+            return (accessToken != nil) ? true : false
+        }
+    }
+
     func auth0LoginUsingFacebook(token tokenString: String, callback: @escaping (Bool, Error?) -> ()) {
         Auth0
             .authentication()
@@ -47,6 +53,7 @@ class Auth0Manager {
                 switch(result) {
                 case .success(let credentials):
                     self.accessToken = credentials.accessToken
+                    self.auth0Token = credentials.idToken
                     callback(true, nil)
                 case .failure(let error):
                     callback(false, error)
@@ -60,12 +67,13 @@ class Auth0Manager {
 }
 
 extension Auth0Manager {
-    var idToken: String? {
+
+    var auth0Token: String? {
         get {
-            return KeychainStorage.shared[Keys.graphIdToken]
+            return KeychainStorage.shared[Keys.auth0Token]
         }
         set {
-            KeychainStorage.shared[Keys.graphIdToken] = newValue
+            KeychainStorage.shared[Keys.auth0Token] = newValue
         }
     }
 
@@ -87,12 +95,12 @@ extension Auth0Manager {
         }
     }
 
-    var expiresIn: String? {
+    var expiresIn: Date? {
         get {
-            return KeychainStorage.shared[Keys.expiresIn]
+            return UserDefaults.standard.value(forKey: Keys.expiresIn) as? Date
         }
         set {
-            KeychainStorage.shared[Keys.expiresIn] = newValue
+            UserDefaults.standard.set(newValue, forKey: Keys.expiresIn)
         }
     }
 

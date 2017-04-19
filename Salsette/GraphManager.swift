@@ -23,16 +23,16 @@ class GraphManager {
         }
     }
 
-    private var user: LoginMutation.Data.LoginUserWithAuth0Social.User?
+    private var user: Auth0LoginMutation.Data.LoginUserWithAuth0.User?
     
     private var operation: Cancellable?
 
     func createUser(with token: String, closure: @escaping (Bool, Error?)->Void) {
-        let input = LoginUserWithAuth0SocialInput(accessToken: token, connection: .facebook)
-        operation = client.perform(mutation: LoginMutation(token: input), resultHandler: { (result, error) in
-            guard let auth = result?.data?.loginUserWithAuth0Social,
-                let newUser = auth.user,
-                let token = auth.token else {
+
+        let input = LoginUserWithAuth0Input(idToken: token)
+        operation = client.perform(mutation: Auth0LoginMutation(token: input), resultHandler: { (result, error) in
+            guard let auth = result?.data?.loginUserWithAuth0,
+                let newUser = auth.user else {
                 closure(false, error)
                 return
             }

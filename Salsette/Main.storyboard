@@ -14,7 +14,7 @@
         <!--Salsette-->
         <scene sceneID="qyk-2Y-mol">
             <objects>
-                <tabBarController title="Salsette" id="8Rk-x6-yWW" customClass="MenuViewController" customModule="Salsette" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController title="Salsette" id="8Rk-x6-yWW" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="rj6-0t-USQ"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="8B0-fB-erh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
@@ -22,14 +22,14 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="26J-VB-9an" kind="relationship" relationship="viewControllers" id="cV6-dz-ysU"/>
-                        <segue destination="Rf3-JI-KJr" kind="relationship" relationship="viewControllers" id="Ztb-VB-JIc"/>
+                        <segue destination="KwO-Ti-y5u" kind="relationship" relationship="viewControllers" id="cV6-dz-ysU"/>
+                        <segue destination="2sN-Eh-dNr" kind="relationship" relationship="viewControllers" id="Ztb-VB-JIc"/>
                         <segue destination="Gmp-zZ-xH1" kind="relationship" relationship="viewControllers" id="gi7-Xr-CVp"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gtA-6d-xb9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-25" y="701"/>
+            <point key="canvasLocation" x="-834" y="890"/>
         </scene>
         <!--Workshops-->
         <scene sceneID="F6V-ih-EA4">
@@ -47,7 +47,7 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ContentCell" id="1YV-cM-QKa" customClass="ContentViewCell" customModule="Salsette" customModuleProvider="target">
-                                <rect key="frame" x="15.5" y="50" width="344" height="287"/>
+                                <rect key="frame" x="16" y="50" width="344" height="287"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="344" height="287"/>
@@ -123,7 +123,6 @@
                             <outlet property="delegate" destination="26J-VB-9an" id="Lmf-Sg-lhw"/>
                         </connections>
                     </collectionView>
-                    <tabBarItem key="tabBarItem" title="Workshops" id="ySh-3D-Dhe"/>
                     <navigationItem key="navigationItem" id="cj4-k3-fNX"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="667"/>
@@ -133,7 +132,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F71-Jb-1pc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="796" y="333"/>
+            <point key="canvasLocation" x="1617" y="-137"/>
         </scene>
         <!--Events-->
         <scene sceneID="yZP-4H-9Gv">
@@ -227,7 +226,6 @@
                             <outlet property="delegate" destination="Rf3-JI-KJr" id="yQ7-Wz-aqO"/>
                         </connections>
                     </collectionView>
-                    <tabBarItem key="tabBarItem" title="Events" id="iNp-KV-LnN"/>
                     <navigationItem key="navigationItem" id="hDv-qL-sb6"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="667"/>
@@ -237,7 +235,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WPh-WP-D3F" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1735" y="332"/>
+            <point key="canvasLocation" x="1617" y="544"/>
         </scene>
         <!--Profile-->
         <scene sceneID="vAU-Vc-qNa">
@@ -256,7 +254,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hAK-Jk-nVQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="796" y="1078.1109445277361"/>
+            <point key="canvasLocation" x="796" y="1249"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="Puq-Gr-4Mb">
@@ -386,7 +384,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x4F-H6-uaK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1734" y="1078"/>
+            <point key="canvasLocation" x="1617" y="1249"/>
         </scene>
         <!--Select Facebook Event View Controller-->
         <scene sceneID="ZR9-MI-vih">
@@ -466,7 +464,45 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sDY-5J-1Q5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2513" y="1078"/>
+            <point key="canvasLocation" x="2466" y="1248"/>
+        </scene>
+        <!--Workshops-->
+        <scene sceneID="KQZ-hQ-eYt">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KwO-Ti-y5u" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Workshops" id="ySh-3D-Dhe"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="iPI-jh-4M9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="26J-VB-9an" kind="relationship" relationship="rootViewController" id="YMq-gn-B1I"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4rO-Yz-UUU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="796" y="-137"/>
+        </scene>
+        <!--Events-->
+        <scene sceneID="AFP-4Y-Z3C">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="2sN-Eh-dNr" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Events" id="iNp-KV-LnN"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qva-fV-iqa">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Rf3-JI-KJr" kind="relationship" relationship="rootViewController" id="9fI-29-fWC"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LY2-hA-BwC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="796" y="544"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

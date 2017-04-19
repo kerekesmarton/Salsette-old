@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import ChameleonFramework
+//import ChameleonFramework
 import FSCalendar
 
 protocol CalendarViewSelectionDelegate: class {

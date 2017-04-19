@@ -73,6 +73,14 @@ public enum ConnectionType: String {
 
 extension ConnectionType: JSONDecodable, JSONEncodable {}
 
+public struct LoginUserWithAuth0Input: GraphQLMapConvertible {
+  public var graphQLMap: GraphQLMap
+
+  public init(idToken: String, clientMutationId: String? = nil) {
+    graphQLMap = ["idToken": idToken, "clientMutationId": clientMutationId]
+  }
+}
+
 public final class LoginMutation: GraphQLMutation {
   public static let operationDefinition =
     "mutation Login($token: LoginUserWithAuth0SocialInput!) {" +
@@ -112,6 +120,60 @@ public final class LoginMutation: GraphQLMutation {
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
         token = try reader.optionalValue(for: Field(responseName: "token"))
+        user = try reader.optionalValue(for: Field(responseName: "user"))
+      }
+
+      public struct User: GraphQLMappable {
+        public let __typename: String
+        public let id: GraphQLID
+        public let username: String
+
+        public init(reader: GraphQLResultReader) throws {
+          __typename = try reader.value(for: Field(responseName: "__typename"))
+          id = try reader.value(for: Field(responseName: "id"))
+          username = try reader.value(for: Field(responseName: "username"))
+        }
+      }
+    }
+  }
+}
+
+public final class Auth0LoginMutation: GraphQLMutation {
+  public static let operationDefinition =
+    "mutation Auth0Login($token: LoginUserWithAuth0Input!) {" +
+    "  loginUserWithAuth0(input: $token) {" +
+    "    __typename" +
+    "    user {" +
+    "      __typename" +
+    "      id" +
+    "      username" +
+    "    }" +
+    "  }" +
+    "}"
+
+  public let token: LoginUserWithAuth0Input
+
+  public init(token: LoginUserWithAuth0Input) {
+    self.token = token
+  }
+
+  public var variables: GraphQLMap? {
+    return ["token": token]
+  }
+
+  public struct Data: GraphQLMappable {
+    public let loginUserWithAuth0: LoginUserWithAuth0?
+
+    public init(reader: GraphQLResultReader) throws {
+      loginUserWithAuth0 = try reader.optionalValue(for: Field(responseName: "loginUserWithAuth0", arguments: ["input": reader.variables["token"]]))
+    }
+
+    public struct LoginUserWithAuth0: GraphQLMappable {
+      public let __typename: String
+      public let user: User?
+
+      public init(reader: GraphQLResultReader) throws {
+        __typename = try reader.value(for: Field(responseName: "__typename"))
         user = try reader.optionalValue(for: Field(responseName: "user"))
       }
 

@@ -8,8 +8,6 @@
 //
 
 import UIKit
-import Presentr
-
 
 typealias SideMenuHandler = (() -> Void)
 
@@ -20,14 +18,7 @@ class SideMenuViewController: UIViewController {
     @IBOutlet fileprivate weak var containerView: UIView!
     @IBOutlet fileprivate weak var sideMenuContainerViewWidthConstraint: NSLayoutConstraint!
     var sideMenuDidHide: SideMenuHandler?
-    let presenter: Presentr = {
-        let presenter = Presentr(presentationType: .topHalf)
-        presenter.transitionType = .coverVerticalFromTop
-//        presenter.blurBackground = true
-//        presenter.blurStyle = UIBlurEffectStyle.light
-        return presenter
-    }()
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.view.resignFirstResponder()
@@ -41,7 +32,7 @@ class SideMenuViewController: UIViewController {
     func showSideMenu(in hostViewController: UIViewController, with child: UIViewController, sideMenuDidHide: SideMenuHandler?) {
         self.sideMenuDidHide = sideMenuDidHide
         self.addToContainer(childViewController: child)
-        hostViewController.customPresentViewController(presenter, viewController: self, animated: true, completion:nil)
+        hostViewController.present(self, animated: true, completion: nil)
     }
     
     func addToContainer(childViewController: UIViewController) {

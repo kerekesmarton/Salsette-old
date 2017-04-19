@@ -1,6 +1,6 @@
 PODS:
   - Apollo (0.5.6)
-  - Auth0 (1.4.0)
+  - Auth0 (1.5.0)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
     - Bolts/Tasks (= 1.8.4)
@@ -10,7 +10,6 @@ PODS:
   - ChameleonFramework/Default (2.1.0)
   - ChameleonFramework/Swift (2.1.0):
     - ChameleonFramework/Default
-  - DZNEmptyDataSet (1.8.1)
   - FBSDKCoreKit (4.20.2):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.20.2):
@@ -18,25 +17,17 @@ PODS:
   - FBSDKShareKit (4.20.2):
     - FBSDKCoreKit
   - FSCalendar (2.7.3)
-  - Lock (2.1.0):
-    - Auth0 (~> 1.2)
-    - Lock/Classic (= 2.1.0)
-  - Lock/Classic (2.1.0):
-    - Auth0 (~> 1.2)
-  - Presentr (1.1.1)
   - SimpleKeychain (0.7.0)
   - TextFieldEffects (1.3.1)
 
 DEPENDENCIES:
   - Apollo
+  - Auth0
   - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
-  - DZNEmptyDataSet
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
   - FSCalendar
-  - Lock (~> 2.1.0)
-  - Presentr
   - SimpleKeychain (~> 0.7)
   - TextFieldEffects
 
@@ -51,19 +42,16 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Apollo: 124ddbbca48acca75fd5f9ec5045454cb410bb31
-  Auth0: 0bb3b5708fbdb732b95c7143d5b383ae92c89442
+  Auth0: d055a1d6666a8bbab731a4bd5e896cd0159392d4
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
-  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   FBSDKCoreKit: 82eac696eb6157da5f4266c3a241f00e9bd72471
   FBSDKLoginKit: 2211bede07c83391349eacc1fd86cf6d9289ce38
   FBSDKShareKit: ca9b22264ea49a896dafb2467c1a4f72aa41996f
   FSCalendar: 574388d70778c22719eed9341653e1743b345573
-  Lock: 24eee3361ae50841b852d05ce8985c5b8040057f
-  Presentr: 389acebf4361e0913d942232d70211e279e38645
   SimpleKeychain: b50cef3b87939d480ea1143425c00f5b4b70fe21
   TextFieldEffects: faa47d428ee8eafb781a8413ac4345420d2328c4
 
-PODFILE CHECKSUM: 8092a6b19c89dcfa1638a544753e68bd3a0bddda
+PODFILE CHECKSUM: 83071d54d2d15c20c9ceade71d55b172f7e8f332
 
 COCOAPODS: 1.1.1

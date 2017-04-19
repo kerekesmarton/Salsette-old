@@ -11,3 +11,12 @@ mutation Login($token:LoginUserWithAuth0SocialInput!) {
         }
     }
 }
+
+mutation Auth0Login($token: LoginUserWithAuth0Input!) {
+    loginUserWithAuth0(input: $token){
+        user{
+            id
+            username
+        }
+    }
+}

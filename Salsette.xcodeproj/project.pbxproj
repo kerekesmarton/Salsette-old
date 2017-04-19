@@ -28,7 +28,7 @@
 		1033E55C1E7A78E7002D1615 /* Content.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1033E55B1E7A78E7002D1615 /* Content.storyboard */; };
 		106306AE1E8B951C0089DA00 /* Calendar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 106306AD1E8B951C0089DA00 /* Calendar.xib */; };
 		106306B41E8CE3BF0089DA00 /* ContentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306B31E8CE3BF0089DA00 /* ContentEntity.swift */; };
-		106306BC1E8E99600089DA00 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306BB1E8E99600089DA00 /* Profile.swift */; };
+		106306BC1E8E99600089DA00 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306BB1E8E99600089DA00 /* User.swift */; };
 		106EAF3B1E92DFA8004686B5 /* DateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF3A1E92DFA8004686B5 /* DateFormatters.swift */; };
 		106EAF3E1E92E3B1004686B5 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF3D1E92E3B1004686B5 /* ImageDownloader.swift */; };
 		106EAF401E93200D004686B5 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF3F1E93200D004686B5 /* SwiftyJSON.swift */; };
@@ -93,7 +93,7 @@
 		1033E55B1E7A78E7002D1615 /* Content.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Content.storyboard; sourceTree = "<group>"; };
 		106306AD1E8B951C0089DA00 /* Calendar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Calendar.xib; sourceTree = "<group>"; };
 		106306B31E8CE3BF0089DA00 /* ContentEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentEntity.swift; sourceTree = "<group>"; };
-		106306BB1E8E99600089DA00 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		106306BB1E8E99600089DA00 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		106EAF3A1E92DFA8004686B5 /* DateFormatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatters.swift; sourceTree = "<group>"; };
 		106EAF3D1E92E3B1004686B5 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		106EAF3F1E93200D004686B5 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
@@ -243,16 +243,6 @@
 			name = "Content Interactor and DataStore";
 			sourceTree = "<group>";
 		};
-		106306BA1E8E96740089DA00 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				106306BB1E8E99600089DA00 /* Profile.swift */,
-				FB08BD021E94EE6000686193 /* Sign In */,
-				FB420F2B1EA4DF900022380D /* Create Event */,
-			);
-			name = Profile;
-			sourceTree = "<group>";
-		};
 		106EAF3C1E92E394004686B5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -291,10 +281,12 @@
 			children = (
 				1033E54E1E75C7A0002D1615 /* Extensions */,
 				1089BF811E708553006E091A /* AppDelegate.swift */,
+				106EB02B1E94661A004686B5 /* CurrentUser.graphql */,
 				1033E54A1E75AB21002D1615 /* Main.storyboard */,
 				106EAF3C1E92E394004686B5 /* Services */,
 				106EB0271E94636E004686B5 /* API.swift */,
-				106306BA1E8E96740089DA00 /* Profile */,
+				FB08BD021E94EE6000686193 /* User */,
+				FB420F2B1EA4DF900022380D /* Create Event */,
 				1033E55A1E7A77AD002D1615 /* Salsette */,
 				1033E5331E75A9E3002D1615 /* Menu */,
 				1089BF881E708553006E091A /* Assets.xcassets */,
@@ -334,12 +326,12 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		FB08BD021E94EE6000686193 /* Sign In */ = {
+		FB08BD021E94EE6000686193 /* User */ = {
 			isa = PBXGroup;
 			children = (
-				106EB02B1E94661A004686B5 /* CurrentUser.graphql */,
+				106306BB1E8E99600089DA00 /* User.swift */,
 			);
-			name = "Sign In";
+			name = User;
 			sourceTree = "<group>";
 		};
 		FB420F2B1EA4DF900022380D /* Create Event */ = {
@@ -541,7 +533,7 @@
 				1033E5311E75A9DF002D1615 /* MenuViewContoller.swift in Sources */,
 				FBF5A9C61E977810000CED7A /* KeychainStorage.swift in Sources */,
 				1033E5541E75C7AA002D1615 /* String+Additions.swift in Sources */,
-				106306BC1E8E99600089DA00 /* Profile.swift in Sources */,
+				106306BC1E8E99600089DA00 /* User.swift in Sources */,
 				FB420F2D1EA5138F0022380D /* CreateEvent.swift in Sources */,
 				FB136E6B1E989FCA00A5F1E4 /* AlertController+Loading.swift in Sources */,
 				106EB0281E94636E004686B5 /* API.swift in Sources */,

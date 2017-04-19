@@ -10,6 +10,7 @@ import Foundation
 
 enum Keys {
     static let graphIdToken = "graphIdToken"
+    static let auth0Token = "auth0Token"
     static let refreshToken = "refresh_token"
     static let accessToken = "access_token"
     static let expiresIn = "expiresIn"
