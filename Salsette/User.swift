@@ -13,7 +13,7 @@ import Auth0
 class ProfileFeatureLauncher {
     
     static func configure(_ vc: ProfileViewController) {
-        vc.interactor = ProfileInteractor(with: vc, graphManager: GraphManager.shared)
+        vc.interactor = ProfileInteractor(with: vc, graphManager: GraphManager.shared, auth0Manager: Auth0Manager.shared)
     }
 }
 
@@ -41,6 +41,11 @@ class ProfileViewController: UITableViewController {
         super.viewDidLoad()
         loginBtn.loginBehavior = .systemAccount
         loginBtn.readPermissions = ["public_profile", "email", "user_friends", "user_events"]
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(deleteKeychain))
+    }
+
+    func deleteKeychain() {
+        KeychainStorage.shared.clear()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -86,10 +91,12 @@ class ProfileInteractor {
     fileprivate weak var view: ProfileViewController!
     private var connection: FBSDKGraphRequestConnection?
     private var graphManager: GraphManager
+    private var auth0Manager: Auth0Manager
     
-    init(with view: ProfileViewController, graphManager: GraphManager) {
+    init(with view: ProfileViewController, graphManager: GraphManager, auth0Manager: Auth0Manager) {
         self.view = view
         self.graphManager = graphManager
+        self.auth0Manager = auth0Manager
     }
     
     func viewReady() {
@@ -98,26 +105,31 @@ class ProfileInteractor {
     
     func facebookLogin() {
         if let token = FBSDKAccessToken.current() {
-            self.scapholdLinkAccounts(with: token.tokenString)
+            auth0SignIn(with: token.tokenString)
         } else {
             //user needs to log in by pressing the fb login btn
             view?.set(viewState: .buttonsStack(false))
         }
     }
     
-    func scapholdLinkAccounts(with tokenString: String) {
+    func scapholdLinkAccounts() {
+        guard let token  = auth0Manager.auth0Token else {
+            let signInerror = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Couldn't sign in to scaphold"])
+            view.set(viewState: .error(signInerror))
+            return
+        }
         if graphManager.isLoggedIn {
             facebookUser()
             return
         }
         view.set(viewState: .loading(true, "linking account...", nil))
-        graphManager.createUser(with: tokenString, closure: { [weak self] (success, error) in
+        graphManager.createUser(with: token, closure: { [weak self] (success, error) in
             self?.view.set(viewState: .loading(false, nil, nil))
-            if success {
+            guard let returnedError = error else {
                 self?.facebookUser()
-            } else {
-                self?.auth0SignIn(with: tokenString)
+                return
             }
+            self?.view.set(viewState: .error(returnedError))
         })
     }
 
@@ -128,9 +140,7 @@ class ProfileInteractor {
         connection = meRequest?.start(completionHandler: { [weak self] (connection, result, error) in
             self?.view.set(viewState: .loading(false, nil, nil))
             guard let returnedError = error else {
-                self?.parse(me: result)
-                self?.view?.set(viewState: .buttonsStack(true))
-                self?.view?.set(viewState: .profilePicture("me"))
+                self?.finalise(with: result)
                 return
             }
             self?.view.set(viewState: .error(returnedError))
@@ -138,11 +148,15 @@ class ProfileInteractor {
     }
     
     func auth0SignIn(with tokenString: String) {
+        if auth0Manager.isLoggedIn {
+            scapholdLinkAccounts()
+            return
+        }
         view.set(viewState: .loading(true, "signing in...", nil))
-        Auth0Manager.shared.auth0LoginUsingFacebook(token: tokenString) { [weak self] (success, error) in
+        auth0Manager.auth0LoginUsingFacebook(token: tokenString) { [weak self] (success, error) in
             self?.view.set(viewState: .loading(false, nil, nil))
             guard let returnedError = error else {
-                self?.facebookLogin()
+                self?.scapholdLinkAccounts()
                 return
             }
             self?.view.set(viewState: .error(returnedError))
@@ -153,6 +167,12 @@ class ProfileInteractor {
         if let existingConnection = connection {
             existingConnection.cancel()
         }
+    }
+
+    private func finalise(with result: Any?) {
+        parse(me: result)
+        view?.set(viewState: .buttonsStack(true))
+        view?.set(viewState: .profilePicture("me"))
     }
 
     private func parse(me: Any?) {
