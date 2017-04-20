@@ -9,6 +9,7 @@
 import UIKit
 import FBSDKLoginKit
 import Auth0
+import DZNEmptyDataSet
 
 class ProfileFeatureLauncher {
     
@@ -22,15 +23,13 @@ class ProfileViewController: UITableViewController {
     enum ViewStates {
         case profilePicture(String)
         case displayName(String)
-        case buttonsStack(Bool)
         case loading(Bool, String?, (() -> Void)?)
         case error(Error)
+        case userReady(Bool)
     }
 
-    @IBOutlet weak var nameLbl: UILabel!
-    @IBOutlet weak var profilePictureView: FBSDKProfilePictureView!
     @IBOutlet var loginBtn: FBSDKLoginButton!
-    @IBOutlet var buttonsStack: UIStackView!
+    @IBOutlet var loginView: UIView!
     var interactor: ProfileInteractor?
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,12 +39,19 @@ class ProfileViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loginBtn.loginBehavior = .systemAccount
+        tableView.emptyDataSetDelegate = self
+        tableView.emptyDataSetSource = self
         loginBtn.readPermissions = ["public_profile", "email", "user_friends", "user_events"]
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(deleteKeychain))
     }
 
     func deleteKeychain() {
         KeychainStorage.shared.clear()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        interactor?.prepareView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -61,15 +67,16 @@ class ProfileViewController: UITableViewController {
     func set(viewState: ViewStates) {
         switch viewState {
         case .profilePicture(let pictureIdentifier):
-            profilePictureView.profileID = pictureIdentifier
+            self.pictureIdentifier = pictureIdentifier
         case .displayName(let displayName):
-            nameLbl.text = displayName
-        case .buttonsStack(let show):
-            buttonsStack.isHidden = !show
+            self.displayName = displayName
         case .loading(let value, let message, let completion):
             showLoading(value, message, completion)
         case .error(let error):
             showError(error)
+        case .userReady(let isReady):
+            userIsReady = isReady
+            tableView.reloadData()
         }
     }
 
@@ -85,6 +92,40 @@ class ProfileViewController: UITableViewController {
         showLoading(false, nil, nil)
         self.present(UIAlertController.errorAlert(with: error), animated: false, completion: nil)
     }
+
+    fileprivate var userIsReady: Bool = false
+    fileprivate var displayName: String?
+    fileprivate var pictureIdentifier: String?
+}
+
+extension ProfileViewController {
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return userIsReady ? 3 : 0
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: UserCellIdentifiers.allIdentifiers[indexPath.row])!
+
+        switch indexPath.row {
+        case 0:
+            guard let imageCell = cell as? UserImageCell else { return cell }
+            imageCell.profilePictureView?.profileID = pictureIdentifier
+        case 1:
+            guard let nameCell = cell as? UserNameCell else { return cell }
+            nameCell.userNameLabel?.text = displayName
+        default:
+            ()
+        }
+        return cell
+    }
+}
+
+extension ProfileViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
+
+    func customView(forEmptyDataSet scrollView: UIScrollView!) -> UIView! {
+        return loginView
+    }
 }
 
 class ProfileInteractor {
@@ -98,6 +139,14 @@ class ProfileInteractor {
         self.graphManager = graphManager
         self.auth0Manager = auth0Manager
     }
+
+    func prepareView() {
+        guard FBSDKAccessToken.current() != nil else {
+            //empty view
+            return
+        }
+        //normal view
+    }
     
     func viewReady() {
         facebookLogin()
@@ -108,7 +157,7 @@ class ProfileInteractor {
             auth0SignIn(with: token.tokenString)
         } else {
             //user needs to log in by pressing the fb login btn
-            view?.set(viewState: .buttonsStack(false))
+            view.set(viewState: .userReady(false))
         }
     }
     
@@ -170,17 +219,41 @@ class ProfileInteractor {
     }
 
     private func finalise(with result: Any?) {
-        parse(me: result)
-        view?.set(viewState: .buttonsStack(true))
-        view?.set(viewState: .profilePicture("me"))
-    }
-
-    private func parse(me: Any?) {
-        guard let data = me as? [String:Any], let name = JSON(data)["name"].string  else {
+        guard let data = result as? [String:Any], let name = JSON(data)["name"].string  else {
             let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Couldn't get user information"])
             self.view.set(viewState: .error(error))
             return
         }
         view?.set(viewState: .displayName(name))
+        view?.set(viewState: .profilePicture("me"))
+        view?.set(viewState: .userReady(true))
     }
 }
+
+enum UserCellIdentifiers {
+    static let imageIdentifier = "UserImageCell"
+    static let nameIdentifier = "UserNameCell"
+    static let eventIdentifier = "UserEventsCreationCell"
+
+    static let allIdentifiers = [imageIdentifier, nameIdentifier, eventIdentifier]
+}
+
+class UserImageCell: UITableViewCell {
+    @IBOutlet var profilePictureView: FBSDKProfilePictureView?
+}
+
+class UserNameCell: UITableViewCell {
+    @IBOutlet var userNameLabel: UILabel?
+}
+
+class UserEventsCreationCell: UITableViewCell, SelectFacebookEventProtocol {
+    @IBOutlet var eventCollectionView: UICollectionView?
+    var items: [FacebookEventEntity]
+    var interactor: SelectFacebookEventInteractor?
+
+    func show(error: Error) {
+
+    }
+}
+
+
