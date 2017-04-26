@@ -9,13 +9,7 @@
 import Foundation
 import UIKit
 import FBSDKCoreKit
-
-struct SelectFacebookEventFeatureLauncher {
-    
-    static func configure(viewController: SelectFacebookEventViewController) {
-        viewController.interactor = SelectFacebookEventInteractor(with: viewController, fbService: FacebookService.shared, downloader: ImageDownloader.shared)
-    }
-}
+import Hero
 
 class SelectFacebookEventViewController: UITableViewController, SelectFacebookEventProtocol {
     fileprivate static let cellId = "SelectFacebookEventCell"
@@ -28,13 +22,21 @@ class SelectFacebookEventViewController: UITableViewController, SelectFacebookEv
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        SelectFacebookEventFeatureLauncher.configure(viewController: self)
+        interactor = SelectFacebookEventInteractor(with: self)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Choose an event to start with.."
         interactor?.prepare(from: self)
+    }
+    
+    func dummyEvents() -> [FacebookEventEntity] {
+        let entity = FacebookEventEntity()
+        entity.name = "salsa party"
+        entity.startTime = Date().addingTimeInterval(36000)
+        entity.place = "Milan"
+        return [entity,entity,entity]
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -66,6 +68,7 @@ class SelectFacebookEventViewController: UITableViewController, SelectFacebookEv
                 cell.eventImage?.image = image.fit(intoSize: CGSize(width: 93.5, height: 93.5))
             }
         })
+        cell
         return cell
     }
 

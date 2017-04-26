@@ -9,24 +9,23 @@
 import UIKit
 
 protocol SelectFacebookEventProtocol: class {
+    var interactor: SelectFacebookEventInteractor? { get set }
     var items: [FacebookEventEntity] { get set }
     func show(error: Error)
-    var interactor: SelectFacebookEventInteractor? { get set }
 }
 
 class SelectFacebookEventInteractor {
     private weak var view: SelectFacebookEventProtocol?
     private var facebookService: FacebookService?
     private var imageDownloader: ImageDownloader?
-    init(with view: SelectFacebookEventProtocol, fbService: FacebookService, downloader: ImageDownloader) {
-        self.view = view
+    init(with eventView: SelectFacebookEventProtocol, fbService: FacebookService = FacebookService.shared, downloader: ImageDownloader = ImageDownloader.shared) {
+        self.view = eventView
         self.facebookService = fbService
         self.imageDownloader = downloader
     }
-
+    
     func prepare(from viewController: UIViewController) {
-
-        facebookService?.getUserEvents(from: viewController, completion: { [weak self] (result, error) in
+        facebookService?.loadUserEvents(from: viewController, completion: { [weak self] (result, error) in
             guard let returnedError = error else {
                 self?.updateView(with: result)
                 return

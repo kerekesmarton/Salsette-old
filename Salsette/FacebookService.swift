@@ -15,8 +15,32 @@ class FacebookService {
 
     static let shared = FacebookService()
     private var connection: FBSDKGraphRequestConnection?
+    var cachedUserEvents: Any?
+    
+    var isLoggedIn: Bool {
+        get {
+            return FBSDKAccessToken.current() != nil ? true : false
+        }
+    }
+    
+    var token: String? {
+        get {
+            return FBSDKAccessToken.current().tokenString
+        }
+    }
+    
+    func getUser(from vc: UIViewController, completion: @escaping (Any?, Error?)->Void) {
+        let meRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"name"])
+        connection = meRequest?.start(completionHandler: { (connection, result, error) in
+            if let returnedError = error {
+                completion(nil, returnedError)
+            } else if let returnedResult = result {
+                completion(returnedResult, nil)
+            }
+        })
+    }
 
-    func getUserEvents(from vc: UIViewController, completion: @escaping (Any?, Error?)->Void) {
+    func loadUserEvents(from vc: UIViewController, completion: @escaping (Any?, Error?)->Void) {
         FacebookPermissions.shared.askFor(permissions: ["user_events"], from: vc, completion: { [weak self] (result, error) in
             if let  error = error {
                 print(error)
@@ -26,6 +50,7 @@ class FacebookService {
                 if let returnedError = error {
                     completion(nil, returnedError)
                 } else if let returnedResult = result {
+                    self?.cachedUserEvents = result
                     completion(returnedResult, nil)
                 }
             })
