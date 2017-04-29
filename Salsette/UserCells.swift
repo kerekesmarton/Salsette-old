@@ -36,7 +36,7 @@ class UserEventsCreationCell: UITableViewCell, SelectFacebookEventProtocol {
             eventCollectionView?.reloadData()
         }
     }
-    var selectionBlock: ((FacebookEventEntity) -> Void)?
+//    var selectionBlock: ((FacebookEventEntity) -> Void)?
 
     func show(error: Error) {
         
@@ -44,17 +44,21 @@ class UserEventsCreationCell: UITableViewCell, SelectFacebookEventProtocol {
     
     func configure(with viewController: UIViewController, selection block: @escaping (FacebookEventEntity) -> Void) {
         interactor = SelectFacebookEventInteractor(with: self, fbService: FacebookService.shared, downloader: ImageDownloader.shared)
-        selectionBlock = block
 //        interactor?.prepare(from: viewController)
         items = dummyEvents()
     }
     
     func dummyEvents() -> [FacebookEventEntity] {
-        let entity = FacebookEventEntity()
-        entity.name = "salsa party"
-        entity.startTime = Date().addingTimeInterval(36000)
-        entity.place = "Milan"
-        return [entity,entity,entity]
+        var entities = [FacebookEventEntity]()
+//        for i in 0...3 {
+            let entity = FacebookEventEntity(with: "asdf")
+            entity.name = "salsa party"
+            entity.startTime = Date().addingTimeInterval(36000)
+            entity.place = "Milan"
+            entities.append(entity)
+//        }
+
+        return entities
     }
 }
 
@@ -71,34 +75,24 @@ extension UserEventsCreationCell: UICollectionViewDelegate, UICollectionViewData
             return cell
         }
         let item = items[indexPath.row]
-        userEventCell.eventName?.text = item.name
-        
-        var timeString: String?
-        if let startTime = item.startTime {
-            timeString = DateFormatters.relativeDateFormatter.string(from: startTime)
-        }
-        if let endTime = item.endTime {
-            timeString?.append(" to " + DateFormatters.relativeDateFormatter.string(from: endTime))
-        }
-        userEventCell.eventDetails?.text = timeString ?? ""
-        userEventCell.imageUrl = item.imageUrl
+        userEventCell.item = item
         interactor?.getImage(for: item.imageUrl, completion: { (image) in
             if userEventCell.imageUrl == item.imageUrl {
+                userEventCell.eventImage?.heroID = "asdf"
                 userEventCell.eventImage?.image = image.fit(intoSize: CGSize(width: 93.5, height: 93.5))
             }
         })
-        userEventCell.heroID = item.id
         return userEventCell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = items[indexPath.row]
-        guard let block = selectionBlock else {
-            return
-        }
-        
-        block(item)
-    }
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        let item = items[indexPath.row]
+//        guard let block = selectionBlock else {
+//            return
+//        }
+//        
+//        block(item)
+//    }
 }
 
 class UserEventCollectionViewCell: UICollectionViewCell {    
@@ -106,4 +100,19 @@ class UserEventCollectionViewCell: UICollectionViewCell {
     @IBOutlet var eventName: UILabel?
     @IBOutlet var eventDetails: UILabel?
     var imageUrl: String?
+    var item: FacebookEventEntity? {
+        didSet {
+            eventName?.text = item?.name
+
+            var timeString: String?
+            if let startTime = item?.startTime {
+                timeString = DateFormatters.relativeDateFormatter.string(from: startTime)
+            }
+            if let endTime = item?.endTime {
+                timeString?.append(" to " + DateFormatters.relativeDateFormatter.string(from: endTime))
+            }
+            eventDetails?.text = timeString ?? ""
+            imageUrl = item?.imageUrl
+        }
+    }
 }

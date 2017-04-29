@@ -10,6 +10,7 @@ import UIKit
 import FBSDKLoginKit
 import Auth0
 import DZNEmptyDataSet
+import Hero
 
 class ProfileFeatureLauncher {
     
@@ -119,7 +120,7 @@ extension ProfileViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UserCellIdentifiers.allIdentifiers[indexPath.row])!
-
+        cell.heroModifiers = [.fade, .translate(y:20)]
         switch indexPath.row {
         case 0:
             guard let imageCell = cell as? UserImageCell else { return cell }
@@ -129,15 +130,21 @@ extension ProfileViewController {
             nameCell.userNameLabel?.text = displayName
         case 2:
             guard let eventsCell = cell as? UserEventsCreationCell else { return cell }
-            eventsCell.configure(with: self, selection: { (eventEntity) in
-                
-                //present the event template
-                
+            eventsCell.configure(with: self, selection: { [weak self] (eventEntity) in
+//                let createEventVC = UIStoryboard.createEventViewController()
+//                createEventVC.item = eventEntity
+//                self?.navigationController?.pushViewController(createEventVC, animated: true)
             })
         default:
             ()
         }
         return cell
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let cell = sender as? UserEventCollectionViewCell, let vc = segue.destination as? CreateEventViewController {
+            vc.item = cell.item
+        }
     }
 }
 

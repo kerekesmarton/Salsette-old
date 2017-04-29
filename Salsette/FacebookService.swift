@@ -91,4 +91,9 @@ class FacebookEventEntity {
             self.endTime = DateFormatters.dateTimeFormatter.date(from: time)
         }
     }
+
+    convenience init(with id: String) {
+        self.init()
+        self.id = id
+    }
 }
