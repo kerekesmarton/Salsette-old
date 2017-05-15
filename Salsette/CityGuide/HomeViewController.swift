@@ -28,7 +28,10 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var profilePictureView: FBSDKProfilePictureView!
     @IBOutlet var profileButton: UIButton!
 
-    var results = HomeTutorial.cards
+    var results: [ContentEntityInterface] = HomeTutorial.cards
+    var search: GlobalSearch?
+    var interactor: ContentInteractorInterface?
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let currentCell = sender as? HomeCell,
             let vc = segue.destination as? EventViewController,
@@ -46,6 +49,19 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         profileButton.addSubview(profilePictureView)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        search?.searchResultsDelegate = self
+        load()
+    }
+    
+    func load() {
+        interactor?.load(with: search?.searchParameters,  completion: { items in
+            self.results = items
+            self.collectionView?.reloadData()
+        })
+    }
 }
 
 extension HomeViewController:UICollectionViewDataSource, UICollectionViewDelegate {
@@ -55,7 +71,14 @@ extension HomeViewController:UICollectionViewDataSource, UICollectionViewDelegat
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: "item", for: indexPath) as? HomeCell)!
-        cell.city = results[indexPath.item]
+        cell.content = results[indexPath.item] as? HomeTutorial
+        
         return cell
+    }
+}
+
+extension HomeViewController: SearchResultsDelegate {
+    func didUpdateSearch(parameters: SearchParameters) {
+        load()
     }
 }

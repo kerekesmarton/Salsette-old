@@ -30,12 +30,12 @@ class HomeCell: UICollectionViewCell {
 
   var useShortDescription: Bool = true
 
-  var city: HomeTutorial? {
+  var content: HomeTutorial? {
     didSet {
-      guard let city = city else { return }
+      guard let city = content else { return }
       let name = city.name
 
-      heroID = "\(name)"
+      heroID = "\(String(describing: name))"
 
       nameLabel.text = name
       imageView.image = city.image

@@ -309,11 +309,11 @@
 			children = (
 				1033E54E1E75C7A0002D1615 /* Extensions */,
 				1089BF811E708553006E091A /* AppDelegate.swift */,
-				FB6756C31EB45E6600B2E4D5 /* CityGuide */,
+				FB6756C31EB45E6600B2E4D5 /* Home */,
+				FB08BD021E94EE6000686193 /* User */,
 				1033E54A1E75AB21002D1615 /* Main.storyboard */,
 				106EAF3C1E92E394004686B5 /* Services */,
 				106EB0271E94636E004686B5 /* API.swift */,
-				FB08BD021E94EE6000686193 /* User */,
 				FB420F2B1EA4DF900022380D /* Create Event */,
 				1033E55A1E7A77AD002D1615 /* Content */,
 				1033E5331E75A9E3002D1615 /* Menu */,
@@ -375,7 +375,7 @@
 			name = "Create Event";
 			sourceTree = "<group>";
 		};
-		FB6756C31EB45E6600B2E4D5 /* CityGuide */ = {
+		FB6756C31EB45E6600B2E4D5 /* Home */ = {
 			isa = PBXGroup;
 			children = (
 				FB6756CE1EB45EDF00B2E4D5 /* Hero.xcassets */,
@@ -384,6 +384,7 @@
 				FB6756C71EB45E6600B2E4D5 /* HomeViewController.swift */,
 				FB6756C81EB45E6600B2E4D5 /* EventViewController.swift */,
 			);
+			name = Home;
 			path = CityGuide;
 			sourceTree = "<group>";
 		};

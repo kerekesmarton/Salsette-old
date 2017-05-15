@@ -9,7 +9,6 @@
 import UIKit
 import FBSDKLoginKit
 import Auth0
-import DZNEmptyDataSet
 import Hero
 
 class ProfileFeatureLauncher {
@@ -39,9 +38,9 @@ class ProfileViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.flatWhite
         loginBtn.loginBehavior = .systemAccount
-        tableView.emptyDataSetDelegate = self
-        tableView.emptyDataSetSource = self
+        loginBtn.delegate = self
         loginBtn.readPermissions = ["public_profile", "email", "user_friends", "user_events"]
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(deleteKeychain))
     }
@@ -52,13 +51,13 @@ class ProfileViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        interactor?.prepareView()
-        set(viewState: .userReady(true))
+        interactor?.prepareView()
+//        set(viewState: .userReady(true))
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        interactor?.viewReady()
+        interactor?.viewReady()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -97,6 +96,18 @@ class ProfileViewController: UITableViewController {
     fileprivate var userIsReady: Bool = false
     fileprivate var displayName: String?
     fileprivate var pictureIdentifier: String?
+}
+
+extension ProfileViewController: FBSDKLoginButtonDelegate {
+    
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        interactor?.prepareView()
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        interactor?.prepareView()
+    }
+
 }
 
 extension ProfileViewController {
@@ -145,12 +156,5 @@ extension ProfileViewController {
         if let cell = sender as? UserEventCollectionViewCell, let vc = segue.destination as? CreateEventViewController {
             vc.item = cell.item
         }
-    }
-}
-
-extension ProfileViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
-
-    func customView(forEmptyDataSet scrollView: UIScrollView!) -> UIView! {
-        return loginView
     }
 }

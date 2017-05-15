@@ -25,7 +25,8 @@ class FacebookService {
     
     var token: String? {
         get {
-            return FBSDKAccessToken.current().tokenString
+            guard let currentToken = FBSDKAccessToken.current() else { return nil }
+            return currentToken.tokenString ?? nil
         }
     }
     

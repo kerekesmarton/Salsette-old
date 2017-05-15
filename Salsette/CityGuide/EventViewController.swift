@@ -47,7 +47,7 @@ extension EventViewController: UICollectionViewDataSource, UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: "item", for: indexPath) as? HomeCell)!
         cell.useShortDescription = false
-        cell.city = cities[indexPath.item]
+        cell.content = cities[indexPath.item]
         return cell
     }
 }
