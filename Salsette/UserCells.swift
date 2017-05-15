@@ -53,8 +53,8 @@ class UserEventsCreationCell: UITableViewCell, SelectFacebookEventProtocol {
 //        for i in 0...3 {
             let entity = FacebookEventEntity(with: "asdf")
             entity.name = "salsa party"
-            entity.startTime = Date().addingTimeInterval(36000)
-            entity.place = "Milan"
+            entity.startDate = Date().addingTimeInterval(36000)
+            entity.location = "Milan"
             entities.append(entity)
 //        }
 
@@ -78,7 +78,7 @@ extension UserEventsCreationCell: UICollectionViewDelegate, UICollectionViewData
         userEventCell.item = item
         interactor?.getImage(for: item.imageUrl, completion: { (image) in
             if userEventCell.imageUrl == item.imageUrl {
-                userEventCell.eventImage?.heroID = "asdf"
+                userEventCell.eventImage?.heroID = item.id
                 userEventCell.eventImage?.image = image.fit(intoSize: CGSize(width: 93.5, height: 93.5))
             }
         })
@@ -105,10 +105,10 @@ class UserEventCollectionViewCell: UICollectionViewCell {
             eventName?.text = item?.name
 
             var timeString: String?
-            if let startTime = item?.startTime {
+            if let startTime = item?.startDate {
                 timeString = DateFormatters.relativeDateFormatter.string(from: startTime)
             }
-            if let endTime = item?.endTime {
+            if let endTime = item?.endDate {
                 timeString?.append(" to " + DateFormatters.relativeDateFormatter.string(from: endTime))
             }
             eventDetails?.text = timeString ?? ""

@@ -65,12 +65,12 @@ fileprivate struct WorkshopDataSource {
 fileprivate struct WorkshopEntity: ContentEntityInterface {
     
     var image: UIImage?
-    var organiser: String
-    var name: String
-    var startDate: Date
-    var endDate: Date
-    var location: String
-    var type: EventTypes
+    var organiser: String?
+    var name: String?
+    var startDate: Date?
+    var endDate: Date?
+    var location: String?
+    var type: EventTypes?
 
     init(organiser: String, name: String, startDate: Date, endDate: Date, location: String, type: EventTypes, image: UIImage?) {
         self.organiser = organiser

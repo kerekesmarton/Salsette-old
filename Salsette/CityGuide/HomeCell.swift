@@ -22,26 +22,24 @@
 
 import UIKit
 
-class CityGuideViewController: UIViewController {
-  @IBOutlet weak var collectionView: UICollectionView!
-  var cities = City.cities
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if let currentCell = sender as? CityCell,
-       let vc = segue.destination as? CityViewController,
-       let currentCellIndex = collectionView.indexPath(for: currentCell) {
-      vc.selectedIndex = currentCellIndex
+class HomeCell: UICollectionViewCell {
+  @IBOutlet weak var imageView: UIImageView!
+
+  @IBOutlet weak var nameLabel: UILabel!
+  @IBOutlet weak var descriptionLabel: UILabel!
+
+  var useShortDescription: Bool = true
+
+  var city: HomeTutorial? {
+    didSet {
+      guard let city = city else { return }
+      let name = city.name
+
+      heroID = "\(name)"
+
+      nameLabel.text = name
+      imageView.image = city.image
+      descriptionLabel.text = useShortDescription ? city.shortDescription : city.description
     }
-  }
-}
-
-extension CityGuideViewController:UICollectionViewDataSource, UICollectionViewDelegate {
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return cities.count
-  }
-
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: "item", for: indexPath) as? CityCell)!
-    cell.city = cities[indexPath.item]
-    return cell
   }
 }

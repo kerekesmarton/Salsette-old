@@ -18,7 +18,6 @@ target 'Salsette' do
     pod 'FBSDKCoreKit'
     pod 'FBSDKLoginKit'
     pod 'FBSDKShareKit'
-#    pod 'CircleMenu', '~> 2.0.1'
     pod 'Auth0'
     pod 'SimpleKeychain', '~> 0.7'
     pod 'Apollo'

@@ -67,28 +67,32 @@ class FacebookService {
 }
 
 
-class FacebookEventEntity {
+class FacebookEventEntity: ContentEntityInterface {
     var name: String?
-    var place: String?
-    var startTime: Date?
-    var endTime: Date?
+    var location: String?
+    var startDate: Date?
+    var endDate: Date?
     var imageUrl: String?
+    var image: UIImage?
     var id: String?
+    var organiser: String?
+    var type: EventTypes?
+
 
     convenience init(with dictionary:[String:Any]) {
         self.init()
         let dictionary = JSON(dictionary)
         name = dictionary["name"].string
-        place = dictionary["place"]["name"].string
+        location = dictionary["place"]["name"].string
         id = dictionary["id"].string
         if let time = dictionary["start_time"].string {
-            startTime = DateFormatters.dateTimeFormatter.date(from: time)
+            startDate = DateFormatters.dateTimeFormatter.date(from: time)
         }
         if let url = dictionary["cover"]["source"].string {
             self.imageUrl = url
         }
         if let time = dictionary["end_time"].string {
-            self.endTime = DateFormatters.dateTimeFormatter.date(from: time)
+            endDate = DateFormatters.dateTimeFormatter.date(from: time)
         }
     }
 

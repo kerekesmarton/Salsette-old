@@ -13,7 +13,7 @@ class StubContentViewControllersProvider {
     
     static let viewControllers: [UIViewController] = {
         let classesViewController = WorkshopFeatureLauncher.launch(with: "Classes")
-        let partiesViewController = EventFeatureLauncher.launch(with: "Events")
+        let partiesViewController = EventListFeatureLauncher.launch(with: "Events")
         return [classesViewController, partiesViewController]
     }()
 

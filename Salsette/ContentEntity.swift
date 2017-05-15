@@ -10,12 +10,12 @@ import UIKit
 
 public protocol ContentEntityInterface {
     var image: UIImage? { get }
-    var organiser: String { get }
-    var name: String { get }
-    var startDate: Date { get }
-    var endDate: Date { get }
-    var location: String { get }
-    var type: EventTypes { get }
+    var organiser: String? { get }
+    var name: String? { get }
+    var startDate: Date? { get }
+    var endDate: Date? { get }
+    var location: String? { get }
+    var type: EventTypes? { get }
 }
 
 public enum EventTypes: String {
@@ -26,9 +26,7 @@ public enum EventTypes: String {
     case tango = "Tango"
     case any = "Any"
     
-    static func count() -> Int {
-        return 5
-    }
+    static let allEventTypes = [salsa, bachata, kizomba, tango, any]
     
     static func item(at index: Int) -> EventTypes {
         switch index {

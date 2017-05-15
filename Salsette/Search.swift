@@ -69,6 +69,8 @@ class SearchViewController: UITableViewController {
         super.viewDidLoad()
         dateField.inputView = calendarView
         typeField.inputView = typePicker
+        typeField.delegate = self
+        dateField.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -85,7 +87,7 @@ extension SearchViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return EventTypes.count()
+        return EventTypes.allEventTypes.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {        
@@ -129,6 +131,10 @@ extension SearchViewController: UITextFieldDelegate {
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return true
+    }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return false
     }
 }
 

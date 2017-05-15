@@ -130,7 +130,7 @@ extension ProfileViewController {
             nameCell.userNameLabel?.text = displayName
         case 2:
             guard let eventsCell = cell as? UserEventsCreationCell else { return cell }
-            eventsCell.configure(with: self, selection: { [weak self] (eventEntity) in
+            eventsCell.configure(with: self, selection: { (eventEntity) in
 //                let createEventVC = UIStoryboard.createEventViewController()
 //                createEventVC.item = eventEntity
 //                self?.navigationController?.pushViewController(createEventVC, animated: true)
