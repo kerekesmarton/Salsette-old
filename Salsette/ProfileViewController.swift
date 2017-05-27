@@ -113,7 +113,7 @@ extension ProfileViewController: FBSDKLoginButtonDelegate {
 extension ProfileViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userIsReady ? 3 : 0
+        return userIsReady ? 3 : 2
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

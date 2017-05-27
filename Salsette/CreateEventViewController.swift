@@ -1,5 +1,4 @@
 //
-//  CreateEvent.swift
 //  Salsette
 //
 //  Created by Marton Kerekes on 17/04/2017.
@@ -55,10 +54,17 @@ class CreateEventViewController: UITableViewController {
 
         let picker = UIPickerView()
         typeTextField.inputView = picker
+        typeTextField.inputAccessoryView = iav
         picker.delegate = self
         picker.dataSource = self
         typeTextField.delegate = self
     }
+    
+    lazy var iav: UIView = {
+        return InputAccessoryView.create(next: { _ in }, previous: { _ in }, cancel: { cancelButton in
+            self.typeTextField.resignFirstResponder()
+        })
+    }()
 }
 
 extension CreateEventViewController: UIPickerViewDelegate, UIPickerViewDataSource {

@@ -36,7 +36,7 @@ class UserEventsCreationCell: UITableViewCell, SelectFacebookEventProtocol {
             eventCollectionView?.reloadData()
         }
     }
-//    var selectionBlock: ((FacebookEventEntity) -> Void)?
+    var selectionBlock: ((FacebookEventEntity) -> Void)?
 
     func show(error: Error) {
         
@@ -44,22 +44,22 @@ class UserEventsCreationCell: UITableViewCell, SelectFacebookEventProtocol {
     
     func configure(with viewController: UIViewController, selection block: @escaping (FacebookEventEntity) -> Void) {
         interactor = SelectFacebookEventInteractor(with: self, fbService: FacebookService.shared, downloader: ImageDownloader.shared)
-//        interactor?.prepare(from: viewController)
-        items = dummyEvents()
+        interactor?.prepare(from: viewController)
+//        items = dummyEvents()
     }
     
-    func dummyEvents() -> [FacebookEventEntity] {
-        var entities = [FacebookEventEntity]()
+//    func dummyEvents() -> [FacebookEventEntity] {
+//        var entities = [FacebookEventEntity]()
 //        for i in 0...3 {
-            let entity = FacebookEventEntity(with: "asdf")
-            entity.name = "salsa party"
-            entity.startDate = Date().addingTimeInterval(36000)
-            entity.location = "Milan"
-            entities.append(entity)
+//            let entity = FacebookEventEntity(with: "asdf")
+//            entity.name = "salsa party"
+//            entity.startDate = Date().addingTimeInterval(36000)
+//            entity.location = "Milan"
+//            entities.append(entity)
 //        }
-
-        return entities
-    }
+//
+//        return entities
+//    }
 }
 
 extension UserEventsCreationCell: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -85,14 +85,14 @@ extension UserEventsCreationCell: UICollectionViewDelegate, UICollectionViewData
         return userEventCell
     }
     
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let item = items[indexPath.row]
-//        guard let block = selectionBlock else {
-//            return
-//        }
-//        
-//        block(item)
-//    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = items[indexPath.row]
+        guard let block = selectionBlock else {
+            return
+        }
+        
+        block(item)
+    }
 }
 
 class UserEventCollectionViewCell: UICollectionViewCell {    

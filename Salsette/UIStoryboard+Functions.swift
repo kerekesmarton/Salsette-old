@@ -11,14 +11,11 @@ import UIKit
 private enum Storyboards {
     static let Main = "Main"
     static let Search = "Search"
-    static let Content = "Content"
 }
 
 private enum ViewControllers {
     static let SearchViewControllerNavigation = "SearchViewControllerNavigation"
     static let SearchViewController = "SearchViewController"
-    static let ContentViewController = "ContentViewController"
-    static let ContentViewControllerNavigation = "ContentViewControllerNavigation"
     static let CreateEventViewController = "CreateEventViewController"
 }
 
@@ -34,18 +31,6 @@ extension UIStoryboard {
         let storyBoard = UIStoryboard(name: Storyboards.Search, bundle: nil)
         let searchVC = storyBoard.instantiateViewController(withIdentifier: ViewControllers.SearchViewController) as! SearchViewController
         return searchVC
-    }
-    
-    class func contentViewController() -> ContentViewController {
-        let storyBoard = UIStoryboard(name: Storyboards.Content, bundle: nil)
-        let viewController = storyBoard.instantiateViewController(withIdentifier: ViewControllers.ContentViewController) as! ContentViewController
-        return viewController
-    }
-    
-    class func contentViewControllerInNavigation() -> ContentViewController {
-        let storyBoard = UIStoryboard(name: Storyboards.Content, bundle: nil)
-        let navController = storyBoard.instantiateViewController(withIdentifier: ViewControllers.ContentViewControllerNavigation) as! UINavigationController
-        return navController.topViewController as! ContentViewController
     }
 
     class func createEventViewController() -> CreateEventViewController {

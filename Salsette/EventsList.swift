@@ -1,5 +1,4 @@
 //
-//  EventsFeature.swift
 //  Salsette
 //
 //  Created by Marton Kerekes on 22/03/2017.
@@ -8,39 +7,29 @@
 
 import UIKit
 
-struct EventListFeatureLauncher {
-    
-    static func launch(with title: String) -> ContentViewController {
-        let viewController = UIStoryboard.contentViewController()
-        configure(viewController, with: title)
-        return viewController
-    }
-    
-    static func launchInNavigation(with title: String) -> UINavigationController {
-        let viewController = UIStoryboard.contentViewControllerInNavigation()
-        configure(viewController, with: title)
-        return viewController.navigationController!
-    }
-    
-    static func configure(_ viewController: ContentViewController, with title: String) {
-        viewController.search = GlobalSearch.sharedInstance
-        viewController.interactor = EventListInteractor(title: title)
-    }
+protocol ContentInteractorInterface {
+    func load(with parameters: SearchParameters?, completion: (([ContentEntityInterface])->Void))
 }
 
-class EventListViewController: ContentViewController {
+protocol ContentViewInterface: class {
+    var search: GlobalSearch? { get set }
+    var interactor: ContentInteractorInterface? { get set }
+}
+
+struct EventListFeatureLauncher {
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        EventListFeatureLauncher.configure(self, with: "Events")
+    static func configure(_ viewController: ContentViewInterface) {
+        viewController.search = GlobalSearch.sharedInstance
+        viewController.interactor = EventListInteractor()
     }
 }
 
 fileprivate struct EventListInteractor: ContentInteractorInterface {
     fileprivate let dataSource = EventListDataSource()
-    fileprivate var title: String
     fileprivate func load(with parameters: SearchParameters?, completion: (([ContentEntityInterface]) -> Void)) {
-        completion(dataSource.dummyEvents())
+        
+        let items: [ContentEntityInterface] = HomeTutorial.didShow ? dataSource.dummyEvents() : HomeTutorial.cards
+        completion(items)
     }
 }
 

@@ -1,8 +1,7 @@
 //
-//  ContentConstants.swift
 //  Salsette
 //
-//  Created by Marton Kerekes on 30/03/2017.
+//  Created by Marton Kerekes on 22/03/2017.
 //  Copyright © 2017 Marton Kerekes. All rights reserved.
 //
 
@@ -16,6 +15,21 @@ public protocol ContentEntityInterface {
     var endDate: Date? { get }
     var location: String? { get }
     var type: EventTypes? { get }
+    var shortDescription: String { get }
+    var description: String { get }
+}
+
+extension ContentEntityInterface {
+    var shortDescription: String {
+        get {
+            return name ?? ""
+        }
+    }
+    var description: String {
+        get {
+            return ""
+        }
+    }
 }
 
 public enum EventTypes: String {

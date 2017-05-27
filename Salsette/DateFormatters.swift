@@ -12,6 +12,12 @@ class DateFormatters {
     
     private init() {}
     
+    static var dayMonthFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d-MM"
+        return dateFormatter
+    }()
+    
     static var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"

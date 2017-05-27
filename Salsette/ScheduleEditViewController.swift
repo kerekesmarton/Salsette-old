@@ -1,5 +1,4 @@
 //
-//  ScheduleEditViewController.swift
 //  Salsette
 //
 //  Created by Marton Kerekes on 04/05/2017.
