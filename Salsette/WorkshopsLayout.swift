@@ -1,7 +1,7 @@
 
 import UIKit
 
-class WorkshopsLayout: UICollectionViewLayout {
+class WorkshopsLayout: UICollectionViewFlowLayout {
     fileprivate var cellAttributes = [IndexPath: UICollectionViewLayoutAttributes]()
     fileprivate var headerAttributes = [IndexPath: UICollectionViewLayoutAttributes]()
     fileprivate var contentSize: CGSize?
@@ -32,64 +32,59 @@ class WorkshopsLayout: UICollectionViewLayout {
         let rowHeight = availableHeight / CGFloat(numberOfVisibleItems)
 
         // 3: Calculate the width available for cells
-        let itemsWidth = collectionView!.bounds.width
+        let availableWidth = collectionView!.bounds.width
             - collectionView!.contentInset.left
             - collectionView!.contentInset.right
-            - headerWidth;
+            - CGFloat(rooms.count - 1) * horizontalDividerHeight
+        
+        let rowWidth = availableWidth / CGFloat(rooms.count)
         
         var columnX: CGFloat = 0
+        var maxY: CGFloat = 0
         
         // 4: For each day
         for (roomIndex, room) in rooms.enumerated() {
             
-            // 4.1: Find the X coordinate of the row
-            columnX = CGFloat(roomIndex) * (rowHeight + horizontalDividerHeight)
+            // 4.1: Find the X coordinate of the column
+            columnX = CGFloat(roomIndex) * (rowWidth + horizontalDividerHeight)
             
             // 4.2: Generate and store layout attributes header cell
             let headerIndexPath = IndexPath(item: 0, section: roomIndex)
-
-            let headerCellAttributes =
-                UICollectionViewLayoutAttributes(
-                    forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
-                    with: headerIndexPath)
-            
+            let headerCellAttributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, with: headerIndexPath)
             headerAttributes[headerIndexPath] = headerCellAttributes
-
-            headerCellAttributes.frame = CGRect(x: 0, y: columnX, width: headerWidth, height: rowHeight)
+            headerCellAttributes.frame = CGRect(x: columnX, y: 0, width: rowWidth, height: rowHeight)
             
-            // 4.3: Get the total number of hours for the day
-            let hoursInDay = room.workshops.reduce(0) { (h, e) in h + e.hours }
+            // Set the initial Y position for time entry cells
+            var cellY = rowHeight
             
-            // Set the initial X position for time entry cells
-            var cellX = headerWidth
-            
-            // 4.4: For each time entry in day
-            for (entryIndex, entry) in room.workshops.enumerated() {
+            // 4.3: For each time entry in day
+            for (wsIndex, workshop) in room.workshops.enumerated() {
                 
-                // 4.4.1: Get the width of the cell
-                var cellWidth = CGFloat(Double(entry.hours) / Double(hoursInDay)) * itemsWidth
+                // 4.3.1: Get the height of the cell
+                var cellHeight = CGFloat(workshop.hours) * rowHeight
                 
                 // Leave some empty space to form the vertical divider
-                cellWidth -= verticalDividerWidth
-                cellX += verticalDividerWidth
+                cellHeight -= verticalDividerWidth
+                cellY += verticalDividerWidth
                 
-                // 4.4.3: Generate and store layout attributes for the cell
-                let cellIndexPath = IndexPath(item: entryIndex, section: roomIndex)
-                let timeEntryCellAttributes =
-                    UICollectionViewLayoutAttributes(forCellWith: cellIndexPath)
+                // 4.3.2: Generate and store layout attributes for the cell
+                let cellIndexPath = IndexPath(item: wsIndex, section: roomIndex)
+                let timeEntryCellAttributes = UICollectionViewLayoutAttributes(forCellWith: cellIndexPath)
                 
                 cellAttributes[cellIndexPath] = timeEntryCellAttributes
                 
-                timeEntryCellAttributes.frame = CGRect(x: cellX, y: columnX, width: cellWidth, height: rowHeight)
+                timeEntryCellAttributes.frame = CGRect(x: columnX, y: cellY, width: rowWidth, height: cellHeight)
                 
                 // Update cellX to the next starting position
-                cellX += cellWidth
+                cellY += cellHeight
             }
+            maxY = max(maxY, cellY)
         }
         
         // 5: Store the complete content size
-        let maxY = columnX + rowHeight
-        contentSize = CGSize(width: collectionView!.bounds.width, height: maxY)
+        let maxX = columnX + rowWidth
+        
+        contentSize = CGSize(width: maxX, height: maxY)
         
         print("collectionView size = \(NSStringFromCGSize(collectionView!.bounds.size))")
         print("contentSize = \(NSStringFromCGSize(contentSize!))")

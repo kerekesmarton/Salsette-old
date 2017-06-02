@@ -153,7 +153,9 @@ extension ProfileViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let cell = sender as? UserEventCollectionViewCell, let vc = segue.destination as? CreateEventViewController {
+        if let cell = sender as? UserEventCollectionViewCell,
+            let navigation = segue.destination as? UINavigationController,
+            let vc = navigation.topViewController as? CreateEventViewController {
             vc.item = cell.item
         }
     }

@@ -34,15 +34,20 @@ class WorkshopCell: UICollectionViewCell {
     @IBOutlet var nameLbl: UILabel!
 }
 
+class RoomCell: UICollectionReusableView {
+    @IBOutlet var nameLbl: UILabel!
+}
+
 class WorkshopsEditViewController: UICollectionViewController {
     
+    fileprivate var computedItems = [Room]()
     var items = [Workshop](){
         didSet {
             var roomNames = Set<String>()
             items.forEach { roomNames.insert($0.room) }
             
             var rooms = [Room]()
-            roomNames.forEach { roomName in
+            roomNames.sorted().forEach { roomName in
                 rooms.append(Room(workshops: items.filter({ return $0.room == roomName }).sorted(by: { (w1, w2) -> Bool in
                     w1.startTime < w2.startTime
                 })))
@@ -59,11 +64,6 @@ class WorkshopsEditViewController: UICollectionViewController {
         
         layout.rooms = computedItems
     }
-    
-    fileprivate var computedItems = [Room]()
-}
-
-extension WorkshopsEditViewController {
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return computedItems.count
@@ -84,22 +84,11 @@ extension WorkshopsEditViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let cell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "RoomCell", for: indexPath) ;
-        
+        guard let cell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "RoomCell", for: indexPath) as? RoomCell else {
+            return UICollectionViewCell()
+        }
         let room = computedItems[indexPath.section];
-        let totalHours = room.workshops.reduce(0) {(total, entry) in total + entry.hours}
-        
-        let dateLabel = cell.viewWithTag(1) as! UILabel
-        let hoursLabel = cell.viewWithTag(2) as! UILabel
-        
-        dateLabel.text = room.roomName
-        hoursLabel.text = String(totalHours)
-        
-        let hours = String(totalHours)
-        let bold = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 16)]
-        let text = NSMutableAttributedString(string: "\(hours)\nHOURS")
-        text.setAttributes(bold, range: NSMakeRange(0, hours.characters.count))
-        hoursLabel.attributedText = text
+        cell.nameLbl.text = room.roomName
         
         return cell
     }
@@ -110,9 +99,14 @@ extension WorkshopsEditViewController {
         return [Workshop(name: "A1", startTime: Date(timeIntervalSinceNow: 0), room: "A"),
                 Workshop(name: "A2", startTime: Date(timeIntervalSinceNow: 60), room: "A"),
                 Workshop(name: "A3", startTime: Date(timeIntervalSinceNow: 120), room: "A"),
+                Workshop(name: "A1", startTime: Date(timeIntervalSinceNow: 180), room: "A"),
+                Workshop(name: "A2", startTime: Date(timeIntervalSinceNow: 240), room: "A"),
                 
                 Workshop(name: "B1", startTime: Date(timeIntervalSinceNow: 0), room: "B"),
                 Workshop(name: "B2", startTime: Date(timeIntervalSinceNow: 60), room: "B"),
-                Workshop(name: "B3", startTime: Date(timeIntervalSinceNow: 120), room: "B")]
+                Workshop(name: "B3", startTime: Date(timeIntervalSinceNow: 120), room: "B"),
+                
+                Workshop(name: "C1", startTime: Date(timeIntervalSinceNow: 120), room: "C"),
+        ]
     }
 }
