@@ -21,7 +21,8 @@ class HomeViewController: UIViewController, ContentViewInterface {
     var interactor: ContentInteractorInterface?
     
     override func awakeFromNib() {
-        EventListFeatureLauncher.configure(self)
+        search = GlobalSearch.sharedInstance
+        interactor = HomeInteractor()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

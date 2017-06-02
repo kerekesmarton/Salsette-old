@@ -16,24 +16,16 @@ protocol ContentViewInterface: class {
     var interactor: ContentInteractorInterface? { get set }
 }
 
-struct EventListFeatureLauncher {
-    
-    static func configure(_ viewController: ContentViewInterface) {
-        viewController.search = GlobalSearch.sharedInstance
-        viewController.interactor = EventListInteractor()
-    }
-}
-
-fileprivate struct EventListInteractor: ContentInteractorInterface {
-    fileprivate let dataSource = EventListDataSource()
-    fileprivate func load(with parameters: SearchParameters?, completion: (([ContentEntityInterface]) -> Void)) {
+struct HomeInteractor: ContentInteractorInterface {
+    fileprivate let dataSource = ContentDataSource()
+    internal func load(with parameters: SearchParameters?, completion: (([ContentEntityInterface]) -> Void)) {
         
         let items: [ContentEntityInterface] = HomeTutorial.didShow ? dataSource.dummyEvents() : HomeTutorial.cards
         completion(items)
     }
 }
 
-fileprivate struct EventListDataSource {
+fileprivate struct ContentDataSource {
     fileprivate func dummyEvents () -> [EventEntity] {
             
             let dummyTomorrow = Date().addingTimeInterval(3600*24)
