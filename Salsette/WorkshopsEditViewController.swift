@@ -18,10 +18,10 @@ struct Room {
 
 struct Workshop {
     let name: String
-    let hours: Int = 1
+    let hours: Double = 1
     let startTime: Date
     let room: String
-    
+    var artist: String?
     init(name: String, startTime: Date, room: String) {
         self.name = name
         self.startTime = startTime
@@ -60,9 +60,29 @@ class WorkshopsEditViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         items = dummyWorkshops()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editPrompt))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         guard let layout = collectionView?.collectionViewLayout as? WorkshopsLayout else { return }
-        
         layout.rooms = computedItems
+        collectionView?.reloadData()
+    }
+    
+    func editPrompt() {
+        let prompt = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        prompt.addAction(UIAlertAction(title: "Add Workshop", style: .default, handler: { (action) in
+            self.performSegue(withIdentifier: "CreateWorkshopSegue", sender: self)
+            prompt.dismiss(animated: true, completion: nil)
+        }))
+        prompt.addAction(UIAlertAction(title: "Edit", style: .default, handler: { (action) in
+            prompt.dismiss(animated: true, completion: nil)
+        }))
+        prompt.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+            prompt.dismiss(animated: true, completion: nil)
+        }))
+        present(prompt, animated: true, completion: nil)
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -92,6 +112,17 @@ class WorkshopsEditViewController: UICollectionViewController {
         
         return cell
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "CreateWorkshopSegue", let vc = segue.destination as? CreateWorkshopViewController {
+            vc.rooms = computedItems.flatMap { return $0.roomName }
+            vc.createWorkshopDidFinish = {
+                workshop in self.items.append(workshop)
+            }
+        }
+    }
+    
+    
 }
 
 extension WorkshopsEditViewController {

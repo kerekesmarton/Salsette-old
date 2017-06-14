@@ -7,9 +7,9 @@
 //
 
 import UIKit
+import TextFieldEffects
 
-
-class NoCopyPasteTextField: UITextField {
+class NoCopyPasteTextField: HoshiTextField {
     var showsCursor: Bool {
         get {
             return false

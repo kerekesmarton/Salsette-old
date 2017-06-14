@@ -63,12 +63,18 @@ class SearchViewController: UITableViewController {
         return calendarProxy.calendar
     }
     
-    var searchInteractor: SearchInteractor?
+    lazy var searchInteractor: SearchInteractor = {
+        let interactor = SearchInteractor(presenter: SearchPresenter())
+        interactor.searchPresenter.searchView = self
+        return interactor
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         dateField.inputView = calendarView
         typeField.inputView = typePicker
+        typePicker.delegate = self
+        typePicker.dataSource = self
         typeField.delegate = self
         dateField.delegate = self
     }
@@ -76,7 +82,6 @@ class SearchViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fields.forEach({$0.endEditing(true)})
-        
     }
 }
 
@@ -96,7 +101,7 @@ extension SearchViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         typeField.text = EventTypes.string(at: row)
-        searchInteractor?.didChange(.type(EventTypes.item(at: row)))
+        searchInteractor.didChange(.type(EventTypes.item(at: row)))
     }
 }
 
@@ -105,9 +110,9 @@ extension SearchViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         switch textField {
         case nameField:
-            searchInteractor?.didChange(.name(nameField.text!))
+            searchInteractor.didChange(.name(nameField.text!))
         case locationField:
-            searchInteractor?.didChange(.location(locationField.text!))
+            searchInteractor.didChange(.location(locationField.text!))
         default:
             ()
         }
@@ -116,11 +121,11 @@ extension SearchViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case nameField:
-            nameField.resignFirstResponder()
+            dateField.becomeFirstResponder()
         case dateField:
-            dateField.resignFirstResponder()
+            locationField.becomeFirstResponder()
         case locationField:
-            locationField.resignFirstResponder()
+            typeField.becomeFirstResponder()
         case typeField:
             typeField.resignFirstResponder()
         default:
@@ -134,7 +139,10 @@ extension SearchViewController: UITextFieldDelegate {
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return false
+        if textField == typeField || textField == dateField {
+            return false
+        }
+        return true
     }
 }
 
@@ -217,6 +225,7 @@ extension SearchInteractor: CalendarViewSelectionDelegate {
             return false
         }
         guard let endDate = endDate else {
+            
             return true // no end date, pick it
         }
         if startDate < date && endDate > date {

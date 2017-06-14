@@ -35,6 +35,7 @@
 		109AFB5C1E902EA700E424F6 /* FacebookPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109AFB5B1E902EA700E424F6 /* FacebookPermissions.swift */; };
 		10B9AF761E7DA2900033A6BF /* UImage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B9AF751E7DA2900033A6BF /* UImage+Additions.swift */; };
 		10B9AF781E7E96870033A6BF /* CGSize+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B9AF771E7E96870033A6BF /* CGSize+Additions.swift */; };
+		10BE40AC1EE31E58006D3DAC /* CreateWorkshopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BE40AB1EE31E58006D3DAC /* CreateWorkshopViewController.swift */; };
 		10D733431E728E7600F47A52 /* UIStoryboard+Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */; };
 		10D8D8651ED9DB3B008A5A76 /* PassThroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D8D8641ED9DB3B008A5A76 /* PassThroughView.swift */; };
 		10D8D8681ED9DCAE008A5A76 /* InputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D8D8671ED9DCAE008A5A76 /* InputAccessoryView.swift */; };
@@ -106,6 +107,7 @@
 		109AFB5B1E902EA700E424F6 /* FacebookPermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookPermissions.swift; sourceTree = "<group>"; };
 		10B9AF751E7DA2900033A6BF /* UImage+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UImage+Additions.swift"; sourceTree = "<group>"; };
 		10B9AF771E7E96870033A6BF /* CGSize+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Additions.swift"; sourceTree = "<group>"; };
+		10BE40AB1EE31E58006D3DAC /* CreateWorkshopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateWorkshopViewController.swift; sourceTree = "<group>"; };
 		10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Functions.swift"; sourceTree = "<group>"; };
 		10D8D8641ED9DB3B008A5A76 /* PassThroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassThroughView.swift; sourceTree = "<group>"; };
 		10D8D8671ED9DCAE008A5A76 /* InputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputAccessoryView.swift; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 			children = (
 				FB6D92091EBBD97300025CD8 /* WorkshopsEditViewController.swift */,
 				10D8D86B1EE0D0F6008A5A76 /* WorkshopsLayout.swift */,
+				10BE40AB1EE31E58006D3DAC /* CreateWorkshopViewController.swift */,
 			);
 			name = Workshops;
 			sourceTree = "<group>";
@@ -524,6 +527,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBB7DFBC1EA8A8DE006C0D54 /* SelectFacebookEventInteractor.swift in Sources */,
+				10BE40AC1EE31E58006D3DAC /* CreateWorkshopViewController.swift in Sources */,
 				FB9B176F1E9E6ECE00682076 /* Keys.swift in Sources */,
 				FB6D920A1EBBD97300025CD8 /* WorkshopsEditViewController.swift in Sources */,
 				FBF5A9C61E977810000CED7A /* KeychainStorage.swift in Sources */,

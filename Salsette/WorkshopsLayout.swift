@@ -30,7 +30,7 @@ class WorkshopsLayout: UICollectionViewFlowLayout {
             - CGFloat(numberOfVisibleItems - 1) * horizontalDividerHeight
         
         let rowHeight = availableHeight / CGFloat(numberOfVisibleItems)
-
+        let headerHeight = rowHeight / 2
         // 3: Calculate the width available for cells
         let availableWidth = collectionView!.bounds.width
             - collectionView!.contentInset.left
@@ -52,10 +52,10 @@ class WorkshopsLayout: UICollectionViewFlowLayout {
             let headerIndexPath = IndexPath(item: 0, section: roomIndex)
             let headerCellAttributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, with: headerIndexPath)
             headerAttributes[headerIndexPath] = headerCellAttributes
-            headerCellAttributes.frame = CGRect(x: columnX, y: 0, width: rowWidth, height: rowHeight)
+            headerCellAttributes.frame = CGRect(x: columnX, y: 0, width: rowWidth, height: headerHeight)
             
-            // Set the initial Y position for time entry cells
-            var cellY = rowHeight
+            // Set the initial Y position for workshop cells
+            var cellY = headerHeight
             
             // 4.3: For each time entry in day
             for (wsIndex, workshop) in room.workshops.enumerated() {
