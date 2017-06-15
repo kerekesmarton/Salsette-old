@@ -85,9 +85,6 @@ class WorkshopsLayout: UICollectionViewFlowLayout {
         let maxX = columnX + rowWidth
         
         contentSize = CGSize(width: maxX, height: maxY)
-        
-        print("collectionView size = \(NSStringFromCGSize(collectionView!.bounds.size))")
-        print("contentSize = \(NSStringFromCGSize(contentSize!))")
     }
         
     override var collectionViewContentSize : CGSize {
@@ -114,8 +111,6 @@ class WorkshopsLayout: UICollectionViewFlowLayout {
             }
         }
             
-        print("layoutAttributesForElementsInRect rect = \(NSStringFromCGRect(rect)), returned \(attributes.count) attributes")
-        
         return attributes
 
     }

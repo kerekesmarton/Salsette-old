@@ -49,19 +49,21 @@ class ProfileViewController: UITableViewController {
         KeychainStorage.shared.clear()
     }
 
+    //offline testing
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        set(viewState: .userReady(true))
+//    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         interactor?.prepareView()
-//        set(viewState: .userReady(true))
     }
-    
+
+    //comment for offline testing
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         interactor?.viewReady()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
     }
     
     func set(viewState: ViewStates) {
@@ -141,11 +143,7 @@ extension ProfileViewController {
             nameCell.userNameLabel?.text = displayName
         case 2:
             guard let eventsCell = cell as? UserEventsCreationCell else { return cell }
-            eventsCell.configure(with: self, selection: { (eventEntity) in
-//                let createEventVC = UIStoryboard.createEventViewController()
-//                createEventVC.item = eventEntity
-//                self?.navigationController?.pushViewController(createEventVC, animated: true)
-            })
+            eventsCell.configure(with: self)
         default:
             ()
         }

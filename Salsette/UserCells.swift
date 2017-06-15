@@ -42,24 +42,29 @@ class UserEventsCreationCell: UITableViewCell, SelectFacebookEventProtocol {
         
     }
     
-    func configure(with viewController: UIViewController, selection block: @escaping (FacebookEventEntity) -> Void) {
+    func configure(with viewController: UIViewController) {
         interactor = SelectFacebookEventInteractor(with: self, fbService: FacebookService.shared, downloader: ImageDownloader.shared)
         interactor?.prepare(from: viewController)
-//        items = dummyEvents()
     }
-    
-//    func dummyEvents() -> [FacebookEventEntity] {
-//        var entities = [FacebookEventEntity]()
-//        for i in 0...3 {
-//            let entity = FacebookEventEntity(with: "asdf")
-//            entity.name = "salsa party"
-//            entity.startDate = Date().addingTimeInterval(36000)
-//            entity.location = "Milan"
-//            entities.append(entity)
-//        }
-//
-//        return entities
+
+    //offline testing
+//    func configure(with viewController: UIViewController) {
+//        interactor = SelectFacebookEventInteractor(with: self, fbService: FacebookService.shared, downloader: ImageDownloader.shared)
+//        items = dummyEvents()
 //    }
+    
+    func dummyEvents() -> [FacebookEventEntity] {
+        var entities = [FacebookEventEntity]()
+        for _ in 0...3 {
+            let entity = FacebookEventEntity(with: "asdf")
+            entity.name = "salsa party"
+            entity.startDate = Date().addingTimeInterval(36000)
+            entity.location = "Milan"
+            entities.append(entity)
+        }
+
+        return entities
+    }
 }
 
 extension UserEventsCreationCell: UICollectionViewDelegate, UICollectionViewDataSource {

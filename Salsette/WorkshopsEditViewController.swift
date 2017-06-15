@@ -15,12 +15,11 @@ struct Room {
     let workshops: [Workshop]
 }
 
-
 struct Workshop {
     let name: String
     let hours: Double = 1
-    let startTime: Date
-    let room: String
+    var startTime: Date
+    var room: String
     var artist: String?
     init(name: String, startTime: Date, room: String) {
         self.name = name
@@ -28,6 +27,10 @@ struct Workshop {
         self.room = room
     }
     
+}
+
+func ==(lhs: Workshop, rhs: Workshop) -> Bool {
+    return lhs.room == rhs.room && lhs.startTime == rhs.startTime
 }
 
 class WorkshopCell: UICollectionViewCell {
@@ -54,6 +57,8 @@ class WorkshopsEditViewController: UICollectionViewController {
             }
             
             computedItems = rooms
+            guard let layout = collectionView?.collectionViewLayout as? WorkshopsLayout else { return }
+            layout.rooms = rooms
         }
     }
     
@@ -61,6 +66,8 @@ class WorkshopsEditViewController: UICollectionViewController {
         super.viewDidLoad()
         items = dummyWorkshops()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editPrompt))
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(WorkshopsEditViewController.handleLongPress(gesture:)))
+        self.collectionView?.addGestureRecognizer(longPressGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,13 +77,28 @@ class WorkshopsEditViewController: UICollectionViewController {
         collectionView?.reloadData()
     }
     
-    func editPrompt() {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "CreateWorkshopSegue", let vc = segue.destination as? CreateWorkshopViewController {
+            vc.rooms = computedItems.flatMap { return $0.roomName }
+            vc.createWorkshopDidFinish = {
+                workshop in self.items.append(workshop)
+            }
+        }
+    }
+}
+
+// MARK: privates
+
+extension WorkshopsEditViewController {
+    
+    @objc fileprivate func editPrompt() {
         let prompt = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         prompt.addAction(UIAlertAction(title: "Add Workshop", style: .default, handler: { (action) in
             self.performSegue(withIdentifier: "CreateWorkshopSegue", sender: self)
             prompt.dismiss(animated: true, completion: nil)
         }))
         prompt.addAction(UIAlertAction(title: "Edit", style: .default, handler: { (action) in
+            self.setEditing(!self.isEditing, animated: true)
             prompt.dismiss(animated: true, completion: nil)
         }))
         prompt.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
@@ -85,6 +107,28 @@ class WorkshopsEditViewController: UICollectionViewController {
         present(prompt, animated: true, completion: nil)
     }
     
+    @objc fileprivate func handleLongPress(gesture: UILongPressGestureRecognizer) {
+        
+        switch(gesture.state) {
+            
+        case UIGestureRecognizerState.began:
+            guard let selectedIndexPath = self.collectionView?.indexPathForItem(at: gesture.location(in: self.collectionView)) else {
+                break
+            }
+            collectionView?.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case UIGestureRecognizerState.changed:
+            collectionView?.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+        case UIGestureRecognizerState.ended:
+            collectionView?.endInteractiveMovement()
+        default:
+            collectionView?.cancelInteractiveMovement()
+        }
+    }
+}
+
+// MARK: - collection view
+
+extension WorkshopsEditViewController {
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return computedItems.count
     }
@@ -113,25 +157,51 @@ class WorkshopsEditViewController: UICollectionViewController {
         return cell
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "CreateWorkshopSegue", let vc = segue.destination as? CreateWorkshopViewController {
-            vc.rooms = computedItems.flatMap { return $0.roomName }
-            vc.createWorkshopDidFinish = {
-                workshop in self.items.append(workshop)
-            }
+    override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        var sourceItem = computedItems[sourceIndexPath.section].workshops[sourceIndexPath.row]
+        var destinationItem = computedItems[destinationIndexPath.section].workshops[destinationIndexPath.row]
+        
+        if sourceItem == destinationItem {
+//            print("items are equal")
+            return
         }
+//        print(">>>>starting switch")
+//        print(sourceItem)
+//        print(destinationItem)
+//        
+        guard let sourceIndex = items.index(where: { (item) -> Bool in sourceItem == item }) else {
+            return
+        }
+        items.remove(at: sourceIndex)
+        
+        guard let destIndex = items.index(where: { (item) -> Bool in destinationItem == item }) else {
+            return
+        }
+        items.remove(at: destIndex)
+        
+        let tempItem = destinationItem
+        destinationItem.room = sourceItem.room
+        destinationItem.startTime = sourceItem.startTime
+        sourceItem.room = tempItem.room
+        sourceItem.startTime = tempItem.startTime
+        
+//        print("after switch")
+//        print(sourceItem)
+//        print(destinationItem)
+        
+        items.append(sourceItem)
+        items.append(destinationItem)
+        
     }
-    
-    
 }
 
 extension WorkshopsEditViewController {
-    func dummyWorkshops() -> [Workshop] {
+    fileprivate func dummyWorkshops() -> [Workshop] {
         return [Workshop(name: "A1", startTime: Date(timeIntervalSinceNow: 0), room: "A"),
                 Workshop(name: "A2", startTime: Date(timeIntervalSinceNow: 60), room: "A"),
                 Workshop(name: "A3", startTime: Date(timeIntervalSinceNow: 120), room: "A"),
-                Workshop(name: "A1", startTime: Date(timeIntervalSinceNow: 180), room: "A"),
-                Workshop(name: "A2", startTime: Date(timeIntervalSinceNow: 240), room: "A"),
+                Workshop(name: "A4", startTime: Date(timeIntervalSinceNow: 180), room: "A"),
+                Workshop(name: "A5", startTime: Date(timeIntervalSinceNow: 240), room: "A"),
                 
                 Workshop(name: "B1", startTime: Date(timeIntervalSinceNow: 0), room: "B"),
                 Workshop(name: "B2", startTime: Date(timeIntervalSinceNow: 60), room: "B"),

@@ -16,6 +16,7 @@
 		1033E5531E75C7AA002D1615 /* UIFont+Avenir.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5501E75C7AA002D1615 /* UIFont+Avenir.swift */; };
 		1033E5541E75C7AA002D1615 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5511E75C7AA002D1615 /* String+Additions.swift */; };
 		1033E5571E79CA44002D1615 /* Calendar.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1033E5561E79CA44002D1615 /* Calendar.xcassets */; };
+		1053CA081EF261230034844A /* SwappingCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053CA071EF261230034844A /* SwappingCollectionView.swift */; };
 		106306AE1E8B951C0089DA00 /* Calendar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 106306AD1E8B951C0089DA00 /* Calendar.xib */; };
 		106306B41E8CE3BF0089DA00 /* ContentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306B31E8CE3BF0089DA00 /* ContentEntity.swift */; };
 		106306BC1E8E99600089DA00 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306BB1E8E99600089DA00 /* ProfileViewController.swift */; };
@@ -83,6 +84,7 @@
 		1033E5511E75C7AA002D1615 /* String+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
 		1033E5551E79C2C4002D1615 /* Objc-Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Objc-Bridge-Header.h"; sourceTree = "<group>"; };
 		1033E5561E79CA44002D1615 /* Calendar.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Calendar.xcassets; sourceTree = "<group>"; };
+		1053CA071EF261230034844A /* SwappingCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwappingCollectionView.swift; sourceTree = "<group>"; };
 		106306AD1E8B951C0089DA00 /* Calendar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Calendar.xib; sourceTree = "<group>"; };
 		106306B31E8CE3BF0089DA00 /* ContentEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentEntity.swift; path = ../ContentEntity.swift; sourceTree = "<group>"; };
 		106306BB1E8E99600089DA00 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 			isa = PBXGroup;
 			children = (
 				FB6D92091EBBD97300025CD8 /* WorkshopsEditViewController.swift */,
+				1053CA071EF261230034844A /* SwappingCollectionView.swift */,
 				10D8D86B1EE0D0F6008A5A76 /* WorkshopsLayout.swift */,
 				10BE40AB1EE31E58006D3DAC /* CreateWorkshopViewController.swift */,
 			);
@@ -565,6 +568,7 @@
 				10964C451E82E66300CDFE3F /* HomeInteractor.swift in Sources */,
 				109AFB5C1E902EA700E424F6 /* FacebookPermissions.swift in Sources */,
 				1033E5441E75AAB3002D1615 /* UIFont+Zeplin.swift in Sources */,
+				1053CA081EF261230034844A /* SwappingCollectionView.swift in Sources */,
 				FB6756C91EB45E6600B2E4D5 /* HomeTutorial.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
