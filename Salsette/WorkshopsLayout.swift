@@ -58,10 +58,10 @@ class WorkshopsLayout: UICollectionViewFlowLayout {
             var cellY = headerHeight
             
             // 4.3: For each time entry in day
-            for (wsIndex, workshop) in room.workshops.enumerated() {
+            for (wsIndex, _) in room.workshops.enumerated() {
                 
                 // 4.3.1: Get the height of the cell
-                var cellHeight = CGFloat(workshop.hours) * rowHeight
+                var cellHeight = rowHeight
                 
                 // Leave some empty space to form the vertical divider
                 cellHeight -= verticalDividerWidth

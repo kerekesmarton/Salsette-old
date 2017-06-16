@@ -53,7 +53,7 @@
 		FB6756CB1EB45E6600B2E4D5 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6756C61EB45E6600B2E4D5 /* HomeCell.swift */; };
 		FB6756CC1EB45E6600B2E4D5 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6756C71EB45E6600B2E4D5 /* HomeViewController.swift */; };
 		FB6756CD1EB45E6600B2E4D5 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6756C81EB45E6600B2E4D5 /* EventViewController.swift */; };
-		FB6756CF1EB45EDF00B2E4D5 /* Hero.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB6756CE1EB45EDF00B2E4D5 /* Hero.xcassets */; };
+		FB6756CF1EB45EDF00B2E4D5 /* Salsette.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB6756CE1EB45EDF00B2E4D5 /* Salsette.xcassets */; };
 		FB6756D11EB45FFC00B2E4D5 /* UIView+Hero.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6756D01EB45FFC00B2E4D5 /* UIView+Hero.swift */; };
 		FB6D92081EBBD26900025CD8 /* NoCopyPasteTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6D92071EBBD26900025CD8 /* NoCopyPasteTextField.swift */; };
 		FB6D920A1EBBD97300025CD8 /* WorkshopsEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6D92091EBBD97300025CD8 /* WorkshopsEditViewController.swift */; };
@@ -129,7 +129,7 @@
 		FB6756C61EB45E6600B2E4D5 /* HomeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
 		FB6756C71EB45E6600B2E4D5 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		FB6756C81EB45E6600B2E4D5 /* EventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
-		FB6756CE1EB45EDF00B2E4D5 /* Hero.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Hero.xcassets; sourceTree = "<group>"; };
+		FB6756CE1EB45EDF00B2E4D5 /* Salsette.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Salsette.xcassets; path = CityGuide/Salsette.xcassets; sourceTree = "<group>"; };
 		FB6756D01EB45FFC00B2E4D5 /* UIView+Hero.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Hero.swift"; sourceTree = "<group>"; };
 		FB6D92071EBBD26900025CD8 /* NoCopyPasteTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoCopyPasteTextField.swift; sourceTree = "<group>"; };
 		FB6D92091EBBD97300025CD8 /* WorkshopsEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkshopsEditViewController.swift; sourceTree = "<group>"; };
@@ -195,6 +195,7 @@
 		10662C2F1ECD7B36009A220F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FB6756CE1EB45EDF00B2E4D5 /* Salsette.xcassets */,
 				1089BF881E708553006E091A /* Assets.xcassets */,
 				1089BF8A1E708553006E091A /* LaunchScreen.storyboard */,
 				10EBD4751E9EDB4800B10B6D /* schema.json */,
@@ -329,7 +330,6 @@
 		FB6756C31EB45E6600B2E4D5 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				FB6756CE1EB45EDF00B2E4D5 /* Hero.xcassets */,
 				FB6756C41EB45E6600B2E4D5 /* HomeTutorial.swift */,
 				FB6756C61EB45E6600B2E4D5 /* HomeCell.swift */,
 				FB6756C71EB45E6600B2E4D5 /* HomeViewController.swift */,
@@ -441,7 +441,7 @@
 				1033E54B1E75AB21002D1615 /* Main.storyboard in Resources */,
 				1089BF8C1E708553006E091A /* LaunchScreen.storyboard in Resources */,
 				1089BF891E708553006E091A /* Assets.xcassets in Resources */,
-				FB6756CF1EB45EDF00B2E4D5 /* Hero.xcassets in Resources */,
+				FB6756CF1EB45EDF00B2E4D5 /* Salsette.xcassets in Resources */,
 				10EBD4761E9EDB4800B10B6D /* schema.json in Resources */,
 				106EB02C1E94661A004686B5 /* CurrentUser.graphql in Resources */,
 				106EAF441E94333E004686B5 /* Auth0.plist in Resources */,

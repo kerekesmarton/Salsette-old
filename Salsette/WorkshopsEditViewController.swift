@@ -8,15 +8,25 @@
 import UIKit
 
 struct Room {
-    var roomName: String? {
+    var roomName: String {
         return workshops[0].room
     }
     
-    let workshops: [Workshop]
+    var workshops: Array<RoomArrangable> = []
 }
 
-struct Workshop {
-    let name: String
+protocol RoomArrangable: Equatable {
+    var startTime: Date { get set }
+    var room: String { get set }
+    var name: String { get set }
+}
+
+func ==<T : RoomArrangable>(lhs: T, rhs: T) -> Bool {
+    return lhs.room == rhs.room && lhs.startTime == rhs.startTime
+}
+
+struct Workshop: RoomArrangable {
+    var name: String
     let hours: Double = 1
     var startTime: Date
     var room: String
@@ -26,11 +36,17 @@ struct Workshop {
         self.startTime = startTime
         self.room = room
     }
-    
 }
 
-func ==(lhs: Workshop, rhs: Workshop) -> Bool {
-    return lhs.room == rhs.room && lhs.startTime == rhs.startTime
+struct EmptyWorkshop: RoomArrangable {
+    var startTime: Date
+    var room: String
+    var name = ""
+    
+    init(startTime: Date, room: String) {
+        self.startTime = startTime
+        self.room = room
+    }
 }
 
 class WorkshopCell: UICollectionViewCell {
@@ -44,10 +60,13 @@ class RoomCell: UICollectionReusableView {
 class WorkshopsEditViewController: UICollectionViewController {
     
     fileprivate var computedItems = [Room]()
-    var items = [Workshop](){
+    var items = [RoomArrangable](){
         didSet {
             var roomNames = Set<String>()
             items.forEach { roomNames.insert($0.room) }
+            
+            var startTimes = Set<Date>()
+            items.forEach { startTimes.insert($0.startTime) }
             
             var rooms = [Room]()
             roomNames.sorted().forEach { roomName in
@@ -56,7 +75,18 @@ class WorkshopsEditViewController: UICollectionViewController {
                 })))
             }
             
-            computedItems = rooms
+            computedItems = rooms.map { (room) -> Room in
+                var newRoom = Room(workshops: room.workshops)
+                startTimes.forEach { (startTime) in
+                    if !room.workshops.contains(where: { (roomArrangable) -> Bool in
+                        return roomArrangable.startTime == startTime
+                    }) {
+                        newRoom.workshops.append(EmptyWorkshop(startTime: startTime, room: room.roomName))
+                    }
+                }
+                return room
+            }
+            
             guard let layout = collectionView?.collectionViewLayout as? WorkshopsLayout else { return }
             layout.rooms = rooms
         }
@@ -80,10 +110,32 @@ class WorkshopsEditViewController: UICollectionViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "CreateWorkshopSegue", let vc = segue.destination as? CreateWorkshopViewController {
             vc.rooms = computedItems.flatMap { return $0.roomName }
-            vc.createWorkshopDidFinish = {
-                workshop in self.items.append(workshop)
+            vc.createWorkshopDidFinish = { workshop in
+                 self.items.append(workshop)
+            }
+            if let workshop = sender as? RoomArrangable {
+                vc.prefilledWorkshop = workshop
+                
+                if let i = items.index(where: { $0 == workshop }) {
+                    items.remove(at: i)
+                    vc.createWorkshopDidFinish = { workshop in
+                        self.items.append(workshop)
+                    }
+                }
             }
         }
+    }
+}
+
+extension Array where Element: Equatable {
+    
+    // Remove first collection element that is equal to the given `object`:
+    @discardableResult mutating func remove(item: Element) -> Bool{
+        if let index = index(of: item) {
+            remove(at: index)
+            return true
+        }
+        return false
     }
 }
 
@@ -95,10 +147,6 @@ extension WorkshopsEditViewController {
         let prompt = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         prompt.addAction(UIAlertAction(title: "Add Workshop", style: .default, handler: { (action) in
             self.performSegue(withIdentifier: "CreateWorkshopSegue", sender: self)
-            prompt.dismiss(animated: true, completion: nil)
-        }))
-        prompt.addAction(UIAlertAction(title: "Edit", style: .default, handler: { (action) in
-            self.setEditing(!self.isEditing, animated: true)
             prompt.dismiss(animated: true, completion: nil)
         }))
         prompt.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
@@ -147,6 +195,11 @@ extension WorkshopsEditViewController {
         return workshopCell
     }
     
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = computedItems[indexPath.section].workshops[indexPath.row]
+        self.performSegue(withIdentifier: "CreateWorkshopSegue", sender: item)
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let cell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "RoomCell", for: indexPath) as? RoomCell else {
             return UICollectionViewCell()
@@ -162,13 +215,13 @@ extension WorkshopsEditViewController {
         var destinationItem = computedItems[destinationIndexPath.section].workshops[destinationIndexPath.row]
         
         if sourceItem == destinationItem {
-//            print("items are equal")
+            //            print("items are equal")
             return
         }
-//        print(">>>>starting switch")
-//        print(sourceItem)
-//        print(destinationItem)
-//        
+        //        print(">>>>starting switch")
+        //        print(sourceItem)
+        //        print(destinationItem)
+        //
         guard let sourceIndex = items.index(where: { (item) -> Bool in sourceItem == item }) else {
             return
         }
@@ -185,9 +238,9 @@ extension WorkshopsEditViewController {
         sourceItem.room = tempItem.room
         sourceItem.startTime = tempItem.startTime
         
-//        print("after switch")
-//        print(sourceItem)
-//        print(destinationItem)
+        //        print("after switch")
+        //        print(sourceItem)
+        //        print(destinationItem)
         
         items.append(sourceItem)
         items.append(destinationItem)

@@ -17,6 +17,7 @@ class CreateWorkshopViewController: UITableViewController {
     
     var rooms = [String]()
     var createWorkshopDidFinish: ((Workshop)->Void)?
+    var prefilledWorkshop: RoomArrangable?
     
     override func viewDidLoad() {
         super.viewDidLoad()
