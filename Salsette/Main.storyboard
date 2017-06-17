@@ -1133,20 +1133,32 @@
                                     <rect key="frame" x="0.0" y="0.0" width="160" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Workshop" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="70g-pc-xK8">
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="Z8P-7v-0gR">
                                             <rect key="frame" x="0.0" y="0.0" width="160" height="100"/>
-                                            <color key="backgroundColor" red="0.83529411760000005" green="0.83529411760000005" blue="0.83529411760000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Workshop" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4rf-yM-FrG">
+                                                    <rect key="frame" x="0.0" y="0.0" width="160" height="50"/>
+                                                    <color key="backgroundColor" red="0.83529411760000005" green="0.83529411760000005" blue="0.83529411760000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mtr-eL-Uga">
+                                                    <rect key="frame" x="0.0" y="50" width="160" height="50"/>
+                                                    <color key="backgroundColor" red="0.83529411760000005" green="0.83529411760000005" blue="0.83529411760000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
                                     </subviews>
                                 </view>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="70g-pc-xK8" secondAttribute="bottom" id="aqR-jT-P6t"/>
-                                    <constraint firstItem="70g-pc-xK8" firstAttribute="top" secondItem="P2h-T1-HvF" secondAttribute="top" id="eez-Vf-g6R"/>
-                                    <constraint firstItem="70g-pc-xK8" firstAttribute="leading" secondItem="P2h-T1-HvF" secondAttribute="leading" id="ohM-M1-THc"/>
-                                    <constraint firstAttribute="trailing" secondItem="70g-pc-xK8" secondAttribute="trailing" id="qeS-Op-fBC"/>
+                                    <constraint firstItem="Z8P-7v-0gR" firstAttribute="top" secondItem="P2h-T1-HvF" secondAttribute="top" id="Az4-dI-USz"/>
+                                    <constraint firstAttribute="trailing" secondItem="Z8P-7v-0gR" secondAttribute="trailing" id="RD3-TP-abz"/>
+                                    <constraint firstAttribute="bottom" secondItem="Z8P-7v-0gR" secondAttribute="bottom" id="TM6-FB-6fs"/>
+                                    <constraint firstItem="Z8P-7v-0gR" firstAttribute="leading" secondItem="P2h-T1-HvF" secondAttribute="leading" id="wpV-ar-eQQ"/>
                                 </constraints>
                                 <size key="customSize" width="160" height="100"/>
                                 <userDefinedRuntimeAttributes>
@@ -1161,7 +1173,8 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <outlet property="nameLbl" destination="70g-pc-xK8" id="RrP-PT-vNn"/>
+                                    <outlet property="nameLbl" destination="4rf-yM-FrG" id="d1W-0J-qar"/>
+                                    <outlet property="timeLbl" destination="Mtr-eL-Uga" id="7Gq-DN-Xg1"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -1211,7 +1224,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g1w-pQ-eI9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5481" y="840"/>
+            <point key="canvasLocation" x="5480.625" y="839.78873239436621"/>
         </scene>
         <!--Create Workshop View Controller-->
         <scene sceneID="pHK-Q4-YRU">
@@ -1227,7 +1240,7 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <view key="tableFooterView" contentMode="scaleToFill" id="OjE-Av-ffJ">
-                            <rect key="frame" x="0.0" y="176" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="220" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
@@ -1327,6 +1340,37 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="rEK-z5-zx2">
+                                        <rect key="frame" x="0.0" y="176" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rEK-z5-zx2" id="q4I-gS-2y7">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Time" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q2E-Qn-YSp" customClass="HoshiTextField" customModule="TextFieldEffects">
+                                                    <rect key="frame" x="8" y="0.0" width="304" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderInactiveColor">
+                                                            <color key="value" red="0.51784205439999997" green="0.58159953360000005" blue="0.58617168659999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderActiveColor">
+                                                            <color key="value" red="0.42655369640000002" green="0.475846082" blue="0.4802647531" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
+                                                            <color key="value" red="0.111818932" green="0.11183650050000001" blue="0.1118125319" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="LAI-GG-ewM" id="acf-It-9Qc"/>
+                                                    </connections>
+                                                </textField>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -1340,6 +1384,7 @@
                         <outlet property="artistLbl" destination="4BR-kv-O5v" id="Z0W-8i-X4G"/>
                         <outlet property="nameLbl" destination="MJe-uB-aV7" id="6Ll-iH-7Gd"/>
                         <outlet property="roomLbl" destination="VmE-4f-l2q" id="tGR-YY-3Lk"/>
+                        <outlet property="timeLbl" destination="Q2E-Qn-YSp" id="UBV-WC-vJF"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5O0-0a-pe8" userLabel="First Responder" sceneMemberID="firstResponder"/>

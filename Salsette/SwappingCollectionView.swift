@@ -65,7 +65,6 @@ class SwappingCollectionView: UICollectionView {
         if (shouldSwap(newPoint: targetPosition)) {
             
             if let hoverIndexPath = indexPathForItem(at: targetPosition), let interactiveIndexPath = interactiveIndexPath {
-                print("hovering at \(hoverIndexPath) with \(interactiveIndexPath)")
                 let swapDescription = SwapDescription(firstItem: interactiveIndexPath.item, secondItem: hoverIndexPath.item)
                 
                 if (!swapSet.contains(swapDescription)) {

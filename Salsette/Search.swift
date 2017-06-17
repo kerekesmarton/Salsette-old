@@ -9,7 +9,6 @@
 import ObjectiveC
 import UIKit
 import TextFieldEffects
-import ChameleonFramework
 
 protocol SearchResultsDelegate: class {
     func didUpdateSearch(parameters: SearchParameters)

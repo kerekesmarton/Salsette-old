@@ -17,6 +17,8 @@
 		1033E5541E75C7AA002D1615 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5511E75C7AA002D1615 /* String+Additions.swift */; };
 		1033E5571E79CA44002D1615 /* Calendar.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1033E5561E79CA44002D1615 /* Calendar.xcassets */; };
 		1053CA081EF261230034844A /* SwappingCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053CA071EF261230034844A /* SwappingCollectionView.swift */; };
+		1053CA0A1EF46C370034844A /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053CA091EF46C370034844A /* Array.swift */; };
+		1053CA0D1EF52D7E0034844A /* WorkshopCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053CA0C1EF52D7E0034844A /* WorkshopCells.swift */; };
 		106306AE1E8B951C0089DA00 /* Calendar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 106306AD1E8B951C0089DA00 /* Calendar.xib */; };
 		106306B41E8CE3BF0089DA00 /* ContentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306B31E8CE3BF0089DA00 /* ContentEntity.swift */; };
 		106306BC1E8E99600089DA00 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306BB1E8E99600089DA00 /* ProfileViewController.swift */; };
@@ -85,6 +87,8 @@
 		1033E5551E79C2C4002D1615 /* Objc-Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Objc-Bridge-Header.h"; sourceTree = "<group>"; };
 		1033E5561E79CA44002D1615 /* Calendar.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Calendar.xcassets; sourceTree = "<group>"; };
 		1053CA071EF261230034844A /* SwappingCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwappingCollectionView.swift; sourceTree = "<group>"; };
+		1053CA091EF46C370034844A /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		1053CA0C1EF52D7E0034844A /* WorkshopCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkshopCells.swift; sourceTree = "<group>"; };
 		106306AD1E8B951C0089DA00 /* Calendar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Calendar.xib; sourceTree = "<group>"; };
 		106306B31E8CE3BF0089DA00 /* ContentEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentEntity.swift; path = ../ContentEntity.swift; sourceTree = "<group>"; };
 		106306BB1E8E99600089DA00 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -177,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				FB136E6A1E989FCA00A5F1E4 /* AlertController+Loading.swift */,
+				1053CA091EF46C370034844A /* Array.swift */,
 				1033E5431E75AAB3002D1615 /* UIFont+Zeplin.swift */,
 				1033E5501E75C7AA002D1615 /* UIFont+Avenir.swift */,
 				1033E54F1E75C7AA002D1615 /* UINavigationBar+Flat.swift */,
@@ -282,6 +287,7 @@
 				FB6D92091EBBD97300025CD8 /* WorkshopsEditViewController.swift */,
 				1053CA071EF261230034844A /* SwappingCollectionView.swift */,
 				10D8D86B1EE0D0F6008A5A76 /* WorkshopsLayout.swift */,
+				1053CA0C1EF52D7E0034844A /* WorkshopCells.swift */,
 				10BE40AB1EE31E58006D3DAC /* CreateWorkshopViewController.swift */,
 			);
 			name = Workshops;
@@ -536,8 +542,10 @@
 				FBF5A9C61E977810000CED7A /* KeychainStorage.swift in Sources */,
 				1033E5541E75C7AA002D1615 /* String+Additions.swift in Sources */,
 				106306BC1E8E99600089DA00 /* ProfileViewController.swift in Sources */,
+				1053CA0D1EF52D7E0034844A /* WorkshopCells.swift in Sources */,
 				FB420F2D1EA5138F0022380D /* CreateEventViewController.swift in Sources */,
 				FB136E6B1E989FCA00A5F1E4 /* AlertController+Loading.swift in Sources */,
+				1053CA0A1EF46C370034844A /* Array.swift in Sources */,
 				106EB0281E94636E004686B5 /* API.swift in Sources */,
 				10B9AF761E7DA2900033A6BF /* UImage+Additions.swift in Sources */,
 				10DA93231EAA00C10054F338 /* ProfileInteractor.swift in Sources */,

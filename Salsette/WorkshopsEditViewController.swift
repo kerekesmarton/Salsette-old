@@ -9,67 +9,60 @@ import UIKit
 
 struct Room {
     var roomName: String {
-        return workshops[0].room
+        return workshops.first?.room ?? "?"
     }
     
-    var workshops: Array<RoomArrangable> = []
+    var workshops = [Workshop]()
 }
 
-protocol RoomArrangable: Equatable {
-    var startTime: Date { get set }
-    var room: String { get set }
-    var name: String { get set }
-}
-
-func ==<T : RoomArrangable>(lhs: T, rhs: T) -> Bool {
-    return lhs.room == rhs.room && lhs.startTime == rhs.startTime
-}
-
-struct Workshop: RoomArrangable {
+struct Workshop: Equatable {
     var name: String
     let hours: Double = 1
     var startTime: Date
     var room: String
     var artist: String?
+    var isEmpty = false
     init(name: String, startTime: Date, room: String) {
         self.name = name
         self.startTime = startTime
         self.room = room
     }
-}
-
-struct EmptyWorkshop: RoomArrangable {
-    var startTime: Date
-    var room: String
-    var name = ""
     
     init(startTime: Date, room: String) {
+        isEmpty = true
+        name = ""
         self.startTime = startTime
         self.room = room
     }
 }
 
-class WorkshopCell: UICollectionViewCell {
-    @IBOutlet var nameLbl: UILabel!
-}
-
-class RoomCell: UICollectionReusableView {
-    @IBOutlet var nameLbl: UILabel!
+func ==(lhs: Workshop, rhs: Workshop) -> Bool {
+    return lhs.room == rhs.room && lhs.startTime == rhs.startTime
 }
 
 class WorkshopsEditViewController: UICollectionViewController {
     
     fileprivate var computedItems = [Room]()
-    var items = [RoomArrangable](){
+    fileprivate var startTimes: Set<Date>?
+    fileprivate var roomNames: Set<String>?
+    var items = [Workshop](){
         didSet {
             var roomNames = Set<String>()
-            items.forEach { roomNames.insert($0.room) }
-            
             var startTimes = Set<Date>()
-            items.forEach { startTimes.insert($0.startTime) }
+            
+            items.forEach {
+                roomNames.insert($0.room)
+                startTimes.insert($0.startTime)
+            }
+            if self.startTimes == nil{
+                self.startTimes = startTimes
+            }
+            if self.roomNames == nil {
+                self.roomNames = roomNames
+            }
             
             var rooms = [Room]()
-            roomNames.sorted().forEach { roomName in
+            self.roomNames?.sorted().forEach { roomName in
                 rooms.append(Room(workshops: items.filter({ return $0.room == roomName }).sorted(by: { (w1, w2) -> Bool in
                     w1.startTime < w2.startTime
                 })))
@@ -77,18 +70,18 @@ class WorkshopsEditViewController: UICollectionViewController {
             
             computedItems = rooms.map { (room) -> Room in
                 var newRoom = Room(workshops: room.workshops)
-                startTimes.forEach { (startTime) in
+                self.startTimes?.sorted().forEach { (startTime) in
                     if !room.workshops.contains(where: { (roomArrangable) -> Bool in
                         return roomArrangable.startTime == startTime
                     }) {
-                        newRoom.workshops.append(EmptyWorkshop(startTime: startTime, room: room.roomName))
+                        newRoom.workshops.append(Workshop(startTime: startTime, room: room.roomName))
                     }
                 }
-                return room
+                return newRoom
             }
             
             guard let layout = collectionView?.collectionViewLayout as? WorkshopsLayout else { return }
-            layout.rooms = rooms
+            layout.rooms = computedItems
         }
     }
     
@@ -107,35 +100,26 @@ class WorkshopsEditViewController: UICollectionViewController {
         collectionView?.reloadData()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        //reset
+        startTimes = nil
+        roomNames = nil
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "CreateWorkshopSegue", let vc = segue.destination as? CreateWorkshopViewController {
             vc.rooms = computedItems.flatMap { return $0.roomName }
-            vc.createWorkshopDidFinish = { workshop in
-                 self.items.append(workshop)
-            }
-            if let workshop = sender as? RoomArrangable {
+            if let workshop = sender as? Workshop {
                 vc.prefilledWorkshop = workshop
-                
-                if let i = items.index(where: { $0 == workshop }) {
-                    items.remove(at: i)
-                    vc.createWorkshopDidFinish = { workshop in
-                        self.items.append(workshop)
+                vc.createWorkshopDidFinish = { newWorkshop in
+                    if !workshop.isEmpty {
+                        self.items.remove(item: workshop)
                     }
+                    self.items.append(newWorkshop)
                 }
             }
         }
-    }
-}
-
-extension Array where Element: Equatable {
-    
-    // Remove first collection element that is equal to the given `object`:
-    @discardableResult mutating func remove(item: Element) -> Bool{
-        if let index = index(of: item) {
-            remove(at: index)
-            return true
-        }
-        return false
     }
 }
 
@@ -191,7 +175,7 @@ extension WorkshopsEditViewController {
         guard let workshopCell = cell as? WorkshopCell else {
             return cell
         }
-        workshopCell.nameLbl.text = item.name
+        workshopCell.configure(workshop: item)
         return workshopCell
     }
     
@@ -206,7 +190,6 @@ extension WorkshopsEditViewController {
         }
         let room = computedItems[indexPath.section];
         cell.nameLbl.text = room.roomName
-        
         return cell
     }
     
@@ -215,13 +198,8 @@ extension WorkshopsEditViewController {
         var destinationItem = computedItems[destinationIndexPath.section].workshops[destinationIndexPath.row]
         
         if sourceItem == destinationItem {
-            //            print("items are equal")
             return
         }
-        //        print(">>>>starting switch")
-        //        print(sourceItem)
-        //        print(destinationItem)
-        //
         guard let sourceIndex = items.index(where: { (item) -> Bool in sourceItem == item }) else {
             return
         }
@@ -237,30 +215,33 @@ extension WorkshopsEditViewController {
         destinationItem.startTime = sourceItem.startTime
         sourceItem.room = tempItem.room
         sourceItem.startTime = tempItem.startTime
-        
-        //        print("after switch")
-        //        print(sourceItem)
-        //        print(destinationItem)
-        
         items.append(sourceItem)
         items.append(destinationItem)
-        
+//        collectionView.reloadItems(at: [sourceIndexPath, destinationIndexPath])
     }
 }
 
 extension WorkshopsEditViewController {
     fileprivate func dummyWorkshops() -> [Workshop] {
-        return [Workshop(name: "A1", startTime: Date(timeIntervalSinceNow: 0), room: "A"),
-                Workshop(name: "A2", startTime: Date(timeIntervalSinceNow: 60), room: "A"),
-                Workshop(name: "A3", startTime: Date(timeIntervalSinceNow: 120), room: "A"),
-                Workshop(name: "A4", startTime: Date(timeIntervalSinceNow: 180), room: "A"),
-                Workshop(name: "A5", startTime: Date(timeIntervalSinceNow: 240), room: "A"),
+        let date = dummyDate()
+        return [Workshop(name: "A1", startTime: date, room: "A"),
+                Workshop(name: "A2", startTime: date.addingTimeInterval(3600), room: "A"),
+                Workshop(name: "A3", startTime: date.addingTimeInterval(7200), room: "A"),
+                Workshop(name: "A4", startTime: date.addingTimeInterval(10800), room: "A"),
                 
-                Workshop(name: "B1", startTime: Date(timeIntervalSinceNow: 0), room: "B"),
-                Workshop(name: "B2", startTime: Date(timeIntervalSinceNow: 60), room: "B"),
-                Workshop(name: "B3", startTime: Date(timeIntervalSinceNow: 120), room: "B"),
+                Workshop(name: "B1", startTime: date, room: "B"),
+                Workshop(name: "B2", startTime: date.addingTimeInterval(3600), room: "B"),
+                Workshop(name: "B3", startTime: date.addingTimeInterval(7200), room: "B"),
                 
-                Workshop(name: "C1", startTime: Date(timeIntervalSinceNow: 120), room: "C"),
+                Workshop(name: "C1", startTime: date.addingTimeInterval(3600), room: "C"),
         ]
+    }
+    
+    private func dummyDate() -> Date {
+        let date = Date()
+        let calendar = Calendar(identifier: .gregorian)
+        var components = calendar.dateComponents([.year,.month,.day,.hour,.minute], from: date)
+        components.setValue(0, for: .minute)
+        return calendar.date(from: components)!
     }
 }

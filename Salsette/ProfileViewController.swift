@@ -10,6 +10,7 @@ import UIKit
 import FBSDKLoginKit
 import Auth0
 import Hero
+import ChameleonFramework
 
 class ProfileFeatureLauncher {
     
