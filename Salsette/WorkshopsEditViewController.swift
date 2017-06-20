@@ -42,9 +42,11 @@ func ==(lhs: Workshop, rhs: Workshop) -> Bool {
 
 class WorkshopsEditViewController: UICollectionViewController {
     
-    fileprivate var computedItems = [Room]()
+    var prefilledWorkshopDate: Date?
+    fileprivate var computedItems = [Room]()    
     fileprivate var startTimes: Set<Date>?
     fileprivate var roomNames: Set<String>?
+    
     var items = [Workshop](){
         didSet {
             var roomNames = Set<String>()
@@ -102,7 +104,6 @@ class WorkshopsEditViewController: UICollectionViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        //reset
         startTimes = nil
         roomNames = nil
     }
@@ -112,6 +113,9 @@ class WorkshopsEditViewController: UICollectionViewController {
             vc.rooms = computedItems.flatMap { return $0.roomName }
             if let workshop = sender as? Workshop {
                 vc.prefilledWorkshop = workshop
+                if workshop.isEmpty {
+                    vc.prefilledWorkshop?.startTime = prefilledWorkshopDate!
+                }
                 vc.createWorkshopDidFinish = { newWorkshop in
                     if !workshop.isEmpty {
                         self.items.remove(item: workshop)
@@ -217,7 +221,7 @@ extension WorkshopsEditViewController {
         sourceItem.startTime = tempItem.startTime
         items.append(sourceItem)
         items.append(destinationItem)
-//        collectionView.reloadItems(at: [sourceIndexPath, destinationIndexPath])
+        collectionView.reloadItems(at: [sourceIndexPath])
     }
 }
 
@@ -238,10 +242,6 @@ extension WorkshopsEditViewController {
     }
     
     private func dummyDate() -> Date {
-        let date = Date()
-        let calendar = Calendar(identifier: .gregorian)
-        var components = calendar.dateComponents([.year,.month,.day,.hour,.minute], from: date)
-        components.setValue(0, for: .minute)
-        return calendar.date(from: components)!
+        return Date().noMinutes()
     }
 }

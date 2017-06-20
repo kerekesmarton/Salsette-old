@@ -65,6 +65,12 @@ class CreateEventViewController: UITableViewController {
             self.typeTextField.resignFirstResponder()
         })
     }()
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let workshopsEditVC = segue.destination as? WorkshopsEditViewController  {
+            workshopsEditVC.prefilledWorkshopDate = item?.startDate?.noHours()
+        }
+    }
 }
 
 extension CreateEventViewController: UIPickerViewDelegate, UIPickerViewDataSource {

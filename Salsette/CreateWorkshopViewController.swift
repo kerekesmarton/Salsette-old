@@ -21,6 +21,7 @@ class CreateWorkshopViewController: UITableViewController {
     var rooms = [String]()
     var createWorkshopDidFinish: ((Workshop)->Void)?
     var prefilledWorkshop: Workshop?
+    var prefilledWorkshopDate: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +41,7 @@ class CreateWorkshopViewController: UITableViewController {
     }
     
     func setupTimeLbl() {
-        timePickerDataSource = TimePickerDataSource(with: self, lbl: timeLbl, values: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24])
+        timePickerDataSource = TimePickerDataSource(with: timeLbl, values: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], prefilledDate: prefilledWorkshop?.startTime)
         timeLbl.delegate = self
         let picker = UIPickerView()
         picker.delegate = timePickerDataSource
@@ -61,11 +62,13 @@ class CreateWorkshopViewController: UITableViewController {
         timeLbl.text = DateFormatters.relativeDateFormatter.string(from: prefilledWorkshop.startTime)
         nameLbl.text = prefilledWorkshop.name        
     }
+    
     func createWorkshop() {
-        guard let name = nameLbl.text, let artist = artistLbl.text, let room = roomLbl.text else { return }
-        var workshop = Workshop(name: name, startTime: Date(), room: room)
+        guard let name = nameLbl.text, let artist = artistLbl.text, let room = roomLbl.text, let date = timePickerDataSource?.date else { return }
+        var workshop = Workshop(name: name, startTime: date, room: room)
         workshop.artist = artist
         createWorkshopDidFinish?(workshop)
+        
         navigationController?.popViewController(animated: true)
     }
 }
@@ -81,8 +84,8 @@ extension CreateWorkshopViewController: UITextFieldDelegate {
         }
         
         if textField == timeLbl,
-            let picker = textField.inputView as? UIDatePicker, let prefilledWorkshop = prefilledWorkshop {
-                picker.setDate(prefilledWorkshop.startTime, animated: true)
+            let picker = textField.inputView as? UIDatePicker, let prefilledWorkshopDate = prefilledWorkshopDate {
+                picker.setDate(prefilledWorkshopDate, animated: true)
         }
     }
 }
@@ -134,13 +137,15 @@ class RoomPickerDataSource: NSObject, UIPickerViewDelegate, UIPickerViewDataSour
 
 class TimePickerDataSource: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    init(with lbl: UITextField, values: [Int]) {
+    init(with lbl: UITextField, values: [Int], prefilledDate: Date?) {
         times = values
         self.lbl = lbl
+        date = prefilledDate?.setting(hour: 0)
     }
     
     fileprivate weak var lbl: UITextField?
     fileprivate var times: [Int]
+    var date: Date?
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -155,6 +160,8 @@ class TimePickerDataSource: NSObject, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        lbl?.text = String(times[row])
+        let hour = times[row]
+        date = date?.setting(hour: hour)
+        lbl?.text = DateFormatters.relativeDateFormatter.string(from: date!)
     }
 }
