@@ -79,6 +79,9 @@ class WorkshopsEditViewController: UICollectionViewController {
                         newRoom.workshops.append(Workshop(startTime: startTime, room: room.roomName))
                     }
                 }
+                newRoom.workshops.sort(by: { (w1, w2) -> Bool in
+                    w1.startTime < w2.startTime
+                })
                 return newRoom
             }
             
@@ -91,8 +94,6 @@ class WorkshopsEditViewController: UICollectionViewController {
         super.viewDidLoad()
         items = dummyWorkshops()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editPrompt))
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(WorkshopsEditViewController.handleLongPress(gesture:)))
-        self.collectionView?.addGestureRecognizer(longPressGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -142,24 +143,6 @@ extension WorkshopsEditViewController {
         }))
         present(prompt, animated: true, completion: nil)
     }
-    
-    @objc fileprivate func handleLongPress(gesture: UILongPressGestureRecognizer) {
-        
-        switch(gesture.state) {
-            
-        case UIGestureRecognizerState.began:
-            guard let selectedIndexPath = self.collectionView?.indexPathForItem(at: gesture.location(in: self.collectionView)) else {
-                break
-            }
-            collectionView?.beginInteractiveMovementForItem(at: selectedIndexPath)
-        case UIGestureRecognizerState.changed:
-            collectionView?.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
-        case UIGestureRecognizerState.ended:
-            collectionView?.endInteractiveMovement()
-        default:
-            collectionView?.cancelInteractiveMovement()
-        }
-    }
 }
 
 // MARK: - collection view
@@ -204,15 +187,14 @@ extension WorkshopsEditViewController {
         if sourceItem == destinationItem {
             return
         }
-        guard let sourceIndex = items.index(where: { (item) -> Bool in sourceItem == item }) else {
-            return
+        if let sourceIndex = items.index(where: { (item) -> Bool in sourceItem == item }) {
+            items.remove(at: sourceIndex)
         }
-        items.remove(at: sourceIndex)
         
-        guard let destIndex = items.index(where: { (item) -> Bool in destinationItem == item }) else {
-            return
+        
+        if let destIndex = items.index(where: { (item) -> Bool in destinationItem == item }) {
+            items.remove(at: destIndex)
         }
-        items.remove(at: destIndex)
         
         let tempItem = destinationItem
         destinationItem.room = sourceItem.room

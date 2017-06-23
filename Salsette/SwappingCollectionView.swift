@@ -88,6 +88,9 @@ class SwappingCollectionView: UICollectionView {
     }
     
     override func endInteractiveMovement() {
+        if let interactiveIndexPath = interactiveIndexPath {
+                reloadItems(at: [interactiveIndexPath])
+        }
         cleanup()
     }
     
