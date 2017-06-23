@@ -94,6 +94,7 @@ class WorkshopsEditViewController: UICollectionViewController {
         super.viewDidLoad()
         items = dummyWorkshops()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editPrompt))
+        title = "Edit Workshops"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -117,11 +118,12 @@ class WorkshopsEditViewController: UICollectionViewController {
                 if workshop.isEmpty {
                     vc.prefilledWorkshop?.startTime = prefilledWorkshopDate!
                 }
-                vc.createWorkshopDidFinish = { newWorkshop in
+                vc.createWorkshopDidFinish = { newWorkshop, didDelete in
                     if !workshop.isEmpty {
                         self.items.remove(item: workshop)
                     }
-                    self.items.append(newWorkshop)
+                    guard let createdWorkshop = newWorkshop else { return }
+                    self.items.append(createdWorkshop)
                 }
             }
         }

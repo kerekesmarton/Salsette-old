@@ -19,16 +19,17 @@ class CreateWorkshopViewController: UITableViewController {
     fileprivate var timePickerDataSource: TimePickerDataSource?
     
     var rooms = [String]()
-    var createWorkshopDidFinish: ((Workshop)->Void)?
+    var createWorkshopDidFinish: ((Workshop?, Bool)->Void)?
     var prefilledWorkshop: Workshop?
     var prefilledWorkshopDate: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupRoomLbl()
-        setupDone()
+        setupButtons()
         setupTimeLbl()
         prefill()
+        title = "Create Workshop"
     }
     
     private func setupRoomLbl() {
@@ -49,9 +50,15 @@ class CreateWorkshopViewController: UITableViewController {
         timeLbl.inputView = picker        
     }
     
-    private func setupDone() {
-        let btn = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(createWorkshop))
-        self.navigationItem.rightBarButtonItem = btn
+    private func setupButtons() {
+        let create = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(createWorkshop))
+        let delete = UIBarButtonItem(title: "Delete", style: .done, target: self, action: #selector(deleteWorkshop))
+        if let ws = prefilledWorkshop, ws.isEmpty {
+            delete.isEnabled = false
+        } else {
+            delete.tintColor = UIColor.red
+        }
+        self.navigationItem.rightBarButtonItems = [create,delete]
     }
     
     private func prefill() {
@@ -67,9 +74,21 @@ class CreateWorkshopViewController: UITableViewController {
         guard let name = nameLbl.text, let artist = artistLbl.text, let room = roomLbl.text, let date = timePickerDataSource?.date else { return }
         var workshop = Workshop(name: name, startTime: date, room: room)
         workshop.artist = artist
-        createWorkshopDidFinish?(workshop)
+        createWorkshopDidFinish?(workshop, false)
         
         navigationController?.popViewController(animated: true)
+    }
+    
+    func deleteWorkshop() {
+        let alert = UIAlertController(title: "Delete workshop?", message: "This cannot be reverted", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (deleteAction) in
+            self.createWorkshopDidFinish?(nil, true)
+            self.navigationController?.popViewController(animated: true)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (cancelAction) in
+            self.createWorkshopDidFinish?(nil, true)
+        }))
+        present(alert, animated: true, completion: nil)
     }
 }
 
