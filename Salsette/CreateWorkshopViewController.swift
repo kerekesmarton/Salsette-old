@@ -181,6 +181,6 @@ class TimePickerDataSource: NSObject, UIPickerViewDelegate, UIPickerViewDataSour
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let hour = times[row]
         date = date?.setting(hour: hour)
-        lbl?.text = DateFormatters.relativeDateFormatter.string(from: date!)
+        lbl?.text = DateFormatters.timeFormatter.string(from: date!)
     }
 }

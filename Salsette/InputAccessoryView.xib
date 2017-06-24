@@ -30,14 +30,14 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IjU-v5-677">
-                    <rect key="frame" x="311" y="7" width="48" height="30"/>
-                    <state key="normal" title="Cancel"/>
+                    <rect key="frame" x="322" y="7" width="37" height="30"/>
+                    <state key="normal" title="Done"/>
                     <connections>
                         <action selector="performCancelActionWithSender:" destination="IkZ-Vo-l1U" eventType="touchUpInside" id="m9K-lT-JlB"/>
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="kpW-bg-JTJ" firstAttribute="leading" secondItem="qkg-dm-kvq" secondAttribute="trailing" constant="8" symbolic="YES" id="aNK-9j-DjO"/>
                 <constraint firstAttribute="trailing" secondItem="IjU-v5-677" secondAttribute="trailing" constant="16" id="atG-n6-Zot"/>

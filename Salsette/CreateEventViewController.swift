@@ -61,9 +61,10 @@ class CreateEventViewController: UITableViewController {
     }
     
     lazy var iav: UIView = {
-        return InputAccessoryView.create(next: { _ in }, previous: { _ in }, cancel: { cancelButton in
+        InputAccessoryView.create(next: nil, previous: nil, done: { _ in
             self.typeTextField.resignFirstResponder()
-        })
+            }
+        )
     }()
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

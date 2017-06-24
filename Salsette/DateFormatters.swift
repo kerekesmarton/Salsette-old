@@ -44,5 +44,13 @@ class DateFormatters {
         timeFormatter.timeStyle = .long
         
         return timeFormatter
-    } ()
+    }()
+    
+    static var shortTimeFormatter: DateFormatter  = {
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateStyle = .none
+        timeFormatter.timeStyle = .short
+        
+        return timeFormatter
+    }()
 }

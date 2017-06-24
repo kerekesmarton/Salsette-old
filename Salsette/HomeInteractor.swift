@@ -28,10 +28,10 @@ struct HomeInteractor: ContentInteractorInterface {
 fileprivate struct ContentDataSource {
     fileprivate func dummyEvents () -> [EventEntity] {
             
-            let dummyTomorrow = Date().addingTimeInterval(3600*24)
-            let dummyDayAfterTomorrow = Date().addingTimeInterval(3600*48)
-            let dummynextWeek = Date().addingTimeInterval(3600*24*7)
-            let dummyNextWeekPlus = Date().addingTimeInterval(3600*8)
+            let dummyTomorrow = Date().setting(month: 7).setting(dayofWeek: 3)
+            let dummyDayAfterTomorrow = Date().setting(month: 8).setting(dayofWeek: 4)
+            let dummynextWeek = Date().setting(month: 9).setting(dayofWeek: 5)
+            let dummyNextWeekPlus = Date().setting(month: 10).setting(dayofWeek: 4)
             
             return [EventEntity(organiser: "Adolfo & Tania", name: "Partnerwork", startDate: dummyTomorrow , endDate: dummyDayAfterTomorrow, location: "London", type: .salsa, image: UIImage(named: "party")),
                     EventEntity(organiser: "Adolfo & Tania", name: "Body movement", startDate: dummynextWeek, endDate: dummyNextWeekPlus, location: "Paris", type: EventTypes.bachata, image: UIImage(named: "party")),
