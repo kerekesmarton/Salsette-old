@@ -9,6 +9,7 @@
 import ObjectiveC
 import UIKit
 import TextFieldEffects
+import FBSDKLoginKit
 
 protocol SearchResultsDelegate: class {
     func didUpdateSearch(parameters: SearchParameters)
@@ -48,15 +49,17 @@ struct SearchFeatureLauncher {
 
 class SearchViewController: UITableViewController {
     static let searchSize: CGFloat = 268.0
-    @IBOutlet weak var nameField: HoshiTextField!
+//    @IBOutlet weak var nameField: HoshiTextField!
     @IBOutlet weak var dateField: HoshiTextField!
     @IBOutlet weak var locationField: HoshiTextField!
     @IBOutlet weak var typeField: HoshiTextField!
     @IBOutlet var fields: [UITextField]!
     @IBOutlet var typePicker: UIPickerView!
+    
     lazy var calendarProxy: CalendarProxy = {
         return UINib(nibName: "Calendar", bundle: nil).instantiate(withOwner: self, options: nil)[1] as! CalendarProxy
     }()
+    
     var calendarView: UIView {
         calendarProxy.interactor = self.searchInteractor
         return calendarProxy.calendar
@@ -68,6 +71,19 @@ class SearchViewController: UITableViewController {
         return interactor
     }()
     
+    //MARK: - Results
+    @IBOutlet weak var collectionView: UICollectionView!
+    var results = [ContentEntityInterface]()
+    var search: GlobalSearch?
+    var resultsInteractor: ContentInteractorInterface = {
+        return HomeInteractor()
+    }()
+    
+    //MARK: - Profile
+    @IBOutlet weak var profilePictureView: FBSDKProfilePictureView!
+    @IBOutlet var profileButton: UIBarButtonItem!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         dateField.inputView = calendarView
@@ -76,11 +92,63 @@ class SearchViewController: UITableViewController {
         typePicker.dataSource = self
         typeField.delegate = self
         dateField.delegate = self
+        navigationController?.customizeTransparentNavigationBar()
+        dateField.inputAccessoryView = InputAccessoryView.create(next: { (nextBtn) in
+            self.locationField.becomeFirstResponder()
+        }, previous: nil, done: { (doneBtn) in
+            self.locationField.becomeFirstResponder()
+        })
+        locationField.inputAccessoryView = InputAccessoryView.create(next: { (nextBtn) in
+            self.typeField.becomeFirstResponder()
+        }, previous: nil, done: { (doneBtn) in
+            self.typeField.becomeFirstResponder()
+        })
+        typeField.inputAccessoryView = InputAccessoryView.create(next: { (nextBtn) in
+            self.typeField.resignFirstResponder()
+        }, previous: nil, done: { (doneBtn) in
+            self.typeField.resignFirstResponder()
+        })
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        search?.searchResultsDelegate = self
+        load()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fields.forEach({$0.endEditing(true)})
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let currentCell = sender as? HomeCell,
+            let vc = segue.destination as? EventViewController,
+            let currentCellIndex = collectionView.indexPath(for: currentCell) {
+            vc.selectedIndex = currentCellIndex
+        }
+        if let vc = segue.destination as? ProfileViewController, let sender = sender as? UIButton {
+            sender.heroID = "selected"
+            vc.view.heroModifiers = [.source(heroID: "selected")]
+            vc.view.backgroundColor = sender.backgroundColor
+        }
+        if let eventViewController = segue.destination as? EventViewController,
+            let currentCell = sender as? HomeCell,
+            let currentCellIndex = collectionView.indexPath(for: currentCell) {
+            eventViewController.events = results
+            eventViewController.selectedIndex = currentCellIndex
+        }
+    }
+    
+    func load() {
+        resultsInteractor.load(with: search?.searchParameters,  completion: { items in
+            self.results = items
+            self.collectionView?.reloadData()
+        })
+    }
+    
+    func profile() {
+        performSegue(withIdentifier: "Profile", sender: profilePictureView)
     }
 }
 
@@ -108,8 +176,8 @@ extension SearchViewController: UITextFieldDelegate {
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         switch textField {
-        case nameField:
-            searchInteractor.didChange(.name(nameField.text!))
+//        case nameField:
+//            searchInteractor.didChange(.name(nameField.text!))
         case locationField:
             searchInteractor.didChange(.location(locationField.text!))
         default:
@@ -119,8 +187,8 @@ extension SearchViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
-        case nameField:
-            dateField.becomeFirstResponder()
+//        case nameField:
+//            dateField.becomeFirstResponder()
         case dateField:
             locationField.becomeFirstResponder()
         case locationField:
@@ -164,135 +232,23 @@ extension SearchViewController {
     }
 }
 
-class SearchInteractor {
-    enum DataType{
-        case name(String)
-        case location(String)
-        case dates(Date?,Date?)
-        case type(EventTypes)
-    }
-    let searchPresenter: SearchPresenter
-    init(presenter: SearchPresenter) {
-        self.searchPresenter = presenter
+extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return results.count
     }
     
-    var newDate: Date? {
-        didSet {
-            guard let date = newDate else {
-                return
-            }
-            if startDate == nil {
-                startDate = date
-                searchPresenter.update(startDate: date)
-            } else if endDate == nil {
-                endDate = date
-                searchPresenter.update(startDate: startDate, endDate: date)
-                didChange(.dates(startDate, endDate))
-            } else {
-                startDate = date
-                searchPresenter.update(startDate: date)
-                endDate = nil
-            }
-        }
-    }
-
-    func didChange(_ dataType: DataType) {
-        switch dataType {
-        case .name(let value):
-            GlobalSearch.sharedInstance.searchParameters.name = value
-        case .location(let value):
-            GlobalSearch.sharedInstance.searchParameters.location = value
-        case .type(let value):
-            GlobalSearch.sharedInstance.searchParameters.type = value
-        case .dates(let start, let end):
-            GlobalSearch.sharedInstance.searchParameters.startDate = start
-            GlobalSearch.sharedInstance.searchParameters.endDate = end
-        }
-    }
-
-    var startDate: Date?
-    var endDate: Date?
-}
-
-extension SearchInteractor: CalendarViewSelectionDelegate {
-    
-    func calendarViewController(_ controller: CalendarProxy, shouldSelect date: Date, from selectedDates: [Date]) -> Bool {
-        guard let startDate = startDate else {
-            return true // no start date, pick it
-        }
-        if startDate > date {
-            return false
-        }
-        guard let endDate = endDate else {
-            
-            return true // no end date, pick it
-        }
-        if startDate < date && endDate > date {
-            return true
-        } else {
-            searchPresenter.reset(oldDate: date)
-            controller.deselectAll()
-            self.startDate = nil
-            self.endDate = nil
-            didChange(.dates(nil, nil))
-            return false
-        }
-    }
-
-    func calendarViewController(_ controller: CalendarProxy, didSelect date: Date) {
-        if startDate == nil {
-            newDate = date
-            return
-        }
-        if endDate == nil {
-            newDate = date
-        }
-        guard let start = startDate,
-            let end = endDate else { return }
-        controller.markSelectedBetween(startDate: start, endDate: end)
-    }
-    
-    func calendarViewController(shouldDeselect date: Date, from selectedDates: [Date]) -> Bool {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: "item", for: indexPath) as? HomeCell)!
+        cell.content = results[indexPath.item]
         
-        guard let start = startDate, let end = endDate else {
-            return true
-        }
-        if start <= date && end >= date {
-            return false
-        }
-        return true
+        return cell
     }
 }
 
-class SearchPresenter {
-    
-    weak var searchView: SearchViewController?
-    
-    func reset(oldDate: Date) {
-        searchView?.set(.dates(""))
+extension SearchViewController: SearchResultsDelegate {
+    func didUpdateSearch(parameters: SearchParameters) {        
+        load()
     }
-    
-    func update(startDate: Date?) {
-        guard let safeDate = startDate else {
-            searchView?.set(.dates(""))
-            return
-        }
-        searchView?.set(.dates(formatter.string(from: safeDate)))
-    }
-    
-    func update(startDate: Date?, endDate: Date?) {
-        guard let safeStartDate = startDate,
-            let safeEndDate = endDate else {
-            searchView?.set(.dates(""))
-            return
-        }
-        searchView?.set(.dates(formatter.string(from: safeStartDate)+" to "+formatter.string(from: safeEndDate)))
-    }
-    
-    lazy var formatter: DateFormatter = {
-        let aFormatter = DateFormatter()
-        aFormatter.dateStyle = .short
-        aFormatter.timeStyle = .none
-        return aFormatter
-    }()
 }
+
+

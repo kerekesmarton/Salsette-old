@@ -30,7 +30,6 @@ class ProfileViewController: UITableViewController {
     }
 
     @IBOutlet var loginBtn: FBSDKLoginButton!
-    @IBOutlet var loginView: UIView!
     var interactor: ProfileInteractor?
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -43,7 +42,7 @@ class ProfileViewController: UITableViewController {
         loginBtn.loginBehavior = .systemAccount
         loginBtn.delegate = self
         loginBtn.readPermissions = ["public_profile", "email", "user_friends", "user_events"]
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(deleteKeychain))
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(deleteKeychain))
     }
 
     func deleteKeychain() {
@@ -56,6 +55,7 @@ class ProfileViewController: UITableViewController {
 //        set(viewState: .userReady(true))
 //    }
 
+    //online
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         interactor?.prepareView()
@@ -65,6 +65,7 @@ class ProfileViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         interactor?.viewReady()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: loginBtn)
     }
     
     func set(viewState: ViewStates) {
@@ -116,7 +117,7 @@ extension ProfileViewController: FBSDKLoginButtonDelegate {
 extension ProfileViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userIsReady ? 3 : 2
+        return userIsReady ? 2 : 1
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -124,8 +125,6 @@ extension ProfileViewController {
         case 0:
             return 270
         case 1:
-            return 60
-        case 2:
             return 150
         default:
             return 44
@@ -140,9 +139,6 @@ extension ProfileViewController {
             guard let imageCell = cell as? UserImageCell else { return cell }
             imageCell.profilePictureView?.profileID = pictureIdentifier
         case 1:
-            guard let nameCell = cell as? UserNameCell else { return cell }
-            nameCell.userNameLabel?.text = displayName
-        case 2:
             guard let eventsCell = cell as? UserEventsCreationCell else { return cell }
             eventsCell.configure(with: self)
         default:
@@ -153,8 +149,7 @@ extension ProfileViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let cell = sender as? UserEventCollectionViewCell,
-            let navigation = segue.destination as? UINavigationController,
-            let vc = navigation.topViewController as? CreateEventViewController {
+            let vc = segue.destination as? CreateEventViewController {
             vc.item = cell.item
         }
     }

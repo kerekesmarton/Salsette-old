@@ -12,17 +12,13 @@ import Hero
 
 enum UserCellIdentifiers {
     static let imageIdentifier = "UserImageCell"
-    static let nameIdentifier = "UserNameCell"
     static let eventIdentifier = "UserEventsCreationCell"
 
-    static let allIdentifiers = [imageIdentifier, nameIdentifier, eventIdentifier]
+    static let allIdentifiers = [imageIdentifier, eventIdentifier]
 }
 
 class UserImageCell: UITableViewCell {
     @IBOutlet var profilePictureView: FBSDKProfilePictureView?
-}
-
-class UserNameCell: UITableViewCell {
     @IBOutlet var userNameLabel: UILabel?
 }
 
@@ -42,6 +38,7 @@ class UserEventsCreationCell: UITableViewCell, SelectFacebookEventProtocol {
         
     }
     
+    //online
     func configure(with viewController: UIViewController) {
         interactor = SelectFacebookEventInteractor(with: self, fbService: FacebookService.shared, downloader: ImageDownloader.shared)
         interactor?.prepare(from: viewController)
