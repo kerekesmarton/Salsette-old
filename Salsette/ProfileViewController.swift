@@ -123,7 +123,7 @@ extension ProfileViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
         case 0:
-            return 270
+            return 250
         case 1:
             return 150
         default:
@@ -138,6 +138,7 @@ extension ProfileViewController {
         case 0:
             guard let imageCell = cell as? UserImageCell else { return cell }
             imageCell.profilePictureView?.profileID = pictureIdentifier
+            imageCell.userNameLabel?.text = displayName
         case 1:
             guard let eventsCell = cell as? UserEventsCreationCell else { return cell }
             eventsCell.configure(with: self)

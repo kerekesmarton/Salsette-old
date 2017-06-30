@@ -9,6 +9,7 @@
 import UIKit
 import FBSDKCoreKit
 import Hero
+import TextFieldEffects
 
 enum UserCellIdentifiers {
     static let imageIdentifier = "UserImageCell"
@@ -20,6 +21,8 @@ enum UserCellIdentifiers {
 class UserImageCell: UITableViewCell {
     @IBOutlet var profilePictureView: FBSDKProfilePictureView?
     @IBOutlet var userNameLabel: UILabel?
+    @IBOutlet var favoriteSong: HoshiTextField!
+    @IBOutlet var aboutMe: HoshiTextField!
 }
 
 class UserEventsCreationCell: UITableViewCell, SelectFacebookEventProtocol {
