@@ -24,11 +24,10 @@ class HomeCell: UICollectionViewCell {
     var content: ContentEntityInterface? {
         didSet {
             guard let content = content else { return }
-            let name = content.name
             
-            heroID = "\(String(describing: name))"
-            nameLabel.text = name
-            descriptionLabel.text = useShortDescription ? content.shortDescription : content.description
+            heroID = content.name
+            nameLabel.text = content.name
+            descriptionLabel.text = useShortDescription ? content.shortDescription : content.longDescription
             identifier = content.identifier
             loadImage(for: content.identifier)
         }

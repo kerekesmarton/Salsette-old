@@ -19,7 +19,7 @@ enum UserCellIdentifiers {
 }
 
 class UserCell: UITableViewCell {
-    @IBOutlet var profilePictureView: FBSDKProfilePictureView?
+    @IBOutlet var profilePictureView: UIImageView?
     @IBOutlet var userNameLabel: UILabel?
     @IBOutlet var favoriteSong: HoshiTextField!
     @IBOutlet var aboutMe: HoshiTextField!

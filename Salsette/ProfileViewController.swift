@@ -59,11 +59,6 @@ class ProfileViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         interactor?.prepareView()
-    }
-
-    //comment for offline testing
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         interactor?.viewReady()
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: loginBtn)
     }
@@ -137,7 +132,11 @@ extension ProfileViewController {
         switch indexPath.row {
         case 0:
             guard let imageCell = cell as? UserCell else { return cell }
-            imageCell.profilePictureView?.profileID = pictureIdentifier
+            if userIsReady {
+                interactor?.loadImage(with: { (image) in
+                    imageCell.profilePictureView?.image = image
+                })
+            }
             imageCell.userNameLabel?.text = displayName
         case 1:
             guard let eventsCell = cell as? EventsCell else { return cell }

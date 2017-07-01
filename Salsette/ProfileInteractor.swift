@@ -101,4 +101,18 @@ class ProfileInteractor {
         view?.set(viewState: .profilePicture("me"))
         view?.set(viewState: .userReady(true))
     }
+    
+    func loadImage(with completion: @escaping ((UIImage) -> Void)) {
+        FacebookService.shared.getPicture { [weak self] (url, error) in
+            guard let url = url else {
+                if let error = error {
+                    self?.view?.set(viewState: .error(error))
+                }
+                return
+            }
+            ImageDownloader.shared.downloadImage(for: url, completion: { (image) in
+                completion(image)
+            })
+        }
+    }
 }

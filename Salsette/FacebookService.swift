@@ -40,13 +40,24 @@ class FacebookService {
             }
         })
     }
+    
+    func getPicture(user: String = "me", completion: @escaping (String?, Error?)->Void) {
+        let request = FBSDKGraphRequest(graphPath: "\(user)/picture", parameters: ["type":"large", "fields":"url", "redirect":"false"])
+        connection = request?.start(completionHandler: { (connection, result, error) in
+            if let returnedError = error {
+                completion(nil, returnedError)
+            } else if let returnedResult = result, let url = JSON(returnedResult)["data"]["url"].string {
+                completion(url, nil)
+            }
+        })
+    }
 
     func loadUserEvents(from vc: UIViewController, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
         FacebookPermissions.shared.askFor(permissions: ["user_events"], from: vc, completion: { [weak self] (result, error) in
             if let  error = error {
                 print(error)
             }
-            let request = FBSDKGraphRequest(graphPath: "me/events?type=created&since=now", parameters: ["fields":"name,place,start_time,end_time,cover,description,id"])
+            let request = FBSDKGraphRequest(graphPath: "me/events?type=created&since=now", parameters: ["fields":"name,place,start_time,end_time,cover,owner,description"])
             self?.connection = request?.start(completionHandler: { (connection, result, error) in
                 if let returnedError = error {
                     completion(nil, returnedError)
@@ -59,7 +70,7 @@ class FacebookService {
     
     func loadSalsaEvents(completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
         
-        let request = FBSDKGraphRequest(graphPath: "/search", parameters: ["q":"salsa", "type":"event", "fields":"name,place,start_time,end_time,cover,owner"])
+        let request = FBSDKGraphRequest(graphPath: "/search", parameters: ["q":"salsa", "type":"event", "fields":"name,place,start_time,end_time,cover,owner,description"])
         connection = request?.start(completionHandler: { (connection, result, error) in
             if let returnedError = error {
                 completion(nil, returnedError)
@@ -90,6 +101,8 @@ class FacebookEventEntity: ContentEntityInterface {
     var identifier: String?
     var organiser: String?
     var type: EventTypes?
+    var longDescription: String?
+    var shortDescription: String? = nil
 
 
     convenience init(with dictionary:[String:Any]) {
@@ -110,6 +123,7 @@ class FacebookEventEntity: ContentEntityInterface {
         if let time = dictionary["end_time"].string {
             endDate = DateFormatters.dateTimeFormatter.date(from: time)
         }
+        longDescription = dictionary["description"].string
     }
 
     convenience init(with id: String) {

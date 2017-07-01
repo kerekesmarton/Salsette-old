@@ -15,9 +15,10 @@ public protocol ContentEntityInterface {
     var startDate: Date? { get }
     var endDate: Date? { get }
     var place: String? { get }
+    var location: String? { get }
     var type: EventTypes? { get }
-    var shortDescription: String { get }
-    var description: String { get }
+    var shortDescription: String? { get }
+    var longDescription: String? { get }
     var identifier: String? { get }
 }
 

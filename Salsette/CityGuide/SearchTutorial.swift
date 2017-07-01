@@ -11,13 +11,14 @@ struct AppTutorial: ContentEntityInterface {
     
     var name: String?
     var image: UIImage?
-    var shortDescription: String
-    var description: String
+    var shortDescription: String?
+    var longDescription: String?
     var organiser: String? { get { return nil }}
     var startDate: Date? { get { return nil }}
     var endDate: Date? { get { return nil }}
     var place: String? { get { return nil }}
-    var imageUrl: String? { get { return nil} }
+    var location: String? { get { return nil }}
+    var imageUrl: String? { get { return nil }}
     var identifier: String? { get { return nil }}
     var type: EventTypes? { get { return nil }}
     
@@ -28,15 +29,15 @@ struct AppTutorial: ContentEntityInterface {
                 AppTutorial(name: "Welcome to Salsette.",
                              image: #imageLiteral(resourceName: "vancouver"),
                              shortDescription: "Tap me!",
-                             description: "Thank you for installing. Here you can have a look at dance events you searched for."),
+                             longDescription: "Thank you for installing. Here you can have a look at dance events you searched for."),
                 AppTutorial(name: "Take your time, look around.",
                              image: #imageLiteral(resourceName: "toronto"),
                              shortDescription: "Your guide to the next dance class or party.",
-                             description: "Try changing some of the wording above.. search for the type of dance, name, location or dates."),
+                             longDescription: "Try changing some of the wording above.. search for the type of dance, name, location or dates."),
                 AppTutorial(name: "Share it.",
                              image: #imageLiteral(resourceName: "montreal"),
                              shortDescription: "Log in and share your own events.",
-                             description: "By logging in with your facebook account, you can import and customize your dance events. What is the schedule? Which workshops will you offer?")
+                             longDescription: "By logging in with your facebook account, you can import and customize your dance events. What is the schedule? Which workshops will you offer?")
             ]
         }
     }

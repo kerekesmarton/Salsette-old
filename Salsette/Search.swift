@@ -35,7 +35,7 @@ class GlobalSearch {
 }
 
 struct SearchFeatureLauncher {
-
+    
     static func launchSearch() -> SearchViewController {
         let searchViewController = UIStoryboard.searchViewController()
         let presenter = SearchPresenter()
@@ -49,7 +49,7 @@ struct SearchFeatureLauncher {
 
 class SearchViewController: UITableViewController {
     static let searchSize: CGFloat = 268.0
-//    @IBOutlet weak var nameField: HoshiTextField!
+    //    @IBOutlet weak var nameField: HoshiTextField!
     @IBOutlet weak var dateField: HoshiTextField!
     @IBOutlet weak var locationField: HoshiTextField!
     @IBOutlet weak var typeField: HoshiTextField!
@@ -132,11 +132,11 @@ class SearchViewController: UITableViewController {
             vc.view.heroModifiers = [.source(heroID: "selected")]
             vc.view.backgroundColor = sender.backgroundColor
         }
-        if let eventViewController = segue.destination as? EventViewController,
+        if let nav = segue.destination as? UINavigationController,
+            let eventViewController = nav.viewControllers.first as? EventViewController,
             let currentCell = sender as? HomeCell,
             let currentCellIndex = collectionView.indexPath(for: currentCell) {
-            eventViewController.events = results
-            eventViewController.selectedIndex = currentCellIndex
+                eventViewController.event = results[currentCellIndex.row]
         }
     }
     
@@ -171,7 +171,7 @@ extension SearchViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         return EventTypes.allEventTypes.count
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {        
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return EventTypes.string(at: row)
     }
     
@@ -182,7 +182,7 @@ extension SearchViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 }
 
 extension SearchViewController: UITextFieldDelegate {
-
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         switch textField {
         case locationField:
@@ -191,7 +191,7 @@ extension SearchViewController: UITextFieldDelegate {
             ()
         }
     }
-
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case dateField:
@@ -209,7 +209,7 @@ extension SearchViewController: UITextFieldDelegate {
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return true
     }
-
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == typeField || textField == dateField {
             return false
@@ -227,12 +227,24 @@ extension SearchViewController {
         case typde(String)
     }
     
-    func set(_ viewModel: SearchViewModel) {     
+    func set(_ viewModel: SearchViewModel) {
         switch viewModel {
         case .dates(let dateString):
             dateField.text = dateString
         default:
             return
+        }
+    }
+}
+
+extension SearchViewController {
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch (indexPath.section, indexPath.row) {
+        case (0, _):
+            return 60
+        default:
+            return tableView.frame.height - (3 * 60)
         }
     }
 }
@@ -243,7 +255,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return view.frame.size
+        return CGSize(width: view.frame.width, height: tableView.frame.height - (3 * 60) - 10)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -255,7 +267,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
 }
 
 extension SearchViewController: SearchResultsDelegate {
-    func didUpdateSearch(parameters: SearchParameters) {        
+    func didUpdateSearch(parameters: SearchParameters) {
         load()
     }
 }
