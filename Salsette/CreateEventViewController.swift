@@ -36,7 +36,7 @@ class CreateEventViewController: UITableViewController {
         super.viewDidLoad()
 
         eventName.text = item?.name
-        eventLocation.text = item?.location
+        eventLocation.text = item?.place
         var timeString: String?
         if let startTime = item?.startDate {
             timeString = DateFormatters.relativeDateFormatter.string(from: startTime)

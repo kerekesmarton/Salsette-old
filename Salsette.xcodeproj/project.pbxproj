@@ -52,7 +52,7 @@
 		FB136E6B1E989FCA00A5F1E4 /* AlertController+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB136E6A1E989FCA00A5F1E4 /* AlertController+Loading.swift */; };
 		FB420F2D1EA5138F0022380D /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB420F2C1EA5138F0022380D /* CreateEventViewController.swift */; };
 		FB420F2F1EA7AA830022380D /* FacebookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB420F2E1EA7AA830022380D /* FacebookService.swift */; };
-		FB6756C91EB45E6600B2E4D5 /* HomeTutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6756C41EB45E6600B2E4D5 /* HomeTutorial.swift */; };
+		FB6756C91EB45E6600B2E4D5 /* SearchTutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6756C41EB45E6600B2E4D5 /* SearchTutorial.swift */; };
 		FB6756CB1EB45E6600B2E4D5 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6756C61EB45E6600B2E4D5 /* HomeCell.swift */; };
 		FB6756CD1EB45E6600B2E4D5 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6756C81EB45E6600B2E4D5 /* EventViewController.swift */; };
 		FB6756CF1EB45EDF00B2E4D5 /* Salsette.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB6756CE1EB45EDF00B2E4D5 /* Salsette.xcassets */; };
@@ -130,7 +130,7 @@
 		FB136E6A1E989FCA00A5F1E4 /* AlertController+Loading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AlertController+Loading.swift"; sourceTree = "<group>"; };
 		FB420F2C1EA5138F0022380D /* CreateEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
 		FB420F2E1EA7AA830022380D /* FacebookService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookService.swift; sourceTree = "<group>"; };
-		FB6756C41EB45E6600B2E4D5 /* HomeTutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeTutorial.swift; path = CityGuide/HomeTutorial.swift; sourceTree = "<group>"; };
+		FB6756C41EB45E6600B2E4D5 /* SearchTutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchTutorial.swift; path = CityGuide/SearchTutorial.swift; sourceTree = "<group>"; };
 		FB6756C61EB45E6600B2E4D5 /* HomeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeCell.swift; path = CityGuide/HomeCell.swift; sourceTree = "<group>"; };
 		FB6756C81EB45E6600B2E4D5 /* EventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventViewController.swift; path = CityGuide/EventViewController.swift; sourceTree = "<group>"; };
 		FB6756CE1EB45EDF00B2E4D5 /* Salsette.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Salsette.xcassets; path = CityGuide/Salsette.xcassets; sourceTree = "<group>"; };
@@ -275,7 +275,7 @@
 		10ACDD7C1F02E529007B6F1A /* Results */ = {
 			isa = PBXGroup;
 			children = (
-				FB6756C41EB45E6600B2E4D5 /* HomeTutorial.swift */,
+				FB6756C41EB45E6600B2E4D5 /* SearchTutorial.swift */,
 				10964C441E82E66300CDFE3F /* HomeInteractor.swift */,
 				FB6756C61EB45E6600B2E4D5 /* HomeCell.swift */,
 				FB6756C81EB45E6600B2E4D5 /* EventViewController.swift */,
@@ -593,7 +593,7 @@
 				109AFB5C1E902EA700E424F6 /* FacebookPermissions.swift in Sources */,
 				1033E5441E75AAB3002D1615 /* UIFont+Zeplin.swift in Sources */,
 				1053CA081EF261230034844A /* SwappingCollectionView.swift in Sources */,
-				FB6756C91EB45E6600B2E4D5 /* HomeTutorial.swift in Sources */,
+				FB6756C91EB45E6600B2E4D5 /* SearchTutorial.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

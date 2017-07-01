@@ -9,14 +9,16 @@ import UIKit
 
 public protocol ContentEntityInterface {
     var image: UIImage? { get }
+    var imageUrl: String? { get }
     var organiser: String? { get }
     var name: String? { get }
     var startDate: Date? { get }
     var endDate: Date? { get }
-    var location: String? { get }
+    var place: String? { get }
     var type: EventTypes? { get }
     var shortDescription: String { get }
     var description: String { get }
+    var identifier: String? { get }
 }
 
 extension ContentEntityInterface {

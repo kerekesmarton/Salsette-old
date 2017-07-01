@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ContentInteractorInterface {
-    func load(with parameters: SearchParameters?, completion: (([ContentEntityInterface])->Void))
+    func load(with parameters: SearchParameters?, completion: @escaping (([ContentEntityInterface]?,Error?)->Void))
 }
 
 protocol ContentViewInterface: class {
@@ -17,49 +17,66 @@ protocol ContentViewInterface: class {
 }
 
 struct HomeInteractor: ContentInteractorInterface {
-    fileprivate let dataSource = ContentDataSource()
-    internal func load(with parameters: SearchParameters?, completion: (([ContentEntityInterface]) -> Void)) {
+    func load(with parameters: SearchParameters?, completion: @escaping (([ContentEntityInterface]?, Error?) -> Void)) {
+        //        offline
+        //                let items: [ContentEntityInterface] = AppTutorial.didShow ? DummyDataSource() : AppTutorial.cards
+        //                completion(items)
         
-        let items: [ContentEntityInterface] = HomeTutorial.didShow ? dataSource.dummyEvents() : HomeTutorial.cards
-        completion(items)
+        //online
+        FacebookService.shared.loadSalsaEvents { (events, error) in
+            completion(events,error)
+        }
     }
 }
 
-fileprivate struct ContentDataSource {
-    fileprivate func dummyEvents () -> [EventEntity] {
-            
-            let dummyTomorrow = Date().setting(month: 7).setting(dayofWeek: 3)
-            let dummyDayAfterTomorrow = Date().setting(month: 8).setting(dayofWeek: 4)
-            let dummynextWeek = Date().setting(month: 9).setting(dayofWeek: 5)
-            let dummyNextWeekPlus = Date().setting(month: 10).setting(dayofWeek: 4)
-            
-            return [EventEntity(organiser: "Adolfo & Tania", name: "Partnerwork", startDate: dummyTomorrow , endDate: dummyDayAfterTomorrow, location: "London", type: .salsa, image: UIImage(named: "party")),
-                    EventEntity(organiser: "Adolfo & Tania", name: "Body movement", startDate: dummynextWeek, endDate: dummyNextWeekPlus, location: "Paris", type: EventTypes.bachata, image: UIImage(named: "party")),
-                    EventEntity(organiser: "Adolfo & Tania", name: "Spinning", startDate: dummyTomorrow, endDate: dummyDayAfterTomorrow, location: "London", type: EventTypes.kizomba, image: UIImage(named: "party")),
-                    EventEntity(organiser: "Terry & Cecile", name: "Partnerwork", startDate: dummynextWeek, endDate: dummyNextWeekPlus, location: "Milano", type: EventTypes.salsa, image: UIImage(named: "party")),
-                    EventEntity(organiser: "Terry & Cecile", name: "Spinning", startDate: dummyTomorrow, endDate: dummyDayAfterTomorrow, location: "Paris", type: EventTypes.bachata, image: UIImage(named: "party")),
-                    EventEntity(organiser: "Adrian & Anita", name: "Partnerwork", startDate: dummynextWeek, endDate: dummyNextWeekPlus, location: "Paris", type: EventTypes.kizomba, image: UIImage(named: "party")),
-                    EventEntity(organiser: "Adrian & Anita", name: "Body movement", startDate: dummyTomorrow, endDate: dummyDayAfterTomorrow, location: "Milano", type: EventTypes.salsa, image: UIImage(named: "party"))]
-    }
-    
-}
-
-fileprivate struct EventEntity: ContentEntityInterface {
-    var image: UIImage?
-    var organiser: String?
-    var name: String?
-    var startDate: Date?
-    var endDate: Date?
-    var location: String?
-    var type: EventTypes?
-
-    init(organiser: String, name: String, startDate: Date, endDate: Date, location: String, type: EventTypes, image: UIImage?) {
-        self.organiser = organiser
-        self.name = name
-        self.image = image
-        self.startDate = startDate
-        self.endDate = endDate
-        self.location = location
-        self.type = type
+fileprivate struct DummyDataSource {
+    fileprivate func dummyEvents () -> [FacebookEventEntity] {
+        
+        return [FacebookEventEntity(with: ["name": "Salsa4Us - Salsa a Ligetben - 2017 06 30",
+                                           "place": [
+                                            "name": "Liget Club",
+                                            "location": [
+                                                "city": "Budapest",
+                                                "country": "Hungary",
+                                                "latitude": 47.47575,
+                                                "longitude": 19.10292,
+                                                "street": "Népligeti út 2.",
+                                                "zip": "1101"],
+                                            "id": "115228065231639"],
+                                           "start_time": "2017-06-30T22:00:00+0200",
+                                           "end_time": "2017-07-01T03:00:00+0200",
+                                           "cover": [
+                                            "offset_x": 0,
+                                            "offset_y": 50,
+                                            "source": "https://scontent.xx.fbcdn.net/v/t31.0-8/s720x720/19441948_890158844456709_4709361165923381055_o.jpg?oh=f63f17a1bca9a45c59cd82c18d3baad0&oe=59CEC74A",
+                                            "id": "890158844456709"],
+                                           "owner": [
+                                            "name": "Salsa4Us",
+                                            "id": "244520985687168"],
+                                           "id": "157134578163987"]),
+                
+                FacebookEventEntity(with: ["name": "Salsa Imperial",
+                                           "place": [
+                                            "name": "Imperial Riding School Renaissance Vienna Hotel",
+                                            "location": [
+                                                "city": "Vienna",
+                                                "country": "Austria",
+                                                "latitude": 48.19712,
+                                                "longitude": 16.38697,
+                                                "street": "Ungargasse 60",
+                                                "zip": "1030" ],
+                                            "id": "377645685641597" ],
+                                           "start_time": "2017-09-30T20:30:00+0200",
+                                           "end_time": "2017-10-01T02:00:00+0200",
+                                           "cover": [
+                                            "offset_x": 7,
+                                            "offset_y": 0,
+                                            "source": "https://scontent.xx.fbcdn.net/v/t31.0-8/s720x720/17632183_1903237106556359_6289526442783239051_o.jpg?oh=f3a085d04416ef23b84ad7a93031b516&oe=59D9A46F",
+                                            "id": "1903237106556359"],
+                                           "owner": [
+                                            "name": "Mi Manera - Dance Studio & Shop",
+                                            "id": "1492294424317298" ],
+                                           "id": "1198442400218276"])
+        ]
     }
 }

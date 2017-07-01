@@ -12,20 +12,20 @@ import Hero
 import TextFieldEffects
 
 enum UserCellIdentifiers {
-    static let imageIdentifier = "UserImageCell"
-    static let eventIdentifier = "UserEventsCreationCell"
+    static let imageIdentifier = "UserCell"
+    static let eventIdentifier = "EventsCell"
 
     static let allIdentifiers = [imageIdentifier, eventIdentifier]
 }
 
-class UserImageCell: UITableViewCell {
+class UserCell: UITableViewCell {
     @IBOutlet var profilePictureView: FBSDKProfilePictureView?
     @IBOutlet var userNameLabel: UILabel?
     @IBOutlet var favoriteSong: HoshiTextField!
     @IBOutlet var aboutMe: HoshiTextField!
 }
 
-class UserEventsCreationCell: UITableViewCell, SelectFacebookEventProtocol {
+class EventsCell: UITableViewCell, SelectFacebookEventProtocol {
     @IBOutlet var eventCollectionView: UICollectionView?
     var interactor: SelectFacebookEventInteractor?
     var items: [FacebookEventEntity] = [] {
@@ -59,7 +59,7 @@ class UserEventsCreationCell: UITableViewCell, SelectFacebookEventProtocol {
             let entity = FacebookEventEntity(with: "asdf")
             entity.name = "salsa party"
             entity.startDate = Date().addingTimeInterval(36000)
-            entity.location = "Milan"
+            entity.place = "Milan"
             entities.append(entity)
         }
 
@@ -67,7 +67,7 @@ class UserEventsCreationCell: UITableViewCell, SelectFacebookEventProtocol {
     }
 }
 
-extension UserEventsCreationCell: UICollectionViewDelegate, UICollectionViewDataSource {
+extension EventsCell: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
@@ -75,15 +75,15 @@ extension UserEventsCreationCell: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserEventCell", for: indexPath)
-        guard let userEventCell = cell as? UserEventCollectionViewCell else {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EventCollectionViewCell", for: indexPath)
+        guard let userEventCell = cell as? EventCollectionViewCell else {
             return cell
         }
         let item = items[indexPath.row]
         userEventCell.item = item
         interactor?.getImage(for: item.imageUrl, completion: { (image) in
             if userEventCell.imageUrl == item.imageUrl {
-                userEventCell.eventImage?.heroID = item.id
+                userEventCell.eventImage?.heroID = item.identifier
                 userEventCell.eventImage?.image = image.fit(intoSize: CGSize(width: 93.5, height: 93.5))
             }
         })
@@ -100,7 +100,7 @@ extension UserEventsCreationCell: UICollectionViewDelegate, UICollectionViewData
     }
 }
 
-class UserEventCollectionViewCell: UICollectionViewCell {    
+class EventCollectionViewCell: UICollectionViewCell {    
     @IBOutlet var eventImage: UIImageView?
     @IBOutlet var eventName: UILabel?
     @IBOutlet var eventDetails: UILabel?

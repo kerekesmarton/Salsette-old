@@ -41,7 +41,7 @@ class FacebookService {
         })
     }
 
-    func loadUserEvents(from vc: UIViewController, completion: @escaping (Any?, Error?)->Void) {
+    func loadUserEvents(from vc: UIViewController, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
         FacebookPermissions.shared.askFor(permissions: ["user_events"], from: vc, completion: { [weak self] (result, error) in
             if let  error = error {
                 print(error)
@@ -51,10 +51,21 @@ class FacebookService {
                 if let returnedError = error {
                     completion(nil, returnedError)
                 } else if let returnedResult = result {
-                    self?.cachedUserEvents = result
-                    completion(returnedResult, nil)
+                    completion(FacebookEventEntity.create(with: returnedResult), nil)
                 }
             })
+        })
+    }
+    
+    func loadSalsaEvents(completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
+        
+        let request = FBSDKGraphRequest(graphPath: "/search", parameters: ["q":"salsa", "type":"event", "fields":"name,place,start_time,end_time,cover,owner"])
+        connection = request?.start(completionHandler: { (connection, result, error) in
+            if let returnedError = error {
+                completion(nil, returnedError)
+            } else if let returnedResult = result {
+                completion(FacebookEventEntity.create(with: returnedResult), nil)
+            }
         })
     }
 
@@ -70,27 +81,31 @@ class FacebookService {
 
 class FacebookEventEntity: ContentEntityInterface {
     var name: String?
+    var place: String?
     var location: String?
     var startDate: Date?
     var endDate: Date?
     var imageUrl: String?
     var image: UIImage?
-    var id: String?
+    var identifier: String?
     var organiser: String?
     var type: EventTypes?
 
 
     convenience init(with dictionary:[String:Any]) {
+        self.init(with: JSON(dictionary))
+    }
+    
+    convenience init(with dictionary: JSON) {
         self.init()
-        let dictionary = JSON(dictionary)
         name = dictionary["name"].string
-        location = dictionary["place"]["name"].string
-        id = dictionary["id"].string
+        place = dictionary["place"]["name"].string
+        location = location(from: dictionary["place"]["location"])
+        identifier = dictionary["id"].string
+        imageUrl = dictionary["cover"]["source"].string
+        organiser = dictionary["owner"]["name"].string
         if let time = dictionary["start_time"].string {
             startDate = DateFormatters.dateTimeFormatter.date(from: time)
-        }
-        if let url = dictionary["cover"]["source"].string {
-            self.imageUrl = url
         }
         if let time = dictionary["end_time"].string {
             endDate = DateFormatters.dateTimeFormatter.date(from: time)
@@ -99,6 +114,17 @@ class FacebookEventEntity: ContentEntityInterface {
 
     convenience init(with id: String) {
         self.init()
-        self.id = id
+        self.identifier = id
+    }
+    
+    class func create(with data: Any) ->[FacebookEventEntity] {
+        let items = JSON(data)["data"]
+        return items.map({ (_, body) -> FacebookEventEntity in
+            return FacebookEventEntity(with: body)
+        })
+    }
+    
+    func location(from json: JSON) -> String {
+        return "\(json["zip"].string ?? "") \(json["city"].string ?? "") \(json["street"].string ?? "") \(json["country"].string ?? "") \n latitude:\(json["latitude"].string ?? "") longitude:\(json["longitude"].string ?? "")"
     }
 }

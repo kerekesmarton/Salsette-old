@@ -136,11 +136,11 @@ extension ProfileViewController {
         cell.heroModifiers = [.fade, .translate(y:20)]
         switch indexPath.row {
         case 0:
-            guard let imageCell = cell as? UserImageCell else { return cell }
+            guard let imageCell = cell as? UserCell else { return cell }
             imageCell.profilePictureView?.profileID = pictureIdentifier
             imageCell.userNameLabel?.text = displayName
         case 1:
-            guard let eventsCell = cell as? UserEventsCreationCell else { return cell }
+            guard let eventsCell = cell as? EventsCell else { return cell }
             eventsCell.configure(with: self)
         default:
             ()
@@ -149,7 +149,7 @@ extension ProfileViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let cell = sender as? UserEventCollectionViewCell,
+        if let cell = sender as? EventCollectionViewCell,
             let vc = segue.destination as? CreateEventViewController {
             vc.item = cell.item
         }

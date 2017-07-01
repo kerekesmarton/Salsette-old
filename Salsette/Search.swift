@@ -141,8 +141,17 @@ class SearchViewController: UITableViewController {
     }
     
     func load() {
-        resultsInteractor.load(with: search?.searchParameters,  completion: { items in
-            self.results = items
+        resultsInteractor.load(with: search?.searchParameters,  completion: { items, error in
+            
+            guard let returnedItems = items else {
+                if let returnedError = error {
+                    let alert = UIAlertController(title: "Could not load results", message: returnedError.localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                    self.present(alert, animated: false, completion: nil)
+                }
+                return
+            }
+            self.results = returnedItems
             self.collectionView?.reloadData()
         })
     }
@@ -176,8 +185,6 @@ extension SearchViewController: UITextFieldDelegate {
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         switch textField {
-//        case nameField:
-//            searchInteractor.didChange(.name(nameField.text!))
         case locationField:
             searchInteractor.didChange(.location(locationField.text!))
         default:
@@ -187,8 +194,6 @@ extension SearchViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
-//        case nameField:
-//            dateField.becomeFirstResponder()
         case dateField:
             locationField.becomeFirstResponder()
         case locationField:
@@ -235,6 +240,10 @@ extension SearchViewController {
 extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return results.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return view.frame.size
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
