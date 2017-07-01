@@ -28,7 +28,7 @@
 		106EB0281E94636E004686B5 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EB0271E94636E004686B5 /* API.swift */; };
 		106EB02C1E94661A004686B5 /* CurrentUser.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 106EB02B1E94661A004686B5 /* CurrentUser.graphql */; };
 		1089BF821E708553006E091A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF811E708553006E091A /* AppDelegate.swift */; };
-		1089BF841E708553006E091A /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF831E708553006E091A /* Search.swift */; };
+		1089BF841E708553006E091A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF831E708553006E091A /* SearchViewController.swift */; };
 		1089BF891E708553006E091A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1089BF881E708553006E091A /* Assets.xcassets */; };
 		1089BF8C1E708553006E091A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1089BF8A1E708553006E091A /* LaunchScreen.storyboard */; };
 		1089BF971E708553006E091A /* SalsetteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089BF961E708553006E091A /* SalsetteTests.swift */; };
@@ -99,7 +99,7 @@
 		106EB02B1E94661A004686B5 /* CurrentUser.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CurrentUser.graphql; sourceTree = "<group>"; };
 		1089BF7E1E708553006E091A /* Salsette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Salsette.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1089BF811E708553006E091A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1089BF831E708553006E091A /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
+		1089BF831E708553006E091A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		1089BF881E708553006E091A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1089BF8B1E708553006E091A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1089BF8D1E708553006E091A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -167,7 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				106306B31E8CE3BF0089DA00 /* ContentEntity.swift */,
-				1089BF831E708553006E091A /* Search.swift */,
+				1089BF831E708553006E091A /* SearchViewController.swift */,
 				10ACDD781EFE7E09007B6F1A /* SearchLogic.swift */,
 				10ACDD7C1F02E529007B6F1A /* Results */,
 				10ACDD7D1F02E655007B6F1A /* Calendar */,
@@ -587,7 +587,7 @@
 				FB6D92081EBBD26900025CD8 /* NoCopyPasteTextField.swift in Sources */,
 				10DA93251EAA08B40054F338 /* UserCells.swift in Sources */,
 				10D8D8681ED9DCAE008A5A76 /* InputAccessoryView.swift in Sources */,
-				1089BF841E708553006E091A /* Search.swift in Sources */,
+				1089BF841E708553006E091A /* SearchViewController.swift in Sources */,
 				1089BF821E708553006E091A /* AppDelegate.swift in Sources */,
 				10964C451E82E66300CDFE3F /* HomeInteractor.swift in Sources */,
 				109AFB5C1E902EA700E424F6 /* FacebookPermissions.swift in Sources */,

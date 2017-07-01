@@ -2,6 +2,31 @@
 
 import Foundation
 
+protocol SearchResultsDelegate: class {
+    func didUpdateSearch(parameters: SearchParameters)
+}
+
+struct SearchParameters {
+    var name: String?
+    var startDate: Date?
+    var endDate: Date?
+    var location: String?
+    var type: EventTypes?
+}
+
+class GlobalSearch {
+    private init() {
+        searchParameters.type = .any
+    }
+    static let shared = GlobalSearch()
+    weak var searchResultsDelegate: SearchResultsDelegate?
+    var searchParameters = SearchParameters() {
+        didSet {
+            searchResultsDelegate?.didUpdateSearch(parameters: searchParameters)
+        }
+    }
+}
+
 class SearchInteractor {
     enum DataType{
         case name(String)
@@ -37,14 +62,14 @@ class SearchInteractor {
     func didChange(_ dataType: DataType) {
         switch dataType {
         case .name(let value):
-            GlobalSearch.sharedInstance.searchParameters.name = value
+            GlobalSearch.shared.searchParameters.name = value
         case .location(let value):
-            GlobalSearch.sharedInstance.searchParameters.location = value
+            GlobalSearch.shared.searchParameters.location = value
         case .type(let value):
-            GlobalSearch.sharedInstance.searchParameters.type = value
+            GlobalSearch.shared.searchParameters.type = value
         case .dates(let start, let end):
-            GlobalSearch.sharedInstance.searchParameters.startDate = start
-            GlobalSearch.sharedInstance.searchParameters.endDate = end
+            GlobalSearch.shared.searchParameters.startDate = start
+            GlobalSearch.shared.searchParameters.endDate = end
         }
     }
     

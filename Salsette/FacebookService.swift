@@ -68,9 +68,11 @@ class FacebookService {
         })
     }
     
-    func loadSalsaEvents(completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
+    func loadEvents(with parameters: SearchParameters, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
         
-        let request = FBSDKGraphRequest(graphPath: "/search", parameters: ["q":"salsa", "type":"event", "fields":"name,place,start_time,end_time,cover,owner,description"])
+        let queryString = parameters.type?.rawValue ?? ""
+        
+        let request = FBSDKGraphRequest(graphPath: "/search", parameters: ["q":"\(queryString)", "type":"event", "fields":"name,place,start_time,end_time,cover,owner,description"])
         connection = request?.start(completionHandler: { (connection, result, error) in
             if let returnedError = error {
                 completion(nil, returnedError)

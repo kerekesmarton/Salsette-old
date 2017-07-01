@@ -22,7 +22,6 @@ class ProfileFeatureLauncher {
 class ProfileViewController: UITableViewController {
 
     enum ViewStates {
-        case profilePicture(String)
         case displayName(String)
         case loading(Bool, String?, (() -> Void)?)
         case error(Error)
@@ -42,6 +41,7 @@ class ProfileViewController: UITableViewController {
         loginBtn.loginBehavior = .systemAccount
         loginBtn.delegate = self
         loginBtn.readPermissions = ["public_profile", "email", "user_friends", "user_events"]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: loginBtn)
 //        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(deleteKeychain))
     }
 
@@ -58,15 +58,11 @@ class ProfileViewController: UITableViewController {
     //online
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        interactor?.prepareView()
         interactor?.viewReady()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: loginBtn)
     }
     
     func set(viewState: ViewStates) {
         switch viewState {
-        case .profilePicture(let pictureIdentifier):
-            self.pictureIdentifier = pictureIdentifier
         case .displayName(let displayName):
             self.displayName = displayName
         case .loading(let value, let message, let completion):
@@ -94,19 +90,16 @@ class ProfileViewController: UITableViewController {
 
     fileprivate var userIsReady: Bool = false
     fileprivate var displayName: String?
-    fileprivate var pictureIdentifier: String?
 }
 
 extension ProfileViewController: FBSDKLoginButtonDelegate {
-    
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        interactor?.prepareView()
+        interactor?.viewReady()
     }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-        interactor?.prepareView()
+        interactor?.viewReady()
     }
-
 }
 
 extension ProfileViewController {
@@ -136,8 +129,11 @@ extension ProfileViewController {
                 interactor?.loadImage(with: { (image) in
                     imageCell.profilePictureView?.image = image
                 })
-            }
-            imageCell.userNameLabel?.text = displayName
+                imageCell.userNameLabel?.text = displayName
+            } else {
+                imageCell.profilePictureView?.image = nil
+                imageCell.userNameLabel?.text = nil
+            }            
         case 1:
             guard let eventsCell = cell as? EventsCell else { return cell }
             eventsCell.configure(with: self)

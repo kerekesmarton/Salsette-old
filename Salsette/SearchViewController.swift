@@ -11,29 +11,6 @@ import UIKit
 import TextFieldEffects
 import FBSDKLoginKit
 
-protocol SearchResultsDelegate: class {
-    func didUpdateSearch(parameters: SearchParameters)
-}
-
-struct SearchParameters {
-    var name: String?
-    var startDate: Date?
-    var endDate: Date?
-    var location: String?
-    var type: EventTypes?
-}
-
-class GlobalSearch {
-    private init() { }
-    static let sharedInstance = GlobalSearch()
-    weak var searchResultsDelegate: SearchResultsDelegate?
-    var searchParameters = SearchParameters() {
-        didSet {
-            searchResultsDelegate?.didUpdateSearch(parameters: searchParameters)
-        }
-    }
-}
-
 struct SearchFeatureLauncher {
     
     static func launchSearch() -> SearchViewController {
@@ -74,7 +51,7 @@ class SearchViewController: UITableViewController {
     //MARK: - Results
     @IBOutlet weak var collectionView: UICollectionView!
     var results = [ContentEntityInterface]()
-    var search: GlobalSearch?
+    var search = GlobalSearch.shared
     var resultsInteractor: ContentInteractorInterface = {
         return HomeInteractor()
     }()
@@ -96,23 +73,23 @@ class SearchViewController: UITableViewController {
         dateField.inputAccessoryView = InputAccessoryView.create(next: { (nextBtn) in
             self.locationField.becomeFirstResponder()
         }, previous: nil, done: { (doneBtn) in
-            self.locationField.becomeFirstResponder()
+            self.dateField.resignFirstResponder()
+            self.load()
         })
         locationField.inputAccessoryView = InputAccessoryView.create(next: { (nextBtn) in
             self.typeField.becomeFirstResponder()
         }, previous: nil, done: { (doneBtn) in
-            self.typeField.becomeFirstResponder()
+            self.locationField.resignFirstResponder()
+            self.load()
         })
         typeField.inputAccessoryView = InputAccessoryView.create(next: { (nextBtn) in
             self.typeField.resignFirstResponder()
+            self.load()
         }, previous: nil, done: { (doneBtn) in
             self.typeField.resignFirstResponder()
+            self.load()
         })
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        search?.searchResultsDelegate = self
+        search.searchResultsDelegate = self
         load()
     }
     
@@ -141,11 +118,10 @@ class SearchViewController: UITableViewController {
     }
     
     func load() {
-        resultsInteractor.load(with: search?.searchParameters,  completion: { items, error in
-            
+        resultsInteractor.load(with: search.searchParameters,  completion: { items, errorString in            
             guard let returnedItems = items else {
-                if let returnedError = error {
-                    let alert = UIAlertController(title: "Could not load results", message: returnedError.localizedDescription, preferredStyle: .alert)
+                if let errorMessage = errorString {
+                    let alert = UIAlertController(title: "Could not load results", message: errorMessage, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
                     self.present(alert, animated: false, completion: nil)
                 }

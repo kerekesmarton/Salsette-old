@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ContentInteractorInterface {
-    func load(with parameters: SearchParameters?, completion: @escaping (([ContentEntityInterface]?,Error?)->Void))
+    func load(with parameters: SearchParameters, completion: @escaping (([ContentEntityInterface]?,String?)->Void))
 }
 
 protocol ContentViewInterface: class {
@@ -17,14 +17,26 @@ protocol ContentViewInterface: class {
 }
 
 struct HomeInteractor: ContentInteractorInterface {
-    func load(with parameters: SearchParameters?, completion: @escaping (([ContentEntityInterface]?, Error?) -> Void)) {
-        //        offline
-        //                let items: [ContentEntityInterface] = AppTutorial.didShow ? DummyDataSource() : AppTutorial.cards
-        //                completion(items)
+    func load(with parameters: SearchParameters, completion: @escaping (([ContentEntityInterface]?, String?) -> Void)) {
+//          offline
+//        let items: [ContentEntityInterface] = AppTutorial.didShow ? DummyDataSource() : AppTutorial.cards
+//        completion(items,nil)
         
         //online
-        FacebookService.shared.loadSalsaEvents { (events, error) in
-            completion(events,error)
+        FacebookService.shared.loadEvents(with: parameters) { (events, error) in
+            
+            guard let error = error as NSError? else {
+                completion(events,nil)
+                return
+            }
+            switch (error.domain,error.code) {
+            case (_,8):
+                completion(nil, "Please log in with your facebook account")
+            case (NSURLErrorDomain,_):
+                completion(nil, error.localizedDescription)
+            default:
+                completion(nil, "Unknown Error occured")
+            }
         }
     }
 }

@@ -41,7 +41,7 @@ public enum EventTypes: String {
     case bachata = "Bachata"
     case kizomba = "Kizomba"
     case tango = "Tango"
-    case any = "Any"
+    case any = "Dance"
     
     static let allEventTypes = [salsa, bachata, kizomba, tango, any]
     

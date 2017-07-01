@@ -21,16 +21,12 @@ class ProfileInteractor {
         self.fbService = fbService
     }
     
-    func prepareView() {
+    func viewReady() {
         guard fbService.isLoggedIn, auth0Manager.isLoggedIn, graphManager.isLoggedIn else {
             view.set(viewState: .userReady(false))
             return
         }
-        view.set(viewState: .userReady(true))
-    }
-    
-    func viewReady() {
-        facebookLogin()
+        facebookLogin()        
     }
     
     func facebookLogin() {
@@ -98,7 +94,6 @@ class ProfileInteractor {
             return
         }
         view?.set(viewState: .displayName(name))
-        view?.set(viewState: .profilePicture("me"))
         view?.set(viewState: .userReady(true))
     }
     
