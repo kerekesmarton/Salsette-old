@@ -4,8 +4,7 @@ import UIKit
 class WorkshopsLayout: UICollectionViewFlowLayout {
     fileprivate var cellAttributes = [IndexPath: UICollectionViewLayoutAttributes]()
     fileprivate var headerAttributes = [IndexPath: UICollectionViewLayoutAttributes]()
-    fileprivate var contentSize: CGSize?
-    
+    fileprivate var contentSize: CGSize?    
     fileprivate let numberOfVisibleItems = 4.5
     fileprivate let headerWidth = CGFloat(80)
     fileprivate let verticalDividerWidth = CGFloat(2)

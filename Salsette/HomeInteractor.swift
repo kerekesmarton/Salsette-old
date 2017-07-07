@@ -25,17 +25,19 @@ struct HomeInteractor: ContentInteractorInterface {
         //online
         FacebookService.shared.loadEvents(with: parameters) { (events, error) in
             
-            guard let error = error as NSError? else {
-                completion(events,nil)
-                return
-            }
-            switch (error.domain,error.code) {
-            case (_,8):
-                completion(nil, "Please log in with your facebook account")
-            case (NSURLErrorDomain,_):
-                completion(nil, error.localizedDescription)
-            default:
-                completion(nil, "Unknown Error occured")
+            DispatchQueue.main.async {
+                guard let error = error as NSError? else {
+                    completion(events,nil)
+                    return
+                }
+                switch (error.domain,error.code) {
+                case (_,8):
+                    completion(nil, "Please log in with your facebook account")
+                case (NSURLErrorDomain,_):
+                    completion(nil, error.localizedDescription)
+                default:
+                    completion(nil, "Unknown Error occured")
+                }
             }
         }
     }

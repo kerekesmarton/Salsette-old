@@ -10,6 +10,7 @@ import ObjectiveC
 import UIKit
 import TextFieldEffects
 import FBSDKLoginKit
+import DZNEmptyDataSet
 
 struct SearchFeatureLauncher {
     
@@ -89,7 +90,7 @@ class SearchViewController: UITableViewController {
             self.typeField.resignFirstResponder()
             self.load()
         })
-        search.searchResultsDelegate = self
+        collectionView.emptyDataSetSource = self
         load()
     }
     
@@ -117,19 +118,27 @@ class SearchViewController: UITableViewController {
         }
     }
     
+    var emptyDataSetString = "You can start a search by setting some of the above fields"
     func load() {
         resultsInteractor.load(with: search.searchParameters,  completion: { items, errorString in            
             guard let returnedItems = items else {
                 if let errorMessage = errorString {
-                    let alert = UIAlertController(title: "Could not load results", message: errorMessage, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-                    self.present(alert, animated: false, completion: nil)
+                    self.configureAndReload(message: errorMessage)
+                } else {
+                    self.configureAndReload(message: "Couldn't find anything... \nSorry about that.")
                 }
                 return
             }
             self.results = returnedItems
             self.collectionView?.reloadData()
         })
+        self.configureAndReload(message: "Loading...")
+    }
+    
+    func configureAndReload(message: String) {
+        self.emptyDataSetString = message
+        self.results.removeAll()
+        self.collectionView?.reloadData()
     }
     
     func profile() {
@@ -163,6 +172,16 @@ extension SearchViewController: UITextFieldDelegate {
         switch textField {
         case locationField:
             searchInteractor.didChange(.location(locationField.text!))
+        default:
+            ()
+        }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField {
+        case typeField:
+            let row = typePicker.selectedRow(inComponent: 0)
+            typePicker.selectRow(row, inComponent: 0, animated: false)
         default:
             ()
         }
@@ -242,10 +261,10 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 }
 
-extension SearchViewController: SearchResultsDelegate {
-    func didUpdateSearch(parameters: SearchParameters) {
-        load()
+extension SearchViewController: DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
+
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string: emptyDataSetString)
     }
 }
-
 

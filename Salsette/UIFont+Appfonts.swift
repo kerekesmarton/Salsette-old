@@ -26,4 +26,15 @@ extension UIFont {
 		return UIFont(name: "GothamPro-Medium", size: 12.0)
 	}
     
+    class func exampleAvenirMedium(ofSize size: CGFloat) -> UIFont {
+        return UIFont(name: "Avenir-Book", size: size) ?? UIFont.systemFont(ofSize: size)
+    }
+    
+    class func exampleAvenirLight(ofSize size: CGFloat) -> UIFont {
+        return UIFont(name: "Avenir-Light", size: size) ?? UIFont.systemFont(ofSize: size)
+    }
+    
+    class func hoshiFont(ofSize size: CGFloat) -> UIFont {
+        return UIFont(name: ".SFUIText-Light", size: size) ?? UIFont.systemFont(ofSize: size)
+    }
 }

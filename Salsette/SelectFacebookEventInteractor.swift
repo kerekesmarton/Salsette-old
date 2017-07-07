@@ -25,7 +25,7 @@ class SelectFacebookEventInteractor {
     }
     
     func prepare(from viewController: UIViewController) {
-        facebookService?.loadUserEvents(from: viewController, completion: { [weak self] (result, error) in
+        facebookService?.loadUserCreatedEvents(from: viewController, completion: { [weak self] (result, error) in
             guard let returnedError = error else {
                 self?.updateView(with: result)
                 return

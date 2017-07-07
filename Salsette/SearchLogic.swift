@@ -15,9 +15,7 @@ struct SearchParameters {
 }
 
 class GlobalSearch {
-    private init() {
-        searchParameters.type = .any
-    }
+    private init() {}
     static let shared = GlobalSearch()
     weak var searchResultsDelegate: SearchResultsDelegate?
     var searchParameters = SearchParameters() {

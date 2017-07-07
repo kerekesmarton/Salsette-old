@@ -22,7 +22,7 @@ class ImageDownloader {
     }
     func downloadImage(for urlString: String?, completion:@escaping ((UIImage)->Void)) {
         guard let string = urlString, let url = URL(string: string) else {
-            completion(failedImage)
+            completion(UIImage())
             return
         }
         URLSession.shared.dataTask(with: url) { (imageData, urlResponse, error) in

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ChameleonFramework
 
 class HomeCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
@@ -18,8 +19,11 @@ class HomeCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        nameLabel.font = UIFont(name: ".SFUIText", size: 17)
-        descriptionLabel.font = UIFont(name: ".SFUIText", size: 14)
+        nameLabel.font = UIFont.hoshiFont(ofSize: 17)
+        descriptionLabel.font = UIFont.hoshiFont(ofSize: 14)
+        imageView.image = nil
+        imageView.layer.borderColor = UIColor.flatWhite.cgColor
+        imageView.layer.borderWidth = 0.5
     }
     var content: ContentEntityInterface? {
         didSet {
@@ -27,9 +31,9 @@ class HomeCell: UICollectionViewCell {
             
             heroID = content.name
             nameLabel.text = content.name
-            descriptionLabel.text = useShortDescription ? content.shortDescription : content.longDescription
             identifier = content.identifier
             loadImage(for: content.identifier)
+            configureDescriptionLabel()
         }
     }
     
@@ -42,6 +46,15 @@ class HomeCell: UICollectionViewCell {
                     self.imageView.image = image
                 }
             })
+        }
+    }
+    
+    private func configureDescriptionLabel() {
+        if let date = content?.startDate, let location = content?.location {
+            let dateString = DateFormatters.relativeDateFormatter.string(from: date)
+            descriptionLabel.text = "\(dateString) \n@ \(location)"
+        } else {
+            descriptionLabel.text = useShortDescription ? content?.shortDescription : content?.longDescription
         }
     }
 }
