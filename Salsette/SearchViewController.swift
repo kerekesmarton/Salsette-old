@@ -113,14 +113,21 @@ class SearchViewController: UITableViewController {
         if let nav = segue.destination as? UINavigationController,
             let eventViewController = nav.viewControllers.first as? EventViewController,
             let currentCell = sender as? HomeCell,
-            let currentCellIndex = collectionView.indexPath(for: currentCell) {
-                eventViewController.event = results[currentCellIndex.row]
+            let currentCellIndex = collectionView.indexPath(for: currentCell)
+        {
+            eventViewController.event = results[currentCellIndex.row]
+            eventViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(SearchViewController.dismissEventView))
         }
+    }
+    
+    @objc func dismissEventView() {
+        dismiss(animated: true)
     }
     
     var emptyDataSetString = "You can start a search by setting some of the above fields"
     func load() {
-        resultsInteractor.load(with: search.searchParameters,  completion: { items, errorString in            
+        self.configureAndReload(message: "Loading...")
+        resultsInteractor.load(with: search.searchParameters,  completion: { items, errorString in
             guard let returnedItems = items else {
                 if let errorMessage = errorString {
                     self.configureAndReload(message: errorMessage)
@@ -129,10 +136,9 @@ class SearchViewController: UITableViewController {
                 }
                 return
             }
-            self.results = returnedItems
+            self.results.append(contentsOf: returnedItems)
             self.collectionView?.reloadData()
         })
-        self.configureAndReload(message: "Loading...")
     }
     
     func configureAndReload(message: String) {
@@ -262,7 +268,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
 }
 
 extension SearchViewController: DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
-
+    
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         return NSAttributedString(string: emptyDataSetString)
     }

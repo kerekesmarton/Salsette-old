@@ -13,9 +13,10 @@ import TextFieldEffects
 
 enum UserCellIdentifiers {
     static let imageIdentifier = "UserCell"
-    static let eventIdentifier = "EventsCell"
+    static let savedEventIdentifier = "SavedEventsCell"
+    static let createdEventIdentifier = "CreatedEventsCell"
 
-    static let allIdentifiers = [imageIdentifier, eventIdentifier]
+    static let allIdentifiers = [imageIdentifier, savedEventIdentifier, createdEventIdentifier]
 }
 
 class UserCell: UITableViewCell {
@@ -50,21 +51,8 @@ class EventsCell: UITableViewCell, SelectFacebookEventProtocol {
     //offline testing
 //    func configure(with viewController: UIViewController) {
 //        interactor = SelectFacebookEventInteractor(with: self, fbService: FacebookService.shared, downloader: ImageDownloader.shared)
-//        items = dummyEvents()
+//        items = DummyDataSource().dummyEvents
 //    }
-    
-    func dummyEvents() -> [FacebookEventEntity] {
-        var entities = [FacebookEventEntity]()
-        for _ in 0...3 {
-            let entity = FacebookEventEntity(with: "asdf")
-            entity.name = "salsa party"
-            entity.startDate = Date().addingTimeInterval(36000)
-            entity.place = "Milan"
-            entities.append(entity)
-        }
-
-        return entities
-    }
 }
 
 extension EventsCell: UICollectionViewDelegate, UICollectionViewDataSource {

@@ -14,18 +14,13 @@ class EventViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.customizeTransparentNavigationBar()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(EventViewController.cancel))
-    }
-    
-    @objc private func cancel() {
-        dismiss(animated: true)        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         imageView.heroID = event.name
         ImageDownloader.shared.downloadImage(for: event.imageUrl) { (image) in
-            self.imageView.image = image
+            self.imageView.image = image            
         }
         nameLabel.text = event.name
         hostLabel.text = event.place

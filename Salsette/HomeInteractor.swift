@@ -19,8 +19,10 @@ protocol ContentViewInterface: class {
 struct HomeInteractor: ContentInteractorInterface {
     func load(with parameters: SearchParameters, completion: @escaping (([ContentEntityInterface]?, String?) -> Void)) {
 //          offline
-//        let items: [ContentEntityInterface] = AppTutorial.didShow ? DummyDataSource() : AppTutorial.cards
+//        let items: [ContentEntityInterface] = AppTutorial.didShow ? DummyDataSource().dummyEvents : AppTutorial.cards
 //        completion(items,nil)
+//        return
+//
         
         //online
         FacebookService.shared.loadEvents(with: parameters) { (events, error) in
@@ -43,8 +45,8 @@ struct HomeInteractor: ContentInteractorInterface {
     }
 }
 
-fileprivate struct DummyDataSource {
-    fileprivate func dummyEvents () -> [FacebookEventEntity] {
+struct DummyDataSource {
+    var dummyEvents: [FacebookEventEntity] {
         
         return [FacebookEventEntity(with: ["name": "Salsa4Us - Salsa a Ligetben - 2017 06 30",
                                            "place": [

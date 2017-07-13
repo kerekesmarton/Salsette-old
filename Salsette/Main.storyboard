@@ -37,26 +37,6 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Say a few words about yourself.." textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ehq-DW-w4P" customClass="HoshiTextField" customModule="TextFieldEffects">
-                                            <rect key="frame" x="20" y="188" width="280" height="60"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="60" id="gz6-ta-2yB"/>
-                                            </constraints>
-                                            <nil key="textColor"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits"/>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="color" keyPath="borderInactiveColor">
-                                                    <color key="value" red="0.51784205439999997" green="0.58159953360000005" blue="0.58617168659999996" alpha="1" colorSpace="calibratedRGB"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="color" keyPath="borderActiveColor">
-                                                    <color key="value" red="0.42655369640000002" green="0.475846082" blue="0.4802647531" alpha="1" colorSpace="calibratedRGB"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
-                                                    <color key="value" red="0.111818932" green="0.11183650050000001" blue="0.1118125319" alpha="1" colorSpace="calibratedRGB"/>
-                                                </userDefinedRuntimeAttribute>
-                                            </userDefinedRuntimeAttributes>
-                                        </textField>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VPd-r5-t51">
                                             <rect key="frame" x="200" y="8" width="100" height="100"/>
                                             <constraints>
@@ -81,49 +61,21 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </imageView>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Favorite Song" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rv0-wR-IYb" customClass="HoshiTextField" customModule="TextFieldEffects">
-                                            <rect key="frame" x="20" y="116" width="280" height="60"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="60" id="dFe-3Y-T5b"/>
-                                            </constraints>
-                                            <nil key="textColor"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits"/>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="color" keyPath="borderInactiveColor">
-                                                    <color key="value" red="0.51784205439999997" green="0.58159953360000005" blue="0.58617168659999996" alpha="1" colorSpace="calibratedRGB"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="color" keyPath="borderActiveColor">
-                                                    <color key="value" red="0.42655369640000002" green="0.475846082" blue="0.4802647531" alpha="1" colorSpace="calibratedRGB"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
-                                                    <color key="value" red="0.111818932" green="0.11183650050000001" blue="0.1118125319" alpha="1" colorSpace="calibratedRGB"/>
-                                                </userDefinedRuntimeAttribute>
-                                            </userDefinedRuntimeAttributes>
-                                        </textField>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="rv0-wR-IYb" firstAttribute="leading" secondItem="8Jp-pK-Osd" secondAttribute="leadingMargin" constant="12" id="05i-4r-JYi"/>
                                         <constraint firstItem="VPd-r5-t51" firstAttribute="leading" secondItem="iBt-uI-9Tl" secondAttribute="trailing" constant="8" id="132-X8-ZdR"/>
                                         <constraint firstItem="iBt-uI-9Tl" firstAttribute="top" secondItem="8Jp-pK-Osd" secondAttribute="topMargin" constant="20" id="92B-2d-hmw"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="rv0-wR-IYb" secondAttribute="trailing" constant="12" id="PX5-ba-Bum"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="Ehq-DW-w4P" secondAttribute="trailing" constant="12" id="SvH-rG-uRT"/>
-                                        <constraint firstItem="Ehq-DW-w4P" firstAttribute="top" secondItem="rv0-wR-IYb" secondAttribute="bottom" constant="12" id="ToO-51-VfL"/>
                                         <constraint firstItem="iBt-uI-9Tl" firstAttribute="leading" secondItem="8Jp-pK-Osd" secondAttribute="leadingMargin" constant="12" id="ZHm-sz-S4S"/>
                                         <constraint firstItem="iBt-uI-9Tl" firstAttribute="centerY" secondItem="VPd-r5-t51" secondAttribute="centerY" id="cgl-3C-wp1"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="VPd-r5-t51" secondAttribute="trailing" priority="750" constant="12" id="kPZ-86-ktp"/>
-                                        <constraint firstItem="rv0-wR-IYb" firstAttribute="top" secondItem="VPd-r5-t51" secondAttribute="bottom" constant="8" id="lHK-Gx-1dZ"/>
-                                        <constraint firstItem="Ehq-DW-w4P" firstAttribute="leading" secondItem="8Jp-pK-Osd" secondAttribute="leadingMargin" constant="12" id="npW-0E-RRs"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="aboutMe" destination="Ehq-DW-w4P" id="3Rs-ib-ghj"/>
-                                    <outlet property="favoriteSong" destination="rv0-wR-IYb" id="vjU-ui-xlK"/>
                                     <outlet property="profilePictureView" destination="VPd-r5-t51" id="dpz-Eo-WsT"/>
                                     <outlet property="userNameLabel" destination="iBt-uI-9Tl" id="ghx-jH-r24"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EventsCell" rowHeight="150" id="4qf-ce-xBd" customClass="EventsCell" customModule="Salsette" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SavedEventsCell" rowHeight="150" id="4qf-ce-xBd" customClass="EventsCell" customModule="Salsette" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="288" width="320" height="150"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4qf-ce-xBd" id="H1a-b4-35P">
@@ -186,7 +138,7 @@
                                                         <outlet property="eventDetails" destination="zb4-21-sqO" id="p7O-cK-ifd"/>
                                                         <outlet property="eventImage" destination="YFU-yE-gq3" id="aIz-zX-kHh"/>
                                                         <outlet property="eventName" destination="Wht-r8-yEJ" id="a1p-Rq-7Qu"/>
-                                                        <segue destination="7o4-Su-l0Y" kind="show" id="Cfw-bd-yll"/>
+                                                        <segue destination="NOA-2l-Vft" kind="show" id="U4Z-63-1Uk"/>
                                                     </connections>
                                                 </collectionViewCell>
                                             </cells>
@@ -201,6 +153,86 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="eventCollectionView" destination="Naw-8k-pg1" id="NWh-ey-7gB"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CreatedEventsCell" rowHeight="150" id="wqg-zl-CGp" customClass="EventsCell" customModule="Salsette" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="438" width="320" height="150"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wqg-zl-CGp" id="e2q-nf-lCm">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4UH-K0-hCI">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Zln-Rs-UTT">
+                                                <size key="itemSize" width="200" height="100"/>
+                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                <inset key="sectionInset" minX="24" minY="24" maxX="24" maxY="24"/>
+                                            </collectionViewFlowLayout>
+                                            <cells>
+                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EventCollectionViewCell" id="VX4-mH-pIk" customClass="EventCollectionViewCell" customModule="Salsette" customModuleProvider="target">
+                                                    <rect key="frame" x="24" y="25" width="200" height="100"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                        <rect key="frame" x="0.0" y="0.0" width="200" height="100"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <subviews>
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CNx-II-diy">
+                                                                <rect key="frame" x="0.0" y="0.0" width="200" height="100"/>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="eventPicture"/>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                        <real key="value" value="4"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                            </imageView>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="what" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m1r-7G-LGK">
+                                                                <rect key="frame" x="16" y="40" width="168" height="21"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="when and where" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wHJ-Yw-Lhp">
+                                                                <rect key="frame" x="14" y="65" width="126" height="21"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </view>
+                                                    <color key="backgroundColor" red="0.91683242499999995" green="0.95149029709999999" blue="0.98076589110000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstItem="wHJ-Yw-Lhp" firstAttribute="top" secondItem="m1r-7G-LGK" secondAttribute="bottom" constant="4" id="B0S-ez-qQG"/>
+                                                        <constraint firstItem="wHJ-Yw-Lhp" firstAttribute="leading" secondItem="VX4-mH-pIk" secondAttribute="leadingMargin" constant="6" id="F8V-Qa-olG"/>
+                                                        <constraint firstItem="m1r-7G-LGK" firstAttribute="centerX" secondItem="CNx-II-diy" secondAttribute="centerX" id="LWF-BD-uo0"/>
+                                                        <constraint firstItem="m1r-7G-LGK" firstAttribute="centerY" secondItem="CNx-II-diy" secondAttribute="centerY" id="STo-Db-VSd"/>
+                                                        <constraint firstItem="m1r-7G-LGK" firstAttribute="centerX" secondItem="VX4-mH-pIk" secondAttribute="centerX" id="X3r-3d-53M"/>
+                                                        <constraint firstItem="CNx-II-diy" firstAttribute="top" secondItem="VX4-mH-pIk" secondAttribute="top" id="Z72-KN-Jse"/>
+                                                        <constraint firstItem="m1r-7G-LGK" firstAttribute="centerY" secondItem="VX4-mH-pIk" secondAttribute="centerY" id="g1I-im-olV"/>
+                                                        <constraint firstItem="CNx-II-diy" firstAttribute="leading" secondItem="VX4-mH-pIk" secondAttribute="leading" id="ia4-A4-RCt"/>
+                                                        <constraint firstItem="m1r-7G-LGK" firstAttribute="leading" secondItem="VX4-mH-pIk" secondAttribute="leadingMargin" constant="8" id="qwU-bN-kvm"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <outlet property="eventDetails" destination="wHJ-Yw-Lhp" id="nZX-Lb-zB6"/>
+                                                        <outlet property="eventImage" destination="CNx-II-diy" id="DTz-A2-5dj"/>
+                                                        <outlet property="eventName" destination="m1r-7G-LGK" id="eC9-VC-iIF"/>
+                                                        <segue destination="7o4-Su-l0Y" kind="show" id="iwj-O8-Keo"/>
+                                                    </connections>
+                                                </collectionViewCell>
+                                            </cells>
+                                        </collectionView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="4UH-K0-hCI" firstAttribute="height" secondItem="e2q-nf-lCm" secondAttribute="height" id="07r-5o-mzA"/>
+                                        <constraint firstItem="4UH-K0-hCI" firstAttribute="width" secondItem="e2q-nf-lCm" secondAttribute="width" id="ar1-gT-wCJ"/>
+                                        <constraint firstItem="4UH-K0-hCI" firstAttribute="centerY" secondItem="e2q-nf-lCm" secondAttribute="centerY" id="nKd-AD-gFr"/>
+                                        <constraint firstItem="4UH-K0-hCI" firstAttribute="centerX" secondItem="e2q-nf-lCm" secondAttribute="centerX" id="xaM-Yi-rwc"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="eventCollectionView" destination="4UH-K0-hCI" id="4QW-Uf-ykt"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -875,13 +907,13 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XdI-EZ-HbY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2752.5" y="2019.7183098591549"/>
+            <point key="canvasLocation" x="2614" y="2020"/>
         </scene>
         <!--Workshops Edit View Controller-->
         <scene sceneID="trC-IE-xYa">
             <objects>
                 <collectionViewController id="TR1-XO-TBA" customClass="WorkshopsEditViewController" customModule="Salsette" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="buM-UE-9zi" customClass="SwappingCollectionView" customModule="Salsette" customModuleProvider="target">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="buM-UE-9zi" customClass="SwappingCollectionView" customModule="Salsette" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.8980392157" green="0.8980392157" blue="0.8980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1198,7 +1230,8 @@
         <image name="users_highlighted" width="26" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="3Ds-HC-ogH"/>
         <segue reference="s0F-NI-fer"/>
+        <segue reference="3Ds-HC-ogH"/>
+        <segue reference="U4Z-63-1Uk"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -103,26 +103,28 @@ extension ProfileViewController: FBSDKLoginButtonDelegate {
 }
 
 extension ProfileViewController {
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userIsReady ? 2 : 1
+        return userIsReady ? 1 : 0
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.row {
+        switch indexPath.section {
         case 0:
             return 250
-        case 1:
-            return 150
         default:
-            return 44
+            return 150
         }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: UserCellIdentifiers.allIdentifiers[indexPath.row])!
+        let cell = tableView.dequeueReusableCell(withIdentifier: UserCellIdentifiers.allIdentifiers[indexPath.section])!
         cell.heroModifiers = [.fade, .translate(y:20)]
-        switch indexPath.row {
+        switch indexPath.section {
         case 0:
             guard let imageCell = cell as? UserCell else { return cell }
             if userIsReady {
@@ -134,18 +136,33 @@ extension ProfileViewController {
                 imageCell.profilePictureView?.image = nil
                 imageCell.userNameLabel?.text = nil
             }            
-        case 1:
+        default:
             guard let eventsCell = cell as? EventsCell else { return cell }
             eventsCell.configure(with: self)
-        default:
-            ()
         }
         return cell
     }
-
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if !userIsReady {
+            return nil
+        }
+        switch section {
+        case 0:
+            return "Welcome,"
+        case 1:
+            return "Here you can see events you saved"
+        case 2:
+            return "Here you can see events you created"
+        default:
+            return nil
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let cell = sender as? EventCollectionViewCell,
-            let vc = segue.destination as? CreateEventViewController {
+        if let cell = sender as? EventCollectionViewCell, let vc = segue.destination as? EventViewController {
+            vc.event = cell.item
+        } else if let cell = sender as? EventCollectionViewCell, let vc = segue.destination as? CreateEventViewController {
             vc.item = cell.item
         }
     }

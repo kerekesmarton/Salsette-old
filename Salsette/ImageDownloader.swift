@@ -32,7 +32,9 @@ class ImageDownloader {
                 }
                 return
             }
-            completion(self.failedImage)
+            DispatchQueue.main.async {
+                completion(self.failedImage)
+            }            
         }.resume()
     }
     

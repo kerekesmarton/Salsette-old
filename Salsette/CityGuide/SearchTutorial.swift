@@ -27,15 +27,15 @@ struct AppTutorial: ContentEntityInterface {
             didShow = true
             return [
                 AppTutorial(name: "Welcome to Salsette.",
-                             image: #imageLiteral(resourceName: "vancouver"),
+                             image: nil,
                              shortDescription: "Tap me!",
                              longDescription: "Thank you for installing. Here you can have a look at dance events you searched for."),
                 AppTutorial(name: "Take your time, look around.",
-                             image: #imageLiteral(resourceName: "toronto"),
+                             image: nil,
                              shortDescription: "Your guide to the next dance class or party.",
                              longDescription: "Try changing some of the wording above.. search for the type of dance, name, location or dates."),
                 AppTutorial(name: "Share it.",
-                             image: #imageLiteral(resourceName: "montreal"),
+                             image: nil,
                              shortDescription: "Log in and share your own events.",
                              longDescription: "By logging in with your facebook account, you can import and customize your dance events. What is the schedule? Which workshops will you offer?")
             ]
