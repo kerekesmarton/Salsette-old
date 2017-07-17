@@ -109,6 +109,26 @@ class FacebookService {
         }
     }
     
+    private func filter(results: [FacebookEventEntity]?, startDate: Date?, endDate: Date?) -> [FacebookEventEntity] {
+    
+        guard let results = results else {
+            return []
+        }
+        
+        let sdate = startDate ?? Date().setting(month: 1)
+        let edate = endDate ?? Date().setting(month: 12)
+        
+        return results.flatMap({ (event) -> FacebookEventEntity? in
+            if let eventStartDate = event.startDate, let eventEndDate = event.endDate,
+                eventStartDate > sdate, eventEndDate < edate
+            {
+                return event
+            }
+            return nil
+        })
+        
+    }
+    
     private var eventsByPlaceConnection: FBSDKGraphRequestConnection?
     func eventsByPlaces(with ids:[String], startDate: Date?, endDate: Date?, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
         self.eventsByPlaceConnection = FBSDKGraphRequestConnection()
@@ -121,7 +141,7 @@ class FacebookService {
                 }
                 return s1 < s2
             })
-            completion(results,nil)
+            completion(self.filter(results: results, startDate: startDate, endDate: endDate),nil)
         })
         ids.forEach({ (id) in
             
@@ -144,6 +164,8 @@ class FacebookService {
         if let date = startDate {
             let dateString = DateFormatters.dateFormatter.string(from: date)
             request?.parameters.addEntries(from: ["since":dateString])
+        } else {
+            request?.parameters.addEntries(from: ["since":"now"])
         }
         if let date = endDate {
             let dateString = DateFormatters.dateFormatter.string(from: date)
@@ -167,6 +189,8 @@ class FacebookService {
         if let date = parameters.startDate {
             let dateString = DateFormatters.dateFormatter.string(from: date)
             request?.parameters.addEntries(from: ["since":dateString])
+        } else {
+            request?.parameters.addEntries(from: ["since":"now"])
         }
         if let date = parameters.endDate {
             let dateString = DateFormatters.dateFormatter.string(from: date)
@@ -178,13 +202,13 @@ class FacebookService {
                 completion(nil, returnedError)
             } else if let returnedResult = result {
                 
-                let sortedEvents = FacebookEventEntity.create(with: returnedResult).sorted(by: { (event1, event2) -> Bool in
+                let results = FacebookEventEntity.create(with: returnedResult).sorted(by: { (event1, event2) -> Bool in
                     guard let s1 = event1.startDate, let s2 = event2.startDate else {
                         return event1.hashValue < event2.hashValue
                     }
                     return s1 < s2
                 })
-                completion(sortedEvents, nil)
+                completion(self.filter(results: results, startDate: parameters.startDate, endDate: parameters.endDate), nil)
             }
         })
     }
