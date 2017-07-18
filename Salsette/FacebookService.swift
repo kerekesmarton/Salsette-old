@@ -317,7 +317,13 @@ class FacebookEventEntity: ContentEntityInterface, Equatable, Hashable {
     }
     
     private func location(from json: JSON) -> String {
-        return "\(json["zip"].string ?? "") \(json["city"].string ?? "") \(json["street"].string ?? "") \(json["country"].string ?? "") \n latitude:\(json["latitude"].string ?? "") longitude:\(json["longitude"].string ?? "")"
+        var address = "\(json["zip"].string ?? "") \(json["city"].string ?? "") \(json["street"].string ?? "") \(json["country"].string ?? "")"
+        
+        if let lon = json["longitude"].string, let lat = json["latitude"].string {
+            address.append("latitude:\(lat), longitude:\(lon)")
+        }
+        
+        return address
     }
     
     var hashValue: Int {

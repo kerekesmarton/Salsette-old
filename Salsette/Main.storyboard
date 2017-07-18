@@ -20,6 +20,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="sectionIndexBackgroundColor" red="0.91683242499999995" green="0.95149029709999999" blue="0.98076589110000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="nnu-ni-Oex">
+                            <rect key="frame" x="0.0" y="588" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pvN-ab-2kj" customClass="FBSDKLoginButton">
+                                    <rect key="frame" x="136.5" y="0.0" width="46" height="44"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="H8y-ZR-hGL"/>
+                                    </constraints>
+                                    <state key="normal" title="Button"/>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="pvN-ab-2kj" firstAttribute="centerX" secondItem="nnu-ni-Oex" secondAttribute="centerX" id="ab9-Oa-Xn6"/>
+                                <constraint firstItem="pvN-ab-2kj" firstAttribute="centerY" secondItem="nnu-ni-Oex" secondAttribute="centerY" id="fwO-mj-9wW"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserCell" rowHeight="260" id="d9t-GJ-w6a" customClass="UserCell" customModule="Salsette" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="260"/>
@@ -255,13 +273,6 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x4F-H6-uaK" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pvN-ab-2kj" customClass="FBSDKLoginButton">
-                    <rect key="frame" x="0.0" y="0.0" width="109" height="44"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="44" id="H8y-ZR-hGL"/>
-                    </constraints>
-                    <state key="normal" title="Button"/>
-                </button>
             </objects>
             <point key="canvasLocation" x="2613.75" y="1247.5352112676057"/>
         </scene>
@@ -893,7 +904,13 @@
                             <outlet property="delegate" destination="NOA-2l-Vft" id="Ijj-LQ-BEa"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Gvg-ld-wBB"/>
+                    <navigationItem key="navigationItem" id="Gvg-ld-wBB">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="syn-oy-kf4">
+                            <connections>
+                                <action selector="actionButtonTapped:" destination="NOA-2l-Vft" id="jhc-BB-sfk"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="descriptionLabel" destination="PYL-5a-YU6" id="e8w-l7-id8"/>
                         <outlet property="endDate" destination="VBG-rq-Ye9" id="SJf-HM-Yme"/>
@@ -913,7 +930,7 @@
         <scene sceneID="trC-IE-xYa">
             <objects>
                 <collectionViewController id="TR1-XO-TBA" customClass="WorkshopsEditViewController" customModule="Salsette" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="buM-UE-9zi" customClass="SwappingCollectionView" customModule="Salsette" customModuleProvider="target">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="buM-UE-9zi" customClass="SwappingCollectionView" customModule="Salsette" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.8980392157" green="0.8980392157" blue="0.8980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

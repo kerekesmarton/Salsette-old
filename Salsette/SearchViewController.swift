@@ -71,25 +71,32 @@ class SearchViewController: UITableViewController {
         typeField.delegate = self
         dateField.delegate = self
         navigationController?.customizeTransparentNavigationBar()
-        dateField.inputAccessoryView = InputAccessoryView.create(next: { (nextBtn) in
+        
+        let dateIAV = InputAccessoryView.create(next: { (nextBtn) in
             self.locationField.becomeFirstResponder()
         }, previous: nil, done: { (doneBtn) in
             self.dateField.resignFirstResponder()
             self.load()
         })
+        dateIAV.prevTitle = nil
+        dateField.inputAccessoryView = dateIAV
+       
         locationField.inputAccessoryView = InputAccessoryView.create(next: { (nextBtn) in
             self.typeField.becomeFirstResponder()
-        }, previous: nil, done: { (doneBtn) in
+        }, previous: { (previousBtn) in
+            self.dateField.becomeFirstResponder()
+        }, done: { (doneBtn) in
             self.locationField.resignFirstResponder()
             self.load()
         })
-        typeField.inputAccessoryView = InputAccessoryView.create(next: { (nextBtn) in
-            self.typeField.resignFirstResponder()
-            self.load()
-        }, previous: nil, done: { (doneBtn) in
+        let typeIAV = InputAccessoryView.create(next: nil, previous: { (previousBtn) in
+            self.locationField.becomeFirstResponder()
+        }, done: { (doneBtn) in
             self.typeField.resignFirstResponder()
             self.load()
         })
+        typeIAV.nextTitle = nil
+        typeField.inputAccessoryView = typeIAV
         collectionView.emptyDataSetSource = self
         load()
     }

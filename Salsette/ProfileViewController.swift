@@ -41,7 +41,6 @@ class ProfileViewController: UITableViewController {
         loginBtn.loginBehavior = .systemAccount
         loginBtn.delegate = self
         loginBtn.readPermissions = ["public_profile", "email", "user_friends", "user_events"]
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: loginBtn)
 //        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(deleteKeychain))
     }
 

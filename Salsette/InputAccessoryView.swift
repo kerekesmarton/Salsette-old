@@ -18,12 +18,19 @@ class InputAccessoryView: PassThroughView {
         iav.cancelAction = done
         iav.nextAction = next
         iav.prevAction = previous
+        iav.previousBtn?.titleLabel?.font = UIFont.hoshiFont(ofSize: 16)
+        iav.nextBtn?.titleLabel?.font = UIFont.hoshiFont(ofSize: 16)
+        iav.cancelBtn?.titleLabel?.font = UIFont.hoshiFont(ofSize: 16)
         return iav
     }
     
     var nextTitle: String? {
         didSet{
-            nextBtn?.setTitle(nextTitle, for: .normal)
+            if let title = nextTitle {
+                nextBtn?.setTitle(title, for: .normal)
+            } else {
+                nextBtn?.isEnabled = false
+            }            
         }
     }
     @IBOutlet private var nextBtn: UIButton?
@@ -36,7 +43,11 @@ class InputAccessoryView: PassThroughView {
     
     var prevTitle: String? {
         didSet {
-            previousBtn?.setTitle(prevTitle, for: .normal)
+            if let title = prevTitle {
+                previousBtn?.setTitle(title, for: .normal)
+            } else {
+                previousBtn?.isEnabled = false
+            }
         }
     }
     

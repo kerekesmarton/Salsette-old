@@ -48,6 +48,32 @@ class EventViewController: UITableViewController {
             return 60
         }
     }
+    
+    @IBAction func actionButtonTapped(_ sender: Any) {
+
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Open Facebook", style: .default, handler: { (openFBAction) in
+            if let id = self.event.identifier, let url = URL(string: "https://www.facebook.com/events/\(id)") {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Open Google Maps", style: .default, handler: { (openGoogleMapsAction) in
+            if let location = self.event.location?.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics),
+                let url = URL(string: "https://www.google.com/maps/place/\(location)") {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Share", style: .default, handler: { (openOtherAction) in
+            if let id = self.event.identifier, let shareContent = URL(string: "fb://events/\(id)") {
+                let activityViewController = UIActivityViewController(activityItems: [shareContent], applicationActivities: nil)
+                self.present(activityViewController, animated: true, completion: {})
+            }
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { (openOtherAction) in
+            actionSheet.dismiss(animated: true, completion: nil)
+        }))
+        present(actionSheet, animated: true, completion: nil)
+    }
 
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var nameLabel: UILabel!

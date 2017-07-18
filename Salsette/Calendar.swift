@@ -45,15 +45,11 @@ class CalendarProxy: NSObject, FSCalendarDataSource, FSCalendarDelegate, FSCalen
         calendar.calendarHeaderView.backgroundColor = UIColor.white
         calendar.calendarWeekdayView.backgroundColor = UIColor.white
         calendar.appearance.eventOffset = CGPoint(x: 0, y: -7)
+        calendar.appearance.headerTitleFont = UIFont.hoshiFont(ofSize: 14)
+        calendar.appearance.weekdayFont = UIFont.hoshiFont(ofSize: 13)
         calendar.backgroundColor = UIColor.white
         calendar.today = nil // Hide the today circle
         calendar.register(CalendarViewCell.self, forCellReuseIdentifier: "cell")
-        //        calendar.clipsToBounds = true // Remove top/bottom line
-        
-        calendar.swipeToChooseGesture.isEnabled = true // Swipe-To-Choose
-        
-        let scopeGesture = UIPanGestureRecognizer(target: calendar, action: #selector(calendar.handleScopeGesture(_:)));
-        calendar.addGestureRecognizer(scopeGesture)
     }
     
     func markSelectedBetween(startDate: Date, endDate: Date) {

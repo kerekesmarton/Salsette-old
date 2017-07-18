@@ -15,15 +15,8 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qkg-dm-kvq">
-                    <rect key="frame" x="16" y="7" width="32" height="30"/>
-                    <state key="normal" title="Next"/>
-                    <connections>
-                        <action selector="performNextActionWithSender:" destination="IkZ-Vo-l1U" eventType="touchUpInside" id="dUb-ZX-kho"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kpW-bg-JTJ">
-                    <rect key="frame" x="56" y="7" width="59" height="30"/>
+                    <rect key="frame" x="16" y="7" width="59" height="30"/>
                     <state key="normal" title="Previous"/>
                     <connections>
                         <action selector="performPrevActionWithSender:" destination="IkZ-Vo-l1U" eventType="touchUpInside" id="wzh-CA-7Kq"/>
@@ -36,15 +29,22 @@
                         <action selector="performCancelActionWithSender:" destination="IkZ-Vo-l1U" eventType="touchUpInside" id="m9K-lT-JlB"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qkg-dm-kvq">
+                    <rect key="frame" x="83" y="7" width="32" height="30"/>
+                    <state key="normal" title="Next"/>
+                    <connections>
+                        <action selector="performNextActionWithSender:" destination="IkZ-Vo-l1U" eventType="touchUpInside" id="dUb-ZX-kho"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="kpW-bg-JTJ" firstAttribute="leading" secondItem="qkg-dm-kvq" secondAttribute="trailing" constant="8" symbolic="YES" id="aNK-9j-DjO"/>
-                <constraint firstAttribute="trailing" secondItem="IjU-v5-677" secondAttribute="trailing" constant="16" id="atG-n6-Zot"/>
-                <constraint firstItem="qkg-dm-kvq" firstAttribute="centerY" secondItem="IkZ-Vo-l1U" secondAttribute="centerY" id="fwY-oV-luY"/>
-                <constraint firstItem="qkg-dm-kvq" firstAttribute="baseline" secondItem="kpW-bg-JTJ" secondAttribute="baseline" id="lBj-zM-64f"/>
-                <constraint firstItem="kpW-bg-JTJ" firstAttribute="baseline" secondItem="IjU-v5-677" secondAttribute="baseline" id="xUW-Qe-Cfw"/>
-                <constraint firstItem="qkg-dm-kvq" firstAttribute="leading" secondItem="IkZ-Vo-l1U" secondAttribute="leading" constant="16" id="zhi-CL-Aoo"/>
+                <constraint firstItem="kpW-bg-JTJ" firstAttribute="centerY" secondItem="IkZ-Vo-l1U" secondAttribute="centerY" id="QMd-Bn-eh0"/>
+                <constraint firstItem="qkg-dm-kvq" firstAttribute="baseline" secondItem="IjU-v5-677" secondAttribute="baseline" id="b7q-Wl-7nS"/>
+                <constraint firstItem="kpW-bg-JTJ" firstAttribute="leading" secondItem="IkZ-Vo-l1U" secondAttribute="leading" constant="16" id="e0p-iu-sxS"/>
+                <constraint firstItem="kpW-bg-JTJ" firstAttribute="baseline" secondItem="qkg-dm-kvq" secondAttribute="baseline" id="m1f-ll-F2n"/>
+                <constraint firstAttribute="trailing" secondItem="IjU-v5-677" secondAttribute="trailing" constant="16" id="tTd-NK-Rmj"/>
+                <constraint firstItem="qkg-dm-kvq" firstAttribute="leading" secondItem="kpW-bg-JTJ" secondAttribute="trailing" constant="8" symbolic="YES" id="utf-6H-nRc"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
