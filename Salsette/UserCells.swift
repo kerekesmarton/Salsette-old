@@ -29,7 +29,7 @@ class UserCell: UITableViewCell {
 class EventsCell: UITableViewCell, SelectFacebookEventProtocol {
     @IBOutlet var eventCollectionView: UICollectionView?
     var interactor: SelectFacebookEventInteractor?
-    var items: [FacebookEventEntity] = [] {
+    var items: [FacebookEventEntity]! = [] {
         didSet {
             eventCollectionView?.delegate = self
             eventCollectionView?.dataSource = self
@@ -43,14 +43,24 @@ class EventsCell: UITableViewCell, SelectFacebookEventProtocol {
     }
     
     //online
-    func configure(with viewController: UIViewController) {
-        interactor = SelectFacebookEventInteractor(with: self, fbService: FacebookService.shared, downloader: ImageDownloader.shared)
-        interactor?.prepare(from: viewController)
+    func configureForSavedEvents() {
+        interactor = SelectFacebookEventInteractor(fbService: FacebookService.shared, downloader: ImageDownloader.shared)
+        interactor?.prepareForSavedEvents(with: self)
+    }
+
+    func configureForCreatedEvents() {
+        interactor = SelectFacebookEventInteractor(fbService: FacebookService.shared, downloader: ImageDownloader.shared)
+        interactor?.prepareForCreatedEvents(with: self)
     }
 
     //offline testing
-//    func configure(with viewController: UIViewController) {
-//        interactor = SelectFacebookEventInteractor(with: self, fbService: FacebookService.shared, downloader: ImageDownloader.shared)
+//    func configureForSavedEvents() {
+//        interactor = SelectFacebookEventInteractor(fbService: FacebookService.shared, downloader: ImageDownloader.shared)
+//        items = DummyDataSource().dummyEvents
+//    }
+//
+//    func configureForCreatedEvents() {
+//        interactor = SelectFacebookEventInteractor(fbService: FacebookService.shared, downloader: ImageDownloader.shared)
 //        items = DummyDataSource().dummyEvents
 //    }
 }

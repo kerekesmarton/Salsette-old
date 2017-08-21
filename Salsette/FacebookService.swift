@@ -52,19 +52,14 @@ class FacebookService {
         })
     }
 
-    func loadUserCreatedEvents(from vc: UIViewController, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
-        FacebookPermissions.shared.askFor(permissions: ["user_events"], from: vc, completion: { [weak self] (result, error) in
-            if let  error = error {
-                print(error)
+    func loadUserCreatedEvents(completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
+        let request = FBSDKGraphRequest(graphPath: "me/events?type=created&since=now", parameters: ["fields":"name,place,start_time,end_time,cover,owner,description"])
+        simpleConnection = request?.start(completionHandler: { (connection, result, error) in
+            if let returnedError = error {
+                completion(nil, returnedError)
+            } else if let returnedResult = result {
+                completion(FacebookEventEntity.create(with: returnedResult), nil)
             }
-            let request = FBSDKGraphRequest(graphPath: "me/events?type=created&since=now", parameters: ["fields":"name,place,start_time,end_time,cover,owner,description"])
-            self?.simpleConnection = request?.start(completionHandler: { (connection, result, error) in
-                if let returnedError = error {
-                    completion(nil, returnedError)
-                } else if let returnedResult = result {
-                    completion(FacebookEventEntity.create(with: returnedResult), nil)
-                }
-            })
         })
     }
     
@@ -213,7 +208,7 @@ class FacebookService {
         })
     }
     
-    private func loadUserEvents(completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
+    func loadUserEvents(completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
         let request = FBSDKGraphRequest(graphPath: "me/events?since=now", parameters: [ "fields":"name,place,start_time,end_time,cover,owner,description"])
         self.simpleConnection = request?.start(completionHandler: { (connection, result, error) in
             if let returnedError = error {

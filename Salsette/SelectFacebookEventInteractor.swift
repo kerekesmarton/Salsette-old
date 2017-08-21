@@ -10,27 +10,35 @@ import UIKit
 
 protocol SelectFacebookEventProtocol: class {
     var interactor: SelectFacebookEventInteractor? { get set }
-    var items: [FacebookEventEntity] { get set }
+    var items: [FacebookEventEntity]! { get set }
     func show(error: Error)
 }
 
 class SelectFacebookEventInteractor {
-    private weak var view: SelectFacebookEventProtocol?
     private var facebookService: FacebookService?
     private var imageDownloader: ImageDownloader?
-    init(with eventView: SelectFacebookEventProtocol, fbService: FacebookService = FacebookService.shared, downloader: ImageDownloader = ImageDownloader.shared) {
-        self.view = eventView
+    init(fbService: FacebookService = FacebookService.shared, downloader: ImageDownloader = ImageDownloader.shared) {
         self.facebookService = fbService
         self.imageDownloader = downloader
     }
     
-    func prepare(from viewController: UIViewController) {
-        facebookService?.loadUserCreatedEvents(from: viewController, completion: { [weak self] (result, error) in
+    func prepareForCreatedEvents(with eventView: SelectFacebookEventProtocol) {
+        facebookService?.loadUserCreatedEvents(completion: { (results, error) in
             guard let returnedError = error else {
-                self?.updateView(with: result)
+                eventView.items = results
                 return
             }
-            self?.view?.show(error: returnedError)
+            eventView.show(error: returnedError)
+        })
+    }
+    
+    func prepareForSavedEvents(with eventView: SelectFacebookEventProtocol) {
+        facebookService?.loadUserEvents(completion: { (results, error) in
+            guard let returnedError = error else {
+                eventView.items = results
+                return
+            }
+            eventView.show(error: returnedError)
         })
     }
 
@@ -44,9 +52,6 @@ class SelectFacebookEventInteractor {
         })
     }
 
-    private func updateView(with results: Any?) {
-        view?.items = parseEvents(from: results)
-    }
 
     fileprivate func parseEvents(from results: Any?) -> [FacebookEventEntity] {
         guard let parseableResults = results as? [String: Any],

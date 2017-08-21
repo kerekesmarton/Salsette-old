@@ -135,10 +135,16 @@ extension ProfileViewController {
                 imageCell.profilePictureView?.image = nil
                 imageCell.userNameLabel?.text = nil
             }            
-        default:
+        case 1:
             guard let eventsCell = cell as? EventsCell else { return cell }
-            eventsCell.configure(with: self)
+            eventsCell.configureForSavedEvents()
+        case 2:
+            guard let eventsCell = cell as? EventsCell else { return cell }
+            eventsCell.configureForCreatedEvents()
+        default:
+            break
         }
+        
         return cell
     }
     
