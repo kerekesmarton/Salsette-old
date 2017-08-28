@@ -22,6 +22,15 @@ class GraphManager {
             return (token != nil) ? true : false
         }
     }
+    
+    var token: String? {
+        get {
+            return KeychainStorage.shared[Keys.graphIdToken]
+        }
+        set {
+            KeychainStorage.shared[Keys.graphIdToken] = newValue
+        }
+    }
 
     private var user: Auth0LoginMutation.Data.LoginUserWithAuth0.User?
     
@@ -45,16 +54,12 @@ class GraphManager {
             }
         })
     }
-}
-
-
-extension GraphManager {
-    var token: String? {
-        get {
-            return KeychainStorage.shared[Keys.graphIdToken]
-        }
-        set {
-            KeychainStorage.shared[Keys.graphIdToken] = newValue
-        }
+    
+    func createEvent() {
+        
+    }
+    
+    func createWorkshop() {
+        
     }
 }

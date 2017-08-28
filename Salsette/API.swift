@@ -81,6 +81,33 @@ public struct LoginUserWithAuth0Input: GraphQLMapConvertible {
   }
 }
 
+public struct CreateEventInput: GraphQLMapConvertible {
+  public var graphQLMap: GraphQLMap
+
+  public init(type: Dance? = nil, clientMutationId: GraphQLID? = nil) {
+    graphQLMap = ["type": type, "clientMutationId": clientMutationId]
+  }
+}
+
+/// Values for the Dance enum
+public enum Dance: String {
+  case salsa = "Salsa"
+  case bachata = "Bachata"
+  case kizomba = "Kizomba"
+  case tango = "Tango"
+  case dance = "Dance"
+}
+
+extension Dance: JSONDecodable, JSONEncodable {}
+
+public struct CreateWorkshopInput: GraphQLMapConvertible {
+  public var graphQLMap: GraphQLMap
+
+  public init(room: String, startTime: String, artist: String? = nil, name: String, event: CreateEventInput? = nil, eventId: GraphQLID? = nil, clientMutationId: GraphQLID? = nil) {
+    graphQLMap = ["room": room, "startTime": startTime, "artist": artist, "name": name, "event": event, "eventId": eventId, "clientMutationId": clientMutationId]
+  }
+}
+
 public final class LoginMutation: GraphQLMutation {
   public static let operationDefinition =
     "mutation Login($token: LoginUserWithAuth0SocialInput!) {" +
@@ -186,6 +213,133 @@ public final class Auth0LoginMutation: GraphQLMutation {
           __typename = try reader.value(for: Field(responseName: "__typename"))
           id = try reader.value(for: Field(responseName: "id"))
           username = try reader.value(for: Field(responseName: "username"))
+        }
+      }
+    }
+  }
+}
+
+public final class CreateEventMutation: GraphQLMutation {
+  public static let operationDefinition =
+    "mutation CreateEvent($message: CreateEventInput!) {" +
+    "  createEvent(input: $message) {" +
+    "    __typename" +
+    "    changedEvent {" +
+    "      __typename" +
+    "      id" +
+    "      type" +
+    "    }" +
+    "  }" +
+    "}"
+
+  public let message: CreateEventInput
+
+  public init(message: CreateEventInput) {
+    self.message = message
+  }
+
+  public var variables: GraphQLMap? {
+    return ["message": message]
+  }
+
+  public struct Data: GraphQLMappable {
+    public let createEvent: CreateEvent?
+
+    public init(reader: GraphQLResultReader) throws {
+      createEvent = try reader.optionalValue(for: Field(responseName: "createEvent", arguments: ["input": reader.variables["message"]]))
+    }
+
+    public struct CreateEvent: GraphQLMappable {
+      public let __typename: String
+      public let changedEvent: ChangedEvent?
+
+      public init(reader: GraphQLResultReader) throws {
+        __typename = try reader.value(for: Field(responseName: "__typename"))
+        changedEvent = try reader.optionalValue(for: Field(responseName: "changedEvent"))
+      }
+
+      public struct ChangedEvent: GraphQLMappable {
+        public let __typename: String
+        public let id: GraphQLID
+        public let type: Dance?
+
+        public init(reader: GraphQLResultReader) throws {
+          __typename = try reader.value(for: Field(responseName: "__typename"))
+          id = try reader.value(for: Field(responseName: "id"))
+          type = try reader.optionalValue(for: Field(responseName: "type"))
+        }
+      }
+    }
+  }
+}
+
+public final class CreateWorkshopMutation: GraphQLMutation {
+  public static let operationDefinition =
+    "mutation CreateWorkshop($workshop: CreateWorkshopInput!) {" +
+    "  createWorkshop(input: $workshop) {" +
+    "    __typename" +
+    "    changedWorkshop {" +
+    "      __typename" +
+    "      name" +
+    "      event {" +
+    "        __typename" +
+    "        id" +
+    "      }" +
+    "      startTime" +
+    "      room" +
+    "    }" +
+    "  }" +
+    "}"
+
+  public let workshop: CreateWorkshopInput
+
+  public init(workshop: CreateWorkshopInput) {
+    self.workshop = workshop
+  }
+
+  public var variables: GraphQLMap? {
+    return ["workshop": workshop]
+  }
+
+  public struct Data: GraphQLMappable {
+    public let createWorkshop: CreateWorkshop?
+
+    public init(reader: GraphQLResultReader) throws {
+      createWorkshop = try reader.optionalValue(for: Field(responseName: "createWorkshop", arguments: ["input": reader.variables["workshop"]]))
+    }
+
+    public struct CreateWorkshop: GraphQLMappable {
+      public let __typename: String
+      public let changedWorkshop: ChangedWorkshop?
+
+      public init(reader: GraphQLResultReader) throws {
+        __typename = try reader.value(for: Field(responseName: "__typename"))
+        changedWorkshop = try reader.optionalValue(for: Field(responseName: "changedWorkshop"))
+      }
+
+      public struct ChangedWorkshop: GraphQLMappable {
+        public let __typename: String
+        public let name: String
+        public let event: Event?
+        public let startTime: String
+        public let room: String
+
+        public init(reader: GraphQLResultReader) throws {
+          __typename = try reader.value(for: Field(responseName: "__typename"))
+          name = try reader.value(for: Field(responseName: "name"))
+          event = try reader.optionalValue(for: Field(responseName: "event"))
+          startTime = try reader.value(for: Field(responseName: "startTime"))
+          room = try reader.value(for: Field(responseName: "room"))
+        }
+
+        public struct Event: GraphQLMappable {
+          public let __typename: String
+          public let id: GraphQLID
+
+          public init(reader: GraphQLResultReader) throws {
+            __typename = try reader.value(for: Field(responseName: "__typename"))
+            id = try reader.value(for: Field(responseName: "id"))
+          }
         }
       }
     }

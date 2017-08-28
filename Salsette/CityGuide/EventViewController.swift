@@ -13,7 +13,7 @@ class EventViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.customizeTransparentNavigationBar()
+//        navigationController?.customizeTransparentNavigationBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -92,7 +92,8 @@ class WorkshopsEditViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        items = dummyWorkshops()
+        //offline testing
+//        items = dummyWorkshops()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editPrompt))
         title = "Edit Workshops"
     }

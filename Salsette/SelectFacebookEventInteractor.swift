@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SelectFacebookEventProtocol: class {
-    var interactor: SelectFacebookEventInteractor? { get set }
+    var interactor: SelectFacebookEventInteractor { get set }
     var items: [FacebookEventEntity]! { get set }
     func show(error: Error)
 }
@@ -51,7 +51,6 @@ class SelectFacebookEventInteractor {
             completion(image)
         })
     }
-
 
     fileprivate func parseEvents(from results: Any?) -> [FacebookEventEntity] {
         guard let parseableResults = results as? [String: Any],

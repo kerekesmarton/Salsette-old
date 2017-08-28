@@ -154,11 +154,11 @@ extension ProfileViewController {
         }
         switch section {
         case 0:
-            return "Welcome,"
+            return nil
         case 1:
-            return "Here you can see events you saved"
+            return "Saved events"
         case 2:
-            return "Here you can see events you created"
+            return "Created events"
         default:
             return nil
         }

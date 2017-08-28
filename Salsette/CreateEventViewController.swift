@@ -68,7 +68,7 @@ class CreateEventViewController: UITableViewController {
     }()
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let workshopsEditVC = segue.destination as? WorkshopsEditViewController  {
+        if let workshopsEditVC = segue.destination as? WorkshopsEditViewController {
             workshopsEditVC.prefilledWorkshopDate = item?.startDate?.noHours()
         }
     }

@@ -8,11 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		0451611E9933FDA98F22AA50 /* Pods_Salsette.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4A7EBEAF4AC4F4083A3DDE9 /* Pods_Salsette.framework */; };
+		100038811F546FCB003CA1BC /* CreateEventInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100038801F546FCB003CA1BC /* CreateEventInteractor.swift */; };
 		1033E52B1E7589BA002D1615 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E52A1E7589BA002D1615 /* Calendar.swift */; };
 		1033E5441E75AAB3002D1615 /* UIFont+Appfonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5431E75AAB3002D1615 /* UIFont+Appfonts.swift */; };
 		1033E54B1E75AB21002D1615 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1033E54A1E75AB21002D1615 /* Main.storyboard */; };
 		1033E5541E75C7AA002D1615 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5511E75C7AA002D1615 /* String.swift */; };
 		1033E5571E79CA44002D1615 /* Calendar.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1033E5561E79CA44002D1615 /* Calendar.xcassets */; };
+		104A1A161F547D1E001A111B /* Events.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 104A1A151F547D1E001A111B /* Events.graphql */; };
+		104A1A181F547F5B001A111B /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 104A1A171F547F5B001A111B /* schema.json */; };
 		1053CA081EF261230034844A /* SwappingCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053CA071EF261230034844A /* SwappingCollectionView.swift */; };
 		1053CA0A1EF46C370034844A /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053CA091EF46C370034844A /* Array.swift */; };
 		1053CA0D1EF52D7E0034844A /* WorkshopCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053CA0C1EF52D7E0034844A /* WorkshopCells.swift */; };
@@ -47,7 +50,6 @@
 		10D8D86C1EE0D0F6008A5A76 /* WorkshopsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D8D86B1EE0D0F6008A5A76 /* WorkshopsLayout.swift */; };
 		10DA93231EAA00C10054F338 /* ProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DA93221EAA00C10054F338 /* ProfileInteractor.swift */; };
 		10DA93251EAA08B40054F338 /* UserCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DA93241EAA08B40054F338 /* UserCells.swift */; };
-		10EBD4761E9EDB4800B10B6D /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 10EBD4751E9EDB4800B10B6D /* schema.json */; };
 		FB136E691E989EEA00A5F1E4 /* Auth0Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB136E681E989EEA00A5F1E4 /* Auth0Manager.swift */; };
 		FB136E6B1E989FCA00A5F1E4 /* AlertController+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB136E6A1E989FCA00A5F1E4 /* AlertController+Loading.swift */; };
 		FB420F2D1EA5138F0022380D /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB420F2C1EA5138F0022380D /* CreateEventViewController.swift */; };
@@ -77,12 +79,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		100038801F546FCB003CA1BC /* CreateEventInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventInteractor.swift; sourceTree = "<group>"; };
 		1033E52A1E7589BA002D1615 /* Calendar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		1033E5431E75AAB3002D1615 /* UIFont+Appfonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Appfonts.swift"; sourceTree = "<group>"; };
 		1033E54A1E75AB21002D1615 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		1033E5511E75C7AA002D1615 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		1033E5551E79C2C4002D1615 /* Objc-Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Objc-Bridge-Header.h"; sourceTree = "<group>"; };
 		1033E5561E79CA44002D1615 /* Calendar.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Calendar.xcassets; sourceTree = "<group>"; };
+		104A1A151F547D1E001A111B /* Events.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Events.graphql; sourceTree = "<group>"; };
+		104A1A171F547F5B001A111B /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		1053CA071EF261230034844A /* SwappingCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwappingCollectionView.swift; sourceTree = "<group>"; };
 		1053CA091EF46C370034844A /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		1053CA0C1EF52D7E0034844A /* WorkshopCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkshopCells.swift; sourceTree = "<group>"; };
@@ -122,7 +127,6 @@
 		10D8D86B1EE0D0F6008A5A76 /* WorkshopsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkshopsLayout.swift; sourceTree = "<group>"; };
 		10DA93221EAA00C10054F338 /* ProfileInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileInteractor.swift; sourceTree = "<group>"; };
 		10DA93241EAA08B40054F338 /* UserCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCells.swift; sourceTree = "<group>"; };
-		10EBD4751E9EDB4800B10B6D /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		3116C0615A92BACF892E9C63 /* Pods-Salsette.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Salsette.release.xcconfig"; path = "Pods/Target Support Files/Pods-Salsette/Pods-Salsette.release.xcconfig"; sourceTree = "<group>"; };
 		A26ECBEDA3D5B5A569304D7F /* Pods-Salsette.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Salsette.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Salsette/Pods-Salsette.debug.xcconfig"; sourceTree = "<group>"; };
 		E4A7EBEAF4AC4F4083A3DDE9 /* Pods_Salsette.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Salsette.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,7 +178,6 @@
 				10ACDD7D1F02E655007B6F1A /* Calendar */,
 			);
 			name = Search;
-			path = ..;
 			sourceTree = "<group>";
 		};
 		1033E54E1E75C7A0002D1615 /* Extensions */ = {
@@ -198,13 +201,24 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		104A1A141F547CB5001A111B /* Scaphold */ = {
+			isa = PBXGroup;
+			children = (
+				104A1A171F547F5B001A111B /* schema.json */,
+				106EB02B1E94661A004686B5 /* CurrentUser.graphql */,
+				104A1A151F547D1E001A111B /* Events.graphql */,
+				106EB0271E94636E004686B5 /* API.swift */,
+				FBF5A9C11E959FA0000CED7A /* GraphManager.swift */,
+			);
+			name = Scaphold;
+			sourceTree = "<group>";
+		};
 		10662C2F1ECD7B36009A220F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				FB6756CE1EB45EDF00B2E4D5 /* Salsette.xcassets */,
 				1089BF881E708553006E091A /* Assets.xcassets */,
 				1089BF8A1E708553006E091A /* LaunchScreen.storyboard */,
-				10EBD4751E9EDB4800B10B6D /* schema.json */,
 				1089BF8D1E708553006E091A /* Info.plist */,
 				106EAF431E94333D004686B5 /* Auth0.plist */,
 				109AFB581E8F98B500E424F6 /* Salsette.entitlements */,
@@ -218,9 +232,7 @@
 			children = (
 				109AFB5B1E902EA700E424F6 /* FacebookPermissions.swift */,
 				FB420F2E1EA7AA830022380D /* FacebookService.swift */,
-				106EB02B1E94661A004686B5 /* CurrentUser.graphql */,
-				FBF5A9C11E959FA0000CED7A /* GraphManager.swift */,
-				106EB0271E94636E004686B5 /* API.swift */,
+				104A1A141F547CB5001A111B /* Scaphold */,
 				FB136E681E989EEA00A5F1E4 /* Auth0Manager.swift */,
 				FBF5A9C51E977810000CED7A /* KeychainStorage.swift */,
 				106EAF3D1E92E3B1004686B5 /* ImageDownloader.swift */,
@@ -257,7 +269,9 @@
 				1089BF811E708553006E091A /* AppDelegate.swift */,
 				1033E54A1E75AB21002D1615 /* Main.storyboard */,
 				106EAF3C1E92E394004686B5 /* Services */,
-				FB6756C31EB45E6600B2E4D5 /* Home */,
+				1033E52C1E75A955002D1615 /* Search */,
+				FB08BD021E94EE6000686193 /* User */,
+				FB420F2B1EA4DF900022380D /* Create Event */,
 				10662C2F1ECD7B36009A220F /* Resources */,
 			);
 			path = Salsette;
@@ -341,29 +355,17 @@
 				FBB7DFBB1EA8A8DE006C0D54 /* SelectFacebookEventInteractor.swift */,
 			);
 			name = User;
-			path = ..;
 			sourceTree = "<group>";
 		};
 		FB420F2B1EA4DF900022380D /* Create Event */ = {
 			isa = PBXGroup;
 			children = (
 				FB420F2C1EA5138F0022380D /* CreateEventViewController.swift */,
+				100038801F546FCB003CA1BC /* CreateEventInteractor.swift */,
 				10D8D86D1EE0E26A008A5A76 /* Workshops */,
 				FB6D920B1EBBD9A100025CD8 /* ScheduleEditViewController.swift */,
 			);
 			name = "Create Event";
-			path = ..;
-			sourceTree = "<group>";
-		};
-		FB6756C31EB45E6600B2E4D5 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				1033E52C1E75A955002D1615 /* Search */,
-				FB08BD021E94EE6000686193 /* User */,
-				FB420F2B1EA4DF900022380D /* Create Event */,
-			);
-			name = Home;
-			path = CityGuide;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -460,12 +462,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				104A1A161F547D1E001A111B /* Events.graphql in Resources */,
 				1033E54B1E75AB21002D1615 /* Main.storyboard in Resources */,
 				1089BF8C1E708553006E091A /* LaunchScreen.storyboard in Resources */,
 				1089BF891E708553006E091A /* Assets.xcassets in Resources */,
 				FB6756CF1EB45EDF00B2E4D5 /* Salsette.xcassets in Resources */,
-				10EBD4761E9EDB4800B10B6D /* schema.json in Resources */,
 				106EB02C1E94661A004686B5 /* CurrentUser.graphql in Resources */,
+				104A1A181F547F5B001A111B /* schema.json in Resources */,
 				106EAF441E94333E004686B5 /* Auth0.plist in Resources */,
 				106306AE1E8B951C0089DA00 /* Calendar.xib in Resources */,
 				10D8D86A1ED9E489008A5A76 /* InputAccessoryView.xib in Resources */,
@@ -586,6 +589,7 @@
 				FB6756CD1EB45E6600B2E4D5 /* EventViewController.swift in Sources */,
 				FB6D92081EBBD26900025CD8 /* NoCopyPasteTextField.swift in Sources */,
 				10DA93251EAA08B40054F338 /* UserCells.swift in Sources */,
+				100038811F546FCB003CA1BC /* CreateEventInteractor.swift in Sources */,
 				10D8D8681ED9DCAE008A5A76 /* InputAccessoryView.swift in Sources */,
 				1089BF841E708553006E091A /* SearchViewController.swift in Sources */,
 				1089BF821E708553006E091A /* AppDelegate.swift in Sources */,

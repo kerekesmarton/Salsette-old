@@ -70,7 +70,7 @@ class SearchViewController: UITableViewController {
         typePicker.dataSource = self
         typeField.delegate = self
         dateField.delegate = self
-        navigationController?.customizeTransparentNavigationBar()
+//        navigationController?.customizeTransparentNavigationBar()
         
         let dateIAV = InputAccessoryView.create(next: { (nextBtn) in
             self.locationField.becomeFirstResponder()

@@ -22,7 +22,7 @@ class ProfileInteractor {
     }
     
     func viewReady() {
-        guard fbService.isLoggedIn, auth0Manager.isLoggedIn, graphManager.isLoggedIn else {
+        guard fbService.isLoggedIn else {
             view.set(viewState: .userReady(false))
             return
         }

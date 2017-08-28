@@ -63,6 +63,24 @@ class FacebookService {
         })
     }
     
+    func loadUserEvents(completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
+        let request = FBSDKGraphRequest(graphPath: "me/events?since=now", parameters: [ "fields":"name,place,start_time,end_time,cover,owner,description"])
+        self.simpleConnection = request?.start(completionHandler: { (connection, result, error) in
+            if let returnedError = error {
+                completion(nil, returnedError)
+            } else if let returnedResult = result {
+                
+                let sortedEvents = FacebookEventEntity.create(with: returnedResult).sorted(by: { (event1, event2) -> Bool in
+                    guard let s1 = event1.startDate, let s2 = event2.startDate else {
+                        return event1.hashValue < event2.hashValue
+                    }
+                    return s1 < s2
+                })
+                completion(sortedEvents, nil)
+            }
+        })
+    }
+    
     private var operationQueue: OperationQueue? = OperationQueue()
     func loadEvents(with parameters: SearchParameters, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
         cancel()
@@ -207,25 +225,6 @@ class FacebookService {
             }
         })
     }
-    
-    func loadUserEvents(completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
-        let request = FBSDKGraphRequest(graphPath: "me/events?since=now", parameters: [ "fields":"name,place,start_time,end_time,cover,owner,description"])
-        self.simpleConnection = request?.start(completionHandler: { (connection, result, error) in
-            if let returnedError = error {
-                completion(nil, returnedError)
-            } else if let returnedResult = result {
-                
-                let sortedEvents = FacebookEventEntity.create(with: returnedResult).sorted(by: { (event1, event2) -> Bool in
-                    guard let s1 = event1.startDate, let s2 = event2.startDate else {
-                        return event1.hashValue < event2.hashValue
-                    }
-                    return s1 < s2
-                })
-                completion(sortedEvents, nil)
-            }
-        })
-    }
-
     
     private func places(with parameters: SearchParameters, completion: @escaping ([String]?, Error?)->Void) {
         guard var queryString = parameters.location else {

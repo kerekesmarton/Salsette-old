@@ -10,6 +10,7 @@ import UIKit
 import FBSDKCoreKit
 import Hero
 import TextFieldEffects
+import DZNEmptyDataSet
 
 enum UserCellIdentifiers {
     static let imageIdentifier = "UserCell"
@@ -28,39 +29,38 @@ class UserCell: UITableViewCell {
 
 class EventsCell: UITableViewCell, SelectFacebookEventProtocol {
     @IBOutlet var eventCollectionView: UICollectionView?
-    var interactor: SelectFacebookEventInteractor?
+    var interactor: SelectFacebookEventInteractor = SelectFacebookEventInteractor(fbService: FacebookService.shared, downloader: ImageDownloader.shared)
     var items: [FacebookEventEntity]! = [] {
         didSet {
             eventCollectionView?.delegate = self
             eventCollectionView?.dataSource = self
             eventCollectionView?.reloadData()
+            guard items.count == 0 else { return }
+            errorMessage = "No events found"            
         }
     }
     var selectionBlock: ((FacebookEventEntity) -> Void)?
-
     func show(error: Error) {
-        
+        errorMessage = error.localizedDescription
+        items = []
     }
+    fileprivate var errorMessage: String?
     
     //online
     func configureForSavedEvents() {
-        interactor = SelectFacebookEventInteractor(fbService: FacebookService.shared, downloader: ImageDownloader.shared)
-        interactor?.prepareForSavedEvents(with: self)
+        interactor.prepareForSavedEvents(with: self)
     }
 
     func configureForCreatedEvents() {
-        interactor = SelectFacebookEventInteractor(fbService: FacebookService.shared, downloader: ImageDownloader.shared)
-        interactor?.prepareForCreatedEvents(with: self)
+        interactor.prepareForCreatedEvents(with: self)
     }
 
     //offline testing
 //    func configureForSavedEvents() {
-//        interactor = SelectFacebookEventInteractor(fbService: FacebookService.shared, downloader: ImageDownloader.shared)
 //        items = DummyDataSource().dummyEvents
 //    }
 //
 //    func configureForCreatedEvents() {
-//        interactor = SelectFacebookEventInteractor(fbService: FacebookService.shared, downloader: ImageDownloader.shared)
 //        items = DummyDataSource().dummyEvents
 //    }
 }
@@ -79,7 +79,7 @@ extension EventsCell: UICollectionViewDelegate, UICollectionViewDataSource {
         }
         let item = items[indexPath.row]
         userEventCell.item = item
-        interactor?.getImage(for: item.imageUrl, completion: { (image) in
+        interactor.getImage(for: item.imageUrl, completion: { (image) in
             if userEventCell.imageUrl == item.imageUrl {
                 userEventCell.eventImage?.heroID = item.identifier
                 userEventCell.eventImage?.image = image.fit(intoSize: CGSize(width: 93.5, height: 93.5))
@@ -95,6 +95,13 @@ extension EventsCell: UICollectionViewDelegate, UICollectionViewDataSource {
         }
         
         block(item)
+    }
+}
+
+extension EventsCell: DZNEmptyDataSetSource {
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        guard let msg = errorMessage else { return NSAttributedString() }
+        return NSAttributedString(string: msg)
     }
 }
 
