@@ -2,11 +2,51 @@
 # I.E. you do not need to use an Auth0 SDK to generate an idToken.
 # You can also use an Auth0 SDK and the `loginWithAuth0` mutation but this requires one more step on your side.
 
-mutation CreateEvent($message: CreateEventInput!) {
-    createEvent(input: $message){
+mutation CreateEvent($event: CreateEventInput!) {
+    createEvent(input: $event){
         changedEvent{
+            type
+            fbID
             id
-            type            
+        }
+    }
+}
+
+query FetchEvent($fbID: String!){
+    viewer {
+        searchAlgoliaEvents(query: $fbID){
+            hits{
+                node{
+                    type
+                    fbID
+                    id
+                    workshops{
+                        edges{
+                            node{
+                                name
+                                startTime
+                                artist
+                                room
+                                id
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+query FetchAllEvents{
+    viewer{
+        allEvents{
+            edges{
+                node{
+                    type
+                    fbID
+                    id
+                }
+            }
         }
     }
 }

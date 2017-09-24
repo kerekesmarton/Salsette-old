@@ -20,7 +20,7 @@ struct AppTutorial: ContentEntityInterface {
     var location: String? { get { return nil }}
     var imageUrl: String? { get { return nil }}
     var identifier: String? { get { return nil }}
-    var type: EventTypes? { get { return nil }}
+    var type: Dance? { get { return nil }}
     
     static var cards: [ContentEntityInterface] {
         get {

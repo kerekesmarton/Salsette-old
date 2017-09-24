@@ -168,7 +168,7 @@ extension ProfileViewController {
         if let cell = sender as? EventCollectionViewCell, let vc = segue.destination as? EventViewController {
             vc.event = cell.item
         } else if let cell = sender as? EventCollectionViewCell, let vc = segue.destination as? CreateEventViewController {
-            vc.item = cell.item
+            vc.fbEvent = cell.item
         }
     }
 }

@@ -273,7 +273,6 @@ class FacebookEventEntity: ContentEntityInterface, Equatable, Hashable {
     var image: UIImage?
     var identifier: String?
     var organiser: String?
-    var type: EventTypes?
     var longDescription: String?
     var shortDescription: String? = nil
 

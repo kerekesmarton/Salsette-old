@@ -16,7 +16,6 @@ public protocol ContentEntityInterface {
     var endDate: Date? { get }
     var place: String? { get }
     var location: String? { get }
-    var type: EventTypes? { get }
     var shortDescription: String? { get }
     var longDescription: String? { get }
     var identifier: String? { get }
@@ -35,37 +34,31 @@ extension ContentEntityInterface {
     }
 }
 
-public enum EventTypes: String {
+extension Dance {
     
-    case salsa = "Salsa"
-    case bachata = "Bachata"
-    case kizomba = "Kizomba"
-    case tango = "Tango"
-    case any = "Dance"
+    static let allDanceTypes = [salsa, bachata, kizomba, tango, dance]
     
-    static let allEventTypes = [salsa, bachata, kizomba, tango, any]
-    
-    static func item(at index: Int) -> EventTypes {
+    static func item(at index: Int) -> Dance {
         switch index {
-        case 0: return EventTypes.salsa
-        case 1: return EventTypes.bachata
-        case 2: return EventTypes.kizomba
-        case 3: return EventTypes.tango
-        default: return EventTypes.any
+        case 0: return Dance.salsa
+        case 1: return Dance.bachata
+        case 2: return Dance.kizomba
+        case 3: return Dance.tango
+        default: return Dance.dance
         }
     }
     
     static func string(at index: Int) -> String {
         switch index {
-        case 0: return EventTypes.salsa.rawValue
-        case 1: return EventTypes.bachata.rawValue
-        case 2: return EventTypes.kizomba.rawValue
-        case 3: return EventTypes.tango.rawValue
-        default: return EventTypes.any.rawValue
+        case 0: return Dance.salsa.rawValue
+        case 1: return Dance.bachata.rawValue
+        case 2: return Dance.kizomba.rawValue
+        case 3: return Dance.tango.rawValue
+        default: return Dance.dance.rawValue
         }
     }
     
-    public static func ==(lhs: EventTypes, rhs: EventTypes) -> Bool {
+    public static func ==(lhs: Dance, rhs: Dance) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
 }

@@ -166,16 +166,16 @@ extension SearchViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return EventTypes.allEventTypes.count
+        return Dance.allDanceTypes.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return EventTypes.string(at: row)
+        return Dance.string(at: row)
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        typeField.text = EventTypes.string(at: row)
-        searchInteractor.didChange(.type(EventTypes.item(at: row)))
+        typeField.text = Dance.string(at: row)
+        searchInteractor.didChange(.type(Dance.item(at: row)))
     }
 }
 

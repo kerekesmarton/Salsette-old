@@ -11,7 +11,7 @@ struct SearchParameters {
     var startDate: Date?
     var endDate: Date?
     var location: String?
-    var type: EventTypes?
+    var type: Dance?
 }
 
 class GlobalSearch {
@@ -30,7 +30,7 @@ class SearchInteractor {
         case name(String)
         case location(String)
         case dates(Date?,Date?)
-        case type(EventTypes)
+        case type(Dance)
     }
     let searchPresenter: SearchPresenter
     init(presenter: SearchPresenter) {

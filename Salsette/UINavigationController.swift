@@ -11,6 +11,7 @@ extension UINavigationController {
         navigationBar.shadowImage = image
         navigationBar.setBackgroundImage(image, for: .default)
         navigationBar.isTranslucent = true
+        navigationBar.tintAdjustmentMode = .normal
     }
     
     open override func viewDidLayoutSubviews() {

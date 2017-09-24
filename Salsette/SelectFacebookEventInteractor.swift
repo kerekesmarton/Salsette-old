@@ -51,12 +51,4 @@ class SelectFacebookEventInteractor {
             completion(image)
         })
     }
-
-    fileprivate func parseEvents(from results: Any?) -> [FacebookEventEntity] {
-        guard let parseableResults = results as? [String: Any],
-            let events = parseableResults["data"] as? [[String: Any]] else {
-                return []
-        }
-        return events.flatMap({ FacebookEventEntity(with: $0)})
-    }
 }

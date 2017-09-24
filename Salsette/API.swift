@@ -84,8 +84,8 @@ public struct LoginUserWithAuth0Input: GraphQLMapConvertible {
 public struct CreateEventInput: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(type: Dance? = nil, clientMutationId: GraphQLID? = nil) {
-    graphQLMap = ["type": type, "clientMutationId": clientMutationId]
+  public init(fbId: String? = nil, type: Dance, clientMutationId: GraphQLID? = nil) {
+    graphQLMap = ["fbID": fbId, "type": type, "clientMutationId": clientMutationId]
   }
 }
 
@@ -221,32 +221,33 @@ public final class Auth0LoginMutation: GraphQLMutation {
 
 public final class CreateEventMutation: GraphQLMutation {
   public static let operationDefinition =
-    "mutation CreateEvent($message: CreateEventInput!) {" +
-    "  createEvent(input: $message) {" +
+    "mutation CreateEvent($event: CreateEventInput!) {" +
+    "  createEvent(input: $event) {" +
     "    __typename" +
     "    changedEvent {" +
     "      __typename" +
-    "      id" +
     "      type" +
+    "      fbID" +
+    "      id" +
     "    }" +
     "  }" +
     "}"
 
-  public let message: CreateEventInput
+  public let event: CreateEventInput
 
-  public init(message: CreateEventInput) {
-    self.message = message
+  public init(event: CreateEventInput) {
+    self.event = event
   }
 
   public var variables: GraphQLMap? {
-    return ["message": message]
+    return ["event": event]
   }
 
   public struct Data: GraphQLMappable {
     public let createEvent: CreateEvent?
 
     public init(reader: GraphQLResultReader) throws {
-      createEvent = try reader.optionalValue(for: Field(responseName: "createEvent", arguments: ["input": reader.variables["message"]]))
+      createEvent = try reader.optionalValue(for: Field(responseName: "createEvent", arguments: ["input": reader.variables["event"]]))
     }
 
     public struct CreateEvent: GraphQLMappable {
@@ -260,13 +261,227 @@ public final class CreateEventMutation: GraphQLMutation {
 
       public struct ChangedEvent: GraphQLMappable {
         public let __typename: String
+        public let type: Dance
+        public let fbId: String?
         public let id: GraphQLID
-        public let type: Dance?
 
         public init(reader: GraphQLResultReader) throws {
           __typename = try reader.value(for: Field(responseName: "__typename"))
+          type = try reader.value(for: Field(responseName: "type"))
+          fbId = try reader.optionalValue(for: Field(responseName: "fbID"))
           id = try reader.value(for: Field(responseName: "id"))
-          type = try reader.optionalValue(for: Field(responseName: "type"))
+        }
+      }
+    }
+  }
+}
+
+public final class FetchEventQuery: GraphQLQuery {
+  public static let operationDefinition =
+    "query FetchEvent($fbID: String!) {" +
+    "  viewer {" +
+    "    __typename" +
+    "    searchAlgoliaEvents(query: $fbID) {" +
+    "      __typename" +
+    "      hits {" +
+    "        __typename" +
+    "        node {" +
+    "          __typename" +
+    "          type" +
+    "          fbID" +
+    "          id" +
+    "          workshops {" +
+    "            __typename" +
+    "            edges {" +
+    "              __typename" +
+    "              node {" +
+    "                __typename" +
+    "                name" +
+    "                startTime" +
+    "                artist" +
+    "                room" +
+    "                id" +
+    "              }" +
+    "            }" +
+    "          }" +
+    "        }" +
+    "      }" +
+    "    }" +
+    "  }" +
+    "}"
+
+  public let fbId: String
+
+  public init(fbId: String) {
+    self.fbId = fbId
+  }
+
+  public var variables: GraphQLMap? {
+    return ["fbID": fbId]
+  }
+
+  public struct Data: GraphQLMappable {
+    public let viewer: Viewer?
+
+    public init(reader: GraphQLResultReader) throws {
+      viewer = try reader.optionalValue(for: Field(responseName: "viewer"))
+    }
+
+    public struct Viewer: GraphQLMappable {
+      public let __typename: String
+      public let searchAlgoliaEvents: SearchAlgoliaEvent?
+
+      public init(reader: GraphQLResultReader) throws {
+        __typename = try reader.value(for: Field(responseName: "__typename"))
+        searchAlgoliaEvents = try reader.optionalValue(for: Field(responseName: "searchAlgoliaEvents", arguments: ["query": reader.variables["fbID"]]))
+      }
+
+      public struct SearchAlgoliaEvent: GraphQLMappable {
+        public let __typename: String
+        public let hits: [Hit?]?
+
+        public init(reader: GraphQLResultReader) throws {
+          __typename = try reader.value(for: Field(responseName: "__typename"))
+          hits = try reader.optionalList(for: Field(responseName: "hits"))
+        }
+
+        public struct Hit: GraphQLMappable {
+          public let __typename: String
+          public let node: Node?
+
+          public init(reader: GraphQLResultReader) throws {
+            __typename = try reader.value(for: Field(responseName: "__typename"))
+            node = try reader.optionalValue(for: Field(responseName: "node"))
+          }
+
+          public struct Node: GraphQLMappable {
+            public let __typename: String
+            public let type: Dance
+            public let fbId: String?
+            public let id: GraphQLID
+            public let workshops: Workshop?
+
+            public init(reader: GraphQLResultReader) throws {
+              __typename = try reader.value(for: Field(responseName: "__typename"))
+              type = try reader.value(for: Field(responseName: "type"))
+              fbId = try reader.optionalValue(for: Field(responseName: "fbID"))
+              id = try reader.value(for: Field(responseName: "id"))
+              workshops = try reader.optionalValue(for: Field(responseName: "workshops"))
+            }
+
+            public struct Workshop: GraphQLMappable {
+              public let __typename: String
+              public let edges: [Edge?]?
+
+              public init(reader: GraphQLResultReader) throws {
+                __typename = try reader.value(for: Field(responseName: "__typename"))
+                edges = try reader.optionalList(for: Field(responseName: "edges"))
+              }
+
+              public struct Edge: GraphQLMappable {
+                public let __typename: String
+                public let node: Node
+
+                public init(reader: GraphQLResultReader) throws {
+                  __typename = try reader.value(for: Field(responseName: "__typename"))
+                  node = try reader.value(for: Field(responseName: "node"))
+                }
+
+                public struct Node: GraphQLMappable {
+                  public let __typename: String
+                  public let name: String
+                  public let startTime: String
+                  public let artist: String?
+                  public let room: String
+                  public let id: GraphQLID
+
+                  public init(reader: GraphQLResultReader) throws {
+                    __typename = try reader.value(for: Field(responseName: "__typename"))
+                    name = try reader.value(for: Field(responseName: "name"))
+                    startTime = try reader.value(for: Field(responseName: "startTime"))
+                    artist = try reader.optionalValue(for: Field(responseName: "artist"))
+                    room = try reader.value(for: Field(responseName: "room"))
+                    id = try reader.value(for: Field(responseName: "id"))
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+public final class FetchAllEventsQuery: GraphQLQuery {
+  public static let operationDefinition =
+    "query FetchAllEvents {" +
+    "  viewer {" +
+    "    __typename" +
+    "    allEvents {" +
+    "      __typename" +
+    "      edges {" +
+    "        __typename" +
+    "        node {" +
+    "          __typename" +
+    "          type" +
+    "          fbID" +
+    "          id" +
+    "        }" +
+    "      }" +
+    "    }" +
+    "  }" +
+    "}"
+  public init() {
+  }
+
+  public struct Data: GraphQLMappable {
+    public let viewer: Viewer?
+
+    public init(reader: GraphQLResultReader) throws {
+      viewer = try reader.optionalValue(for: Field(responseName: "viewer"))
+    }
+
+    public struct Viewer: GraphQLMappable {
+      public let __typename: String
+      public let allEvents: AllEvent?
+
+      public init(reader: GraphQLResultReader) throws {
+        __typename = try reader.value(for: Field(responseName: "__typename"))
+        allEvents = try reader.optionalValue(for: Field(responseName: "allEvents"))
+      }
+
+      public struct AllEvent: GraphQLMappable {
+        public let __typename: String
+        public let edges: [Edge?]?
+
+        public init(reader: GraphQLResultReader) throws {
+          __typename = try reader.value(for: Field(responseName: "__typename"))
+          edges = try reader.optionalList(for: Field(responseName: "edges"))
+        }
+
+        public struct Edge: GraphQLMappable {
+          public let __typename: String
+          public let node: Node
+
+          public init(reader: GraphQLResultReader) throws {
+            __typename = try reader.value(for: Field(responseName: "__typename"))
+            node = try reader.value(for: Field(responseName: "node"))
+          }
+
+          public struct Node: GraphQLMappable {
+            public let __typename: String
+            public let type: Dance
+            public let fbId: String?
+            public let id: GraphQLID
+
+            public init(reader: GraphQLResultReader) throws {
+              __typename = try reader.value(for: Field(responseName: "__typename"))
+              type = try reader.value(for: Field(responseName: "type"))
+              fbId = try reader.optionalValue(for: Field(responseName: "fbID"))
+              id = try reader.value(for: Field(responseName: "id"))
+            }
+          }
         }
       }
     }

@@ -12,32 +12,7 @@ struct Room {
         return workshops.first?.room ?? "?"
     }
     
-    var workshops = [Workshop]()
-}
-
-struct Workshop: Equatable {
-    var name: String
-    let hours: Double = 1
-    var startTime: Date
-    var room: String
-    var artist: String?
-    var isEmpty = false
-    init(name: String, startTime: Date, room: String) {
-        self.name = name
-        self.startTime = startTime
-        self.room = room
-    }
-    
-    init(startTime: Date, room: String) {
-        isEmpty = true
-        name = ""
-        self.startTime = startTime
-        self.room = room
-    }
-}
-
-func ==(lhs: Workshop, rhs: Workshop) -> Bool {
-    return lhs.room == rhs.room && lhs.startTime == rhs.startTime
+    var workshops = [GraphWorkshop]()
 }
 
 class WorkshopsEditViewController: UICollectionViewController {
@@ -47,7 +22,7 @@ class WorkshopsEditViewController: UICollectionViewController {
     fileprivate var startTimes: Set<Date>?
     fileprivate var roomNames: Set<String>?
     
-    var items = [Workshop](){
+    var items = [GraphWorkshop](){
         didSet {
             var roomNames = Set<String>()
             var startTimes = Set<Date>()
@@ -76,7 +51,7 @@ class WorkshopsEditViewController: UICollectionViewController {
                     if !room.workshops.contains(where: { (roomArrangable) -> Bool in
                         return roomArrangable.startTime == startTime
                     }) {
-                        newRoom.workshops.append(Workshop(startTime: startTime, room: room.roomName))
+                        newRoom.workshops.append(GraphWorkshop(startTime: startTime, room: room.roomName))
                     }
                 }
                 newRoom.workshops.sort(by: { (w1, w2) -> Bool in
@@ -114,7 +89,7 @@ class WorkshopsEditViewController: UICollectionViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "CreateWorkshopSegue", let vc = segue.destination as? CreateWorkshopViewController {
             vc.rooms = computedItems.flatMap { return $0.roomName }
-            if let workshop = sender as? Workshop {
+            if let workshop = sender as? GraphWorkshop {
                 vc.prefilledWorkshop = workshop
                 if workshop.isEmpty {
                     vc.prefilledWorkshop?.startTime = prefilledWorkshopDate!
@@ -211,18 +186,18 @@ extension WorkshopsEditViewController {
 }
 
 extension WorkshopsEditViewController {
-    fileprivate func dummyWorkshops() -> [Workshop] {
+    fileprivate func dummyWorkshops() -> [GraphWorkshop] {
         let date = dummyDate()
-        return [Workshop(name: "A1", startTime: date, room: "A"),
-                Workshop(name: "A2", startTime: date.addingTimeInterval(3600), room: "A"),
-                Workshop(name: "A3", startTime: date.addingTimeInterval(7200), room: "A"),
-                Workshop(name: "A4", startTime: date.addingTimeInterval(10800), room: "A"),
+        return [GraphWorkshop(name: "A1", startTime: date, room: "A"),
+                GraphWorkshop(name: "A2", startTime: date.addingTimeInterval(3600), room: "A"),
+                GraphWorkshop(name: "A3", startTime: date.addingTimeInterval(7200), room: "A"),
+                GraphWorkshop(name: "A4", startTime: date.addingTimeInterval(10800), room: "A"),
                 
-                Workshop(name: "B1", startTime: date, room: "B"),
-                Workshop(name: "B2", startTime: date.addingTimeInterval(3600), room: "B"),
-                Workshop(name: "B3", startTime: date.addingTimeInterval(7200), room: "B"),
+                GraphWorkshop(name: "B1", startTime: date, room: "B"),
+                GraphWorkshop(name: "B2", startTime: date.addingTimeInterval(3600), room: "B"),
+                GraphWorkshop(name: "B3", startTime: date.addingTimeInterval(7200), room: "B"),
                 
-                Workshop(name: "C1", startTime: date.addingTimeInterval(3600), room: "C"),
+                GraphWorkshop(name: "C1", startTime: date.addingTimeInterval(3600), room: "C"),
         ]
     }
     

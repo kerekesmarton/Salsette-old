@@ -264,7 +264,6 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
                     </userDefinedRuntimeAttributes>
@@ -383,19 +382,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Type" placeholder="Type" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qb7-aw-hhC" customClass="NoCopyPasteTextField" customModule="Salsette" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="0.0" width="312" height="44"/>
-                                                    <nil key="textColor"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yKX-iW-ngb" customClass="PickerLabel" customModule="Salsette" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="8" width="304" height="28"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Qb7-aw-hhC" firstAttribute="leading" secondItem="eAy-X7-6E9" secondAttribute="leading" constant="8" id="9ok-8P-amM"/>
-                                                <constraint firstAttribute="trailing" secondItem="Qb7-aw-hhC" secondAttribute="trailing" id="hMh-xF-xwY"/>
-                                                <constraint firstItem="Qb7-aw-hhC" firstAttribute="top" secondItem="eAy-X7-6E9" secondAttribute="top" id="n8S-Oc-JHQ"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="Qb7-aw-hhC" secondAttribute="bottom" constant="-8.5" id="xu2-8p-Ais"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="dc6-4F-aKf">
@@ -472,7 +466,7 @@
                         <outlet property="eventName" destination="fNh-kL-Epp" id="JXT-Q3-74i"/>
                         <outlet property="imageView" destination="ovc-hx-bHe" id="y7w-52-6Jh"/>
                         <outlet property="scheduleLabel" destination="6uj-Qr-Ukt" id="x5j-yt-YeM"/>
-                        <outlet property="typeTextField" destination="Qb7-aw-hhC" id="pI1-7B-BhA"/>
+                        <outlet property="typeLabel" destination="yKX-iW-ngb" id="ZYs-cd-hg4"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tfz-nn-dVA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -492,7 +486,7 @@
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ucx-cC-KUR" id="WVJ-vj-sLc">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -792,7 +786,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5YP-Zm-RMc" id="cd8-9t-Vxl">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="249.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FRd-eQ-Bga">
@@ -930,7 +924,7 @@
         <scene sceneID="trC-IE-xYa">
             <objects>
                 <collectionViewController id="TR1-XO-TBA" customClass="WorkshopsEditViewController" customModule="Salsette" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="buM-UE-9zi" customClass="SwappingCollectionView" customModule="Salsette" customModuleProvider="target">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="buM-UE-9zi" customClass="SwappingCollectionView" customModule="Salsette" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.8980392157" green="0.8980392157" blue="0.8980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
