@@ -53,7 +53,6 @@ class CreateEventInteractor {
             } else if let error = error {
                 completion(nil, error)
             }
-            completion(nil, nil)
         }
     }
     

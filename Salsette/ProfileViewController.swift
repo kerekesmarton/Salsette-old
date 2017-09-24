@@ -98,6 +98,7 @@ extension ProfileViewController: FBSDKLoginButtonDelegate {
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         interactor?.viewReady()
+        deleteKeychain()
     }
 }
 

@@ -8,17 +8,23 @@
 import UIKit
 
 class EventViewController: UITableViewController {
+    @IBOutlet var imageView: UIImageView!
+    @IBOutlet var nameLabel: UILabel!
+    @IBOutlet var hostLabel: UILabel!
+    @IBOutlet var startDate: UILabel!
+    @IBOutlet var endDate: UILabel!
+    @IBOutlet var placeLabel: UILabel!
+    @IBOutlet var locationLabel: UILabel!
+    @IBOutlet var descriptionLabel: UILabel!
     var selectedIndex: IndexPath!
     var event: ContentEntityInterface!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationController?.customizeTransparentNavigationBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        imageView.heroID = event.name
         ImageDownloader.shared.downloadImage(for: event.imageUrl) { (image) in
             self.imageView.image = image            
         }
@@ -74,13 +80,4 @@ class EventViewController: UITableViewController {
         }))
         present(actionSheet, animated: true, completion: nil)
     }
-
-    @IBOutlet var imageView: UIImageView!
-    @IBOutlet var nameLabel: UILabel!
-    @IBOutlet var hostLabel: UILabel!
-    @IBOutlet var startDate: UILabel!
-    @IBOutlet var endDate: UILabel!
-    @IBOutlet var placeLabel: UILabel!
-    @IBOutlet var locationLabel: UILabel!
-    @IBOutlet var descriptionLabel: UILabel!
 }

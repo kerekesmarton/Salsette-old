@@ -35,7 +35,7 @@ class GraphManager {
         let input = LoginUserWithAuth0Input(idToken: token)
         operation = client.perform(mutation: Auth0LoginMutation(token: input), resultHandler: { (result, error) in
             if let serverError = result?.errors {
-                closure(false,serverError.first)
+                closure(false, self.error(from: serverError))
             } else if let auth = result?.data?.loginUserWithAuth0,
                 let newUser = auth.user {
                 self.token = token
@@ -55,11 +55,10 @@ class GraphManager {
         let input = CreateEventInput(fbId: model.fbID, type: model.type, clientMutationId: nil)
         operation = client.perform(mutation: CreateEventMutation(event: input), resultHandler: { (result, error) in
             if let serverError = result?.errors {
-                closure(nil,serverError.first)
+                closure(nil, self.error(from: serverError))
             } else if let event = result?.data?.createEvent?.changedEvent {
                 closure(event, error)
             }
-            closure(nil, nil)
         })
     }
     
@@ -69,7 +68,7 @@ class GraphManager {
         let query = FetchEventQuery(fbId: fbID)
         operation = client.fetch(query: query, cachePolicy: .returnCacheDataElseFetch, queue: DispatchQueue.main, resultHandler: { (result, error) in
             if let serverError = result?.errors {
-                closure(nil, serverError.first)
+                closure(nil, self.error(from: serverError))
             } else if let hit = result?.data?.viewer?.searchAlgoliaEvents?.hits?.first,
                 let event: EventSearchResult = hit?.node {
                 closure(event, error)
@@ -83,7 +82,7 @@ class GraphManager {
         let query = FetchAllEventsQuery()
         operation = client.fetch(query: query, cachePolicy: .returnCacheDataElseFetch, queue: DispatchQueue.main, resultHandler: { (result, error) in
             if let serverError = result?.errors {
-                closure(nil,serverError.first)
+                closure(nil, self.error(from: serverError))
             } else if let edges = result?.data?.viewer?.allEvents?.edges {
                 closure(edges.flatMap { return $0?.node }, error)
             }
@@ -103,11 +102,18 @@ class GraphManager {
         let input = CreateWorkshopInput(room: model.room, startTime: model.startTime, artist: model.artist, name: model.name, event: nil, eventId: model.eventID, clientMutationId: nil)
         operation = client.perform(mutation: CreateWorkshopMutation(workshop: input), resultHandler: { (result, error) in
             if let serverError = result?.errors {
-                closure(nil, serverError.first)
+                closure(nil, self.error(from: serverError))
             } else if let workshop = result?.data?.createWorkshop?.changedWorkshop {
                 closure(workshop, error)
             }
-            closure(nil, error)
+            closure(nil, nil)
         })
+    }
+    
+    func error(from graphQLErrors: [GraphQLError]) -> Error {        
+        guard let error = graphQLErrors.first else {
+            return NSError(domain: "Apollo", code: 0, userInfo: [NSLocalizedDescriptionKey:"Unknown error"])
+        }
+        return NSError(domain: "Apollo", code: 0, userInfo: [NSLocalizedDescriptionKey:error.message])
     }
 }

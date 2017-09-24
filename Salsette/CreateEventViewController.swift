@@ -5,9 +5,14 @@ import UIKit
 class CreateEventViewController: UITableViewController {
     
     @IBOutlet var imageView: UIImageView!
-    @IBOutlet var eventName: UILabel!
-    @IBOutlet var eventLocation: UILabel!
-    @IBOutlet var eventDate: UILabel!
+    @IBOutlet var nameLabel: UILabel!
+    @IBOutlet var hostLabel: UILabel!
+    @IBOutlet var startDate: UILabel!
+    @IBOutlet var endDate: UILabel!
+    @IBOutlet var placeLabel: UILabel!
+    @IBOutlet var locationLabel: UILabel!
+    @IBOutlet var descriptionLabel: UILabel!
+    
     @IBOutlet var typeLabel: PickerLabel!
     @IBOutlet var classesLabel: UILabel!
     @IBOutlet var scheduleLabel: UILabel!
@@ -35,16 +40,19 @@ class CreateEventViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        eventName.text = fbEvent?.name
-        eventLocation.text = fbEvent?.place
-        var timeString: String?
-        if let startTime = fbEvent?.startDate {
-            timeString = DateFormatters.relativeDateFormatter.string(from: startTime)
+        nameLabel.text = fbEvent?.name
+        hostLabel.text = fbEvent?.place
+        if let time = fbEvent?.startDate {
+            startDate.text = DateFormatters.relativeDateFormatter.string(from: time)
         }
-        if let endTime = fbEvent?.endDate {
-            timeString?.append(" to " + DateFormatters.relativeDateFormatter.string(from: endTime))
+        if let time = fbEvent?.endDate {
+            endDate.text = DateFormatters.relativeDateFormatter.string(from: time)
+        } else {
+            endDate.text = ""
         }
-        eventDate.text = timeString ?? ""
+        placeLabel.text = fbEvent?.place
+        locationLabel.text = fbEvent?.location
+        descriptionLabel.text = fbEvent?.longDescription
         
         let picker = UIPickerView()
         typeLabel.inputView = picker
@@ -164,6 +172,18 @@ extension CreateEventViewController {
             }
             let picker = typeLabel.inputView as? UIPickerView
             picker?.selectRow(index, inComponent: 0, animated: false)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.row {
+        case 0:
+            return 250
+        case 7:
+            guard let desc = fbEvent?.longDescription else { return 0 }
+            return desc.height(withConstrainedWidth: tableView.frame.width - (tableView.contentInset.left + tableView.contentInset.right), font: UIFont.systemFont(ofSize: 18))
+        default:
+            return 60
         }
     }
 }
