@@ -12,7 +12,32 @@ mutation CreateEvent($event: CreateEventInput!) {
     }
 }
 
-query FetchEvent($fbID: String!){
+query FetchEvent($where:EventWhereArgs!){
+    viewer{
+        allEvents(where: $where){
+            edges{
+                node{
+                    type
+                    fbID
+                    id
+                    workshops{
+                        edges{
+                            node{
+                                name
+                                startTime
+                                artist
+                                room
+                                id
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+query FetchEventAlgolia($fbID: String!){
     viewer {
         searchAlgoliaEvents(query: $fbID){
             hits{

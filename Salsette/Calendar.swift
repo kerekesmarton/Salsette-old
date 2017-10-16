@@ -135,9 +135,11 @@ class CalendarProxy: NSObject, FSCalendarDataSource, FSCalendarDelegate, FSCalen
         }
     }
     
-    private func configure(cell: FSCalendarCell, for date: Date, at position: FSCalendarMonthPosition) {
+    private func configure(cell: FSCalendarCell, for date: Date?, at position: FSCalendarMonthPosition) {
         
-        let cell = (cell as! CalendarViewCell)
+        guard let cell = cell as? CalendarViewCell, let date = date else {
+            return
+        }
         // Custom today circle
         cell.circleImageView.isHidden = !gregorian.isDateInToday(date)
         // Configure selection layer

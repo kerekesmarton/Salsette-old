@@ -531,11 +531,12 @@
             if (self.calendar.placeholderType == FSCalendarPlaceholderTypeFillSixRows) {
                 contentSize = self.cachedMonthSize;
             } else {
+                CGFloat padding = self.calendar.collectionViewLayout.sectionInsets.top + self.calendar.collectionViewLayout.sectionInsets.bottom;
                 contentSize = CGSizeMake(self.calendar.fs_width,
                                          self.calendar.preferredHeaderHeight+
                                          self.calendar.preferredWeekdayHeight+
                                          ([self.calendar.calculator numberOfRowsInMonth:page]*self.calendar.collectionViewLayout.estimatedItemSize.height)+
-                                         self.calendar.scopeHandle.fs_height);
+                                         self.calendar.scopeHandle.fs_height+padding);
             }
             break;
         }
@@ -550,10 +551,9 @@
 - (void)boundingRectWillChange:(CGRect)targetBounds animated:(BOOL)animated
 {
     self.calendar.scopeHandle.fs_bottom = CGRectGetMaxY(targetBounds);
-    self.calendar.bottomBorder.fs_top = CGRectGetMaxY(targetBounds);
     self.calendar.contentView.fs_height = CGRectGetHeight(targetBounds)-self.calendar.scopeHandle.fs_height;
     self.calendar.daysContainer.fs_height = CGRectGetHeight(targetBounds)-self.calendar.preferredHeaderHeight-self.calendar.preferredWeekdayHeight-self.calendar.scopeHandle.fs_height;
-    [self.calendar.delegate calendar:self.calendar boundingRectWillChange:targetBounds animated:YES];
+    [[self.calendar valueForKey:@"delegateProxy"] calendar:self.calendar boundingRectWillChange:targetBounds animated:animated];
 }
 
 - (void)performForwardTransition:(FSCalendarTransition)transition fromProgress:(CGFloat)progress

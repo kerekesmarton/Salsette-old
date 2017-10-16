@@ -70,7 +70,7 @@ class CreateWorkshopViewController: UITableViewController {
         nameLbl.text = prefilledWorkshop.name        
     }
     
-    func createWorkshop() {
+    @objc func createWorkshop() {
         guard let name = nameLbl.text, let artist = artistLbl.text, let room = roomLbl.text, let date = timePickerDataSource?.date else { return }
         var workshop = GraphWorkshop(name: name, startTime: date, room: room)
         workshop.artist = artist
@@ -79,7 +79,7 @@ class CreateWorkshopViewController: UITableViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    func deleteWorkshop() {
+    @objc func deleteWorkshop() {
         let alert = UIAlertController(title: "Delete workshop?", message: "This cannot be reverted", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (deleteAction) in
             self.createWorkshopDidFinish?(nil, true)

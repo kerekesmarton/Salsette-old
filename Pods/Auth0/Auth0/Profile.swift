@@ -60,7 +60,6 @@ public class Profile: NSObject, JSONObjectPayload {
         return self["app_metadata"] as? [String: Any] ?? [:]
     }
 
-    // swiftlint:disable:next function_parameter_count
     required public init(id: String, name: String, nickname: String, pictureURL: URL, createdAt: Date, email: String?, emailVerified: Bool, givenName: String?, familyName: String?, attributes: [String: Any], identities: [Identity]) {
         self.id = id
         self.name = name
@@ -101,15 +100,4 @@ public class Profile: NSObject, JSONObjectPayload {
         self.init(id: id, name: name, nickname: nickname, pictureURL: pictureURL, createdAt: createdAt, email: email, emailVerified: emailVerified, givenName: givenName, familyName: familyName, attributes: attributes, identities: identities)
     }
 
-}
-
-private func date(from string: String) -> Date? {
-    guard let interval = Double(string) else {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        formatter.timeZone = TimeZone(identifier: "UTC")
-        return formatter.date(from: string)
-    }
-    return Date(timeIntervalSince1970: interval)
 }

@@ -6,7 +6,7 @@ extension UINavigationController {
         view.backgroundColor = UIColor.flatWhite
         navigationBar.barTintColor = UIColor.clear
         navigationBar.tintColor = UIColor.flatBlue
-        navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.flatWhite]
+        navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.flatWhite]
         let image = UIImage.resizableImage(UIColor.flatWhite, cornerRadius: 0)
         navigationBar.shadowImage = image
         navigationBar.setBackgroundImage(image, for: .default)
