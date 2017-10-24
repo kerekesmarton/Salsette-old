@@ -70,21 +70,22 @@ class GraphManager {
         })
     }
     
-    typealias EventSearchResult = FetchEventAlgoliaQuery.Data.Viewer.SearchAlgoliaEvent.Hit.Node
-    //FetchEventQuery.Data.Viewer.AllEvent.Edge.Node
+    typealias EventSearchResult = FetchEventQuery.Data.Viewer.AllEvent.Edge.Node
+    //FetchEventAlgoliaQuery.Data.Viewer.SearchAlgoliaEvent.Hit.Node
+
     func searchEvent(fbID: String, closure: @escaping (EventSearchResult?, Error?)->Void) {
         guard let client = loggedInClient else {
             closure(nil, error(with: "Please log in"))
             return
         }
-         let query = FetchEventAlgoliaQuery(fbID: fbID)
-//        let arg = EventFbIdWhereArgs(eq: fbID)
-//        let query = FetchEventQuery(where: EventWhereArgs(fbId:arg))
+//         let query = FetchEventAlgoliaQuery(fbID: fbID)
+        let arg = EventFbIdWhereArgs(eq: fbID)
+        let query = FetchEventQuery(where: EventWhereArgs(fbId:arg))
         operation = client.fetch(query: query, cachePolicy: .returnCacheDataElseFetch, queue: DispatchQueue.main, resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
-            } else if let hit = result?.data?.viewer?.searchAlgoliaEvents?.hits?.first, /* result?.data?.viewer?.allEvents?.edges?.first, */
-                let event: EventSearchResult = hit?.node {
+            } else if let edge = result?.data?.viewer?.allEvents?.edges?.first, /* result?.data?.viewer?.searchAlgoliaEvents?.hits?.first */
+                let event: EventSearchResult = edge?.node {
                 closure(event, error)
             }
             closure(nil, nil)

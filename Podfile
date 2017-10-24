@@ -22,7 +22,17 @@ target 'Salsette' do
     pod 'SimpleKeychain', '~> 0.7'
     pod 'Apollo', '~> 0.6.0'
     pod 'Hero'
+
+    post_install do |installer|
+        installer.pods_project.targets.each do |target|
+            target.build_configurations.each do |config|
+                config.build_settings['SWIFT_VERSION'] = '3.0'
+            end
+        end
+    end
 end
+
+
 
 
 #apollo-codegen introspect-schema https://api.graph.cool/file/v1/cj13ykrpk530j0152qxur34dm/graphql --output schema.json
