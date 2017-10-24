@@ -42,7 +42,7 @@ public struct LoginUserWithAuth0SocialInput: GraphQLMapConvertible {
 }
 
 /// Values for the ConnectionType enum
-public enum ConnectionType: String, Apollo.JSONDecodable, Apollo.JSONEncodable {
+public enum ConnectionType: String {
   case ad = "ad"
   case adfs = "adfs"
   case amazon = "amazon"
@@ -101,6 +101,8 @@ public enum ConnectionType: String, Apollo.JSONDecodable, Apollo.JSONEncodable {
   case yammer = "yammer"
   case yandex = "yandex"
 }
+
+extension ConnectionType: Apollo.JSONDecodable, Apollo.JSONEncodable {}
 
 public struct LoginUserWithAuth0Input: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
@@ -165,13 +167,15 @@ public struct CreateEventInput: GraphQLMapConvertible {
 }
 
 /// Values for the Dance enum
-public enum Dance: String, Apollo.JSONDecodable, Apollo.JSONEncodable {
+public enum Dance: String {
   case salsa = "Salsa"
   case bachata = "Bachata"
   case kizomba = "Kizomba"
   case tango = "Tango"
   case dance = "Dance"
 }
+
+extension Dance: Apollo.JSONDecodable, Apollo.JSONEncodable {}
 
 public struct CreateWorkshopInput: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
@@ -246,7 +250,17 @@ public struct CreateWorkshopInput: GraphQLMapConvertible {
 
 public final class LoginMutation: GraphQLMutation {
   public static let operationString =
-    "mutation Login($token: LoginUserWithAuth0SocialInput!) {\n  loginUserWithAuth0Social(input: $token) {\n    __typename\n    token\n    user {\n      __typename\n      id\n      username\n    }\n  }\n}"
+    "mutation Login($token: LoginUserWithAuth0SocialInput!) {" +
+    "  loginUserWithAuth0Social(input: $token) {" +
+    "    __typename" +
+    "    token" +
+    "    user {" +
+    "      __typename" +
+    "      id" +
+    "      username" +
+    "    }" +
+    "  }" +
+    "}"
 
   public var token: LoginUserWithAuth0SocialInput
 
@@ -262,7 +276,7 @@ public final class LoginMutation: GraphQLMutation {
     public static let possibleTypes = ["Mutation"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField("loginUserWithAuth0Social", arguments: ["input": GraphQLVariable("token")], type: .object(LoginUserWithAuth0Social.selections)),
+      GraphQLField("loginUserWithAuth0Social", arguments: ["input": Variable("token")], type: .object(LoginUserWithAuth0Social.self)),
     ]
 
     public var snapshot: Snapshot
@@ -272,13 +286,13 @@ public final class LoginMutation: GraphQLMutation {
     }
 
     public init(loginUserWithAuth0Social: LoginUserWithAuth0Social? = nil) {
-      self.init(snapshot: ["__typename": "Mutation", "loginUserWithAuth0Social": loginUserWithAuth0Social.flatMap { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Mutation", "loginUserWithAuth0Social": loginUserWithAuth0Social])
     }
 
     /// The input object type used to log in a user with Auth0 Social
     public var loginUserWithAuth0Social: LoginUserWithAuth0Social? {
       get {
-        return (snapshot["loginUserWithAuth0Social"] as? Snapshot).flatMap { LoginUserWithAuth0Social(snapshot: $0) }
+        return (snapshot["loginUserWithAuth0Social"]! as! Snapshot?).flatMap { LoginUserWithAuth0Social(snapshot: $0) }
       }
       set {
         snapshot.updateValue(newValue?.snapshot, forKey: "loginUserWithAuth0Social")
@@ -291,7 +305,7 @@ public final class LoginMutation: GraphQLMutation {
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("token", type: .scalar(String.self)),
-        GraphQLField("user", type: .object(User.selections)),
+        GraphQLField("user", type: .object(User.self)),
       ]
 
       public var snapshot: Snapshot
@@ -301,7 +315,7 @@ public final class LoginMutation: GraphQLMutation {
       }
 
       public init(token: String? = nil, user: User? = nil) {
-        self.init(snapshot: ["__typename": "LoginUserWithAuth0SocialPayload", "token": token, "user": user.flatMap { $0.snapshot }])
+        self.init(snapshot: ["__typename": "LoginUserWithAuth0SocialPayload", "token": token, "user": user])
       }
 
       public var __typename: String {
@@ -317,7 +331,7 @@ public final class LoginMutation: GraphQLMutation {
       /// social authentication connection.
       public var token: String? {
         get {
-          return snapshot["token"] as? String
+          return snapshot["token"]! as! String?
         }
         set {
           snapshot.updateValue(newValue, forKey: "token")
@@ -327,7 +341,7 @@ public final class LoginMutation: GraphQLMutation {
       /// The mutated User.
       public var user: User? {
         get {
-          return (snapshot["user"] as? Snapshot).flatMap { User(snapshot: $0) }
+          return (snapshot["user"]! as! Snapshot?).flatMap { User(snapshot: $0) }
         }
         set {
           snapshot.updateValue(newValue?.snapshot, forKey: "user")
@@ -388,7 +402,16 @@ public final class LoginMutation: GraphQLMutation {
 
 public final class Auth0LoginMutation: GraphQLMutation {
   public static let operationString =
-    "mutation Auth0Login($token: LoginUserWithAuth0Input!) {\n  loginUserWithAuth0(input: $token) {\n    __typename\n    user {\n      __typename\n      id\n      username\n    }\n  }\n}"
+    "mutation Auth0Login($token: LoginUserWithAuth0Input!) {" +
+    "  loginUserWithAuth0(input: $token) {" +
+    "    __typename" +
+    "    user {" +
+    "      __typename" +
+    "      id" +
+    "      username" +
+    "    }" +
+    "  }" +
+    "}"
 
   public var token: LoginUserWithAuth0Input
 
@@ -404,7 +427,7 @@ public final class Auth0LoginMutation: GraphQLMutation {
     public static let possibleTypes = ["Mutation"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField("loginUserWithAuth0", arguments: ["input": GraphQLVariable("token")], type: .object(LoginUserWithAuth0.selections)),
+      GraphQLField("loginUserWithAuth0", arguments: ["input": Variable("token")], type: .object(LoginUserWithAuth0.self)),
     ]
 
     public var snapshot: Snapshot
@@ -414,12 +437,12 @@ public final class Auth0LoginMutation: GraphQLMutation {
     }
 
     public init(loginUserWithAuth0: LoginUserWithAuth0? = nil) {
-      self.init(snapshot: ["__typename": "Mutation", "loginUserWithAuth0": loginUserWithAuth0.flatMap { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Mutation", "loginUserWithAuth0": loginUserWithAuth0])
     }
 
     public var loginUserWithAuth0: LoginUserWithAuth0? {
       get {
-        return (snapshot["loginUserWithAuth0"] as? Snapshot).flatMap { LoginUserWithAuth0(snapshot: $0) }
+        return (snapshot["loginUserWithAuth0"]! as! Snapshot?).flatMap { LoginUserWithAuth0(snapshot: $0) }
       }
       set {
         snapshot.updateValue(newValue?.snapshot, forKey: "loginUserWithAuth0")
@@ -431,7 +454,7 @@ public final class Auth0LoginMutation: GraphQLMutation {
 
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-        GraphQLField("user", type: .object(User.selections)),
+        GraphQLField("user", type: .object(User.self)),
       ]
 
       public var snapshot: Snapshot
@@ -441,7 +464,7 @@ public final class Auth0LoginMutation: GraphQLMutation {
       }
 
       public init(user: User? = nil) {
-        self.init(snapshot: ["__typename": "LoginUserWithAuth0Payload", "user": user.flatMap { $0.snapshot }])
+        self.init(snapshot: ["__typename": "LoginUserWithAuth0Payload", "user": user])
       }
 
       public var __typename: String {
@@ -456,7 +479,7 @@ public final class Auth0LoginMutation: GraphQLMutation {
       /// The mutated User.
       public var user: User? {
         get {
-          return (snapshot["user"] as? Snapshot).flatMap { User(snapshot: $0) }
+          return (snapshot["user"]! as! Snapshot?).flatMap { User(snapshot: $0) }
         }
         set {
           snapshot.updateValue(newValue?.snapshot, forKey: "user")
@@ -517,7 +540,17 @@ public final class Auth0LoginMutation: GraphQLMutation {
 
 public final class CreateEventMutation: GraphQLMutation {
   public static let operationString =
-    "mutation CreateEvent($event: CreateEventInput!) {\n  createEvent(input: $event) {\n    __typename\n    changedEvent {\n      __typename\n      type\n      fbID\n      id\n    }\n  }\n}"
+    "mutation CreateEvent($event: CreateEventInput!) {" +
+    "  createEvent(input: $event) {" +
+    "    __typename" +
+    "    changedEvent {" +
+    "      __typename" +
+    "      type" +
+    "      fbID" +
+    "      id" +
+    "    }" +
+    "  }" +
+    "}"
 
   public var event: CreateEventInput
 
@@ -533,7 +566,7 @@ public final class CreateEventMutation: GraphQLMutation {
     public static let possibleTypes = ["Mutation"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField("createEvent", arguments: ["input": GraphQLVariable("event")], type: .object(CreateEvent.selections)),
+      GraphQLField("createEvent", arguments: ["input": Variable("event")], type: .object(CreateEvent.self)),
     ]
 
     public var snapshot: Snapshot
@@ -543,13 +576,13 @@ public final class CreateEventMutation: GraphQLMutation {
     }
 
     public init(createEvent: CreateEvent? = nil) {
-      self.init(snapshot: ["__typename": "Mutation", "createEvent": createEvent.flatMap { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Mutation", "createEvent": createEvent])
     }
 
     /// Create objects of type Event.
     public var createEvent: CreateEvent? {
       get {
-        return (snapshot["createEvent"] as? Snapshot).flatMap { CreateEvent(snapshot: $0) }
+        return (snapshot["createEvent"]! as! Snapshot?).flatMap { CreateEvent(snapshot: $0) }
       }
       set {
         snapshot.updateValue(newValue?.snapshot, forKey: "createEvent")
@@ -561,7 +594,7 @@ public final class CreateEventMutation: GraphQLMutation {
 
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-        GraphQLField("changedEvent", type: .object(ChangedEvent.selections)),
+        GraphQLField("changedEvent", type: .object(ChangedEvent.self)),
       ]
 
       public var snapshot: Snapshot
@@ -571,7 +604,7 @@ public final class CreateEventMutation: GraphQLMutation {
       }
 
       public init(changedEvent: ChangedEvent? = nil) {
-        self.init(snapshot: ["__typename": "CreateEventPayload", "changedEvent": changedEvent.flatMap { $0.snapshot }])
+        self.init(snapshot: ["__typename": "CreateEventPayload", "changedEvent": changedEvent])
       }
 
       public var __typename: String {
@@ -586,7 +619,7 @@ public final class CreateEventMutation: GraphQLMutation {
       /// The mutated Event.
       public var changedEvent: ChangedEvent? {
         get {
-          return (snapshot["changedEvent"] as? Snapshot).flatMap { ChangedEvent(snapshot: $0) }
+          return (snapshot["changedEvent"]! as! Snapshot?).flatMap { ChangedEvent(snapshot: $0) }
         }
         set {
           snapshot.updateValue(newValue?.snapshot, forKey: "changedEvent")
@@ -633,7 +666,7 @@ public final class CreateEventMutation: GraphQLMutation {
 
         public var fbId: String? {
           get {
-            return snapshot["fbID"] as? String
+            return snapshot["fbID"]! as! String?
           }
           set {
             snapshot.updateValue(newValue, forKey: "fbID")
@@ -656,7 +689,37 @@ public final class CreateEventMutation: GraphQLMutation {
 
 public final class FetchEventAlgoliaQuery: GraphQLQuery {
   public static let operationString =
-    "query FetchEventAlgolia($fbID: String!) {\n  viewer {\n    __typename\n    searchAlgoliaEvents(query: $fbID) {\n      __typename\n      hits {\n        __typename\n        node {\n          __typename\n          type\n          fbID\n          id\n          workshops {\n            __typename\n            edges {\n              __typename\n              node {\n                __typename\n                name\n                startTime\n                artist\n                room\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}"
+    "query FetchEventAlgolia($fbID: String!) {" +
+    "  viewer {" +
+    "    __typename" +
+    "    searchAlgoliaEvents(query: $fbID) {" +
+    "      __typename" +
+    "      hits {" +
+    "        __typename" +
+    "        node {" +
+    "          __typename" +
+    "          type" +
+    "          fbID" +
+    "          id" +
+    "          workshops {" +
+    "            __typename" +
+    "            edges {" +
+    "              __typename" +
+    "              node {" +
+    "                __typename" +
+    "                name" +
+    "                startTime" +
+    "                artist" +
+    "                room" +
+    "                id" +
+    "              }" +
+    "            }" +
+    "          }" +
+    "        }" +
+    "      }" +
+    "    }" +
+    "  }" +
+    "}"
 
   public var fbID: String
 
@@ -672,7 +735,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
     public static let possibleTypes = ["Query"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField("viewer", type: .object(Viewer.selections)),
+      GraphQLField("viewer", type: .object(Viewer.self)),
     ]
 
     public var snapshot: Snapshot
@@ -682,12 +745,12 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
     }
 
     public init(viewer: Viewer? = nil) {
-      self.init(snapshot: ["__typename": "Query", "viewer": viewer.flatMap { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Query", "viewer": viewer])
     }
 
     public var viewer: Viewer? {
       get {
-        return (snapshot["viewer"] as? Snapshot).flatMap { Viewer(snapshot: $0) }
+        return (snapshot["viewer"]! as! Snapshot?).flatMap { Viewer(snapshot: $0) }
       }
       set {
         snapshot.updateValue(newValue?.snapshot, forKey: "viewer")
@@ -699,7 +762,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
 
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-        GraphQLField("searchAlgoliaEvents", arguments: ["query": GraphQLVariable("fbID")], type: .object(SearchAlgoliaEvent.selections)),
+        GraphQLField("searchAlgoliaEvents", arguments: ["query": Variable("fbID")], type: .object(SearchAlgoliaEvent.self)),
       ]
 
       public var snapshot: Snapshot
@@ -709,7 +772,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
       }
 
       public init(searchAlgoliaEvents: SearchAlgoliaEvent? = nil) {
-        self.init(snapshot: ["__typename": "Viewer", "searchAlgoliaEvents": searchAlgoliaEvents.flatMap { $0.snapshot }])
+        self.init(snapshot: ["__typename": "Viewer", "searchAlgoliaEvents": searchAlgoliaEvents])
       }
 
       public var __typename: String {
@@ -724,7 +787,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
       /// Searches Algolia for the Event type by query term
       public var searchAlgoliaEvents: SearchAlgoliaEvent? {
         get {
-          return (snapshot["searchAlgoliaEvents"] as? Snapshot).flatMap { SearchAlgoliaEvent(snapshot: $0) }
+          return (snapshot["searchAlgoliaEvents"]! as! Snapshot?).flatMap { SearchAlgoliaEvent(snapshot: $0) }
         }
         set {
           snapshot.updateValue(newValue?.snapshot, forKey: "searchAlgoliaEvents")
@@ -736,7 +799,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
 
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-          GraphQLField("hits", type: .list(.object(Hit.selections))),
+          GraphQLField("hits", type: .list(.object(Hit.self))),
         ]
 
         public var snapshot: Snapshot
@@ -746,7 +809,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
         }
 
         public init(hits: [Hit?]? = nil) {
-          self.init(snapshot: ["__typename": "SearchAlgoliaEventByQueryResults", "hits": hits.flatMap { $0.map { $0.flatMap { $0.snapshot } } }])
+          self.init(snapshot: ["__typename": "SearchAlgoliaEventByQueryResults", "hits": hits])
         }
 
         public var __typename: String {
@@ -761,7 +824,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
         /// Search results hit provided by Algolia.
         public var hits: [Hit?]? {
           get {
-            return (snapshot["hits"] as? [Snapshot?]).flatMap { $0.map { $0.flatMap { Hit(snapshot: $0) } } }
+            return (snapshot["hits"]! as! [Snapshot?]?).flatMap { $0.map { $0.flatMap { Hit(snapshot: $0) } } }
           }
           set {
             snapshot.updateValue(newValue.flatMap { $0.map { $0.flatMap { $0.snapshot } } }, forKey: "hits")
@@ -773,7 +836,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
 
           public static let selections: [GraphQLSelection] = [
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-            GraphQLField("node", type: .object(Node.selections)),
+            GraphQLField("node", type: .object(Node.self)),
           ]
 
           public var snapshot: Snapshot
@@ -783,7 +846,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
           }
 
           public init(node: Node? = nil) {
-            self.init(snapshot: ["__typename": "AlgoliaEventSearchHit", "node": node.flatMap { $0.snapshot }])
+            self.init(snapshot: ["__typename": "AlgoliaEventSearchHit", "node": node])
           }
 
           public var __typename: String {
@@ -798,7 +861,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
           /// The Event object
           public var node: Node? {
             get {
-              return (snapshot["node"] as? Snapshot).flatMap { Node(snapshot: $0) }
+              return (snapshot["node"]! as! Snapshot?).flatMap { Node(snapshot: $0) }
             }
             set {
               snapshot.updateValue(newValue?.snapshot, forKey: "node")
@@ -813,7 +876,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
               GraphQLField("type", type: .nonNull(.scalar(Dance.self))),
               GraphQLField("fbID", type: .scalar(String.self)),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
-              GraphQLField("workshops", type: .object(Workshop.selections)),
+              GraphQLField("workshops", type: .object(Workshop.self)),
             ]
 
             public var snapshot: Snapshot
@@ -823,7 +886,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
             }
 
             public init(type: Dance, fbId: String? = nil, id: GraphQLID, workshops: Workshop? = nil) {
-              self.init(snapshot: ["__typename": "Event", "type": type, "fbID": fbId, "id": id, "workshops": workshops.flatMap { $0.snapshot }])
+              self.init(snapshot: ["__typename": "Event", "type": type, "fbID": fbId, "id": id, "workshops": workshops])
             }
 
             public var __typename: String {
@@ -846,7 +909,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
 
             public var fbId: String? {
               get {
-                return snapshot["fbID"] as? String
+                return snapshot["fbID"]! as! String?
               }
               set {
                 snapshot.updateValue(newValue, forKey: "fbID")
@@ -865,7 +928,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
 
             public var workshops: Workshop? {
               get {
-                return (snapshot["workshops"] as? Snapshot).flatMap { Workshop(snapshot: $0) }
+                return (snapshot["workshops"]! as! Snapshot?).flatMap { Workshop(snapshot: $0) }
               }
               set {
                 snapshot.updateValue(newValue?.snapshot, forKey: "workshops")
@@ -877,7 +940,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
 
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-                GraphQLField("edges", type: .list(.object(Edge.selections))),
+                GraphQLField("edges", type: .list(.object(Edge.self))),
               ]
 
               public var snapshot: Snapshot
@@ -887,7 +950,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
               }
 
               public init(edges: [Edge?]? = nil) {
-                self.init(snapshot: ["__typename": "WorkshopConnection", "edges": edges.flatMap { $0.map { $0.flatMap { $0.snapshot } } }])
+                self.init(snapshot: ["__typename": "WorkshopConnection", "edges": edges])
               }
 
               public var __typename: String {
@@ -902,7 +965,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
               /// The set of edges in this page.
               public var edges: [Edge?]? {
                 get {
-                  return (snapshot["edges"] as? [Snapshot?]).flatMap { $0.map { $0.flatMap { Edge(snapshot: $0) } } }
+                  return (snapshot["edges"]! as! [Snapshot?]?).flatMap { $0.map { $0.flatMap { Edge(snapshot: $0) } } }
                 }
                 set {
                   snapshot.updateValue(newValue.flatMap { $0.map { $0.flatMap { $0.snapshot } } }, forKey: "edges")
@@ -914,7 +977,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
 
                 public static let selections: [GraphQLSelection] = [
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-                  GraphQLField("node", type: .nonNull(.object(Node.selections))),
+                  GraphQLField("node", type: .nonNull(.object(Node.self))),
                 ]
 
                 public var snapshot: Snapshot
@@ -924,7 +987,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
                 }
 
                 public init(node: Node) {
-                  self.init(snapshot: ["__typename": "WorkshopEdge", "node": node.snapshot])
+                  self.init(snapshot: ["__typename": "WorkshopEdge", "node": node])
                 }
 
                 public var __typename: String {
@@ -997,7 +1060,7 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
 
                   public var artist: String? {
                     get {
-                      return snapshot["artist"] as? String
+                      return snapshot["artist"]! as! String?
                     }
                     set {
                       snapshot.updateValue(newValue, forKey: "artist")
@@ -1034,7 +1097,23 @@ public final class FetchEventAlgoliaQuery: GraphQLQuery {
 
 public final class FetchAllEventsQuery: GraphQLQuery {
   public static let operationString =
-    "query FetchAllEvents {\n  viewer {\n    __typename\n    allEvents {\n      __typename\n      edges {\n        __typename\n        node {\n          __typename\n          type\n          fbID\n          id\n        }\n      }\n    }\n  }\n}"
+    "query FetchAllEvents {" +
+    "  viewer {" +
+    "    __typename" +
+    "    allEvents {" +
+    "      __typename" +
+    "      edges {" +
+    "        __typename" +
+    "        node {" +
+    "          __typename" +
+    "          type" +
+    "          fbID" +
+    "          id" +
+    "        }" +
+    "      }" +
+    "    }" +
+    "  }" +
+    "}"
 
   public init() {
   }
@@ -1043,7 +1122,7 @@ public final class FetchAllEventsQuery: GraphQLQuery {
     public static let possibleTypes = ["Query"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField("viewer", type: .object(Viewer.selections)),
+      GraphQLField("viewer", type: .object(Viewer.self)),
     ]
 
     public var snapshot: Snapshot
@@ -1053,12 +1132,12 @@ public final class FetchAllEventsQuery: GraphQLQuery {
     }
 
     public init(viewer: Viewer? = nil) {
-      self.init(snapshot: ["__typename": "Query", "viewer": viewer.flatMap { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Query", "viewer": viewer])
     }
 
     public var viewer: Viewer? {
       get {
-        return (snapshot["viewer"] as? Snapshot).flatMap { Viewer(snapshot: $0) }
+        return (snapshot["viewer"]! as! Snapshot?).flatMap { Viewer(snapshot: $0) }
       }
       set {
         snapshot.updateValue(newValue?.snapshot, forKey: "viewer")
@@ -1070,7 +1149,7 @@ public final class FetchAllEventsQuery: GraphQLQuery {
 
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-        GraphQLField("allEvents", type: .object(AllEvent.selections)),
+        GraphQLField("allEvents", type: .object(AllEvent.self)),
       ]
 
       public var snapshot: Snapshot
@@ -1080,7 +1159,7 @@ public final class FetchAllEventsQuery: GraphQLQuery {
       }
 
       public init(allEvents: AllEvent? = nil) {
-        self.init(snapshot: ["__typename": "Viewer", "allEvents": allEvents.flatMap { $0.snapshot }])
+        self.init(snapshot: ["__typename": "Viewer", "allEvents": allEvents])
       }
 
       public var __typename: String {
@@ -1095,7 +1174,7 @@ public final class FetchAllEventsQuery: GraphQLQuery {
       /// Sift through all objects of type 'Event'.
       public var allEvents: AllEvent? {
         get {
-          return (snapshot["allEvents"] as? Snapshot).flatMap { AllEvent(snapshot: $0) }
+          return (snapshot["allEvents"]! as! Snapshot?).flatMap { AllEvent(snapshot: $0) }
         }
         set {
           snapshot.updateValue(newValue?.snapshot, forKey: "allEvents")
@@ -1107,7 +1186,7 @@ public final class FetchAllEventsQuery: GraphQLQuery {
 
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-          GraphQLField("edges", type: .list(.object(Edge.selections))),
+          GraphQLField("edges", type: .list(.object(Edge.self))),
         ]
 
         public var snapshot: Snapshot
@@ -1117,7 +1196,7 @@ public final class FetchAllEventsQuery: GraphQLQuery {
         }
 
         public init(edges: [Edge?]? = nil) {
-          self.init(snapshot: ["__typename": "EventConnection", "edges": edges.flatMap { $0.map { $0.flatMap { $0.snapshot } } }])
+          self.init(snapshot: ["__typename": "EventConnection", "edges": edges])
         }
 
         public var __typename: String {
@@ -1132,7 +1211,7 @@ public final class FetchAllEventsQuery: GraphQLQuery {
         /// The set of edges in this page.
         public var edges: [Edge?]? {
           get {
-            return (snapshot["edges"] as? [Snapshot?]).flatMap { $0.map { $0.flatMap { Edge(snapshot: $0) } } }
+            return (snapshot["edges"]! as! [Snapshot?]?).flatMap { $0.map { $0.flatMap { Edge(snapshot: $0) } } }
           }
           set {
             snapshot.updateValue(newValue.flatMap { $0.map { $0.flatMap { $0.snapshot } } }, forKey: "edges")
@@ -1144,7 +1223,7 @@ public final class FetchAllEventsQuery: GraphQLQuery {
 
           public static let selections: [GraphQLSelection] = [
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-            GraphQLField("node", type: .nonNull(.object(Node.selections))),
+            GraphQLField("node", type: .nonNull(.object(Node.self))),
           ]
 
           public var snapshot: Snapshot
@@ -1154,7 +1233,7 @@ public final class FetchAllEventsQuery: GraphQLQuery {
           }
 
           public init(node: Node) {
-            self.init(snapshot: ["__typename": "EventEdge", "node": node.snapshot])
+            self.init(snapshot: ["__typename": "EventEdge", "node": node])
           }
 
           public var __typename: String {
@@ -1216,7 +1295,7 @@ public final class FetchAllEventsQuery: GraphQLQuery {
 
             public var fbId: String? {
               get {
-                return snapshot["fbID"] as? String
+                return snapshot["fbID"]! as! String?
               }
               set {
                 snapshot.updateValue(newValue, forKey: "fbID")
@@ -1241,7 +1320,21 @@ public final class FetchAllEventsQuery: GraphQLQuery {
 
 public final class CreateWorkshopMutation: GraphQLMutation {
   public static let operationString =
-    "mutation CreateWorkshop($workshop: CreateWorkshopInput!) {\n  createWorkshop(input: $workshop) {\n    __typename\n    changedWorkshop {\n      __typename\n      name\n      event {\n        __typename\n        id\n      }\n      startTime\n      room\n    }\n  }\n}"
+    "mutation CreateWorkshop($workshop: CreateWorkshopInput!) {" +
+    "  createWorkshop(input: $workshop) {" +
+    "    __typename" +
+    "    changedWorkshop {" +
+    "      __typename" +
+    "      name" +
+    "      event {" +
+    "        __typename" +
+    "        id" +
+    "      }" +
+    "      startTime" +
+    "      room" +
+    "    }" +
+    "  }" +
+    "}"
 
   public var workshop: CreateWorkshopInput
 
@@ -1257,7 +1350,7 @@ public final class CreateWorkshopMutation: GraphQLMutation {
     public static let possibleTypes = ["Mutation"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField("createWorkshop", arguments: ["input": GraphQLVariable("workshop")], type: .object(CreateWorkshop.selections)),
+      GraphQLField("createWorkshop", arguments: ["input": Variable("workshop")], type: .object(CreateWorkshop.self)),
     ]
 
     public var snapshot: Snapshot
@@ -1267,13 +1360,13 @@ public final class CreateWorkshopMutation: GraphQLMutation {
     }
 
     public init(createWorkshop: CreateWorkshop? = nil) {
-      self.init(snapshot: ["__typename": "Mutation", "createWorkshop": createWorkshop.flatMap { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Mutation", "createWorkshop": createWorkshop])
     }
 
     /// Create objects of type Workshop.
     public var createWorkshop: CreateWorkshop? {
       get {
-        return (snapshot["createWorkshop"] as? Snapshot).flatMap { CreateWorkshop(snapshot: $0) }
+        return (snapshot["createWorkshop"]! as! Snapshot?).flatMap { CreateWorkshop(snapshot: $0) }
       }
       set {
         snapshot.updateValue(newValue?.snapshot, forKey: "createWorkshop")
@@ -1285,7 +1378,7 @@ public final class CreateWorkshopMutation: GraphQLMutation {
 
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-        GraphQLField("changedWorkshop", type: .object(ChangedWorkshop.selections)),
+        GraphQLField("changedWorkshop", type: .object(ChangedWorkshop.self)),
       ]
 
       public var snapshot: Snapshot
@@ -1295,7 +1388,7 @@ public final class CreateWorkshopMutation: GraphQLMutation {
       }
 
       public init(changedWorkshop: ChangedWorkshop? = nil) {
-        self.init(snapshot: ["__typename": "CreateWorkshopPayload", "changedWorkshop": changedWorkshop.flatMap { $0.snapshot }])
+        self.init(snapshot: ["__typename": "CreateWorkshopPayload", "changedWorkshop": changedWorkshop])
       }
 
       public var __typename: String {
@@ -1310,7 +1403,7 @@ public final class CreateWorkshopMutation: GraphQLMutation {
       /// The mutated Workshop.
       public var changedWorkshop: ChangedWorkshop? {
         get {
-          return (snapshot["changedWorkshop"] as? Snapshot).flatMap { ChangedWorkshop(snapshot: $0) }
+          return (snapshot["changedWorkshop"]! as! Snapshot?).flatMap { ChangedWorkshop(snapshot: $0) }
         }
         set {
           snapshot.updateValue(newValue?.snapshot, forKey: "changedWorkshop")
@@ -1323,7 +1416,7 @@ public final class CreateWorkshopMutation: GraphQLMutation {
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("name", type: .nonNull(.scalar(String.self))),
-          GraphQLField("event", type: .object(Event.selections)),
+          GraphQLField("event", type: .object(Event.self)),
           GraphQLField("startTime", type: .nonNull(.scalar(String.self))),
           GraphQLField("room", type: .nonNull(.scalar(String.self))),
         ]
@@ -1335,7 +1428,7 @@ public final class CreateWorkshopMutation: GraphQLMutation {
         }
 
         public init(name: String, event: Event? = nil, startTime: String, room: String) {
-          self.init(snapshot: ["__typename": "Workshop", "name": name, "event": event.flatMap { $0.snapshot }, "startTime": startTime, "room": room])
+          self.init(snapshot: ["__typename": "Workshop", "name": name, "event": event, "startTime": startTime, "room": room])
         }
 
         public var __typename: String {
@@ -1360,7 +1453,7 @@ public final class CreateWorkshopMutation: GraphQLMutation {
         /// with type 'Workshop'.
         public var event: Event? {
           get {
-            return (snapshot["event"] as? Snapshot).flatMap { Event(snapshot: $0) }
+            return (snapshot["event"]! as! Snapshot?).flatMap { Event(snapshot: $0) }
           }
           set {
             snapshot.updateValue(newValue?.snapshot, forKey: "event")

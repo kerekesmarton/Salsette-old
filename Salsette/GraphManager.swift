@@ -14,7 +14,7 @@ class GraphManager {
     static let shared = GraphManager()
     private let path = "https://eu-west-1.api.scaphold.io/graphql/dance"
     lazy var client: ApolloClient = {
-        return ApolloClient(url: URL(string: path)!)
+        return ApolloClient(url: URL(string: self.path)!)
     }()
     var loggedInClient: ApolloClient?
     var isLoggedIn: Bool {
