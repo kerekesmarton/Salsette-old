@@ -17,7 +17,7 @@ target 'Salsette' do
     pod 'FSCalendar'
     pod 'FBSDKCoreKit'
     pod 'FBSDKLoginKit'
-    pod 'FBSDKShareKit'
+#    pod 'FBSDKShareKit'
     pod 'Auth0'
     pod 'SimpleKeychain', '~> 0.7'
     pod 'Apollo'

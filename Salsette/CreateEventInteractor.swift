@@ -66,8 +66,9 @@ class CreateEventInteractor {
                 completion(CreateEventInteractor.graphEvent(from: result), nil)
             } else if let error = error {
                 completion(nil, error)
+            } else {
+                completion(nil, nil)
             }
-            completion(nil, nil)
         }
     }
     

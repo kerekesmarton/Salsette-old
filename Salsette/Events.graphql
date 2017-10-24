@@ -8,34 +8,25 @@ mutation CreateEvent($event: CreateEventInput!) {
             type
             fbID
             id
-        }
-    }
-}
+        }}}
 
-query FetchEvent($where:EventWhereArgs!){
-    viewer{
-        allEvents(where: $where){
-            edges{
-                node{
-                    type
-                    fbID
-                    id
-                    workshops{
-                        edges{
-                            node{
-                                name
-                                startTime
-                                artist
-                                room
-                                id
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
+#query FetchEvent($where:EventWhereArgs!){
+#    viewer{
+#        allEvents(where: $where){
+#            edges{
+#                node{
+#                    type
+#                    fbID
+#                    id
+#                    workshops{
+#                        edges{
+#                            node{
+#                                name
+#                                startTime
+#                                artist
+#                                room
+#                                id
+#                            }}}}}}}}
 
 query FetchEventAlgolia($fbID: String!){
     viewer {
@@ -53,14 +44,7 @@ query FetchEventAlgolia($fbID: String!){
                                 artist
                                 room
                                 id
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
+                            }}}}}}}}
 
 query FetchAllEvents{
     viewer{
@@ -70,11 +54,7 @@ query FetchAllEvents{
                     type
                     fbID
                     id
-                }
-            }
-        }
-    }
-}
+                }}}}}
 
 mutation CreateWorkshop($workshop: CreateWorkshopInput!){
     createWorkshop(input: $workshop){
@@ -85,6 +65,4 @@ mutation CreateWorkshop($workshop: CreateWorkshopInput!){
             }
             startTime
             room
-        }
-    }
-}
+        }}}
