@@ -29,7 +29,6 @@ class HomeCell: UICollectionViewCell {
         didSet {
             guard let content = content else { return }
             
-            heroID = content.name
             nameLabel.text = content.name
             identifier = content.identifier
             loadImage(for: content.identifier)

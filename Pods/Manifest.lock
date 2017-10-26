@@ -19,7 +19,6 @@ PODS:
   - FBSDKLoginKit (4.27.1):
     - FBSDKCoreKit
   - FSCalendar (2.7.9)
-  - Hero (0.3.6)
   - SimpleKeychain (0.8.0)
   - TextFieldEffects (1.4.0)
 
@@ -31,7 +30,6 @@ DEPENDENCIES:
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FSCalendar
-  - Hero
   - SimpleKeychain (~> 0.7)
   - TextFieldEffects
 
@@ -53,10 +51,9 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 03365dad5d790249196ffad8be4f6d8a2d98f932
   FBSDKLoginKit: 66ff53b73cffd967ab773e32fac39e90a60e6d46
   FSCalendar: a04b09f16f811bc92e82f3cf852a15225233b9d5
-  Hero: d3c6f4dd80cdcdbb339be64e57ae3b5c3ab9938c
   SimpleKeychain: 84c748463eec601dfee5e7990f55cc82edc5488d
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
 
-PODFILE CHECKSUM: 3483c31ab83c0bf5edf4d1e23c60ffd6b30b3650
+PODFILE CHECKSUM: 92e5f64eff6c9808e1aabec651850c4a0ab02ed1
 
 COCOAPODS: 1.1.1

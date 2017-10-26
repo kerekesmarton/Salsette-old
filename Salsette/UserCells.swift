@@ -8,7 +8,6 @@
 
 import UIKit
 import FBSDKCoreKit
-import Hero
 import TextFieldEffects
 import DZNEmptyDataSet
 
@@ -81,7 +80,6 @@ extension EventsCell: UICollectionViewDelegate, UICollectionViewDataSource {
         userEventCell.item = item
         interactor.getImage(for: item.imageUrl, completion: { (image) in
             if userEventCell.imageUrl == item.imageUrl {
-                userEventCell.eventImage?.heroID = item.identifier
                 userEventCell.eventImage?.image = image.fit(intoSize: CGSize(width: 93.5, height: 93.5))
             }
         })

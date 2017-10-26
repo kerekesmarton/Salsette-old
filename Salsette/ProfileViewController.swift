@@ -9,7 +9,6 @@
 import UIKit
 import FBSDKLoginKit
 import Auth0
-import Hero
 import ChameleonFramework
 
 class ProfileFeatureLauncher {
@@ -123,7 +122,6 @@ extension ProfileViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UserCellIdentifiers.allIdentifiers[indexPath.section])!
-        cell.heroModifiers = [.fade, .translate(y:20)]
         switch indexPath.section {
         case 0:
             guard let imageCell = cell as? UserCell else { return cell }

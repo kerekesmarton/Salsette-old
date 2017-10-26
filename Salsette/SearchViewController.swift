@@ -113,8 +113,6 @@ class SearchViewController: UITableViewController {
             vc.selectedIndex = currentCellIndex
         }
         if let vc = segue.destination as? ProfileViewController, let sender = sender as? UIButton {
-            sender.heroID = "selected"
-            vc.view.heroModifiers = [.source(heroID: "selected")]
             vc.view.backgroundColor = sender.backgroundColor
         }
         if let nav = segue.destination as? UINavigationController,
