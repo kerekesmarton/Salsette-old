@@ -1,10 +1,4 @@
-//
-//  AppDelegate.swift
-//  Salsette
-//
-//  Created by Marton Kerekes on 08/03/2017.
 //  Copyright © 2017 Marton Kerekes. All rights reserved.
-//
 
 import UIKit
 import FBSDKLoginKit

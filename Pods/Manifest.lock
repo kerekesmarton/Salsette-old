@@ -1,7 +1,7 @@
 PODS:
-  - Apollo (0.6.5):
-    - Apollo/Core (= 0.6.5)
-  - Apollo/Core (0.6.5)
+  - Apollo (0.7.0):
+    - Apollo/Core (= 0.7.0)
+  - Apollo/Core (0.7.0)
   - Auth0 (1.9.1):
     - SimpleKeychain
   - Bolts (1.8.4):
@@ -23,7 +23,7 @@ PODS:
   - TextFieldEffects (1.4.0)
 
 DEPENDENCIES:
-  - Apollo (~> 0.6.0)
+  - Apollo
   - Auth0
   - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
   - DZNEmptyDataSet
@@ -43,7 +43,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/ViccAlexander/Chameleon.git
 
 SPEC CHECKSUMS:
-  Apollo: 575496b1fbdb27a47c0e62a48340da2bd1dc67d7
+  Apollo: d6649ac06168660e70c6226c4eadfc0770791ba5
   Auth0: f00227cf5f1d573a8c6eb7e454649ee0c7742bb2
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
@@ -54,6 +54,6 @@ SPEC CHECKSUMS:
   SimpleKeychain: 84c748463eec601dfee5e7990f55cc82edc5488d
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
 
-PODFILE CHECKSUM: 92e5f64eff6c9808e1aabec651850c4a0ab02ed1
+PODFILE CHECKSUM: 468839816142c7f720c609cc5649564e05622afd
 
 COCOAPODS: 1.1.1
