@@ -1,10 +1,4 @@
-//
-//  UserEventCells.swift
-//  Salsette
-//
-//  Created by Marton Kerekes on 21/04/2017.
 //  Copyright © 2017 Marton Kerekes. All rights reserved.
-//
 
 import UIKit
 import FBSDKCoreKit
@@ -15,7 +9,6 @@ enum UserCellIdentifiers {
     static let imageIdentifier = "UserCell"
     static let savedEventIdentifier = "SavedEventsCell"
     static let createdEventIdentifier = "CreatedEventsCell"
-
     static let allIdentifiers = [imageIdentifier, savedEventIdentifier, createdEventIdentifier]
 }
 

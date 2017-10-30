@@ -1,10 +1,4 @@
-//
-//  ViewController.swift
-//  Salsette
-//
-//  Created by Marton Kerekes on 08/03/2017.
 //  Copyright © 2017 Marton Kerekes. All rights reserved.
-//
 
 import ObjectiveC
 import UIKit
@@ -25,13 +19,12 @@ struct SearchFeatureLauncher {
     }
 }
 
-class SearchViewController: UITableViewController {
+class SearchViewController: UICollectionViewController {
     static let searchSize: CGFloat = 268.0
-    //    @IBOutlet weak var nameField: HoshiTextField!
-    @IBOutlet weak var dateField: HoshiTextField!
-    @IBOutlet weak var locationField: HoshiTextField!
-    @IBOutlet weak var typeField: HoshiTextField!
-    @IBOutlet var fields: [UITextField]!
+    @IBOutlet var dateField: HoshiTextField!
+    @IBOutlet var locationField: HoshiTextField!
+    @IBOutlet var typeField: HoshiTextField!
+    @IBOutlet var container: UIStackView!
     @IBOutlet var typePicker: UIPickerView!
     
     lazy var calendarProxy: CalendarProxy = {
@@ -50,7 +43,6 @@ class SearchViewController: UITableViewController {
     }()
     
     //MARK: - Results
-    @IBOutlet weak var collectionView: UICollectionView!
     var results = [ContentEntityInterface]()
     var search = GlobalSearch.shared
     var resultsInteractor: ContentInteractorInterface = {
@@ -97,19 +89,19 @@ class SearchViewController: UITableViewController {
         })
         typeIAV.nextTitle = nil
         typeField.inputAccessoryView = typeIAV
-        collectionView.emptyDataSetSource = self
+        collectionView?.emptyDataSetSource = self
         load()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        fields.forEach({$0.endEditing(true)})
-    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        fields.forEach({$0.endEditing(true)})
+//    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let currentCell = sender as? HomeCell,
             let vc = segue.destination as? EventViewController,
-            let currentCellIndex = collectionView.indexPath(for: currentCell) {
+            let currentCellIndex = collectionView?.indexPath(for: currentCell) {
             vc.selectedIndex = currentCellIndex
         }
         if let vc = segue.destination as? ProfileViewController, let sender = sender as? UIButton {
@@ -118,7 +110,7 @@ class SearchViewController: UITableViewController {
         if let nav = segue.destination as? UINavigationController,
             let eventViewController = nav.viewControllers.first as? EventViewController,
             let currentCell = sender as? HomeCell,
-            let currentCellIndex = collectionView.indexPath(for: currentCell)
+            let currentCellIndex = collectionView?.indexPath(for: currentCell)
         {
             eventViewController.event = results[currentCellIndex.row]
             eventViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(SearchViewController.dismissEventView))
@@ -244,31 +236,34 @@ extension SearchViewController {
 }
 
 extension SearchViewController {
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch (indexPath.section, indexPath.row) {
-        case (0, _):
-            return 60
-        default:
-            return tableView.frame.height - (3 * 60)
-        }
-    }
-}
-
-extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return results.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: tableView.frame.height - (3 * 60) - 10)
+        return CGSize(width: view.frame.width, height: collectionView.frame.height - (3 * 60) - 10)
+    }
+
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: "SearchResult", for: indexPath) as? HomeCell)!
+        cell.content = results[indexPath.item]
+        return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: "item", for: indexPath) as? HomeCell)!
-        cell.content = results[indexPath.item]
-        
-        return cell
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind {
+        case "UICollectionElementKindSectionHeader":
+            let suplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SearchContainer", for: indexPath)
+            let layout = collectionView.collectionViewLayout as? SearchResultsCollectionViewLayout
+            layout?.headerReferenceSize = CGSize(width: collectionView.frame.width, height: 220)
+            suplementaryView.addSubview(container)
+            return suplementaryView
+        default:
+            let suplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SearchFooter", for: indexPath)
+            let layout = collectionView.collectionViewLayout as? SearchResultsCollectionViewLayout
+            layout?.footerReferenceSize = CGSize(width: collectionView.frame.width, height: 20)
+            return suplementaryView
+        }
     }
 }
 

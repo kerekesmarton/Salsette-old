@@ -16,18 +16,19 @@ class SearchResultsCollectionViewLayout: UICollectionViewFlowLayout {
     
     override func prepare() {
         orientation = UIDevice.current.orientation
-        self.scrollDirection = .vertical
-        self.minimumLineSpacing = idiom == .pad ? 16 : 0
-        self.minimumInteritemSpacing = idiom == .pad ? 16 : 0
-        self.sectionInset = UIEdgeInsets(top: minimumLineSpacing, left: minimumLineSpacing, bottom: self.minimumLineSpacing, right: minimumLineSpacing)
+        scrollDirection = .vertical
+        minimumLineSpacing = idiom == .pad ? 16 : 0
+        minimumInteritemSpacing = idiom == .pad ? 16 : 0
+        sectionInset = UIEdgeInsets(top: minimumLineSpacing, left: minimumLineSpacing, bottom: minimumLineSpacing, right: minimumLineSpacing)
         
         switch idiom {
         case .phone:
             guard let cv = collectionView else { return }
-            self.itemSize = CGSize(width: cv.bounds.width - (2 * constants.margin), height: CGFloat(constants.iphoneCellFixedHeight))
+            itemSize = CGSize(width: cv.bounds.width - (2 * constants.margin), height: CGFloat(constants.iphoneCellFixedHeight))
         case .pad:
             let cellSize = calculateDynamicCellSize(forCells: constants.iPadNumberOfCellsPerRow, padding: minimumLineSpacing, margin: constants.margin)
-            self.itemSize = CGSize(width: cellSize, height: cellSize + CGFloat(constants.labelPadding))
+            itemSize = CGSize(width: cellSize, height: cellSize + CGFloat(constants.labelPadding))
+            
         default:
             super.prepare()
             return

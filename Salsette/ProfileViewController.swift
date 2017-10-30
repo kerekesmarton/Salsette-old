@@ -1,10 +1,4 @@
-//
-//  Profile.swift
-//  Salsette
-//
-//  Created by Marton Kerekes on 31/03/2017.
 //  Copyright © 2017 Marton Kerekes. All rights reserved.
-//
 
 import UIKit
 import FBSDKLoginKit
@@ -12,7 +6,6 @@ import Auth0
 import ChameleonFramework
 
 class ProfileFeatureLauncher {
-    
     static func configure(_ vc: ProfileViewController) {
         vc.interactor = ProfileInteractor(with: vc)
     }
@@ -40,7 +33,6 @@ class ProfileViewController: UITableViewController {
         loginBtn.loginBehavior = .systemAccount
         loginBtn.delegate = self
         loginBtn.readPermissions = ["public_profile", "email", "user_friends", "user_events"]
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(deleteKeychain))
     }
 
     func deleteKeychain() {

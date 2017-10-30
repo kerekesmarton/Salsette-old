@@ -1,10 +1,4 @@
-//
-//  SelectFacebookEventInteractor.swift
-//  Salsette
-//
 //  Created by Marton Kerekes on 20/04/2017.
-//  Copyright © 2017 Marton Kerekes. All rights reserved.
-//
 
 import UIKit
 
