@@ -1,10 +1,4 @@
-//
-//  User.swift
-//  Salsette
-//
-//  Created by Marton Kerekes on 05/04/2017.
 //  Copyright © 2017 Marton Kerekes. All rights reserved.
-//
 
 import Foundation
 import Apollo
@@ -22,14 +16,8 @@ class GraphManager {
             return (token != nil) ? true : false
         }
     }
-    var token: String? {
-        get {
-            return KeychainStorage.shared[Keys.graphIdToken]
-        }
-        set {
-            KeychainStorage.shared[Keys.graphIdToken] = newValue
-        }
-    }
+    var token: String?
+    
     private var user: Auth0LoginMutation.Data.LoginUserWithAuth0.User?
     private var operation: Cancellable?
     
@@ -84,11 +72,12 @@ class GraphManager {
         operation = client.fetch(query: query, cachePolicy: .returnCacheDataElseFetch, queue: DispatchQueue.main, resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
+            } else if let _ = error {
+                closure(nil, self.error(with: "Please log in again."))
             } else if let edge = result?.data?.viewer?.allEvents?.edges?.first, /* result?.data?.viewer?.searchAlgoliaEvents?.hits?.first */
                 let event: EventSearchResult = edge?.node {
                 closure(event, error)
             }
-            closure(nil, nil)
         })
     }
     

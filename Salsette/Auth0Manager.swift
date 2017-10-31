@@ -44,6 +44,7 @@ class Auth0Manager {
             return (accessToken != nil) ? true : false
         }
     }
+    var accessToken: String?
 
     func auth0LoginUsingFacebook(token tokenString: String, callback: @escaping (Bool, Error?) -> ()) {
         Auth0
@@ -83,15 +84,6 @@ extension Auth0Manager {
         }
         set {
             KeychainStorage.shared[Keys.refreshToken] = newValue
-        }
-    }
-
-    var accessToken: String? {
-        get {
-            return KeychainStorage.shared[Keys.accessToken]
-        }
-        set {
-            KeychainStorage.shared[Keys.accessToken] = newValue
         }
     }
 

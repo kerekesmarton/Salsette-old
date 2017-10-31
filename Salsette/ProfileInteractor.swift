@@ -37,7 +37,7 @@ class ProfileInteractor {
             scapholdLinkAccounts()
             return
         }
-        view.set(viewState: .loading(true, "signing in...", nil))
+        view.set(viewState: .loading(true, "Signing in.", nil))
         auth0Manager.auth0LoginUsingFacebook(token: tokenString) { [weak self] (success, error) in
             self?.view.set(viewState: .loading(false, nil, nil))
             guard let returnedError = error else {
@@ -58,7 +58,7 @@ class ProfileInteractor {
             facebookUser()
             return
         }
-        view.set(viewState: .loading(true, "linking account...", nil))
+        view.set(viewState: .loading(true, "Setting things up...", nil))
         graphManager.createUser(with: token, closure: { [weak self] (success, error) in
             self?.view.set(viewState: .loading(false, nil, nil))
             guard let returnedError = error else {

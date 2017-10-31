@@ -71,8 +71,7 @@ class CreateEventViewController: UITableViewController {
     lazy var iav: UIView = {
         InputAccessoryView.create(next: nil, previous: nil, done: { _ in
             self.typeLabel.resignFirstResponder()
-        }
-        )
+        })
     }()
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -91,9 +90,7 @@ class CreateEventViewController: UITableViewController {
         presenter.createWorkshop(type: selectedEventType)
     }
     
-    @objc private func update() {
-        
-    }
+    @objc private func update() {}
     
     enum ViewState {
         case eventExists(GraphEvent)

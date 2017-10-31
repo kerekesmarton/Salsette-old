@@ -53,7 +53,6 @@ class SearchViewController: UICollectionViewController {
     @IBOutlet weak var profilePictureView: FBSDKProfilePictureView!
     @IBOutlet var profileButton: UIBarButtonItem!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         dateField.inputView = calendarView
@@ -268,7 +267,6 @@ extension SearchViewController {
 }
 
 extension SearchViewController: DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
-    
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         return NSAttributedString(string: emptyDataSetString)
     }

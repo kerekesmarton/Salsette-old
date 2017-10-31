@@ -5,12 +5,6 @@ import FBSDKLoginKit
 import Auth0
 import ChameleonFramework
 
-class ProfileFeatureLauncher {
-    static func configure(_ vc: ProfileViewController) {
-        vc.interactor = ProfileInteractor(with: vc)
-    }
-}
-
 class ProfileViewController: UITableViewController {
 
     enum ViewStates {
@@ -20,35 +14,34 @@ class ProfileViewController: UITableViewController {
         case userReady(Bool)
     }
 
-    @IBOutlet var loginBtn: FBSDKLoginButton!
+    @IBOutlet var loginBtn: FBSDKLoginButton! {
+        didSet {
+            loginBtn.loginBehavior = .systemAccount
+            loginBtn.delegate = self
+            loginBtn.readPermissions = ["public_profile", "email", "user_friends", "user_events"]
+        }
+    }
     var interactor: ProfileInteractor?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        ProfileFeatureLauncher.configure(self)
+        interactor = ProfileInteractor(with: self)
     }
+    
+    //offline testing
+    //    override func viewDidLoad() {
+    //        super.viewDidLoad()
+    //        set(viewState: .userReady(true))
+    //    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.flatWhite
-        loginBtn.loginBehavior = .systemAccount
-        loginBtn.delegate = self
-        loginBtn.readPermissions = ["public_profile", "email", "user_friends", "user_events"]
+        interactor?.viewReady()
     }
 
     func deleteKeychain() {
         KeychainStorage.shared.clear()
-    }
-
-    //offline testing
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        set(viewState: .userReady(true))
-//    }
-
-    //online
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        interactor?.viewReady()
     }
     
     func set(viewState: ViewStates) {
