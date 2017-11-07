@@ -8,13 +8,13 @@
 import UIKit
 
 extension WorkshopModel: Equatable {
-    init(name: String, startTime: String, room: String) {
+    init(name: String, startTime: Date, room: String) {
         self.name = name
         self.startTime = startTime
         self.room = room
     }
 
-    init(startTime: String, room: String) {
+    init(startTime: Date, room: String) {
         name = ""
         self.startTime = startTime
         self.room = room
@@ -73,7 +73,7 @@ class WorkshopsEditViewController: UICollectionViewController {
                     if !room.workshops.contains(where: { (roomArrangable) -> Bool in
                         return roomArrangable.startTime == startTime
                     }) {
-                        newRoom.workshops.append(LocalWorkshop(startTime: startTime, room: room.roomName))
+                        newRoom.workshops.append(WorkshopModel(startTime: startTime, room: room.roomName))
                     }
                 }
                 newRoom.workshops.sort(by: { (w1, w2) -> Bool in
@@ -111,7 +111,7 @@ class WorkshopsEditViewController: UICollectionViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "CreateWorkshopSegue", let vc = segue.destination as? CreateWorkshopViewController {
             vc.rooms = computedItems.flatMap { return $0.roomName }
-            if let workshop = sender as? LocalWorkshop {
+            if let workshop = sender as? WorkshopModel {
                 vc.prefilledWorkshop = workshop
                 if workshop.isEmpty {
                     vc.prefilledWorkshop?.startTime = prefilledWorkshopDate!
@@ -208,18 +208,18 @@ extension WorkshopsEditViewController {
 }
 
 extension WorkshopsEditViewController {
-    fileprivate func dummyWorkshops() -> [LocalWorkshop] {
+    fileprivate func dummyWorkshops() -> [WorkshopModel] {
         let date = dummyDate()
-        return [LocalWorkshop(name: "A1", startTime: date, room: "A"),
-                LocalWorkshop(name: "A2", startTime: date.addingTimeInterval(3600), room: "A"),
-                LocalWorkshop(name: "A3", startTime: date.addingTimeInterval(7200), room: "A"),
-                LocalWorkshop(name: "A4", startTime: date.addingTimeInterval(10800), room: "A"),
+        return [WorkshopModel(name: "A1", startTime: date, room: "A"),
+                WorkshopModel(name: "A2", startTime: date.addingTimeInterval(3600), room: "A"),
+                WorkshopModel(name: "A3", startTime: date.addingTimeInterval(7200), room: "A"),
+                WorkshopModel(name: "A4", startTime: date.addingTimeInterval(10800), room: "A"),
                 
-                LocalWorkshop(name: "B1", startTime: date, room: "B"),
-                LocalWorkshop(name: "B2", startTime: date.addingTimeInterval(3600), room: "B"),
-                LocalWorkshop(name: "B3", startTime: date.addingTimeInterval(7200), room: "B"),
+                WorkshopModel(name: "B1", startTime: date, room: "B"),
+                WorkshopModel(name: "B2", startTime: date.addingTimeInterval(3600), room: "B"),
+                WorkshopModel(name: "B3", startTime: date.addingTimeInterval(7200), room: "B"),
                 
-                LocalWorkshop(name: "C1", startTime: date.addingTimeInterval(3600), room: "C"),
+                WorkshopModel(name: "C1", startTime: date.addingTimeInterval(3600), room: "C"),
         ]
     }
     

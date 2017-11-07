@@ -15,10 +15,8 @@ struct EventModel {
         self.id = id
         self.workshops = workshops
     }
-}
-
-fileprivate extension EventModel {
-    static func events(from result: FetchAllEventQuery.Data) -> [EventModel]? {
+    
+    fileprivate static func events(from result: FetchAllEventQuery.Data) -> [EventModel]? {
         return result.allEvents.map({ (event) -> EventModel in
             return EventModel(fbID: event.fbId, type: event.type, id: event.id)
         })
@@ -26,26 +24,33 @@ fileprivate extension EventModel {
 }
 
 struct WorkshopModel {
-    let room: String
-    let startTime: String
-    let artist: String? = nil
-    let name: String
-    var eventID: String?
+    var room: String
+    var startTime: Date
+    var artist: String? = nil
+    var name: String
+    var eventID: String? = nil
     var id: String? = nil
 
-    init(room: String, startTime: String, artist: String, name: String, eventID: String? = nil, id: String? = nil) {
+    init(room: String, startTime: Date, artist: String, name: String, eventID: String? = nil, id: String? = nil) {
         self.room = room
         self.startTime = startTime
         self.artist = artist
         self.name = name
         self.eventID = eventID
     }
-}
-
-fileprivate extension WorkshopModel {
-    static func workshops(from event:FetchEventQuery.Data.AllEvent) -> [WorkshopModel]?{
+    
+    var startTimeToStr: String {
+        return String(startTime.timeIntervalSince1970)
+    }
+    
+    static func dateTime(from str: String) -> Date {
+        return Date(timeIntervalSince1970: TimeInterval(str)!)
+    }
+    
+    fileprivate static func workshops(from event:FetchEventQuery.Data.AllEvent) -> [WorkshopModel]? {
         return event.workshops?.map( { (workshop) -> WorkshopModel in
-            return WorkshopModel(room: workshop.room, startTime: workshop.startTime, artist: workshop.artist, name: workshop.name, eventID: event.id)
+            let date = WorkshopModel.dateTime(from: workshop.startTime)
+            return WorkshopModel(room: workshop.room, startTime: date, artist: workshop.artist, name: workshop.name, eventID: event.id)
         })
     }
 }
@@ -136,12 +141,14 @@ class GraphManager {
             closure(nil, error(with: "Please log in"))
             return
         }
-        let input = CreateWorkshopMutation(artist: model.artist, name: model.name, room: model.room, startTime: model.startTime, eventId: model.eventID)
+        
+        let input = CreateWorkshopMutation(artist: model.artist!, name: model.name, room: model.room, startTime: model.startTimeToStr, eventId: model.eventID)
         operation = client.perform(mutation: input, resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
             } else if let workshop = result?.data?.createWorkshop {
-                closure(WorkshopModel(room: workshop.room, startTime: workshop.startTime, artist: workshop.artist, name: workshop.name, eventID: model.eventID), error)
+                let date = WorkshopModel.dateTime(from: workshop.startTime)
+                closure(WorkshopModel(room: workshop.room, startTime: date, artist: workshop.artist, name: workshop.name, eventID: model.eventID), error)
             }
             closure(nil, nil)
         })
