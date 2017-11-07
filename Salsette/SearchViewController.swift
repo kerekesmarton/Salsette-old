@@ -55,13 +55,15 @@ class SearchViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .automatic;
+        }
         dateField.inputView = calendarView
         typeField.inputView = typePicker
         typePicker.delegate = self
         typePicker.dataSource = self
         typeField.delegate = self
         dateField.delegate = self
-//        navigationController?.customizeTransparentNavigationBar()
         
         let dateIAV = InputAccessoryView.create(next: { (nextBtn) in
             self.locationField.becomeFirstResponder()
@@ -254,8 +256,13 @@ extension SearchViewController {
         case "UICollectionElementKindSectionHeader":
             let suplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SearchContainer", for: indexPath)
             let layout = collectionView.collectionViewLayout as? SearchResultsCollectionViewLayout
-            layout?.headerReferenceSize = CGSize(width: collectionView.frame.width, height: 220)
+            layout?.headerReferenceSize = CGSize(width: collectionView.frame.width, height: SearchViewController.searchSize)
             suplementaryView.addSubview(container)
+            container.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem:suplementaryView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0).isActive = true
+            NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem:suplementaryView, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0).isActive = true
+            NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem:suplementaryView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 1).isActive = true
+            NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem:suplementaryView, attribute: NSLayoutAttribute.height, multiplier: 1, constant: 1).isActive = true
             return suplementaryView
         default:
             let suplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SearchFooter", for: indexPath)
