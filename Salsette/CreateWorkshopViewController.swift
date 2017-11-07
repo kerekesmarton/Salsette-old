@@ -19,8 +19,8 @@ class CreateWorkshopViewController: UITableViewController {
     fileprivate var timePickerDataSource: TimePickerDataSource?
     
     var rooms = [String]()
-    var createWorkshopDidFinish: ((GraphWorkshop?, Bool)->Void)?
-    var prefilledWorkshop: GraphWorkshop?
+    var createWorkshopDidFinish: ((LocalWorkshop?, Bool)->Void)?
+    var prefilledWorkshop: LocalWorkshop?
     var prefilledWorkshopDate: Date?
     
     override func viewDidLoad() {
@@ -72,7 +72,7 @@ class CreateWorkshopViewController: UITableViewController {
     
     @objc func createWorkshop() {
         guard let name = nameLbl.text, let artist = artistLbl.text, let room = roomLbl.text, let date = timePickerDataSource?.date else { return }
-        var workshop = GraphWorkshop(name: name, startTime: date, room: room)
+        var workshop = LocalWorkshop(name: name, startTime: date, room: room)
         workshop.artist = artist
         createWorkshopDidFinish?(workshop, false)
         

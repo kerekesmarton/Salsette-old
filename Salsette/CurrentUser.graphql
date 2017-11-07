@@ -1,17 +1,6 @@
-# The loginWithAuth0Social mutation is a helper that you can use directly with native social SDKs.
-# I.E. you do not need to use an Auth0 SDK to generate an idToken.
-# You can also use an Auth0 SDK and the `loginWithAuth0` mutation but this requires one more step on your side.
-
-mutation Login($token:LoginUserWithAuth0SocialInput!) {
-    loginUserWithAuth0Social(input:$token) {
-        token
-        user {
-            id
-            username
-        }}}
-mutation Auth0Login($token: LoginUserWithAuth0Input!) {
-    loginUserWithAuth0(input: $token){
-        user{
-            id
-            username
-        }}}
+mutation Login($data:AuthProviderSignupData!) {
+    createUser(authProvider: $data) {
+        id
+        auth0UserId
+    }
+}

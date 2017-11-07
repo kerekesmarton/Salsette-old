@@ -7,12 +7,35 @@
 
 import UIKit
 
+extension WorkshopModel: Equatable {
+    init(name: String, startTime: String, room: String) {
+        self.name = name
+        self.startTime = startTime
+        self.room = room
+    }
+
+    init(startTime: String, room: String) {
+        name = ""
+        self.startTime = startTime
+        self.room = room
+    }
+
+    var isEmpty: Bool {
+        return name.count > 0
+    }
+}
+
+
+func ==(lhs: WorkshopModel, rhs: WorkshopModel) -> Bool {
+    return lhs.room == rhs.room && lhs.startTime == rhs.startTime
+}
+
 struct Room {
     var roomName: String {
         return workshops.first?.room ?? "?"
     }
     
-    var workshops = [GraphWorkshop]()
+    var workshops = [WorkshopModel]()
 }
 
 class WorkshopsEditViewController: UICollectionViewController {
@@ -22,7 +45,7 @@ class WorkshopsEditViewController: UICollectionViewController {
     fileprivate var startTimes: Set<Date>?
     fileprivate var roomNames: Set<String>?
     
-    var items = [GraphWorkshop](){
+    var items = [WorkshopModel](){
         didSet {
             var roomNames = Set<String>()
             var startTimes = Set<Date>()
@@ -44,14 +67,13 @@ class WorkshopsEditViewController: UICollectionViewController {
                     w1.startTime < w2.startTime
                 })))
             }
-            
             computedItems = rooms.map { (room) -> Room in
                 var newRoom = Room(workshops: room.workshops)
                 self.startTimes?.sorted().forEach { (startTime) in
                     if !room.workshops.contains(where: { (roomArrangable) -> Bool in
                         return roomArrangable.startTime == startTime
                     }) {
-                        newRoom.workshops.append(GraphWorkshop(startTime: startTime, room: room.roomName))
+                        newRoom.workshops.append(LocalWorkshop(startTime: startTime, room: room.roomName))
                     }
                 }
                 newRoom.workshops.sort(by: { (w1, w2) -> Bool in
@@ -89,7 +111,7 @@ class WorkshopsEditViewController: UICollectionViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "CreateWorkshopSegue", let vc = segue.destination as? CreateWorkshopViewController {
             vc.rooms = computedItems.flatMap { return $0.roomName }
-            if let workshop = sender as? GraphWorkshop {
+            if let workshop = sender as? LocalWorkshop {
                 vc.prefilledWorkshop = workshop
                 if workshop.isEmpty {
                     vc.prefilledWorkshop?.startTime = prefilledWorkshopDate!
@@ -186,18 +208,18 @@ extension WorkshopsEditViewController {
 }
 
 extension WorkshopsEditViewController {
-    fileprivate func dummyWorkshops() -> [GraphWorkshop] {
+    fileprivate func dummyWorkshops() -> [LocalWorkshop] {
         let date = dummyDate()
-        return [GraphWorkshop(name: "A1", startTime: date, room: "A"),
-                GraphWorkshop(name: "A2", startTime: date.addingTimeInterval(3600), room: "A"),
-                GraphWorkshop(name: "A3", startTime: date.addingTimeInterval(7200), room: "A"),
-                GraphWorkshop(name: "A4", startTime: date.addingTimeInterval(10800), room: "A"),
+        return [LocalWorkshop(name: "A1", startTime: date, room: "A"),
+                LocalWorkshop(name: "A2", startTime: date.addingTimeInterval(3600), room: "A"),
+                LocalWorkshop(name: "A3", startTime: date.addingTimeInterval(7200), room: "A"),
+                LocalWorkshop(name: "A4", startTime: date.addingTimeInterval(10800), room: "A"),
                 
-                GraphWorkshop(name: "B1", startTime: date, room: "B"),
-                GraphWorkshop(name: "B2", startTime: date.addingTimeInterval(3600), room: "B"),
-                GraphWorkshop(name: "B3", startTime: date.addingTimeInterval(7200), room: "B"),
+                LocalWorkshop(name: "B1", startTime: date, room: "B"),
+                LocalWorkshop(name: "B2", startTime: date.addingTimeInterval(3600), room: "B"),
+                LocalWorkshop(name: "B3", startTime: date.addingTimeInterval(7200), room: "B"),
                 
-                GraphWorkshop(name: "C1", startTime: date.addingTimeInterval(3600), room: "C"),
+                LocalWorkshop(name: "C1", startTime: date.addingTimeInterval(3600), room: "C"),
         ]
     }
     

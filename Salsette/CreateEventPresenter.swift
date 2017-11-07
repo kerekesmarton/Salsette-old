@@ -26,7 +26,7 @@ class CreateEventPresenter: NSObject {
     }
     
     func shouldProceed() -> Bool {
-        if view?.graphEvent == nil {
+        if view?.event == nil {
             let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Create event before adding workshops"])
             view?.state = CreateEventViewController.ViewState.error(error)
             return false

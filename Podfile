@@ -31,9 +31,3 @@ target 'Salsette' do
 #        end
 #    end
 end
-
-
-
-
-#apollo-codegen introspect-schema https://api.graph.cool/file/v1/cj13ykrpk530j0152qxur34dm/graphql --output schema.json
-#apollo-codegen introspect-schema https://eu-west-1.api.scaphold.io/graphql/dance --output schema.json

@@ -3,10 +3,57 @@
 import Foundation
 import Apollo
 
+struct EventModel {
+    let fbID: String
+    let type: Dance
+    var id: String? = nil
+    var workshops: [WorkshopModel]? = nil
+
+    init(fbID: String, type: Dance, id: String? = nil, workshops: [WorkshopModel]? = nil) {
+        self.fbID = fbID
+        self.type = type
+        self.id = id
+        self.workshops = workshops
+    }
+}
+
+fileprivate extension EventModel {
+    static func events(from result: FetchAllEventQuery.Data) -> [EventModel]? {
+        return result.allEvents.map({ (event) -> EventModel in
+            return EventModel(fbID: event.fbId, type: event.type, id: event.id)
+        })
+    }
+}
+
+struct WorkshopModel {
+    let room: String
+    let startTime: String
+    let artist: String? = nil
+    let name: String
+    var eventID: String?
+    var id: String? = nil
+
+    init(room: String, startTime: String, artist: String, name: String, eventID: String? = nil, id: String? = nil) {
+        self.room = room
+        self.startTime = startTime
+        self.artist = artist
+        self.name = name
+        self.eventID = eventID
+    }
+}
+
+fileprivate extension WorkshopModel {
+    static func workshops(from event:FetchEventQuery.Data.AllEvent) -> [WorkshopModel]?{
+        return event.workshops?.map( { (workshop) -> WorkshopModel in
+            return WorkshopModel(room: workshop.room, startTime: workshop.startTime, artist: workshop.artist, name: workshop.name, eventID: event.id)
+        })
+    }
+}
+
 class GraphManager {
     private init() {}
     static let shared = GraphManager()
-    private let path = "https://eu-west-1.api.scaphold.io/graphql/dance"
+    private let path = "https://api.graph.cool/simple/v1/salsette"
     lazy var client: ApolloClient = {
         return ApolloClient(url: URL(string: self.path)!)
     }()
@@ -18,17 +65,15 @@ class GraphManager {
     }
     var token: String?
     
-    private var user: Auth0LoginMutation.Data.LoginUserWithAuth0.User?
     private var operation: Cancellable?
     
     func createUser(with token: String, closure: @escaping (Bool, Error?)->Void) {
-        let input = LoginUserWithAuth0Input(idToken: token)
-        operation = client.perform(mutation: Auth0LoginMutation(token: input), resultHandler: { (result, error) in
+        let input = AuthProviderSignupData(auth0: AUTH_PROVIDER_AUTH0(idToken: token))
+        operation = client.perform(mutation: LoginMutation(data: input), resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(false, self.error(from: serverError))
-            } else if let auth = result?.data?.loginUserWithAuth0, let newUser = auth.user, let url = URL(string: self.path) {
+            } else if let _ = result?.data?.createUser?.auth0UserId, let url = URL(string: self.path) {
                 self.token = token
-                self.user = newUser
                 let configuration = URLSessionConfiguration.default
                 configuration.httpAdditionalHeaders = ["Authorization": "Bearer \(token)"]
                 self.loggedInClient = ApolloClient(networkTransport: HTTPNetworkTransport(url: url, configuration: configuration))
@@ -37,86 +82,66 @@ class GraphManager {
             closure(false, error)
         })
     }
-    
-    struct CreateEventModel {
-        let fbID: String
-        let type: Dance
-    }
-    typealias CretedEvent = CreateEventMutation.Data.CreateEvent.ChangedEvent
-    func createEvent(model: CreateEventModel, closure: @escaping (CretedEvent?, Error?)->Void) {
+
+    func createEvent(model: EventModel, closure: @escaping (EventModel?, Error?)->Void) {
         guard let client = loggedInClient else {
             closure(nil, error(with: "Please log in"))
             return
         }
-        let input = CreateEventInput(fbId: model.fbID, type: model.type, clientMutationId: nil)
-        operation = client.perform(mutation: CreateEventMutation(event: input), resultHandler: { (result, error) in
+        let input = CreateEventMutation(fbId: model.fbID, type: model.type)
+        operation = client.perform(mutation: input, resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
-            } else if let event = result?.data?.createEvent?.changedEvent {
-                closure(event, error)
+            } else if let event = result?.data?.createEvent {
+                closure(EventModel(fbID: event.fbId, type: event.type, id: event.id), error)
             }
         })
     }
-    
-    typealias EventSearchResult = FetchEventQuery.Data.Viewer.AllEvent.Edge.Node
-    //FetchEventAlgoliaQuery.Data.Viewer.SearchAlgoliaEvent.Hit.Node
 
-    func searchEvent(fbID: String, closure: @escaping (EventSearchResult?, Error?)->Void) {
+    func searchEvent(fbID: String, closure: @escaping (EventModel?, Error?)->Void) {
         guard let client = loggedInClient else {
             closure(nil, error(with: "Please log in"))
             return
         }
-//         let query = FetchEventAlgoliaQuery(fbID: fbID)
-        let arg = EventFbIdWhereArgs(eq: fbID)
-        let query = FetchEventQuery(where: EventWhereArgs(fbId:arg))
+        let query = FetchEventQuery(filter: EventFilter(fbId: fbID))
         operation = client.fetch(query: query, cachePolicy: .returnCacheDataElseFetch, queue: DispatchQueue.main, resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
             } else if let _ = error {
                 closure(nil, self.error(with: "Please log in again."))
-            } else if let edge = result?.data?.viewer?.allEvents?.edges?.first, /* result?.data?.viewer?.searchAlgoliaEvents?.hits?.first */
-                let event: EventSearchResult = edge?.node {
-                closure(event, error)
+            } else if let event = result?.data?.allEvents.first {
+                closure(EventModel(fbID: event.fbId, type: event.type, id: event.id, workshops: WorkshopModel.workshops(from: event)), error)
             }
         })
     }
-    
-    typealias AllEventsSearchResult = FetchAllEventsQuery.Data.Viewer.AllEvent.Edge.Node
-    func serchAllEvents(closure: @escaping ([AllEventsSearchResult]?, Error?)->Void) {
+
+    func serchAllEvents(closure: @escaping ([EventModel]?, Error?)->Void) {
         guard let client = loggedInClient else {
             closure(nil, error(with: "Please log in"))
             return
         }
-        let query = FetchAllEventsQuery()
-        operation = client.fetch(query: query, cachePolicy: .returnCacheDataElseFetch, queue: DispatchQueue.main, resultHandler: { (result, error) in
+        operation = client.fetch(query: FetchAllEventQuery(), cachePolicy: .returnCacheDataElseFetch, queue: DispatchQueue.main, resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
-            } else if let edges = result?.data?.viewer?.allEvents?.edges {
-                closure(edges.flatMap { return $0?.node }, error)
+            } else if let data = result?.data {
+                closure(EventModel.events(from: data), error)
             }
             closure(nil, nil)
         })
     }
     
-    struct CreateWorkshopDataModel {
-        let room: String
-        let startTime: String
-        let artist: String
-        let name: String
-        let eventID: GraphQLID?
-    }
-    typealias CretedWorkshop = CreateWorkshopMutation.Data.CreateWorkshop.ChangedWorkshop
-    func createWorkshop(model: CreateWorkshopDataModel, closure: @escaping (CretedWorkshop?, Error?)->Void) {
+
+    func createWorkshop(model: WorkshopModel, closure: @escaping (WorkshopModel?, Error?)->Void) {
         guard let client = loggedInClient else {
             closure(nil, error(with: "Please log in"))
             return
         }
-        let input = CreateWorkshopInput(room: model.room, startTime: model.startTime, artist: model.artist, name: model.name, event: nil, eventId: model.eventID, clientMutationId: nil)
-        operation = client.perform(mutation: CreateWorkshopMutation(workshop: input), resultHandler: { (result, error) in
+        let input = CreateWorkshopMutation(artist: model.artist, name: model.name, room: model.room, startTime: model.startTime, eventId: model.eventID)
+        operation = client.perform(mutation: input, resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
-            } else if let workshop = result?.data?.createWorkshop?.changedWorkshop {
-                closure(workshop, error)
+            } else if let workshop = result?.data?.createWorkshop {
+                closure(WorkshopModel(room: workshop.room, startTime: workshop.startTime, artist: workshop.artist, name: workshop.name, eventID: model.eventID), error)
             }
             closure(nil, nil)
         })

@@ -5,7 +5,7 @@ import UIKit
 class WorkshopCell: UICollectionViewCell {
     @IBOutlet var nameLbl: UILabel!
     @IBOutlet var timeLbl: UILabel!
-    func configure(workshop: GraphWorkshop) {
+    func configure(workshop: LocalWorkshop) {
         nameLbl.text = workshop.name
         timeLbl.text = DateFormatters.timeFormatter.string(from: workshop.startTime)
         if workshop.isEmpty {
