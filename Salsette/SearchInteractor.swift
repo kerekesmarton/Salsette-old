@@ -83,6 +83,10 @@ class SearchInteractor {
         }
     }
     
+    func canViewProfile() -> Bool {
+        return fbService.isLoggedIn
+    }
+    
     func deleteKeychain() {
         KeychainStorage.shared.clear()
     }

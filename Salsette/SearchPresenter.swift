@@ -44,7 +44,7 @@ class SearchPresenter {
     func results(with error: NSError) {
         switch (error.domain,error.code) {
         case (_,8):
-            dispatch(.failed("Please log in with your facebook account"))
+            dispatch(.needsFacebookLogin("Please log in with your facebook account"))
         case (NSURLErrorDomain,_):
             dispatch(.failed(error.localizedDescription))
         default:

@@ -26,9 +26,8 @@ class SearchViewController: UICollectionViewController {
     @IBOutlet var typeField: HoshiTextField!
     @IBOutlet var container: UIStackView!
     @IBOutlet var typePicker: UIPickerView!
-    //MARK: - Profile
-    @IBOutlet weak var profilePictureView: FBSDKProfilePictureView!
     @IBOutlet var profileButton: UIBarButtonItem!
+    @IBOutlet var loginHostView: UIView!
     @IBOutlet var loginBtn: FBSDKLoginButton! {
         didSet {
             loginBtn.loginBehavior = .systemAccount
@@ -59,15 +58,21 @@ class SearchViewController: UICollectionViewController {
         }
     }
     var searchParameters = SearchParameters.shared
+    var emptyDataSetString: String? = nil
+    var emptyDataSetCustomView: UIView? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         custumiseDateField()
         customiseLocationField()
         customiseTypeField()
-        
+        profileButton.isEnabled = searchInteractor.canViewProfile()
         collectionView?.emptyDataSetSource = self
         searchInteractor.load(with: searchParameters)
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        return searchInteractor.canViewProfile()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -87,24 +92,6 @@ class SearchViewController: UICollectionViewController {
             eventViewController.event = results[currentCellIndex.row]
             eventViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(SearchViewController.dismissEventView))
         }
-    }
-    
-    @objc func dismissEventView() {
-        dismiss(animated: true)
-    }
-    
-    var emptyDataSetString: String? = nil
-    var emptyDataSetCustomView: UIView? = nil
-    
-    func configure(message: String, view: UIView? = nil) {
-        emptyDataSetString = message
-        emptyDataSetCustomView = view
-        results.removeAll()
-        collectionView?.reloadData()
-    }
-    
-    func profile() {
-        performSegue(withIdentifier: "Profile", sender: profilePictureView)
     }
 }
 
@@ -241,7 +228,7 @@ extension SearchViewController {
         case .failed(let message):
             configure(message: message)
         case .needsFacebookLogin(let message):
-            configure(message: message, view: loginBtn)
+            configure(message: message, view: loginHostView)
         case .success(let items):
             self.results = items
         }
@@ -251,11 +238,13 @@ extension SearchViewController {
 extension SearchViewController: FBSDKLoginButtonDelegate {
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         searchInteractor.load(with: searchParameters)
+        profileButton.isEnabled = searchInteractor.canViewProfile()
     }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {       
         searchInteractor.deleteKeychain()
         searchInteractor.load(with: searchParameters)
+        profileButton.isEnabled = searchInteractor.canViewProfile()
     }
 }
 
@@ -310,6 +299,17 @@ fileprivate extension SearchViewController {
         })
         typeIAV.nextTitle = nil
         typeField.inputAccessoryView = typeIAV
+    }
+    
+    @objc func dismissEventView() {
+        dismiss(animated: true)
+    }
+    
+    func configure(message: String, view: UIView? = nil) {
+        emptyDataSetString = message
+        emptyDataSetCustomView = view
+        results.removeAll()
+        collectionView?.reloadData()
     }
 }
 

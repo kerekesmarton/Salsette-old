@@ -66,8 +66,7 @@ class Auth0Manager {
     func webAuth0(callback: @escaping (Bool, Error?) -> ()) {
         Auth0
             .webAuth()
-            .connection("facebook")
-//            .audience("https://marton.eu.auth0.com/userinfo")
+            .audience("https://marton.eu.auth0.com/userinfo")
             .start { result in
                 switch result {
                 case .success(let credentials):
