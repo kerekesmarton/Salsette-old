@@ -19,6 +19,7 @@ target 'Salsette' do
     pod 'FBSDKLoginKit'
 #    pod 'FBSDKShareKit'
     pod 'Auth0'
+    pod 'Lock'
     pod 'SimpleKeychain', '~> 0.7'
     pod 'Apollo'
 #    pod 'Hero'

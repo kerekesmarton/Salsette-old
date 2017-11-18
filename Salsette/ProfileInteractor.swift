@@ -20,37 +20,36 @@ class ProfileInteractor {
             view.set(viewState: .userReady(false))
             return
         }
-        facebookLogin()        
-    }
-    
-    func facebookLogin() {
-        if let token = fbService.token {
-            auth0SignIn(with: token)
-        } else {
-            //user needs to log in by pressing the fb login btn
-            view.set(viewState: .userReady(false))
-        }
+        auth0SignIn(with: "")
     }
     
     func auth0SignIn(with tokenString: String) {
         if auth0Manager.isLoggedIn {
-            scapholdLinkAccounts()
+            graphLinkAccounts()
             return
         }
         view.set(viewState: .loading(true, "Signing in.", nil))
-        auth0Manager.auth0LoginUsingFacebook(token: tokenString) { [weak self] (success, error) in
+        auth0Manager.webAuth0 { [weak self] (success, error) in
             self?.view.set(viewState: .loading(false, nil, nil))
             guard let returnedError = error else {
-                self?.scapholdLinkAccounts()
+                self?.graphLinkAccounts()
                 return
             }
             self?.view.set(viewState: .error(returnedError))
         }
+//        auth0Manager.auth0LoginUsingFacebook(token: tokenString) { [weak self] (success, error) in            
+//            self?.view.set(viewState: .loading(false, nil, nil))
+//            guard let returnedError = error else {
+//                self?.graphLinkAccounts()
+//                return
+//            }
+//            self?.view.set(viewState: .error(returnedError))
+//        }
     }
     
-    func scapholdLinkAccounts() {
+    func graphLinkAccounts() {
         guard let token  = auth0Manager.auth0Token else {
-            let signInerror = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Couldn't sign in to scaphold"])
+            let signInerror = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Couldn't sign in to GraphQL."])
             view.set(viewState: .error(signInerror)) //shouldn't ever get here but hey..
             return
         }

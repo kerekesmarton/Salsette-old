@@ -13,14 +13,7 @@ class ProfileViewController: UITableViewController {
         case error(Error)
         case userReady(Bool)
     }
-
-    @IBOutlet var loginBtn: FBSDKLoginButton! {
-        didSet {
-            loginBtn.loginBehavior = .systemAccount
-            loginBtn.delegate = self
-            loginBtn.readPermissions = ["public_profile", "email", "user_friends", "user_events"]
-        }
-    }
+    
     var interactor: ProfileInteractor?
     
     override func awakeFromNib() {
@@ -40,21 +33,19 @@ class ProfileViewController: UITableViewController {
         interactor?.viewReady()
     }
 
-    func deleteKeychain() {
-        KeychainStorage.shared.clear()
-    }
-    
     func set(viewState: ViewStates) {
-        switch viewState {
-        case .displayName(let displayName):
-            self.displayName = displayName
-        case .loading(let value, let message, let completion):
-            showLoading(value, message, completion)
-        case .error(let error):
-            showError(error)
-        case .userReady(let isReady):
-            userIsReady = isReady
-            tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            switch viewState {
+            case .displayName(let displayName):
+                self?.displayName = displayName
+            case .loading(let value, let message, let completion):
+                self?.showLoading(value, message, completion)
+            case .error(let error):
+                self?.showError(error)
+            case .userReady(let isReady):
+                self?.userIsReady = isReady
+                self?.tableView.reloadData()
+            }
         }
     }
 
@@ -73,17 +64,6 @@ class ProfileViewController: UITableViewController {
 
     fileprivate var userIsReady: Bool = false
     fileprivate var displayName: String?
-}
-
-extension ProfileViewController: FBSDKLoginButtonDelegate {
-    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        interactor?.viewReady()
-    }
-    
-    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-        interactor?.viewReady()
-        deleteKeychain()
-    }
 }
 
 extension ProfileViewController {

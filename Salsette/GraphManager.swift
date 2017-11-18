@@ -83,8 +83,9 @@ class GraphManager {
                 configuration.httpAdditionalHeaders = ["Authorization": "Bearer \(token)"]
                 self.loggedInClient = ApolloClient(networkTransport: HTTPNetworkTransport(url: url, configuration: configuration))
                 closure(true, error)
-            }
-            closure(false, error)
+            } else {
+                closure(false, error)
+            }        
         })
     }
 

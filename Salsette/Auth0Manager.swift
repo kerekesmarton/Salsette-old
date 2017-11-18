@@ -24,6 +24,7 @@
 import Foundation
 import SimpleKeychain
 import Auth0
+import Lock
 
 enum Auth0ManagerError: Error {
     case noIdToken
@@ -52,6 +53,23 @@ class Auth0Manager {
             .loginSocial(token: tokenString, connection: "facebook", scope: "openid", parameters: [:])
             .start { result in
                 switch(result) {
+                case .success(let credentials):
+                    self.accessToken = credentials.accessToken
+                    self.auth0Token = credentials.idToken
+                    callback(true, nil)
+                case .failure(let error):
+                    callback(false, error)
+                }
+        }
+    }
+    
+    func webAuth0(callback: @escaping (Bool, Error?) -> ()) {
+        Auth0
+            .webAuth()
+            .connection("facebook")
+//            .audience("https://marton.eu.auth0.com/userinfo")
+            .start { result in
+                switch result {
                 case .success(let credentials):
                     self.accessToken = credentials.accessToken
                     self.auth0Token = credentials.idToken
