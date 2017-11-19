@@ -12,6 +12,7 @@ class ProfileViewController: UITableViewController {
         case loading(Bool, String?, (() -> Void)?)
         case error(Error)
         case userReady(Bool)
+        case login
     }
     
     var interactor: ProfileInteractor?
@@ -45,6 +46,8 @@ class ProfileViewController: UITableViewController {
             case .userReady(let isReady):
                 self?.userIsReady = isReady
                 self?.tableView.reloadData()
+            case .login:
+                self?.showLogin()
             }
         }
     }
@@ -64,6 +67,29 @@ class ProfileViewController: UITableViewController {
 
     fileprivate var userIsReady: Bool = false
     fileprivate var displayName: String?
+    
+    func showLogin() {
+        let loginVC = UIStoryboard.graphCreateAccountViewController()
+        loginVC.modalPresentationStyle = .popover
+        loginVC.modalPresentationStyle = UIModalPresentationStyle.popover
+        loginVC.preferredContentSize = CGSize(width: 300, height: 350)
+        loginVC.completion = {
+            self.interactor?.viewReady()
+        }
+        let popover = loginVC.popoverPresentationController
+        popover?.delegate = self
+        popover?.sourceView = tableView
+        popover?.permittedArrowDirections = .init(rawValue: 0)
+        popover?.sourceRect = CGRect(x: tableView.bounds.midX, y: tableView.bounds.midY, width: 0, height: 0)
+        
+        present(loginVC, animated: true)
+    }
+}
+
+extension ProfileViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
+    }
 }
 
 extension ProfileViewController {
@@ -73,7 +99,7 @@ extension ProfileViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userIsReady ? 1 : 0
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

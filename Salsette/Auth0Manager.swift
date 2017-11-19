@@ -24,7 +24,6 @@
 import Foundation
 import SimpleKeychain
 import Auth0
-import Lock
 
 enum Auth0ManagerError: Error {
     case noIdToken

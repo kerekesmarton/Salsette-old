@@ -27,8 +27,12 @@ class KeychainStorage {
         }
     }
 
-    func set(_ value: String, for key: String) {
-        keychain.setString(value, forKey: key)
+    func set(_ value: String?, for key: String) {
+        if let value = value {
+            keychain.setString(value, forKey: key)
+        } else {
+            keychain.deleteEntry(forKey: key)
+        }
     }
 
     func string(for key: String) -> String? {

@@ -5,8 +5,17 @@ import Apollo
 public struct AuthProviderSignupData: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(auth0: Optional<AUTH_PROVIDER_AUTH0?> = nil) {
-    graphQLMap = ["auth0": auth0]
+  public init(email: Optional<AUTH_PROVIDER_EMAIL?> = nil, auth0: Optional<AUTH_PROVIDER_AUTH0?> = nil) {
+    graphQLMap = ["email": email, "auth0": auth0]
+  }
+
+  public var email: Optional<AUTH_PROVIDER_EMAIL?> {
+    get {
+      return graphQLMap["email"] as! Optional<AUTH_PROVIDER_EMAIL?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "email")
+    }
   }
 
   public var auth0: Optional<AUTH_PROVIDER_AUTH0?> {
@@ -15,6 +24,32 @@ public struct AuthProviderSignupData: GraphQLMapConvertible {
     }
     set {
       graphQLMap.updateValue(newValue, forKey: "auth0")
+    }
+  }
+}
+
+public struct AUTH_PROVIDER_EMAIL: GraphQLMapConvertible {
+  public var graphQLMap: GraphQLMap
+
+  public init(email: String, password: String) {
+    graphQLMap = ["email": email, "password": password]
+  }
+
+  public var email: String {
+    get {
+      return graphQLMap["email"] as! String
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "email")
+    }
+  }
+
+  public var password: String {
+    get {
+      return graphQLMap["password"] as! String
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "password")
     }
   }
 }
@@ -1089,9 +1124,9 @@ public struct WorkshopFilter: GraphQLMapConvertible {
   }
 }
 
-public final class LoginMutation: GraphQLMutation {
+public final class CreateUserMutation: GraphQLMutation {
   public static let operationString =
-    "mutation Login($data: AuthProviderSignupData!) {\n  createUser(authProvider: $data) {\n    __typename\n    id\n    auth0UserId\n  }\n}"
+    "mutation CreateUser($data: AuthProviderSignupData!) {\n  createUser(authProvider: $data) {\n    __typename\n    id\n    auth0UserId\n  }\n}"
 
   public var data: AuthProviderSignupData
 
@@ -1172,6 +1207,132 @@ public final class LoginMutation: GraphQLMutation {
         }
         set {
           snapshot.updateValue(newValue, forKey: "auth0UserId")
+        }
+      }
+    }
+  }
+}
+
+public final class LoginMutation: GraphQLMutation {
+  public static let operationString =
+    "mutation Login($data: AUTH_PROVIDER_EMAIL) {\n  signinUser(email: $data) {\n    __typename\n    token\n    user {\n      __typename\n      id\n    }\n  }\n}"
+
+  public var data: AUTH_PROVIDER_EMAIL?
+
+  public init(data: AUTH_PROVIDER_EMAIL? = nil) {
+    self.data = data
+  }
+
+  public var variables: GraphQLMap? {
+    return ["data": data]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes = ["Mutation"]
+
+    public static let selections: [GraphQLSelection] = [
+      GraphQLField("signinUser", arguments: ["email": GraphQLVariable("data")], type: .nonNull(.object(SigninUser.selections))),
+    ]
+
+    public var snapshot: Snapshot
+
+    public init(snapshot: Snapshot) {
+      self.snapshot = snapshot
+    }
+
+    public init(signinUser: SigninUser) {
+      self.init(snapshot: ["__typename": "Mutation", "signinUser": signinUser.snapshot])
+    }
+
+    public var signinUser: SigninUser {
+      get {
+        return SigninUser(snapshot: snapshot["signinUser"]! as! Snapshot)
+      }
+      set {
+        snapshot.updateValue(newValue.snapshot, forKey: "signinUser")
+      }
+    }
+
+    public struct SigninUser: GraphQLSelectionSet {
+      public static let possibleTypes = ["SigninPayload"]
+
+      public static let selections: [GraphQLSelection] = [
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLField("token", type: .scalar(String.self)),
+        GraphQLField("user", type: .object(User.selections)),
+      ]
+
+      public var snapshot: Snapshot
+
+      public init(snapshot: Snapshot) {
+        self.snapshot = snapshot
+      }
+
+      public init(token: String? = nil, user: User? = nil) {
+        self.init(snapshot: ["__typename": "SigninPayload", "token": token, "user": user.flatMap { $0.snapshot }])
+      }
+
+      public var __typename: String {
+        get {
+          return snapshot["__typename"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var token: String? {
+        get {
+          return snapshot["token"] as? String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "token")
+        }
+      }
+
+      public var user: User? {
+        get {
+          return (snapshot["user"] as? Snapshot).flatMap { User(snapshot: $0) }
+        }
+        set {
+          snapshot.updateValue(newValue?.snapshot, forKey: "user")
+        }
+      }
+
+      public struct User: GraphQLSelectionSet {
+        public static let possibleTypes = ["User"]
+
+        public static let selections: [GraphQLSelection] = [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+        ]
+
+        public var snapshot: Snapshot
+
+        public init(snapshot: Snapshot) {
+          self.snapshot = snapshot
+        }
+
+        public init(id: GraphQLID) {
+          self.init(snapshot: ["__typename": "User", "id": id])
+        }
+
+        public var __typename: String {
+          get {
+            return snapshot["__typename"]! as! String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var id: GraphQLID {
+          get {
+            return snapshot["id"]! as! GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "id")
+          }
         }
       }
     }

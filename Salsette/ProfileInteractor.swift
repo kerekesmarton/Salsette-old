@@ -4,9 +4,9 @@ import UIKit
 
 class ProfileInteractor {
     fileprivate weak var view: ProfileViewController!
-    private var graphManager: GraphManager
-    private var auth0Manager: Auth0Manager
-    private var fbService: FacebookService
+    fileprivate var graphManager: GraphManager
+    fileprivate var auth0Manager: Auth0Manager
+    fileprivate var fbService: FacebookService
     
     init(with view: ProfileViewController, graphManager: GraphManager = GraphManager.shared, auth0Manager: Auth0Manager = Auth0Manager.shared, fbService: FacebookService = FacebookService.shared) {
         self.view = view
@@ -20,52 +20,15 @@ class ProfileInteractor {
             view.set(viewState: .userReady(false))
             return
         }
-        auth0SignIn(with: "")
+        graphCreateUser()
     }
     
-    func auth0SignIn(with tokenString: String) {
-        if auth0Manager.isLoggedIn {
-            graphLinkAccounts()
+    func graphCreateUser() {
+        guard graphManager.isLoggedIn else {
+            view.set(viewState: .login)
             return
         }
-        view.set(viewState: .loading(true, "Signing in.", nil))
-        auth0Manager.webAuth0 { [weak self] (success, error) in
-            self?.view.set(viewState: .loading(false, nil, nil))
-            guard let returnedError = error else {
-                self?.graphLinkAccounts()
-                return
-            }
-            self?.view.set(viewState: .error(returnedError))
-        }
-//        auth0Manager.auth0LoginUsingFacebook(token: tokenString) { [weak self] (success, error) in            
-//            self?.view.set(viewState: .loading(false, nil, nil))
-//            guard let returnedError = error else {
-//                self?.graphLinkAccounts()
-//                return
-//            }
-//            self?.view.set(viewState: .error(returnedError))
-//        }
-    }
-    
-    func graphLinkAccounts() {
-        guard let token  = auth0Manager.auth0Token else {
-            let signInerror = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Couldn't sign in to GraphQL."])
-            view.set(viewState: .error(signInerror)) //shouldn't ever get here but hey..
-            return
-        }
-        if graphManager.isLoggedIn {
-            facebookUser()
-            return
-        }
-        view.set(viewState: .loading(true, "Setting things up...", nil))
-        graphManager.createUser(with: token, closure: { [weak self] (success, error) in
-            self?.view.set(viewState: .loading(false, nil, nil))
-            guard let returnedError = error else {
-                self?.facebookUser()
-                return
-            }
-            self?.view.set(viewState: .error(returnedError))
-        })
+        facebookUser()        
     }
     
     fileprivate func facebookUser() {
@@ -102,5 +65,60 @@ class ProfileInteractor {
                 completion(image)
             })
         }
+    }
+}
+
+//MARK: - Unused
+
+extension ProfileInteractor {
+    func auth0SignIn() {
+        if auth0Manager.isLoggedIn {
+            graphLinkAccounts()
+            return
+        }
+        view.set(viewState: .loading(true, "Signing in.", nil))
+        auth0Manager.webAuth0 { [weak self] (success, error) in
+            self?.view.set(viewState: .loading(false, nil, nil))
+            guard let returnedError = error else {
+                self?.graphLinkAccounts()
+                return
+            }
+            self?.view.set(viewState: .error(returnedError))
+        }
+    }
+    
+    func auth0SignInUsingFacebook(tokenString: String) {
+        if auth0Manager.isLoggedIn {
+            graphLinkAccounts()
+            return
+        }
+        auth0Manager.auth0LoginUsingFacebook(token: tokenString) { [weak self] (success, error) in
+            guard let returnedError = error else {
+                self?.graphLinkAccounts()
+                return
+            }
+            self?.view.set(viewState: .error(returnedError))
+        }
+    }
+    
+    func graphLinkAccounts() {
+        guard let token  = auth0Manager.auth0Token else {
+            let signInerror = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Couldn't sign in to GraphQL."])
+            view.set(viewState: .error(signInerror)) //shouldn't ever get here but hey..
+            return
+        }
+        if graphManager.isLoggedIn {
+            facebookUser()
+            return
+        }
+        view.set(viewState: .loading(true, "Setting things up...", nil))
+        graphManager.createUser(token: token, closure: { [weak self] (success, error) in
+            self?.view.set(viewState: .loading(false, nil, nil))
+            guard let returnedError = error else {
+                self?.facebookUser()
+                return
+            }
+            self?.view.set(viewState: .error(returnedError))
+        })
     }
 }

@@ -1,6 +1,15 @@
-mutation Login($data:AuthProviderSignupData!) {
+mutation CreateUser($data:AuthProviderSignupData!) {
     createUser(authProvider: $data) {
         id
         auth0UserId
+    }
+}
+
+mutation Login($data:AUTH_PROVIDER_EMAIL) {
+    signinUser(email: $data) {
+        token
+        user {
+            id
+        }
     }
 }

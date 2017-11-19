@@ -6,19 +6,6 @@ import TextFieldEffects
 import FBSDKLoginKit
 import DZNEmptyDataSet
 
-struct SearchFeatureLauncher {
-    
-    static func launchSearch() -> SearchViewController {
-        let searchViewController = UIStoryboard.searchViewController()
-        let presenter = SearchPresenter()
-        let interactor = SearchInteractor(presenter: presenter)
-        searchViewController.searchInteractor = interactor
-        presenter.searchView = searchViewController
-        
-        return searchViewController
-    }
-}
-
 class SearchViewController: UICollectionViewController {
     static let searchSize: CGFloat = 268.0
     @IBOutlet var dateField: HoshiTextField!

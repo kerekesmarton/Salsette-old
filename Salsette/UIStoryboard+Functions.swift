@@ -10,32 +10,18 @@ import UIKit
 
 private enum Storyboards {
     static let Main = "Main"
-    static let Search = "Search"
 }
 
 private enum ViewControllers {
-    static let SearchViewControllerNavigation = "SearchViewControllerNavigation"
-    static let SearchViewController = "SearchViewController"
-    static let CreateEventViewController = "CreateEventViewController"
+    static let GraphSignInViewController = "GraphCreateAccountViewController"
+    
 }
 
 extension UIStoryboard {
-    class func searchViewControllerWithNavigation() -> (SearchViewController) {
-        let storyBoard = UIStoryboard(name: Storyboards.Search, bundle: nil)
-        let navigationController = storyBoard.instantiateViewController(withIdentifier: ViewControllers.SearchViewControllerNavigation) as! UINavigationController
-        let searchVC = navigationController.topViewController as! SearchViewController
-        return searchVC
-    }
-    
-    class func searchViewController() -> SearchViewController {
-        let storyBoard = UIStoryboard(name: Storyboards.Search, bundle: nil)
-        let searchVC = storyBoard.instantiateViewController(withIdentifier: ViewControllers.SearchViewController) as! SearchViewController
-        return searchVC
-    }
 
-    class func createEventViewController() -> CreateEventViewController {
+    class func graphCreateAccountViewController() -> GraphCreateAccountViewController {
         let storyBoard = UIStoryboard(name: Storyboards.Main, bundle: nil)
-        let viewController = storyBoard.instantiateViewController(withIdentifier: ViewControllers.CreateEventViewController) as! CreateEventViewController
-        return viewController
+        let vc = storyBoard.instantiateViewController(withIdentifier: ViewControllers.GraphSignInViewController) as! GraphCreateAccountViewController
+        return vc
     }
 }

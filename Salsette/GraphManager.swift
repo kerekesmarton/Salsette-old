@@ -8,7 +8,7 @@ struct EventModel {
     let type: Dance
     var id: String? = nil
     var workshops: [WorkshopModel]? = nil
-
+    
     init(fbID: String, type: Dance, id: String? = nil, workshops: [WorkshopModel]? = nil) {
         self.fbID = fbID
         self.type = type
@@ -30,7 +30,7 @@ struct WorkshopModel {
     var name: String
     var eventID: String? = nil
     var id: String? = nil
-
+    
     init(room: String, startTime: Date, artist: String, name: String, eventID: String? = nil, id: String? = nil) {
         self.room = room
         self.startTime = startTime
@@ -68,13 +68,41 @@ class GraphManager {
             return (token != nil) ? true : false
         }
     }
-    var token: String?
-    
+    var keepMeSignIn: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: GraphManager.keepMeSignInKey)
+        }
+        set {
+            if newValue == false {
+                token = nil
+            }
+            UserDefaults.standard.set(newValue, forKey: GraphManager.keepMeSignInKey)            
+        }
+    }
+    private var privateToken: String? = nil
+    var token: String? {
+        get {
+            if keepMeSignIn {
+                return KeychainStorage.shared.string(for: GraphManager.tokenKey)
+            } else {
+                return privateToken
+            }
+        }
+        set {
+            if keepMeSignIn {
+                KeychainStorage.shared.set(newValue, for: GraphManager.tokenKey)
+            } else {
+                privateToken = newValue
+            }
+        }
+    }
+    private static let keepMeSignInKey = "GraphManager.keepMeSignIn"
+    private static let tokenKey = "GraphManager.tokenKey"
     private var operation: Cancellable?
     
-    func createUser(with token: String, closure: @escaping (Bool, Error?)->Void) {
+    func createUser(token: String, closure: @escaping (Bool, Error?)->Void) {
         let input = AuthProviderSignupData(auth0: AUTH_PROVIDER_AUTH0(idToken: token))
-        operation = client.perform(mutation: LoginMutation(data: input), resultHandler: { (result, error) in
+        operation = client.perform(mutation: CreateUserMutation(data: input), resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(false, self.error(from: serverError))
             } else if let _ = result?.data?.createUser?.auth0UserId, let url = URL(string: self.path) {
@@ -88,7 +116,37 @@ class GraphManager {
             }        
         })
     }
-
+    
+    func createUser(email: String, password: String, closure: @escaping (Bool, Error?)->Void) {
+        let input = AuthProviderSignupData(email: AUTH_PROVIDER_EMAIL(email: email, password: password))
+        operation = client.perform(mutation: CreateUserMutation(data: input), resultHandler: { (result, error) in
+            if let serverError = result?.errors {
+                closure(false, self.error(from: serverError))
+            } else if let _ = result?.data?.createUser?.id {
+                self.signIn(email: email, password: password, closure: closure)
+            } else {
+                closure(false, error)
+            }
+        })
+    }
+    
+    func signIn(email: String, password: String, closure: @escaping (Bool, Error?)->Void) {
+        let input = AUTH_PROVIDER_EMAIL(email: email, password: password)
+        operation = client.perform(mutation: LoginMutation(data: input), resultHandler: { (result, error) in
+            if let serverError = result?.errors {
+                closure(false, self.error(from: serverError))
+            } else if let token = result?.data?.signinUser.token, let url = URL(string: self.path) {
+                let configuration = URLSessionConfiguration.default
+                configuration.httpAdditionalHeaders = ["Authorization": "Bearer \(token)"]
+                self.token = token
+                self.loggedInClient = ApolloClient(networkTransport: HTTPNetworkTransport(url: url, configuration: configuration))
+                closure(true, error)
+            } else {
+                closure(false, error)
+            }
+        })
+    }
+    
     func createEvent(model: EventModel, closure: @escaping (EventModel?, Error?)->Void) {
         guard let client = loggedInClient else {
             closure(nil, error(with: "Please log in"))
@@ -103,7 +161,7 @@ class GraphManager {
             }
         })
     }
-
+    
     func searchEvent(fbID: String, closure: @escaping (EventModel?, Error?)->Void) {
         guard let client = loggedInClient else {
             closure(nil, error(with: "Please log in"))
@@ -120,7 +178,7 @@ class GraphManager {
             }
         })
     }
-
+    
     func serchAllEvents(closure: @escaping ([EventModel]?, Error?)->Void) {
         guard let client = loggedInClient else {
             closure(nil, error(with: "Please log in"))
@@ -136,7 +194,7 @@ class GraphManager {
         })
     }
     
-
+    
     func createWorkshop(model: WorkshopModel, closure: @escaping (WorkshopModel?, Error?)->Void) {
         guard let client = loggedInClient else {
             closure(nil, error(with: "Please log in"))
@@ -154,7 +212,7 @@ class GraphManager {
             closure(nil, nil)
         })
     }
-
+    
     private func error(with message: String) -> Error {
         return NSError(domain: "Client", code: 0, userInfo: [NSLocalizedDescriptionKey:message])
     }
