@@ -55,9 +55,13 @@ class Auth0Manager {
                 case .success(let credentials):
                     self.accessToken = credentials.accessToken
                     self.auth0Token = credentials.idToken
-                    callback(true, nil)
+                    DispatchQueue.main.async {
+                        callback(true, nil)
+                    }
                 case .failure(let error):
-                    callback(false, error)
+                    DispatchQueue.main.async {
+                        callback(false, error)
+                    }
                 }
         }
     }

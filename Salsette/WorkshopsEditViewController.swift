@@ -137,14 +137,17 @@ extension WorkshopsEditViewController {
     
     @objc fileprivate func editPrompt() {
         let prompt = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        prompt.addAction(UIAlertAction(title: "Add Workshop", style: .default, handler: { (action) in
-            self.performSegue(withIdentifier: "CreateWorkshopSegue", sender: self)
-            prompt.dismiss(animated: true, completion: nil)
+        prompt.addAction(UIAlertAction(title: "Add Workshop", style: .default, handler: { [weak self] (action) in
+            self?.addWorkshop()
         }))
         prompt.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
             prompt.dismiss(animated: true, completion: nil)
         }))
         present(prompt, animated: true, completion: nil)
+    }
+    
+    @objc fileprivate func addWorkshop() {
+        performSegue(withIdentifier: "CreateWorkshopSegue", sender: self)
     }
 }
 
