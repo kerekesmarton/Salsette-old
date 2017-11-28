@@ -6,19 +6,6 @@ import TextFieldEffects
 import FBSDKLoginKit
 import DZNEmptyDataSet
 
-struct SearchFeatureLauncher {
-    
-    static func launchSearch() -> SearchViewController {
-        let searchViewController = UIStoryboard.searchViewController()
-        let presenter = SearchPresenter()
-        let interactor = SearchInteractor(presenter: presenter)
-        searchViewController.searchInteractor = interactor
-        presenter.searchView = searchViewController
-        
-        return searchViewController
-    }
-}
-
 class SearchViewController: UICollectionViewController {
     static let searchSize: CGFloat = 268.0
     @IBOutlet var dateField: HoshiTextField!
@@ -26,6 +13,15 @@ class SearchViewController: UICollectionViewController {
     @IBOutlet var typeField: HoshiTextField!
     @IBOutlet var container: UIStackView!
     @IBOutlet var typePicker: UIPickerView!
+    @IBOutlet var profileButton: UIBarButtonItem!
+    @IBOutlet var loginHostView: UIView!
+    @IBOutlet var loginBtn: FBSDKLoginButton! {
+        didSet {
+            loginBtn.loginBehavior = .systemAccount
+            loginBtn.delegate = self
+            loginBtn.readPermissions = ["public_profile", "email", "user_friends", "user_events"]
+        }
+    }
     
     lazy var calendarProxy: CalendarProxy = {
         return UINib(nibName: "Calendar", bundle: nil).instantiate(withOwner: self, options: nil)[1] as! CalendarProxy
@@ -43,59 +39,28 @@ class SearchViewController: UICollectionViewController {
     }()
     
     //MARK: - Results
-    var results = [ContentEntityInterface]()
-    var search = GlobalSearch.shared
-    var resultsInteractor: ContentInteractorInterface = {
-        return HomeInteractor()
-    }()
-    
-    //MARK: - Profile
-    @IBOutlet weak var profilePictureView: FBSDKProfilePictureView!
-    @IBOutlet var profileButton: UIBarButtonItem!
+    var results = [ContentEntityInterface](){
+        didSet {
+            collectionView?.reloadData()
+        }
+    }
+    var searchParameters = SearchParameters.shared
+    var emptyDataSetString: String? = nil
+    var emptyDataSetCustomView: UIView? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        dateField.inputView = calendarView
-        typeField.inputView = typePicker
-        typePicker.delegate = self
-        typePicker.dataSource = self
-        typeField.delegate = self
-        dateField.delegate = self
-//        navigationController?.customizeTransparentNavigationBar()
-        
-        let dateIAV = InputAccessoryView.create(next: { (nextBtn) in
-            self.locationField.becomeFirstResponder()
-        }, previous: nil, done: { (doneBtn) in
-            self.dateField.resignFirstResponder()
-            self.load()
-        })
-        dateIAV.prevTitle = nil
-        dateField.inputAccessoryView = dateIAV
-       
-        locationField.inputAccessoryView = InputAccessoryView.create(next: { (nextBtn) in
-            self.typeField.becomeFirstResponder()
-        }, previous: { (previousBtn) in
-            self.dateField.becomeFirstResponder()
-        }, done: { (doneBtn) in
-            self.locationField.resignFirstResponder()
-            self.load()
-        })
-        let typeIAV = InputAccessoryView.create(next: nil, previous: { (previousBtn) in
-            self.locationField.becomeFirstResponder()
-        }, done: { (doneBtn) in
-            self.typeField.resignFirstResponder()
-            self.load()
-        })
-        typeIAV.nextTitle = nil
-        typeField.inputAccessoryView = typeIAV
+        custumiseDateField()
+        customiseLocationField()
+        customiseTypeField()
+        profileButton.isEnabled = searchInteractor.canViewProfile()
         collectionView?.emptyDataSetSource = self
-        load()
+        searchInteractor.load(with: searchParameters)
     }
     
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        fields.forEach({$0.endEditing(true)})
-//    }
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        return searchInteractor.canViewProfile()
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let currentCell = sender as? HomeCell,
@@ -114,37 +79,6 @@ class SearchViewController: UICollectionViewController {
             eventViewController.event = results[currentCellIndex.row]
             eventViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(SearchViewController.dismissEventView))
         }
-    }
-    
-    @objc func dismissEventView() {
-        dismiss(animated: true)
-    }
-    
-    var emptyDataSetString = "You can start a search by setting some of the above fields"
-    func load() {
-        self.configureAndReload(message: "Loading...")
-        resultsInteractor.load(with: search.searchParameters,  completion: { items, errorString in
-            guard let returnedItems = items else {
-                if let errorMessage = errorString {
-                    self.configureAndReload(message: errorMessage)
-                } else {
-                    self.configureAndReload(message: "Couldn't find anything... \nSorry about that.")
-                }
-                return
-            }
-            self.results.append(contentsOf: returnedItems)
-            self.collectionView?.reloadData()
-        })
-    }
-    
-    func configureAndReload(message: String) {
-        self.emptyDataSetString = message
-        self.results.removeAll()
-        self.collectionView?.reloadData()
-    }
-    
-    func profile() {
-        performSegue(withIdentifier: "Profile", sender: profilePictureView)
     }
 }
 
@@ -216,25 +150,6 @@ extension SearchViewController: UITextFieldDelegate {
 }
 
 extension SearchViewController {
-    
-    enum SearchViewModel {
-        case name(String)
-        case dates(String)
-        case location(String)
-        case typde(String)
-    }
-    
-    func set(_ viewModel: SearchViewModel) {
-        switch viewModel {
-        case .dates(let dateString):
-            dateField.text = dateString
-        default:
-            return
-        }
-    }
-}
-
-extension SearchViewController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return results.count
     }
@@ -242,7 +157,7 @@ extension SearchViewController {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: collectionView.frame.height - (3 * 60) - 10)
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: "SearchResult", for: indexPath) as? HomeCell)!
         cell.content = results[indexPath.item]
@@ -266,9 +181,122 @@ extension SearchViewController {
     }
 }
 
+extension SearchViewController {
+    
+    enum SearchViewModel {
+        case name(String)
+        case dates(String)
+        case location(String)
+        case type(String)
+    }
+    
+    func setSearch(_ viewModel: SearchViewModel) {
+        switch viewModel {
+        case .dates(let dateString):
+            dateField.text = dateString
+        default:
+            return
+        }
+    }
+}
+
+extension SearchViewController {
+    enum ResultsViewModel {
+        case loading(String)
+        case failed(String)
+        case needsFacebookLogin(String)
+        case success([ContentEntityInterface])
+    }
+    
+    func setResult(_ viewModel: ResultsViewModel) {
+        switch viewModel {
+        case .loading(let message):
+            configure(message: message)
+        case .failed(let message):
+            configure(message: message)
+        case .needsFacebookLogin(let message):
+            configure(message: message, view: loginHostView)
+        case .success(let items):
+            self.results = items
+        }
+    }
+}
+
+extension SearchViewController: FBSDKLoginButtonDelegate {
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        searchInteractor.load(with: searchParameters)
+        profileButton.isEnabled = searchInteractor.canViewProfile()
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {       
+        searchInteractor.deleteKeychain()
+        searchInteractor.load(with: searchParameters)
+        profileButton.isEnabled = searchInteractor.canViewProfile()
+    }
+}
+
 extension SearchViewController: DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
-    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        guard let emptyDataSetString = emptyDataSetString else { return nil }
         return NSAttributedString(string: emptyDataSetString)
+    }
+    
+    func customView(forEmptyDataSet scrollView: UIScrollView!) -> UIView! {
+        guard let emptyDataSetCustomView = emptyDataSetCustomView else { return nil }
+        return emptyDataSetCustomView
+    }
+}
+
+fileprivate extension SearchViewController {
+    func custumiseDateField() {
+        dateField.inputView = calendarView
+        dateField.delegate = self
+        
+        let dateIAV = InputAccessoryView.create(next: { (nextBtn) in
+            self.locationField.becomeFirstResponder()
+        }, previous: nil, done: { (doneBtn) in
+            self.dateField.resignFirstResponder()
+            self.searchInteractor.load(with: self.searchParameters)
+        })
+        dateIAV.prevTitle = nil
+        dateField.inputAccessoryView = dateIAV
+    }
+    
+    func customiseLocationField() {
+        locationField.inputAccessoryView = InputAccessoryView.create(next: { (nextBtn) in
+            self.typeField.becomeFirstResponder()
+        }, previous: { (previousBtn) in
+            self.dateField.becomeFirstResponder()
+        }, done: { (doneBtn) in
+            self.locationField.resignFirstResponder()
+            self.searchInteractor.load(with: self.searchParameters)
+        })
+    }
+    
+    func customiseTypeField() {
+        typePicker.delegate = self
+        typePicker.dataSource = self
+        typeField.inputView = typePicker
+        typeField.delegate = self
+        let typeIAV = InputAccessoryView.create(next: nil, previous: { (previousBtn) in
+            self.locationField.becomeFirstResponder()
+        }, done: { (doneBtn) in
+            self.typeField.resignFirstResponder()
+            self.searchInteractor.load(with: self.searchParameters)
+        })
+        typeIAV.nextTitle = nil
+        typeField.inputAccessoryView = typeIAV
+    }
+    
+    @objc func dismissEventView() {
+        dismiss(animated: true)
+    }
+    
+    func configure(message: String, view: UIView? = nil) {
+        emptyDataSetString = message
+        emptyDataSetCustomView = view
+        results.removeAll()
+        collectionView?.reloadData()
     }
 }
 

@@ -2,27 +2,15 @@
 
 import Foundation
 
-protocol SearchResultsDelegate: class {
-    func didUpdateSearch(parameters: SearchParameters)
-}
-
 struct SearchParameters {
     var name: String?
     var startDate: Date?
     var endDate: Date?
     var location: String?
     var type: Dance?
-}
-
-class GlobalSearch {
+    
+    static var shared = SearchParameters()
     private init() {}
-    static let shared = GlobalSearch()
-    weak var searchResultsDelegate: SearchResultsDelegate?
-    var searchParameters = SearchParameters() {
-        didSet {
-            searchResultsDelegate?.didUpdateSearch(parameters: searchParameters)
-        }
-    }
 }
 
 class SearchInteractor {
@@ -33,10 +21,13 @@ class SearchInteractor {
         case type(Dance)
     }
     let searchPresenter: SearchPresenter
-    init(presenter: SearchPresenter) {
+    init(presenter: SearchPresenter, fbService: FacebookService = FacebookService.shared) {
         self.searchPresenter = presenter
+        self.fbService = fbService
     }
     
+    private var searchParameters = SearchParameters.shared
+    private var fbService: FacebookService
     var newDate: Date? {
         didSet {
             guard let date = newDate else {
@@ -60,19 +51,45 @@ class SearchInteractor {
     func didChange(_ dataType: DataType) {
         switch dataType {
         case .name(let value):
-            GlobalSearch.shared.searchParameters.name = value
+            searchParameters.name = value
         case .location(let value):
-            GlobalSearch.shared.searchParameters.location = value
+            searchParameters.location = value
         case .type(let value):
-            GlobalSearch.shared.searchParameters.type = value
+            searchParameters.type = value
         case .dates(let start, let end):
-            GlobalSearch.shared.searchParameters.startDate = start
-            GlobalSearch.shared.searchParameters.endDate = end
+            searchParameters.startDate = start
+            searchParameters.endDate = end
         }
     }
     
     var startDate: Date?
     var endDate: Date?
+    
+    func load(with parameters: SearchParameters) {
+        //          offline
+        //        let items: [ContentEntityInterface] = AppTutorial.didShow ? DummySearchDatSource().dummyEvents : AppTutorial.cards
+        //        completion(items,nil)
+        //        return
+        //
+        
+        //online
+        searchPresenter.loading(message: "Loading...")
+        FacebookService.shared.loadEvents(with: parameters) { [weak self] (events, error) in
+            if let error = error as NSError? {
+                self?.searchPresenter.results(with: error)
+            } else if let events = events {
+                self?.searchPresenter.results(with: events)
+            }
+        }
+    }
+    
+    func canViewProfile() -> Bool {
+        return fbService.isLoggedIn
+    }
+    
+    func deleteKeychain() {
+        KeychainStorage.shared.clear()
+    }
 }
 
 extension SearchInteractor: CalendarViewSelectionDelegate {
@@ -122,35 +139,5 @@ extension SearchInteractor: CalendarViewSelectionDelegate {
             return false
         }
         return true
-    }
-}
-
-class SearchPresenter {
-    
-    weak var searchView: SearchViewController?
-    
-    func reset(oldDate: Date) {
-        searchView?.set(.dates(""))
-    }
-    
-    func update(startDate: Date?) {
-        guard let safeDate = startDate else {
-            searchView?.set(.dates(""))
-            return
-        }
-        searchView?.set(.dates(formatter.string(from: safeDate)))
-    }
-    
-    func update(startDate: Date?, endDate: Date?) {
-        guard let safeStartDate = startDate,
-            let safeEndDate = endDate else {
-                searchView?.set(.dates(""))
-                return
-        }
-        searchView?.set(.dates(formatter.string(from: safeStartDate)+" to "+formatter.string(from: safeEndDate)))
-    }
-    
-    var formatter: DateFormatter {
-        return DateFormatters.shortDateFormatter
     }
 }

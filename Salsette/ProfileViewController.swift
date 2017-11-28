@@ -12,15 +12,9 @@ class ProfileViewController: UITableViewController {
         case loading(Bool, String?, (() -> Void)?)
         case error(Error)
         case userReady(Bool)
+        case login
     }
-
-    @IBOutlet var loginBtn: FBSDKLoginButton! {
-        didSet {
-            loginBtn.loginBehavior = .systemAccount
-            loginBtn.delegate = self
-            loginBtn.readPermissions = ["public_profile", "email", "user_friends", "user_events"]
-        }
-    }
+    
     var interactor: ProfileInteractor?
     
     override func awakeFromNib() {
@@ -40,21 +34,21 @@ class ProfileViewController: UITableViewController {
         interactor?.viewReady()
     }
 
-    func deleteKeychain() {
-        KeychainStorage.shared.clear()
-    }
-    
     func set(viewState: ViewStates) {
-        switch viewState {
-        case .displayName(let displayName):
-            self.displayName = displayName
-        case .loading(let value, let message, let completion):
-            showLoading(value, message, completion)
-        case .error(let error):
-            showError(error)
-        case .userReady(let isReady):
-            userIsReady = isReady
-            tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            switch viewState {
+            case .displayName(let displayName):
+                self?.displayName = displayName
+            case .loading(let value, let message, let completion):
+                self?.showLoading(value, message, completion)
+            case .error(let error):
+                self?.showError(error)
+            case .userReady(let isReady):
+                self?.userIsReady = isReady
+                self?.tableView.reloadData()
+            case .login:
+                self?.showLogin()
+            }
         }
     }
 
@@ -73,16 +67,28 @@ class ProfileViewController: UITableViewController {
 
     fileprivate var userIsReady: Bool = false
     fileprivate var displayName: String?
+    
+    func showLogin() {
+        let loginVC = UIStoryboard.graphCreateAccountViewController()
+        loginVC.modalPresentationStyle = .popover
+        loginVC.modalPresentationStyle = UIModalPresentationStyle.popover
+        loginVC.preferredContentSize = CGSize(width: 300, height: 350)
+        loginVC.completion = {
+            self.interactor?.viewReady()
+        }
+        let popover = loginVC.popoverPresentationController
+        popover?.delegate = self
+        popover?.sourceView = tableView
+        popover?.permittedArrowDirections = .init(rawValue: 0)
+        popover?.sourceRect = CGRect(x: tableView.bounds.midX, y: tableView.bounds.midY, width: 0, height: 0)
+        
+        present(loginVC, animated: true)
+    }
 }
 
-extension ProfileViewController: FBSDKLoginButtonDelegate {
-    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        interactor?.viewReady()
-    }
-    
-    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-        interactor?.viewReady()
-        deleteKeychain()
+extension ProfileViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
     }
 }
 
@@ -93,7 +99,7 @@ extension ProfileViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userIsReady ? 1 : 0
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

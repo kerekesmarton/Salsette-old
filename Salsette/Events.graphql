@@ -1,47 +1,41 @@
 
-mutation CreateEvent($event: CreateEventInput!) {
-    createEvent(input: $event){
-        changedEvent{
-            type
-            fbID
-            id
-        }}}
+mutation CreateEvent($fbId: String!, $type: Dance!) {
+    createEvent( fbID: $fbId, type: $type) {
+        id
+        fbID
+        type
+    }
+}
 
-query FetchEvent($where:EventWhereArgs!){
-    viewer{
-        allEvents(where: $where){
-            edges{
-                node{
-                    type
-                    fbID
-                    id
-                    workshops{
-                        edges{
-                            node{
-                                name
-                                startTime
-                                artist
-                                room
-                                id
-                            }}}}}}}}
-
-query FetchAllEvents{
-    viewer{
-        allEvents{
-            edges{
-                node{
-                    type
-                    fbID
-                    id
-                }}}}}
-
-mutation CreateWorkshop($workshop: CreateWorkshopInput!){
-    createWorkshop(input: $workshop){
-        changedWorkshop{
+query FetchEvent($filter:EventFilter!){
+    allEvents(filter:$filter){
+        id
+        fbID
+        type
+        workshops {
             name
-            event {
-                id
-            }
             startTime
+            artist
             room
-        }}}
+            id            
+        }
+    }
+}
+
+query FetchAllEvent {
+    allEvents {
+        id
+        fbID
+        type
+    }
+}
+
+mutation CreateWorkshop($artist: String!, $name: String!, $room: String!, $startTime: DateTime!, $eventId: ID) {
+    createWorkshop(artist: $artist, name: $name, room: $room, startTime: $startTime, eventId: $eventId) {
+        name
+        startTime
+        artist
+        room
+        id
+    }
+}

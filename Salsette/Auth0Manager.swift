@@ -66,6 +66,22 @@ class Auth0Manager {
         }
     }
     
+    func webAuth0(callback: @escaping (Bool, Error?) -> ()) {
+        Auth0
+            .webAuth()
+            .audience("https://marton.eu.auth0.com/userinfo")
+            .start { result in
+                switch result {
+                case .success(let credentials):
+                    self.accessToken = credentials.accessToken
+                    self.auth0Token = credentials.idToken
+                    callback(true, nil)
+                case .failure(let error):
+                    callback(false, error)
+                }
+        }
+    }
+    
     func logout() {
         KeychainStorage.shared.clear()
     }

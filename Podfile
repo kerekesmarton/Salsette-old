@@ -18,6 +18,8 @@ target 'Salsette' do
     pod 'FBSDKCoreKit'
     pod 'FBSDKLoginKit'
 #    pod 'FBSDKShareKit'
+#    pod 'Lock', '~> 2.0'
+#    pod 'Auth0', '~> 1.0'
     pod 'Auth0'
     pod 'SimpleKeychain', '~> 0.7'
     pod 'Apollo'
@@ -31,9 +33,3 @@ target 'Salsette' do
 #        end
 #    end
 end
-
-
-
-
-#apollo-codegen introspect-schema https://api.graph.cool/file/v1/cj13ykrpk530j0152qxur34dm/graphql --output schema.json
-#apollo-codegen introspect-schema https://eu-west-1.api.scaphold.io/graphql/dance --output schema.json

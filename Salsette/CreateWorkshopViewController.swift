@@ -19,8 +19,8 @@ class CreateWorkshopViewController: UITableViewController {
     fileprivate var timePickerDataSource: TimePickerDataSource?
     
     var rooms = [String]()
-    var createWorkshopDidFinish: ((GraphWorkshop?, Bool)->Void)?
-    var prefilledWorkshop: GraphWorkshop?
+    var createWorkshopDidFinish: ((WorkshopModel?, Bool)->Void)?
+    var prefilledWorkshop: WorkshopModel?
     var prefilledWorkshopDate: Date?
     
     override func viewDidLoad() {
@@ -42,7 +42,12 @@ class CreateWorkshopViewController: UITableViewController {
     }
     
     func setupTimeLbl() {
-        timePickerDataSource = TimePickerDataSource(with: timeLbl, values: Array(1...24), prefilledDate: prefilledWorkshop?.startTime)
+        
+        if let startTime = prefilledWorkshop?.startTime {
+            timePickerDataSource = TimePickerDataSource(with: timeLbl, values: Array(1...24), prefilledDate: startTime)
+        } else {
+            timePickerDataSource = TimePickerDataSource(with: timeLbl, values: Array(1...24), prefilledDate: prefilledWorkshopDate)
+        }
         timeLbl.delegate = self
         let picker = UIPickerView()
         picker.delegate = timePickerDataSource
@@ -53,10 +58,10 @@ class CreateWorkshopViewController: UITableViewController {
     private func setupButtons() {
         let create = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(createWorkshop))
         let delete = UIBarButtonItem(title: "Delete", style: .done, target: self, action: #selector(deleteWorkshop))
-        if let ws = prefilledWorkshop, ws.isEmpty {
-            delete.isEnabled = false
-        } else {
+        delete.isEnabled = false
+        if let ws = prefilledWorkshop, !ws.isEmpty {
             delete.tintColor = UIColor.red
+            delete.isEnabled = true
         }
         self.navigationItem.rightBarButtonItems = [create,delete]
     }
@@ -72,8 +77,7 @@ class CreateWorkshopViewController: UITableViewController {
     
     @objc func createWorkshop() {
         guard let name = nameLbl.text, let artist = artistLbl.text, let room = roomLbl.text, let date = timePickerDataSource?.date else { return }
-        var workshop = GraphWorkshop(name: name, startTime: date, room: room)
-        workshop.artist = artist
+        let workshop = WorkshopModel(room: room, startTime: date, artist: artist, name: name)
         createWorkshopDidFinish?(workshop, false)
         
         navigationController?.popViewController(animated: true)
@@ -90,36 +94,70 @@ class CreateWorkshopViewController: UITableViewController {
         }))
         present(alert, animated: true, completion: nil)
     }
+    
+    func createNewRoomAlert() {
+        let alert = UIAlertController(title: "Room name?", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (okAction) in
+            guard let textField = alert.textFields?[0], let text = textField.text else { return }
+            if !self.rooms.contains(text) {
+                self.rooms.append(text)
+                self.roomLbl?.text = text
+                self.timeLbl?.becomeFirstResponder()
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in () }))
+        alert.addTextField(configurationHandler: { _ in () })
+        present(alert, animated: true, completion: nil)
+    }
 }
 
 extension CreateWorkshopViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField == roomLbl, rooms.count == 0 {
-            textField.resignFirstResponder()
-            roomPickerDataSource?.createRoom()
-        } else if textField == roomLbl,
-            let picker = textField.inputView as? UIPickerView,
-            let prefilledWorkshop = prefilledWorkshop,
-            let i = rooms.index(of: prefilledWorkshop.room) {
-                picker.selectRow(i, inComponent: 0, animated: true)
-        } else if textField == timeLbl,
-            let picker = textField.inputView as? UIDatePicker, let prefilledWorkshopDate = prefilledWorkshopDate {
-                picker.setDate(prefilledWorkshopDate, animated: true)
+        if textField == roomLbl, let picker = textField.inputView as? UIPickerView, let prefilledWorkshop = prefilledWorkshop, let i = rooms.index(of: prefilledWorkshop.room) {
+            picker.selectRow(i, inComponent: 0, animated: true)
+        } else if textField == roomLbl, rooms.count == 0 {
+            createNewRoomAlert()
+            roomLbl.resignFirstResponder()
+        }
+        
+        if textField == timeLbl, let picker = textField.inputView as? UIDatePicker, let prefilledWorkshopDate = prefilledWorkshopDate {
+            picker.setDate(prefilledWorkshopDate, animated: true)
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        switch textField {
+        case nameLbl:
+            artistLbl.becomeFirstResponder()
+        case artistLbl:
+            roomLbl.becomeFirstResponder()
+        default: ()
+        }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        switch textField {
+        case timeLbl:
+            return false
+        case roomLbl:
+            return false
+        default:
+            return true
         }
     }
 }
 
 class RoomPickerDataSource: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    init(with controller: UIViewController, lbl: UITextField, values: [String]) {
+    init(with controller: CreateWorkshopViewController, lbl: UITextField, values: [String]) {
         rooms = values
         rooms.append("New Room")
         self.controller = controller
         self.lbl = lbl
     }
     
-    fileprivate weak var controller: UIViewController?
+    fileprivate weak var controller: CreateWorkshopViewController?
     fileprivate weak var lbl: UITextField?
     fileprivate var rooms: [String]
     
@@ -137,7 +175,7 @@ class RoomPickerDataSource: NSObject, UIPickerViewDelegate, UIPickerViewDataSour
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if rooms[row] == "New Room" {
-           createRoom()
+            controller?.createNewRoomAlert()
         } else {
             lbl?.text = rooms[row]
         }
@@ -160,7 +198,6 @@ class RoomPickerDataSource: NSObject, UIPickerViewDelegate, UIPickerViewDataSour
 }
 
 class TimePickerDataSource: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
-    
     init(with lbl: UITextField, values: [Int], prefilledDate: Date?) {
         times = values
         self.lbl = lbl
@@ -185,7 +222,7 @@ class TimePickerDataSource: NSObject, UIPickerViewDelegate, UIPickerViewDataSour
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let hour = times[row]
-        date = date.setting(hour: hour)
-        lbl?.text = DateFormatters.timeFormatter.string(from: date)
+        let startTime = date.setting(hour: hour)
+        lbl?.text = DateFormatters.timeFormatter.string(from: startTime)
     }
 }

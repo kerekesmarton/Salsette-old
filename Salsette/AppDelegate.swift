@@ -3,6 +3,7 @@
 import UIKit
 import FBSDKLoginKit
 import Auth0
+//import Lock
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

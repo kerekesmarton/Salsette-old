@@ -18,9 +18,9 @@ class CreateEventViewController: UITableViewController {
     @IBOutlet var scheduleLabel: UILabel!
     
     var fbEvent: FacebookEventEntity?
-    var graphEvent: GraphEvent? {
+    var event: EventModel? {
         didSet {
-            selectedEventType = graphEvent?.type
+            selectedEventType = event?.type
         }
     }
     private var createdItem: ContentEntityInterface?
@@ -81,7 +81,7 @@ class CreateEventViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let workshopsEditVC = segue.destination as? WorkshopsEditViewController {
             workshopsEditVC.prefilledWorkshopDate = fbEvent?.startDate?.noHours()
-            guard let workshops = graphEvent?.workshops else { return }
+            guard let workshops = event?.workshops else { return }
             workshopsEditVC.items = workshops
         }
     }
@@ -93,7 +93,7 @@ class CreateEventViewController: UITableViewController {
     @objc private func update() {}
     
     enum ViewState {
-        case eventExists(GraphEvent)
+        case eventExists(EventModel)
         case newEvent
         case error(Error)
         case loading
@@ -104,9 +104,9 @@ class CreateEventViewController: UITableViewController {
             switch state! {
             case .error(let error):
                 showError(error)
-            case .eventExists(let event):
+            case .eventExists(let existingEvent):
                 showLoading(false, nil, nil)
-                graphEvent = event
+                event = existingEvent
                 createWorkshopButton()
             case .newEvent:
                 showLoading(false, nil, nil)
@@ -119,9 +119,9 @@ class CreateEventViewController: UITableViewController {
     
     private func showLoading(_ active: Bool, _ message: String?, _ completion: (() -> Void)?) {
         if active {
-            self.present(UIAlertController.loadingAlert(with: message), animated: false, completion: completion)
+            present(UIAlertController.loadingAlert(with: message), animated: false, completion: completion)
         } else {
-            self.dismiss(animated: false, completion: completion)
+            presentedViewController?.dismiss(animated: false, completion: completion)
         }
     }
     
@@ -131,7 +131,7 @@ class CreateEventViewController: UITableViewController {
     }
     
     private func createWorkshopButton() {
-        if graphEvent == nil {
+        if event == nil {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(create))
         } else {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Update", style: .plain, target: self, action: #selector(update))

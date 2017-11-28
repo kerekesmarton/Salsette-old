@@ -8,6 +8,7 @@
 
 //import UIKit
 import FBSDKCoreKit
+import Social
 
 class FacebookService {
 
