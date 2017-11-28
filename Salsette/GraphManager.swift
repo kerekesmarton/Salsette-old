@@ -58,11 +58,19 @@ struct WorkshopModel {
 class GraphManager {
     private init() {}
     static let shared = GraphManager()
-    private let path = "https://api.graph.cool/simple/v1/salsette"
+    private static let path = "https://api.graph.cool/simple/v1/salsette"
     lazy var client: ApolloClient = {
-        return ApolloClient(url: URL(string: self.path)!)
+        return ApolloClient(url: URL(string: GraphManager.path)!)
     }()
-    var loggedInClient: ApolloClient?
+    
+    var loggedInClient: ApolloClient? {
+        guard let token = token, let url = URL(string: GraphManager.path) else {
+            return nil
+        }
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = ["Authorization": "Bearer \(token)"]
+        return ApolloClient(networkTransport: HTTPNetworkTransport(url: url, configuration: configuration))
+    }
     var isLoggedIn: Bool {
         get {
             return (token != nil) ? true : false
@@ -98,24 +106,7 @@ class GraphManager {
     }
     private static let keepMeSignInKey = "GraphManager.keepMeSignIn"
     private static let tokenKey = "GraphManager.tokenKey"
-    private var operation: Cancellable?
-    
-    func createUser(token: String, closure: @escaping (Bool, Error?)->Void) {
-        let input = AuthProviderSignupData(auth0: AUTH_PROVIDER_AUTH0(idToken: token))
-        operation = client.perform(mutation: CreateUserMutation(data: input), resultHandler: { (result, error) in
-            if let serverError = result?.errors {
-                closure(false, self.error(from: serverError))
-            } else if let _ = result?.data?.createUser?.auth0UserId, let url = URL(string: self.path) {
-                self.token = token
-                let configuration = URLSessionConfiguration.default
-                configuration.httpAdditionalHeaders = ["Authorization": "Bearer \(token)"]
-                self.loggedInClient = ApolloClient(networkTransport: HTTPNetworkTransport(url: url, configuration: configuration))
-                closure(true, error)
-            } else {
-                closure(false, error)
-            }        
-        })
-    }
+    fileprivate var operation: Cancellable?
     
     func createUser(email: String, password: String, closure: @escaping (Bool, Error?)->Void) {
         let input = AuthProviderSignupData(email: AUTH_PROVIDER_EMAIL(email: email, password: password))
@@ -135,11 +126,8 @@ class GraphManager {
         operation = client.perform(mutation: LoginMutation(data: input), resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(false, self.error(from: serverError))
-            } else if let token = result?.data?.signinUser.token, let url = URL(string: self.path) {
-                let configuration = URLSessionConfiguration.default
-                configuration.httpAdditionalHeaders = ["Authorization": "Bearer \(token)"]
+            } else if let token = result?.data?.signinUser.token {
                 self.token = token
-                self.loggedInClient = ApolloClient(networkTransport: HTTPNetworkTransport(url: url, configuration: configuration))
                 closure(true, error)
             } else {
                 closure(false, error)
@@ -149,7 +137,7 @@ class GraphManager {
     
     func createEvent(model: EventModel, closure: @escaping (EventModel?, Error?)->Void) {
         guard let client = loggedInClient else {
-            closure(nil, error(with: "Please log in"))
+            closure(nil, NSError(with: "Please log in"))
             return
         }
         let input = CreateEventMutation(fbId: model.fbID, type: model.type)
@@ -164,7 +152,7 @@ class GraphManager {
     
     func searchEvent(fbID: String, closure: @escaping (EventModel?, Error?)->Void) {
         guard let client = loggedInClient else {
-            closure(nil, error(with: "Please log in"))
+            closure(nil, NSError(with: "Please log in"))
             return
         }
         let query = FetchEventQuery(filter: EventFilter(fbId: fbID))
@@ -172,16 +160,18 @@ class GraphManager {
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
             } else if let _ = error {
-                closure(nil, self.error(with: "Please log in again."))
+                closure(nil, NSError(with: "Please log in again."))
             } else if let event = result?.data?.allEvents.first {
                 closure(EventModel(fbID: event.fbId, type: event.type, id: event.id, workshops: WorkshopModel.workshops(from: event)), error)
+            } else {
+                closure(nil, nil)
             }
         })
     }
     
     func serchAllEvents(closure: @escaping ([EventModel]?, Error?)->Void) {
         guard let client = loggedInClient else {
-            closure(nil, error(with: "Please log in"))
+            closure(nil, NSError(with: "Please log in"))
             return
         }
         operation = client.fetch(query: FetchAllEventQuery(), cachePolicy: .returnCacheDataElseFetch, queue: DispatchQueue.main, resultHandler: { (result, error) in
@@ -197,7 +187,7 @@ class GraphManager {
     
     func createWorkshop(model: WorkshopModel, closure: @escaping (WorkshopModel?, Error?)->Void) {
         guard let client = loggedInClient else {
-            closure(nil, error(with: "Please log in"))
+            closure(nil, NSError(with: "Please log in"))
             return
         }
         
@@ -213,11 +203,7 @@ class GraphManager {
         })
     }
     
-    private func error(with message: String) -> Error {
-        return NSError(domain: "Client", code: 0, userInfo: [NSLocalizedDescriptionKey:message])
-    }
-    
-    private func error(from graphQLErrors: [GraphQLError]) -> Error {
+    fileprivate func error(from graphQLErrors: [GraphQLError]) -> Error {
         guard let error = graphQLErrors.first else {
             return NSError(domain: "Apollo", code: 0, userInfo: [NSLocalizedDescriptionKey:"Unknown error"])
         }

@@ -119,9 +119,9 @@ class CreateEventViewController: UITableViewController {
     
     private func showLoading(_ active: Bool, _ message: String?, _ completion: (() -> Void)?) {
         if active {
-            self.present(UIAlertController.loadingAlert(with: message), animated: false, completion: completion)
+            present(UIAlertController.loadingAlert(with: message), animated: false, completion: completion)
         } else {
-            self.dismiss(animated: false, completion: completion)
+            presentedViewController?.dismiss(animated: false, completion: completion)
         }
     }
     

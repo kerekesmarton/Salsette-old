@@ -1,11 +1,6 @@
-//
-//  Salsette
-//
 //  Created by Marton Kerekes on 04/05/2017.
-//  Copyright © 2017 Marton Kerekes. All rights reserved.
-//
 
-import UIKit
+import DZNEmptyDataSet
 
 extension WorkshopModel: Equatable {
     init(name: String, startTime: Date, room: String) {
@@ -21,7 +16,7 @@ extension WorkshopModel: Equatable {
     }
 
     var isEmpty: Bool {
-        return name.count > 0
+        return name.count == 0
     }
 }
 
@@ -93,6 +88,8 @@ class WorkshopsEditViewController: UICollectionViewController {
 //        items = dummyWorkshops()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editPrompt))
         title = "Edit Workshops"
+        collectionView?.emptyDataSetSource = self
+        collectionView?.emptyDataSetDelegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -120,6 +117,12 @@ class WorkshopsEditViewController: UICollectionViewController {
                     if !workshop.isEmpty {
                         self.items.remove(item: workshop)
                     }
+                    guard let createdWorkshop = newWorkshop else { return }
+                    self.items.append(createdWorkshop)
+                }
+            } else {
+                vc.prefilledWorkshopDate = prefilledWorkshopDate
+                vc.createWorkshopDidFinish = { newWorkshop, didDelete in
                     guard let createdWorkshop = newWorkshop else { return }
                     self.items.append(createdWorkshop)
                 }
@@ -191,7 +194,6 @@ extension WorkshopsEditViewController {
             items.remove(at: sourceIndex)
         }
         
-        
         if let destIndex = items.index(where: { (item) -> Bool in destinationItem == item }) {
             items.remove(at: destIndex)
         }
@@ -204,6 +206,16 @@ extension WorkshopsEditViewController {
         items.append(sourceItem)
         items.append(destinationItem)
         collectionView.reloadItems(at: [sourceIndexPath])
+    }
+}
+
+extension WorkshopsEditViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
+    func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControlState) -> NSAttributedString! {
+        return NSAttributedString(string: "Tap to add your first workshop")
+    }
+    
+    func emptyDataSet(_ scrollView: UIScrollView!, didTap button: UIButton!) {
+        self.performSegue(withIdentifier: "CreateWorkshopSegue", sender: nil)
     }
 }
 
