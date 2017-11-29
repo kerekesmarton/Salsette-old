@@ -170,7 +170,13 @@ extension SearchViewController {
             let suplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SearchContainer", for: indexPath)
             let layout = collectionView.collectionViewLayout as? SearchResultsCollectionViewLayout
             layout?.headerReferenceSize = CGSize(width: collectionView.frame.width, height: 220)
-            suplementaryView.addSubview(container)
+            suplementaryView.addSubview(container)            
+            container.translatesAutoresizingMaskIntoConstraints = false
+            let horizontalConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+            let verticalConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
+            let widthConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 0)
+            let heightConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.height, multiplier: 1, constant: 0)
+            view.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
             return suplementaryView
         default:
             let suplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SearchFooter", for: indexPath)

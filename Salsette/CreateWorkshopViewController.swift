@@ -16,7 +16,7 @@ class CreateWorkshopViewController: UITableViewController {
     @IBOutlet var roomLbl: HoshiTextField!
     @IBOutlet var timeLbl: HoshiTextField!
     fileprivate var roomPickerDataSource: RoomPickerDataSource?
-    fileprivate var timePickerDataSource: TimePickerDataSource?
+    var timePicker: UIDatePicker!
     
     var rooms = [String]()
     var createWorkshopDidFinish: ((WorkshopModel?, Bool)->Void)?
@@ -42,28 +42,33 @@ class CreateWorkshopViewController: UITableViewController {
     }
     
     func setupTimeLbl() {
-        
+        timePicker = UIDatePicker()
+        timePicker.datePickerMode = .time
         if let startTime = prefilledWorkshop?.startTime {
-            timePickerDataSource = TimePickerDataSource(with: timeLbl, values: Array(1...24), prefilledDate: startTime)
+            timePicker.date = startTime
         } else {
-            timePickerDataSource = TimePickerDataSource(with: timeLbl, values: Array(1...24), prefilledDate: prefilledWorkshopDate)
+            timePicker.date = prefilledWorkshopDate!
         }
+        timePicker.minuteInterval = 30
         timeLbl.delegate = self
-        let picker = UIPickerView()
-        picker.delegate = timePickerDataSource
-        picker.dataSource = timePickerDataSource
-        timeLbl.inputView = picker        
+        timeLbl.inputView = timePicker
+        timePicker.addTarget(self, action: #selector(timePickerDidChange(value:)), for: .valueChanged)
     }
     
     private func setupButtons() {
-        let create = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(createWorkshop))
         let delete = UIBarButtonItem(title: "Delete", style: .done, target: self, action: #selector(deleteWorkshop))
         delete.isEnabled = false
         if let ws = prefilledWorkshop, !ws.isEmpty {
             delete.tintColor = UIColor.red
             delete.isEnabled = true
         }
-        self.navigationItem.rightBarButtonItems = [create,delete]
+        if prefilledWorkshop != nil {
+            let save = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(createWorkshop))
+            self.navigationItem.rightBarButtonItems = [save,delete]
+        } else {
+            let create = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(createWorkshop))
+            self.navigationItem.rightBarButtonItems = [create,delete]
+        }
     }
     
     private func prefill() {
@@ -76,7 +81,8 @@ class CreateWorkshopViewController: UITableViewController {
     }
     
     @objc func createWorkshop() {
-        guard let name = nameLbl.text, let artist = artistLbl.text, let room = roomLbl.text, let date = timePickerDataSource?.date else { return }
+        guard let name = nameLbl.text, let artist = artistLbl.text, let room = roomLbl.text, let date = timePicker?.date else { return }
+        timeLbl.text = DateFormatters.timeFormatter.string(from: timePicker.date)
         let workshop = WorkshopModel(room: room, startTime: date, artist: artist, name: name)
         createWorkshopDidFinish?(workshop, false)
         
@@ -108,6 +114,10 @@ class CreateWorkshopViewController: UITableViewController {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in () }))
         alert.addTextField(configurationHandler: { _ in () })
         present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func timePickerDidChange(value: Any) {
+        timeLbl.text = DateFormatters.timeFormatter.string(from: timePicker.date)
     }
 }
 
@@ -194,35 +204,5 @@ class RoomPickerDataSource: NSObject, UIPickerViewDelegate, UIPickerViewDataSour
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in () }))
         alert.addTextField(configurationHandler: { _ in () })
         controller?.present(alert, animated: true, completion: nil)
-    }
-}
-
-class TimePickerDataSource: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
-    init(with lbl: UITextField, values: [Int], prefilledDate: Date?) {
-        times = values
-        self.lbl = lbl
-        date = prefilledDate?.setting(hour: 0) ?? Date().setting(hour: 0)
-    }
-    
-    fileprivate weak var lbl: UITextField?
-    fileprivate var times: [Int]
-    var date: Date
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return times.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return String(times[row])
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let hour = times[row]
-        let startTime = date.setting(hour: hour)
-        lbl?.text = DateFormatters.timeFormatter.string(from: startTime)
     }
 }

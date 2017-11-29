@@ -49,13 +49,8 @@ class WorkshopsEditViewController: UICollectionViewController {
                 roomNames.insert($0.room)
                 startTimes.insert($0.startTime)
             }
-            if self.startTimes == nil{
-                self.startTimes = startTimes
-            }
-            if self.roomNames == nil {
-                self.roomNames = roomNames
-            }
-            
+            self.startTimes = startTimes
+            self.roomNames = roomNames
             var rooms = [Room]()
             self.roomNames?.sorted().forEach { roomName in
                 rooms.append(Room(workshops: items.filter({ return $0.room == roomName }).sorted(by: { (w1, w2) -> Bool in

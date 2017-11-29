@@ -976,9 +976,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Workshop Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MJe-uB-aV7" customClass="HoshiTextField" customModule="TextFieldEffects">
-                                                    <rect key="frame" x="8" y="-9" width="304" height="44"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Workshop Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MJe-uB-aV7" customClass="HoshiTextField" customModule="TextFieldEffects">
+                                                    <rect key="frame" x="4" y="4" width="312" height="36"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -995,6 +994,12 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="MJe-uB-aV7" firstAttribute="leading" secondItem="O59-fZ-n4d" secondAttribute="leading" constant="4" id="4Du-3i-sV6"/>
+                                                <constraint firstItem="MJe-uB-aV7" firstAttribute="top" secondItem="O59-fZ-n4d" secondAttribute="top" constant="4" id="Cwz-Ww-6bC"/>
+                                                <constraint firstAttribute="trailing" secondItem="MJe-uB-aV7" secondAttribute="trailing" constant="4" id="TG0-Li-KBl"/>
+                                                <constraint firstAttribute="bottom" secondItem="MJe-uB-aV7" secondAttribute="bottom" constant="4" id="wVD-t6-Fl9"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="XSL-5z-1XI">
@@ -1004,9 +1009,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Artist Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4BR-kv-O5v" customClass="HoshiTextField" customModule="TextFieldEffects">
-                                                    <rect key="frame" x="8" y="-1" width="304" height="44"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Artist Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4BR-kv-O5v" customClass="HoshiTextField" customModule="TextFieldEffects">
+                                                    <rect key="frame" x="4" y="4" width="312" height="36"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -1023,6 +1027,12 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="4BR-kv-O5v" firstAttribute="leading" secondItem="tEq-ty-Bn7" secondAttribute="leading" constant="4" id="NrX-4i-oRQ"/>
+                                                <constraint firstAttribute="trailing" secondItem="4BR-kv-O5v" secondAttribute="trailing" constant="4" id="dcA-cX-MxE"/>
+                                                <constraint firstAttribute="bottom" secondItem="4BR-kv-O5v" secondAttribute="bottom" constant="4" id="eP1-2f-Lgh"/>
+                                                <constraint firstItem="4BR-kv-O5v" firstAttribute="top" secondItem="tEq-ty-Bn7" secondAttribute="top" constant="4" id="sfK-16-bmi"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="C2X-HN-ur7">
@@ -1032,9 +1042,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Room" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VmE-4f-l2q" customClass="HoshiTextField" customModule="TextFieldEffects">
-                                                    <rect key="frame" x="8" y="0.0" width="304" height="44"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Room" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VmE-4f-l2q" customClass="HoshiTextField" customModule="TextFieldEffects">
+                                                    <rect key="frame" x="4" y="4" width="312" height="36"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -1051,6 +1060,12 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="VmE-4f-l2q" secondAttribute="bottom" constant="4" id="2je-I5-f6T"/>
+                                                <constraint firstAttribute="trailing" secondItem="VmE-4f-l2q" secondAttribute="trailing" constant="4" id="DPK-Cb-lhe"/>
+                                                <constraint firstItem="VmE-4f-l2q" firstAttribute="leading" secondItem="ae7-VZ-1Ax" secondAttribute="leading" constant="4" id="GSd-LP-oBI"/>
+                                                <constraint firstItem="VmE-4f-l2q" firstAttribute="top" secondItem="ae7-VZ-1Ax" secondAttribute="top" constant="4" id="Mf8-fS-ILi"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="rEK-z5-zx2">
@@ -1060,9 +1075,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Time" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q2E-Qn-YSp" customClass="HoshiTextField" customModule="TextFieldEffects">
-                                                    <rect key="frame" x="8" y="0.0" width="304" height="44"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Time" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q2E-Qn-YSp" customClass="HoshiTextField" customModule="TextFieldEffects">
+                                                    <rect key="frame" x="4" y="4" width="312" height="36"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -1079,6 +1093,12 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Q2E-Qn-YSp" firstAttribute="top" secondItem="q4I-gS-2y7" secondAttribute="top" constant="4" id="MGf-Lj-j30"/>
+                                                <constraint firstAttribute="bottom" secondItem="Q2E-Qn-YSp" secondAttribute="bottom" constant="4" id="vAU-s6-nxC"/>
+                                                <constraint firstItem="Q2E-Qn-YSp" firstAttribute="leading" secondItem="q4I-gS-2y7" secondAttribute="leading" constant="4" id="ycz-DH-tXz"/>
+                                                <constraint firstAttribute="trailing" secondItem="Q2E-Qn-YSp" secondAttribute="trailing" constant="4" id="z31-wx-uNk"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
