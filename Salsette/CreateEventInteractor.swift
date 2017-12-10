@@ -64,19 +64,11 @@ class CreateEventInteractor {
     
     fileprivate func filterUpdated(_ updates: [WorkshopModel], _ originals: [WorkshopModel]?) -> [WorkshopModel] {
         return updates.filter({ (model) -> Bool in
-            guard let originals = originals else {
-                return false
+            if let i = originals?.index(of: model), let original = originals?[i] {
+                return !model.isUnchangedComparedTo(original)
             }
-            return filterUnchanged(model, originals)
+            return false
         })
-    }
-    
-    fileprivate func filterUnchanged(_ model: WorkshopModel, _ originals: [WorkshopModel]) -> Bool {
-        if let i = originals.index(of: model) {
-            let original = originals[i]
-            return !model.isUnchangedComparedTo(original)
-        }
-        return true
     }
     
     fileprivate func filterDeleted(_ originals: [WorkshopModel]?, _ updated: [WorkshopModel]) -> [WorkshopModel] {
@@ -108,7 +100,7 @@ class CreateEventInteractor {
     
     fileprivate func delete(_ model: (WorkshopModel), on workGroup: DispatchGroup) {
         workGroup.enter()
-        graphManager.deleteWorkshop(id: model.id!) { (success, error) in
+        graphManager.deleteWorkshop(id: model.id) { (success, error) in
             if let error = error {
                 self.errors.append(error)
             }
@@ -123,7 +115,7 @@ class CreateEventInteractor {
             }
         } else if new.count == 0, updates.count == 0, deleted.count == 0{
             DispatchQueue.main.async {
-                completion(nil, nil)
+                completion(event, nil)
             }
         } else {
             searchEvent(fbID: event.fbID, completion: completion)

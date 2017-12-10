@@ -124,10 +124,12 @@ extension CreateWorkshopViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == roomLbl, let picker = textField.inputView as? UIPickerView, let prefilledWorkshop = prefilledWorkshop, let i = rooms.index(of: prefilledWorkshop.room) {
-            picker.selectRow(i, inComponent: 0, animated: true)
+            picker.selectRow(i, inComponent: 0, animated: true)            
         } else if textField == roomLbl, rooms.count == 0 {
             createNewRoomAlert()
             roomLbl.resignFirstResponder()
+        } else if textField == roomLbl, rooms.count > 0 {
+            textField.text = rooms[0]
         }
         
         if textField == timeLbl, let picker = textField.inputView as? UIDatePicker, let prefilledWorkshopDate = prefilledWorkshopDate {

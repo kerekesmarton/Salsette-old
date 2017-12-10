@@ -106,10 +106,8 @@ class WorkshopsEditViewController: UICollectionViewController {
     }
     
     fileprivate func deleteAfterFinished(_ workshop: WorkshopModel) {
-        if !workshop.isEmpty, let index = self.items.index(where: { (model) -> Bool in
-            return model.isEqual(to: workshop)
-        }) {
-            items.remove(at: index)
+        if !workshop.isEmpty {
+            items.remove(item: workshop)
         }
     }
     

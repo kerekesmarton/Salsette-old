@@ -145,7 +145,7 @@ class GraphManager {
                 closure(nil, self.error(from: serverError))
             } else if let workshop = result?.data?.createWorkshop {
                 let date = WorkshopModel.dateTime(from: workshop.startTime)
-                closure(WorkshopModel(room: workshop.room, startTime: date, artist: workshop.artist, name: workshop.name, eventID: model.eventID), error)
+                closure(WorkshopModel(room: workshop.room, startTime: date, artist: workshop.artist, name: workshop.name, eventID: model.eventID, id: workshop.id), nil)
             } else {
                 closure(nil, nil)
             }
@@ -157,13 +157,13 @@ class GraphManager {
             closure(nil, NSError(with: "Please log in"))
             return nil
         }
-        let input = UpdateWorkshopMutation(artist: model.artist, name: model.name, room: model.room, startTime: model.startTimeToStr, id: model.id!, eventId: eventID)
+        let input = UpdateWorkshopMutation(artist: model.artist, name: model.name, room: model.room, startTime: model.startTimeToStr, id: model.id, eventId: eventID)
         return client.perform(mutation: input, resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
             } else if let workshop = result?.data?.updateWorkshop {
                 let date = WorkshopModel.dateTime(from: workshop.startTime)
-                closure(WorkshopModel(room: workshop.room, startTime: date, artist: workshop.artist, name: workshop.name, eventID: model.eventID), error)
+                closure(WorkshopModel(room: workshop.room, startTime: date, artist: workshop.artist, name: workshop.name, eventID: model.eventID, id: workshop.id), error)
             } else {
                 closure(nil, nil)
             }
