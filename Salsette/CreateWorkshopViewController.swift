@@ -19,7 +19,8 @@ class CreateWorkshopViewController: UITableViewController {
     var timePicker: UIDatePicker!
     
     var rooms = [String]()
-    var createWorkshopDidFinish: ((WorkshopModel?, Bool)->Void)?
+    var didCreateWorkshop: ((WorkshopModel)->())?
+    var didDeleteWorkshop: (() -> ())?
     var prefilledWorkshop: WorkshopModel?
     var prefilledWorkshopDate: Date?
     
@@ -77,27 +78,25 @@ class CreateWorkshopViewController: UITableViewController {
         }
         roomLbl.text = prefilledWorkshop.room
         timeLbl.text = DateFormatters.relativeDateFormatter.string(from: prefilledWorkshop.startTime)
-        nameLbl.text = prefilledWorkshop.name        
+        nameLbl.text = prefilledWorkshop.name
+        artistLbl.text = prefilledWorkshop.artist
     }
     
     @objc func createWorkshop() {
         guard let name = nameLbl.text, let artist = artistLbl.text, let room = roomLbl.text, let date = timePicker?.date else { return }
         timeLbl.text = DateFormatters.timeFormatter.string(from: timePicker.date)
-        let workshop = WorkshopModel(room: room, startTime: date, artist: artist, name: name)
-        createWorkshopDidFinish?(workshop, false)
-        
-        navigationController?.popViewController(animated: true)
+        let workshop = WorkshopModel(room: room, startTime: date, artist: artist, name: name, eventID: prefilledWorkshop?.eventID, id: prefilledWorkshop?.id)
+        didCreateWorkshop?(workshop)
+        navigationController?.popViewController(animated: true)        
     }
     
     @objc func deleteWorkshop() {
         let alert = UIAlertController(title: "Delete workshop?", message: "This cannot be reverted", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (deleteAction) in
-            self.createWorkshopDidFinish?(nil, true)
+            self.didDeleteWorkshop?()
             self.navigationController?.popViewController(animated: true)
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (cancelAction) in
-            self.createWorkshopDidFinish?(nil, true)
-        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
     

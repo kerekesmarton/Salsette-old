@@ -46,6 +46,7 @@
 		10B9AF781E7E96870033A6BF /* CGSize+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B9AF771E7E96870033A6BF /* CGSize+Additions.swift */; };
 		10BE40AC1EE31E58006D3DAC /* CreateWorkshopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BE40AB1EE31E58006D3DAC /* CreateWorkshopViewController.swift */; };
 		10D733431E728E7600F47A52 /* UIStoryboard+Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */; };
+		10D7CEBE1FDCA94600E71EBB /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D7CEBD1FDCA94600E71EBB /* GraphModel.swift */; };
 		10D8D8651ED9DB3B008A5A76 /* PassThroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D8D8641ED9DB3B008A5A76 /* PassThroughView.swift */; };
 		10D8D8681ED9DCAE008A5A76 /* InputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D8D8671ED9DCAE008A5A76 /* InputAccessoryView.swift */; };
 		10D8D86A1ED9E489008A5A76 /* InputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10D8D8691ED9E489008A5A76 /* InputAccessoryView.xib */; };
@@ -127,6 +128,7 @@
 		10B9AF771E7E96870033A6BF /* CGSize+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Additions.swift"; sourceTree = "<group>"; };
 		10BE40AB1EE31E58006D3DAC /* CreateWorkshopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateWorkshopViewController.swift; sourceTree = "<group>"; };
 		10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Functions.swift"; sourceTree = "<group>"; };
+		10D7CEBD1FDCA94600E71EBB /* GraphModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
 		10D8D8641ED9DB3B008A5A76 /* PassThroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassThroughView.swift; sourceTree = "<group>"; };
 		10D8D8671ED9DCAE008A5A76 /* InputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputAccessoryView.swift; sourceTree = "<group>"; };
 		10D8D8691ED9E489008A5A76 /* InputAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InputAccessoryView.xib; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				106EB02B1E94661A004686B5 /* CurrentUser.graphql */,
 				104A1A151F547D1E001A111B /* Events.graphql */,
 				106EB0271E94636E004686B5 /* API.swift */,
+				10D7CEBD1FDCA94600E71EBB /* GraphModel.swift */,
 				FBF5A9C11E959FA0000CED7A /* GraphManager.swift */,
 			);
 			name = GraphQL;
@@ -636,6 +639,7 @@
 				10D8D8681ED9DCAE008A5A76 /* InputAccessoryView.swift in Sources */,
 				1089BF841E708553006E091A /* SearchViewController.swift in Sources */,
 				1089BF821E708553006E091A /* AppDelegate.swift in Sources */,
+				10D7CEBE1FDCA94600E71EBB /* GraphModel.swift in Sources */,
 				10964C451E82E66300CDFE3F /* DummySearchDatSource.swift in Sources */,
 				109AFB5C1E902EA700E424F6 /* FacebookPermissions.swift in Sources */,
 				1033E5441E75AAB3002D1615 /* UIFont+Appfonts.swift in Sources */,

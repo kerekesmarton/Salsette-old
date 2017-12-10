@@ -35,13 +35,26 @@ class CreateEventPresenter: NSObject {
         }
     }
     
-    func createWorkshop(type: Dance?) {
+    func createEvent(type: Dance?) {
         guard let fbEvent = view?.fbEvent, let type = type else {
             let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Pick an event type"])
             view?.state = CreateEventViewController.ViewState.error(error)
             return
         }
         interactor.createEvent(fbID: fbEvent.identifier!, type: type) { [weak self] (graphEvent, error) in
+            if let event = graphEvent {
+                self?.view?.state = CreateEventViewController.ViewState.eventExists(event)
+            } else if let error = error {
+                self?.view?.state = CreateEventViewController.ViewState.error(error)
+            } else {
+                self?.view?.state = CreateEventViewController.ViewState.newEvent
+            }
+        }
+    }
+    
+    func update(event: EventModel, updated workshops: [WorkshopModel]) {
+        view?.state = CreateEventViewController.ViewState.loading
+        interactor.update(event: event, updated: workshops) { [weak self] (graphEvent, error) in
             if let graphEvent = graphEvent {
                 self?.view?.state = CreateEventViewController.ViewState.eventExists(graphEvent)
             } else if let error = error {

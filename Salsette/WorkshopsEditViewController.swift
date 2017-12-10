@@ -2,29 +2,6 @@
 
 import DZNEmptyDataSet
 
-extension WorkshopModel: Equatable {
-    init(name: String, startTime: Date, room: String) {
-        self.name = name
-        self.startTime = startTime
-        self.room = room
-    }
-
-    init(startTime: Date, room: String) {
-        name = ""
-        self.startTime = startTime
-        self.room = room
-    }
-
-    var isEmpty: Bool {
-        return name.count == 0
-    }
-}
-
-
-func ==(lhs: WorkshopModel, rhs: WorkshopModel) -> Bool {
-    return lhs.room == rhs.room && lhs.startTime == rhs.startTime
-}
-
 struct Room {
     var roomName: String {
         return workshops.first?.room ?? "?"
@@ -33,43 +10,51 @@ struct Room {
     var workshops = [WorkshopModel]()
 }
 
+fileprivate extension WorkshopModel {
+    func isEqual(to other: WorkshopModel) -> Bool {
+        return room == other.room && startTime == other.startTime
+    }
+}
+
 class WorkshopsEditViewController: UICollectionViewController {
     
     var prefilledWorkshopDate: Date?
     fileprivate var computedItems = [Room]()    
-    fileprivate var startTimes: Set<Date>?
-    fileprivate var roomNames: Set<String>?
+    fileprivate var startTimes = Set<Date>()
+    fileprivate var roomNames = Set<String>()
+    
+    fileprivate func computeEmptyWorkshops(for room: (Room)) -> Room {
+        var newRoom = Room(workshops: room.workshops)
+        self.startTimes.sorted().forEach { (startTime) in
+            if !room.workshops.contains(where: { (workshop) -> Bool in
+                return workshop.startTime == startTime
+            }) {
+                newRoom.workshops.append(WorkshopModel(emptyWorkshopAt: startTime, room: room.roomName))
+            }
+        }
+        newRoom.workshops.sort(by: { (w1, w2) -> Bool in
+            w1.startTime < w2.startTime
+        })
+        return newRoom
+    }
+    
+    fileprivate func createRoom(_ roomName: String) -> Room {
+        return Room(workshops: items.filter({ return $0.room == roomName }).sorted(by: { (w1, w2) -> Bool in
+            w1.startTime < w2.startTime
+        }))
+    }
     
     var items = [WorkshopModel](){
         didSet {
-            var roomNames = Set<String>()
-            var startTimes = Set<Date>()
+            roomNames = items.reduce(into: Set<String>(), { $0.insert($1.room) })
+            startTimes = items.reduce(into: Set<Date>(), { $0.insert($1.startTime) })
             
-            items.forEach {
-                roomNames.insert($0.room)
-                startTimes.insert($0.startTime)
+            let rooms: [Room] = roomNames.sorted().map { roomName in
+                return createRoom(roomName)
             }
-            self.startTimes = startTimes
-            self.roomNames = roomNames
-            var rooms = [Room]()
-            self.roomNames?.sorted().forEach { roomName in
-                rooms.append(Room(workshops: items.filter({ return $0.room == roomName }).sorted(by: { (w1, w2) -> Bool in
-                    w1.startTime < w2.startTime
-                })))
-            }
+            
             computedItems = rooms.map { (room) -> Room in
-                var newRoom = Room(workshops: room.workshops)
-                self.startTimes?.sorted().forEach { (startTime) in
-                    if !room.workshops.contains(where: { (roomArrangable) -> Bool in
-                        return roomArrangable.startTime == startTime
-                    }) {
-                        newRoom.workshops.append(WorkshopModel(startTime: startTime, room: room.roomName))
-                    }
-                }
-                newRoom.workshops.sort(by: { (w1, w2) -> Bool in
-                    w1.startTime < w2.startTime
-                })
-                return newRoom
+                return computeEmptyWorkshops(for: room)
             }
             
             guard let layout = collectionView?.collectionViewLayout as? WorkshopsLayout else { return }
@@ -77,14 +62,29 @@ class WorkshopsEditViewController: UICollectionViewController {
         }
     }
     
+    var done: (([WorkshopModel]) -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //offline testing
 //        items = dummyWorkshops()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editPrompt))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissAndPerformDone))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add workshop", style: .done, target: self, action: #selector(addWorkshop))
         title = "Edit Workshops"
         collectionView?.emptyDataSetSource = self
         collectionView?.emptyDataSetDelegate = self
+    }
+    
+    @objc private func addWorkshop() {
+        performSegue(withIdentifier: "CreateWorkshopSegue", sender: self)
+    }
+    
+    @objc private func dismissAndPerformDone() {
+        dismiss(animated: true) {
+            if let done = self.done {
+                done(self.items)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,55 +94,44 @@ class WorkshopsEditViewController: UICollectionViewController {
         collectionView?.reloadData()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        startTimes = nil
-        roomNames = nil
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "CreateWorkshopSegue", let vc = segue.destination as? CreateWorkshopViewController {
             vc.rooms = computedItems.flatMap { return $0.roomName }
             if let workshop = sender as? WorkshopModel {
-                vc.prefilledWorkshop = workshop
-                if workshop.isEmpty {
-                    vc.prefilledWorkshop?.startTime = prefilledWorkshopDate!
-                }
-                vc.createWorkshopDidFinish = { newWorkshop, didDelete in
-                    if !workshop.isEmpty {
-                        self.items.remove(item: workshop)
-                    }
-                    guard let createdWorkshop = newWorkshop else { return }
-                    self.items.append(createdWorkshop)
-                }
+                setup(createWorkshopViewController: vc, with: workshop)
             } else {
-                vc.prefilledWorkshopDate = prefilledWorkshopDate
-                vc.createWorkshopDidFinish = { newWorkshop, didDelete in
-                    guard let createdWorkshop = newWorkshop else { return }
-                    self.items.append(createdWorkshop)
-                }
+                setup(createWorkshopViewController: vc)
             }
         }
     }
-}
-
-// MARK: privates
-
-extension WorkshopsEditViewController {
     
-    @objc fileprivate func editPrompt() {
-        let prompt = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        prompt.addAction(UIAlertAction(title: "Add Workshop", style: .default, handler: { [weak self] (action) in
-            self?.addWorkshop()
-        }))
-        prompt.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
-            prompt.dismiss(animated: true, completion: nil)
-        }))
-        present(prompt, animated: true, completion: nil)
+    fileprivate func deleteAfterFinished(_ workshop: WorkshopModel) {
+        if !workshop.isEmpty, let index = self.items.index(where: { (model) -> Bool in
+            return model.isEqual(to: workshop)
+        }) {
+            items.remove(at: index)
+        }
     }
     
-    @objc fileprivate func addWorkshop() {
-        performSegue(withIdentifier: "CreateWorkshopSegue", sender: self)
+    fileprivate func setup(createWorkshopViewController: CreateWorkshopViewController, with workshop: WorkshopModel) {
+        createWorkshopViewController.prefilledWorkshop = workshop
+        if workshop.isEmpty {
+            createWorkshopViewController.prefilledWorkshop?.startTime = prefilledWorkshopDate!
+        }
+        createWorkshopViewController.didCreateWorkshop = { newWorkshop in
+            self.deleteAfterFinished(workshop)
+            self.items.append(newWorkshop)
+        }
+        createWorkshopViewController.didDeleteWorkshop = {
+            self.deleteAfterFinished(workshop)
+        }
+    }
+    
+    fileprivate func setup(createWorkshopViewController: CreateWorkshopViewController) {
+        createWorkshopViewController.prefilledWorkshopDate = prefilledWorkshopDate
+        createWorkshopViewController.didCreateWorkshop = { newWorkshop in
+            self.items.append(newWorkshop)
+        }
     }
 }
 
@@ -185,14 +174,14 @@ extension WorkshopsEditViewController {
         var sourceItem = computedItems[sourceIndexPath.section].workshops[sourceIndexPath.row]
         var destinationItem = computedItems[destinationIndexPath.section].workshops[destinationIndexPath.row]
         
-        if sourceItem == destinationItem {
+        if sourceItem.isEqual(to: destinationItem)  {
             return
         }
-        if let sourceIndex = items.index(where: { (item) -> Bool in sourceItem == item }) {
+        if let sourceIndex = items.index(where: { (item) -> Bool in sourceItem.isEqual(to: item) }) {
             items.remove(at: sourceIndex)
         }
         
-        if let destIndex = items.index(where: { (item) -> Bool in destinationItem == item }) {
+        if let destIndex = items.index(where: { (item) -> Bool in destinationItem.isEqual(to: item) }) {
             items.remove(at: destIndex)
         }
         

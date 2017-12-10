@@ -5,7 +5,7 @@ class WorkshopsLayout: UICollectionViewFlowLayout {
     fileprivate var cellAttributes = [IndexPath: UICollectionViewLayoutAttributes]()
     fileprivate var headerAttributes = [IndexPath: UICollectionViewLayoutAttributes]()
     fileprivate var contentSize: CGSize?    
-    fileprivate let numberOfVisibleItems = 4.5
+    fileprivate let numberOfVisibleItems: CGFloat = 4.5
     fileprivate let headerWidth = CGFloat(80)
     fileprivate let verticalDividerWidth = CGFloat(2)
     fileprivate let horizontalDividerHeight = CGFloat(2)
@@ -16,42 +16,62 @@ class WorkshopsLayout: UICollectionViewFlowLayout {
         }
     }
     
-    override func prepare() {
-        
-        // 1: Clear the cache
+    fileprivate func clearCache() {
         cellAttributes.removeAll()
         headerAttributes.removeAll()
-        
-        // 2: Calculate the height of a row
+    }
+    
+    fileprivate var wsDuration: CGFloat = 1.0
+    
+    fileprivate var rowHeight: CGFloat {
         let availableHeight = collectionView!.bounds.height
             - collectionView!.contentInset.top
             - collectionView!.contentInset.bottom
-            - CGFloat(numberOfVisibleItems - 1) * horizontalDividerHeight
+            - (numberOfVisibleItems - wsDuration) * horizontalDividerHeight
         
-        let rowHeight = availableHeight / CGFloat(numberOfVisibleItems)
-        let headerHeight = rowHeight / 2
-        // 3: Calculate the width available for cells
+        return availableHeight / numberOfVisibleItems
+    }
+    
+    fileprivate var headerHeight: CGFloat {
+        return rowHeight / 2
+    }
+    
+    fileprivate var rowWidth: CGFloat {
         let availableWidth = collectionView!.bounds.width
             - collectionView!.contentInset.left
             - collectionView!.contentInset.right
             - CGFloat(rooms.count - 1) * horizontalDividerHeight
+        return availableWidth / CGFloat(rooms.count)
+    }
+    
+    fileprivate var columnX: CGFloat = 0
+    fileprivate var maxY: CGFloat = 0
+    
+    fileprivate func headerCellAttribute(at headerIndexPath: IndexPath) -> UICollectionViewLayoutAttributes {
+        let headerCellAttributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, with: headerIndexPath)
+        headerCellAttributes.frame = CGRect(x: columnX, y: 0, width: rowWidth, height: headerHeight)
+        return headerCellAttributes
+    }
+    
+    fileprivate var cellHeight: CGFloat {
+        return rowHeight - verticalDividerWidth
+    }
+    
+    fileprivate func wsCellAttributes(_ cellIndexPath: IndexPath, at cellY: CGFloat) -> UICollectionViewLayoutAttributes {
+        let wsCellAttributes = UICollectionViewLayoutAttributes(forCellWith: cellIndexPath)
+        wsCellAttributes.frame = CGRect(x: columnX, y: cellY, width: rowWidth, height: cellHeight)
+        return wsCellAttributes
+    }
+    
+    override func prepare() {
         
-        let rowWidth = availableWidth / CGFloat(rooms.count)
+        clearCache()
         
-        var columnX: CGFloat = 0
-        var maxY: CGFloat = 0
-        
-        // 4: For each day
         for (roomIndex, room) in rooms.enumerated() {
             
-            // 4.1: Find the X coordinate of the column
             columnX = CGFloat(roomIndex) * (rowWidth + horizontalDividerHeight)
-            
-            // 4.2: Generate and store layout attributes header cell
             let headerIndexPath = IndexPath(item: 0, section: roomIndex)
-            let headerCellAttributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, with: headerIndexPath)
-            headerAttributes[headerIndexPath] = headerCellAttributes
-            headerCellAttributes.frame = CGRect(x: columnX, y: 0, width: rowWidth, height: headerHeight)
+            headerAttributes[headerIndexPath] = headerCellAttribute(at: headerIndexPath)
             
             // Set the initial Y position for workshop cells
             var cellY = headerHeight
@@ -59,20 +79,11 @@ class WorkshopsLayout: UICollectionViewFlowLayout {
             // 4.3: For each time entry in day
             for (wsIndex, _) in room.workshops.enumerated() {
                 
-                // 4.3.1: Get the height of the cell
-                var cellHeight = rowHeight
-                
-                // Leave some empty space to form the vertical divider
-                cellHeight -= verticalDividerWidth
                 cellY += verticalDividerWidth
                 
                 // 4.3.2: Generate and store layout attributes for the cell
                 let cellIndexPath = IndexPath(item: wsIndex, section: roomIndex)
-                let timeEntryCellAttributes = UICollectionViewLayoutAttributes(forCellWith: cellIndexPath)
-                
-                cellAttributes[cellIndexPath] = timeEntryCellAttributes
-                
-                timeEntryCellAttributes.frame = CGRect(x: columnX, y: cellY, width: rowWidth, height: cellHeight)
+                cellAttributes[cellIndexPath] = wsCellAttributes(cellIndexPath, at: cellY)
                 
                 // Update cellX to the next starting position
                 cellY += cellHeight

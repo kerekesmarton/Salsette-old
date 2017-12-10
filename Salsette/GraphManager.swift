@@ -3,54 +3,19 @@
 import Foundation
 import Apollo
 
-struct EventModel {
-    let fbID: String
-    let type: Dance
-    var id: String? = nil
-    var workshops: [WorkshopModel]? = nil
-    
-    init(fbID: String, type: Dance, id: String? = nil, workshops: [WorkshopModel]? = nil) {
-        self.fbID = fbID
-        self.type = type
-        self.id = id
-        self.workshops = workshops
-    }
-    
-    fileprivate static func events(from result: FetchAllEventQuery.Data) -> [EventModel]? {
-        return result.allEvents.map({ (event) -> EventModel in
-            return EventModel(fbID: event.fbId, type: event.type, id: event.id)
+extension WorkshopModel {
+    fileprivate static func workshops(from event:FetchEventQuery.Data.AllEvent) -> [WorkshopModel]? {
+        return event.workshops?.map( { (workshop) -> WorkshopModel in
+            let date = WorkshopModel.dateTime(from: workshop.startTime)
+            return WorkshopModel(room: workshop.room, startTime: date, artist: workshop.artist, name: workshop.name, eventID: event.id, id: workshop.id)
         })
     }
 }
 
-struct WorkshopModel {
-    var room: String
-    var startTime: Date
-    var artist: String? = nil
-    var name: String
-    var eventID: String? = nil
-    var id: String? = nil
-    
-    init(room: String, startTime: Date, artist: String, name: String, eventID: String? = nil, id: String? = nil) {
-        self.room = room
-        self.startTime = startTime
-        self.artist = artist
-        self.name = name
-        self.eventID = eventID
-    }
-    
-    var startTimeToStr: String {
-        return String(startTime.timeIntervalSince1970)
-    }
-    
-    static func dateTime(from str: String) -> Date {
-        return Date(timeIntervalSince1970: TimeInterval(str)!)
-    }
-    
-    fileprivate static func workshops(from event:FetchEventQuery.Data.AllEvent) -> [WorkshopModel]? {
-        return event.workshops?.map( { (workshop) -> WorkshopModel in
-            let date = WorkshopModel.dateTime(from: workshop.startTime)
-            return WorkshopModel(room: workshop.room, startTime: date, artist: workshop.artist, name: workshop.name, eventID: event.id)
+extension EventModel {
+    fileprivate static func events(from result: FetchAllEventQuery.Data) -> [EventModel]? {
+        return result.allEvents.map({ (event) -> EventModel in
+            return EventModel(fbID: event.fbId, type: event.type, id: event.id)
         })
     }
 }
@@ -59,58 +24,39 @@ class GraphManager {
     private init() {}
     static let shared = GraphManager()
     private static let path = "https://api.graph.cool/simple/v1/salsette"
-    lazy var client: ApolloClient = {
-        return ApolloClient(url: URL(string: GraphManager.path)!)
-    }()
+    let client: ApolloClient = ApolloClient(url: URL(string: GraphManager.path)!)
     
-    var loggedInClient: ApolloClient? {
+    private var _authorisedClient: ApolloClient?
+    private var authorisedClient: ApolloClient? {
         guard let token = token, let url = URL(string: GraphManager.path) else {
             return nil
         }
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = ["Authorization": "Bearer \(token)"]
-        return ApolloClient(networkTransport: HTTPNetworkTransport(url: url, configuration: configuration))
+        guard let client = _authorisedClient else {
+            let configuration = URLSessionConfiguration.default
+            configuration.httpAdditionalHeaders = ["Authorization": "Bearer \(token)"]
+            _authorisedClient =  ApolloClient(networkTransport: HTTPNetworkTransport(url: url, configuration: configuration))
+            return _authorisedClient
+        }
+        return client
     }
+    
     var isLoggedIn: Bool {
-        get {
-            return (token != nil) ? true : false
-        }
+        return (token != nil) ? true : false
     }
-    var keepMeSignIn: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: GraphManager.keepMeSignInKey)
-        }
-        set {
-            if newValue == false {
-                token = nil
-            }
-            UserDefaults.standard.set(newValue, forKey: GraphManager.keepMeSignInKey)            
-        }
-    }
-    private var privateToken: String? = nil
+    
     var token: String? {
         get {
-            if keepMeSignIn {
-                return KeychainStorage.shared.string(for: GraphManager.tokenKey)
-            } else {
-                return privateToken
-            }
+            return KeychainStorage.shared.string(for: GraphManager.tokenKey)
         }
         set {
-            if keepMeSignIn {
-                KeychainStorage.shared.set(newValue, for: GraphManager.tokenKey)
-            } else {
-                privateToken = newValue
-            }
+            KeychainStorage.shared.set(newValue, for: GraphManager.tokenKey)
         }
     }
-    private static let keepMeSignInKey = "GraphManager.keepMeSignIn"
     private static let tokenKey = "GraphManager.tokenKey"
-    fileprivate var operation: Cancellable?
     
-    func createUser(email: String, password: String, closure: @escaping (Bool, Error?)->Void) {
+    @discardableResult func createUser(email: String, password: String, closure: @escaping (Bool, Error?)->Void) -> Cancellable {
         let input = AuthProviderSignupData(email: AUTH_PROVIDER_EMAIL(email: email, password: password))
-        operation = client.perform(mutation: CreateUserMutation(data: input), resultHandler: { (result, error) in
+        return client.perform(mutation: CreateUserMutation(data: input), resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(false, self.error(from: serverError))
             } else if let _ = result?.data?.createUser?.id {
@@ -121,9 +67,9 @@ class GraphManager {
         })
     }
     
-    func signIn(email: String, password: String, closure: @escaping (Bool, Error?)->Void) {
+    @discardableResult func signIn(email: String, password: String, closure: @escaping (Bool, Error?)->Void) -> Cancellable {
         let input = AUTH_PROVIDER_EMAIL(email: email, password: password)
-        operation = client.perform(mutation: LoginMutation(data: input), resultHandler: { (result, error) in
+        return client.perform(mutation: LoginMutation(data: input), resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(false, self.error(from: serverError))
             } else if let token = result?.data?.signinUser.token {
@@ -135,13 +81,17 @@ class GraphManager {
         })
     }
     
-    func createEvent(model: EventModel, closure: @escaping (EventModel?, Error?)->Void) {
-        guard let client = loggedInClient else {
+    func signOut() {
+        token = nil
+    }
+    
+    @discardableResult func createEvent(model: EventModel, closure: @escaping (EventModel?, Error?)->Void) -> Cancellable? {
+        guard let client = authorisedClient else {
             closure(nil, NSError(with: "Please log in"))
-            return
+            return nil
         }
         let input = CreateEventMutation(fbId: model.fbID, type: model.type)
-        operation = client.perform(mutation: input, resultHandler: { (result, error) in
+        return client.perform(mutation: input, resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
             } else if let event = result?.data?.createEvent {
@@ -150,13 +100,13 @@ class GraphManager {
         })
     }
     
-    func searchEvent(fbID: String, closure: @escaping (EventModel?, Error?)->Void) {
-        guard let client = loggedInClient else {
+    @discardableResult func searchEvent(fbID: String, closure: @escaping (EventModel?, Error?)->Void) -> Cancellable? {
+        guard let client = authorisedClient else {
             closure(nil, NSError(with: "Please log in"))
-            return
+            return nil
         }
         let query = FetchEventQuery(filter: EventFilter(fbId: fbID))
-        operation = client.fetch(query: query, cachePolicy: .returnCacheDataElseFetch, queue: DispatchQueue.main, resultHandler: { (result, error) in
+        return client.fetch(query: query, cachePolicy: .fetchIgnoringCacheData, resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
             } else if let _ = error {
@@ -169,12 +119,12 @@ class GraphManager {
         })
     }
     
-    func serchAllEvents(closure: @escaping ([EventModel]?, Error?)->Void) {
-        guard let client = loggedInClient else {
+    @discardableResult func serchAllEvents(closure: @escaping ([EventModel]?, Error?)->Void) -> Cancellable? {
+        guard let client = authorisedClient else {
             closure(nil, NSError(with: "Please log in"))
-            return
+            return nil
         }
-        operation = client.fetch(query: FetchAllEventQuery(), cachePolicy: .returnCacheDataElseFetch, queue: DispatchQueue.main, resultHandler: { (result, error) in
+        return client.fetch(query: FetchAllEventQuery(), cachePolicy: .fetchIgnoringCacheData, resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
             } else if let data = result?.data {
@@ -184,24 +134,61 @@ class GraphManager {
         })
     }
     
-    
-    func createWorkshop(model: WorkshopModel, closure: @escaping (WorkshopModel?, Error?)->Void) {
-        guard let client = loggedInClient else {
+    @discardableResult func createWorkshop(model: WorkshopModel, eventID: String, closure: @escaping (WorkshopModel?, Error?)->Void) -> Cancellable? {
+        guard let client = authorisedClient else {
             closure(nil, NSError(with: "Please log in"))
-            return
+            return nil
         }
-        
-        let input = CreateWorkshopMutation(artist: model.artist!, name: model.name, room: model.room, startTime: model.startTimeToStr, eventId: model.eventID)
-        operation = client.perform(mutation: input, resultHandler: { (result, error) in
+        let input = CreateWorkshopMutation(artist: model.artist!, name: model.name, room: model.room, startTime: model.startTimeToStr, eventId: eventID)
+        return client.perform(mutation: input, resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
             } else if let workshop = result?.data?.createWorkshop {
                 let date = WorkshopModel.dateTime(from: workshop.startTime)
                 closure(WorkshopModel(room: workshop.room, startTime: date, artist: workshop.artist, name: workshop.name, eventID: model.eventID), error)
+            } else {
+                closure(nil, nil)
             }
-            closure(nil, nil)
+        })            
+    }
+    
+    @discardableResult func updateWorkshop(model: WorkshopModel, eventID: String, closure: @escaping (WorkshopModel?, Error?)->Void) -> Cancellable? {
+        guard let client = authorisedClient else {
+            closure(nil, NSError(with: "Please log in"))
+            return nil
+        }
+        let input = UpdateWorkshopMutation(artist: model.artist, name: model.name, room: model.room, startTime: model.startTimeToStr, id: model.id!, eventId: eventID)
+        return client.perform(mutation: input, resultHandler: { (result, error) in
+            if let serverError = result?.errors {
+                closure(nil, self.error(from: serverError))
+            } else if let workshop = result?.data?.updateWorkshop {
+                let date = WorkshopModel.dateTime(from: workshop.startTime)
+                closure(WorkshopModel(room: workshop.room, startTime: date, artist: workshop.artist, name: workshop.name, eventID: model.eventID), error)
+            } else {
+                closure(nil, nil)
+            }
         })
     }
+    
+    
+    @discardableResult func deleteWorkshop(id: String, closure: @escaping (Bool?, Error?)->Void) -> Cancellable? {
+        guard let client = authorisedClient else {
+            closure(nil, NSError(with: "Please log in"))
+            return nil
+        }
+        let input = DeleteWorkshopMutation(id: id)
+        return client.perform(mutation: input, resultHandler: { (result, error) in
+            if let serverError = result?.errors {
+                closure(false, self.error(from: serverError))
+            } else if result?.data?.deleteWorkshop != nil {
+                closure(true, nil)
+            } else {
+                closure(nil, nil)
+            }
+        })
+    }
+    
+    
     
     fileprivate func error(from graphQLErrors: [GraphQLError]) -> Error {
         guard let error = graphQLErrors.first else {

@@ -32,9 +32,15 @@ class DateFormatters {
         return dateFormatter
     }()
     
-    static var dateTimeFormatter: DateFormatter = {
+    static var facebookDateTimeFormatter: DateFormatter = {
         let dateTimeFormatter = DateFormatter()
         dateTimeFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
+        return dateTimeFormatter
+    }()
+    
+    static var graphDateTimeFormatter: DateFormatter = {
+        let dateTimeFormatter = DateFormatter()
+        dateTimeFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         return dateTimeFormatter
     }()
     

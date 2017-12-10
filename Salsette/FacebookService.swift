@@ -290,10 +290,10 @@ class FacebookEventEntity: ContentEntityInterface, Equatable, Hashable {
         imageUrl = dictionary["cover"]["source"].string
         organiser = dictionary["owner"]["name"].string
         if let time = dictionary["start_time"].string {
-            startDate = DateFormatters.dateTimeFormatter.date(from: time)
+            startDate = DateFormatters.facebookDateTimeFormatter.date(from: time)
         }
         if let time = dictionary["end_time"].string {
-            endDate = DateFormatters.dateTimeFormatter.date(from: time)
+            endDate = DateFormatters.facebookDateTimeFormatter.date(from: time)
         }
         longDescription = dictionary["description"].string
     }

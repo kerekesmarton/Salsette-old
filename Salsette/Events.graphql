@@ -39,3 +39,20 @@ mutation CreateWorkshop($artist: String!, $name: String!, $room: String!, $start
         id
     }
 }
+
+mutation UpdateWorkshop($artist: String, $name: String, $room: String, $startTime: DateTime, $id: ID!, $eventId: ID)
+{
+    updateWorkshop(artist: $artist, name: $name, room: $room, startTime: $startTime, id: $id, eventId: $eventId) {
+        name
+        startTime
+        artist
+        room
+        id
+    }
+}
+
+mutation DeleteWorkshop($id:ID!){
+    deleteWorkshop(id: $id) {
+        id
+    }
+}

@@ -8,6 +8,19 @@
 
 import UIKit
 
+extension WorkshopModel {
+    func isUnchangedComparedTo(_ comparedModel: WorkshopModel) -> Bool {
+        if name == comparedModel.name,
+            room == comparedModel.room,
+            startTime == comparedModel.startTime,
+            artist == comparedModel.artist,
+            id == comparedModel.id {
+            
+            return true
+        }
+        return false
+    }
+}
 
 class CreateEventInteractor {
     
@@ -37,6 +50,113 @@ class CreateEventInteractor {
             } else {
                 completion(nil, nil)
             }
+        }
+    }
+    
+    fileprivate func filterNew(_ updates: [WorkshopModel], _ originals: [WorkshopModel]?) -> [WorkshopModel] {
+        return updates.filter({ (updated) -> Bool in
+            guard let originals = originals else {
+                return true
+            }
+            return !originals.contains(updated)
+        })
+    }
+    
+    fileprivate func filterUpdated(_ updates: [WorkshopModel], _ originals: [WorkshopModel]?) -> [WorkshopModel] {
+        return updates.filter({ (model) -> Bool in
+            guard let originals = originals else {
+                return false
+            }
+            return filterUnchanged(model, originals)
+        })
+    }
+    
+    fileprivate func filterUnchanged(_ model: WorkshopModel, _ originals: [WorkshopModel]) -> Bool {
+        if let i = originals.index(of: model) {
+            let original = originals[i]
+            return !model.isUnchangedComparedTo(original)
+        }
+        return true
+    }
+    
+    fileprivate func filterDeleted(_ originals: [WorkshopModel]?, _ updated: [WorkshopModel]) -> [WorkshopModel] {
+        guard let originals = originals else { return [] }
+        return originals.filter({ (original) -> Bool in
+            return !updated.contains(original)
+        })
+    }
+    
+    fileprivate func create(_ model: (WorkshopModel), _ id: String, on workGroup: DispatchGroup) {
+        workGroup.enter()
+        graphManager.createWorkshop(model: model, eventID: id) { (createdWorkshop, error) in
+            if let error = error {
+                self.errors.append(error)
+            }
+            workGroup.leave()
+        }
+    }
+    
+    fileprivate func update(_ model: (WorkshopModel), _ id: String, on workGroup: DispatchGroup) {
+        workGroup.enter()
+        graphManager.updateWorkshop(model: model, eventID: id) { (updatedWorkshop, error) in
+            if let error = error {
+                self.errors.append(error)
+            }
+            workGroup.leave()
+        }
+    }
+    
+    fileprivate func delete(_ model: (WorkshopModel), on workGroup: DispatchGroup) {
+        workGroup.enter()
+        graphManager.deleteWorkshop(id: model.id!) { (success, error) in
+            if let error = error {
+                self.errors.append(error)
+            }
+            workGroup.leave()
+        }
+    }
+    
+    fileprivate func finaliseUpdate(_ completion: @escaping (EventModel?, Error?) -> Void, _ new: [WorkshopModel], _ updates: [WorkshopModel], _ deleted: [WorkshopModel], _ event: EventModel) {
+        if errors.count > 0 {
+            DispatchQueue.main.async {
+                completion(nil, self.errors.first)
+            }
+        } else if new.count == 0, updates.count == 0, deleted.count == 0{
+            DispatchQueue.main.async {
+                completion(nil, nil)
+            }
+        } else {
+            searchEvent(fbID: event.fbID, completion: completion)
+        }
+    }
+    private var errors = [Error]()
+    fileprivate func asyncUpdate(_ event: EventModel, _ updated: [WorkshopModel], _ completion: @escaping (EventModel?, Error?) -> Void) {
+        guard let eventId = event.id else {
+            completion(nil, nil)
+            return
+        }
+        let originals = event.workshops
+        let new = filterNew(updated, originals)
+        let updates = filterUpdated(updated, originals)
+        let deleted = filterDeleted(originals, updated)
+        let workGroup = DispatchGroup()
+        errors.removeAll()
+        new.forEach { (model) in
+            create(model, eventId, on: workGroup)
+        }
+        updates.forEach { (model) in
+            update(model, eventId, on: workGroup)
+        }
+        deleted.forEach({ (model) in
+            delete(model, on: workGroup)
+        })
+        workGroup.wait()
+        finaliseUpdate(completion, new, updates, deleted, event)
+    }
+    
+    func update(event: EventModel, updated: [WorkshopModel], completion: @escaping (EventModel?, Error?) -> Void) {
+        DispatchQueue.global().async {
+            self.asyncUpdate(event, updated, completion)
         }
     }
 }

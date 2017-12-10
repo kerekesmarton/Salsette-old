@@ -44,6 +44,7 @@ class ProfileViewController: UITableViewController {
             case .error(let error):
                 self?.showError(error)
             case .userReady(let isReady):
+                self?.displayLogout(isReady)
                 self?.userIsReady = isReady
                 self?.tableView.reloadData()
             case .login:
@@ -51,18 +52,33 @@ class ProfileViewController: UITableViewController {
             }
         }
     }
+    
+    func displayLogout(_ value: Bool)  {
+        if value {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Log out", style: .plain, target: self, action: #selector(signOut))
+        } else {
+            navigationItem.rightBarButtonItem = nil
+        }
+    }
+    
+    @objc func signOut() {
+        GraphManager.shared.signOut()
+        userIsReady = false
+        tableView.reloadData()
+        displayLogout(false)
+    }
 
     fileprivate func showLoading(_ active: Bool, _ message: String?, _ completion: (() -> Void)?) {
         if active {
-            self.present(UIAlertController.loadingAlert(with: message), animated: false, completion: completion)
+            present(UIAlertController.loadingAlert(with: message), animated: false, completion: completion)
         } else {
-            self.dismiss(animated: false, completion: completion)
+            dismiss(animated: false, completion: completion)
         }
     }
 
     private func showError(_ error: Error) {
         showLoading(false, nil, nil)
-        self.present(UIAlertController.errorAlert(with: error), animated: false, completion: nil)
+        present(UIAlertController.errorAlert(with: error), animated: false, completion: nil)
     }
 
     fileprivate var userIsReady: Bool = false

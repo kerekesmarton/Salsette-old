@@ -6,7 +6,11 @@ class WorkshopCell: UICollectionViewCell {
     @IBOutlet var nameLbl: UILabel!
     @IBOutlet var timeLbl: UILabel!
     func configure(workshop: WorkshopModel) {
-        nameLbl.text = workshop.name
+        if let artist = workshop.artist {
+            nameLbl.text = "\(artist): \(workshop.name)"
+        } else {
+            nameLbl.text = workshop.name
+        }        
         timeLbl.text = DateFormatters.timeFormatter.string(from: workshop.startTime)
         if workshop.isEmpty {
             nameLbl.backgroundColor = UIColor.flatWhite

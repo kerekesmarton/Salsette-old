@@ -79,18 +79,22 @@ class CreateEventViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let workshopsEditVC = segue.destination as? WorkshopsEditViewController {
+        if let nav = segue.destination as? UINavigationController,
+            let workshopsEditVC = nav.viewControllers.first as? WorkshopsEditViewController {
+            
             workshopsEditVC.prefilledWorkshopDate = fbEvent?.startDate?.noHours()
+            workshopsEditVC.done = { [unowned self] items in
+                guard let event = self.event else { return }
+                self.presenter.update(event: event, updated: items)
+            }
             guard let workshops = event?.workshops else { return }
             workshopsEditVC.items = workshops
         }
     }
     
     @objc private func create() {
-        presenter.createWorkshop(type: selectedEventType)
+        presenter.createEvent(type: selectedEventType)
     }
-    
-    @objc private func update() {}
     
     enum ViewState {
         case eventExists(EventModel)
@@ -133,8 +137,6 @@ class CreateEventViewController: UITableViewController {
     private func createWorkshopButton() {
         if event == nil {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(create))
-        } else {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Update", style: .plain, target: self, action: #selector(update))
         }
     }
 }

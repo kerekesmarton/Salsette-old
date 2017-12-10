@@ -17,7 +17,7 @@ class GraphCreateAccountViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let cell = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) {
-            if keepMeSignIn {
+            if marketingEmails {
                 cell.accessoryType = .checkmark
             } else {
                 cell.accessoryType = .none
@@ -49,12 +49,12 @@ class GraphCreateAccountViewController: UITableViewController {
 }
 
 extension GraphCreateAccountViewController {
-    var keepMeSignIn: Bool {
+    var marketingEmails: Bool {
         get {
-            return graphManager.keepMeSignIn
+            return UserDefaults.standard.value(forKey: "marketingEmails") as? Bool ?? false
         }
         set {
-            graphManager.keepMeSignIn = newValue
+            UserDefaults.standard.set(newValue, forKey: "marketingEmails")
             if let cell = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) {
                 if newValue {
                     cell.accessoryType = .checkmark
@@ -67,7 +67,7 @@ extension GraphCreateAccountViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 2 {
-            keepMeSignIn = !keepMeSignIn
+            marketingEmails = !marketingEmails
         }
     }
 }

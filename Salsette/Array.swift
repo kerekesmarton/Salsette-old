@@ -12,4 +12,16 @@ extension Array where Element: Equatable {
         }
         return false
     }
+    
+    @discardableResult mutating func remove(with predicate: (Element) throws -> Bool) -> Bool {
+        do {
+            if let index = try index(where: predicate){
+                remove(at: index)
+                return true
+            }
+            return false
+        } catch {
+            return false
+        }        
+    }
 }
