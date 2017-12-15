@@ -55,6 +55,7 @@
 		10DA93251EAA08B40054F338 /* UserCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DA93241EAA08B40054F338 /* UserCells.swift */; };
 		10FCD6EA1FC056B000856889 /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FCD6E91FC056B000856889 /* SearchPresenter.swift */; };
 		10FCD6EC1FC1952A00856889 /* GraphCreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FCD6EB1FC1952A00856889 /* GraphCreateAccountViewController.swift */; };
+		10FDAA6C1FDD66280023800E /* FacebookEventEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FDAA6B1FDD66280023800E /* FacebookEventEntity.swift */; };
 		FB136E691E989EEA00A5F1E4 /* Auth0Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB136E681E989EEA00A5F1E4 /* Auth0Manager.swift */; };
 		FB136E6B1E989FCA00A5F1E4 /* UIAlertController+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB136E6A1E989FCA00A5F1E4 /* UIAlertController+Loading.swift */; };
 		FB420F2D1EA5138F0022380D /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB420F2C1EA5138F0022380D /* CreateEventViewController.swift */; };
@@ -67,7 +68,6 @@
 		FB6D92081EBBD26900025CD8 /* PickerLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6D92071EBBD26900025CD8 /* PickerLabel.swift */; };
 		FB6D920A1EBBD97300025CD8 /* WorkshopsEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6D92091EBBD97300025CD8 /* WorkshopsEditViewController.swift */; };
 		FB6D920C1EBBD9A100025CD8 /* ScheduleEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6D920B1EBBD9A100025CD8 /* ScheduleEditViewController.swift */; };
-		FB9B176F1E9E6ECE00682076 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9B176E1E9E6ECE00682076 /* Keys.swift */; };
 		FBB7DFBC1EA8A8DE006C0D54 /* SelectFacebookEventInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB7DFBB1EA8A8DE006C0D54 /* SelectFacebookEventInteractor.swift */; };
 		FBF5A9C21E959FA0000CED7A /* GraphManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF5A9C11E959FA0000CED7A /* GraphManager.swift */; };
 		FBF5A9C61E977810000CED7A /* KeychainStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF5A9C51E977810000CED7A /* KeychainStorage.swift */; };
@@ -137,6 +137,7 @@
 		10DA93241EAA08B40054F338 /* UserCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCells.swift; sourceTree = "<group>"; };
 		10FCD6E91FC056B000856889 /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
 		10FCD6EB1FC1952A00856889 /* GraphCreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphCreateAccountViewController.swift; sourceTree = "<group>"; };
+		10FDAA6B1FDD66280023800E /* FacebookEventEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookEventEntity.swift; sourceTree = "<group>"; };
 		3116C0615A92BACF892E9C63 /* Pods-Salsette.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Salsette.release.xcconfig"; path = "Pods/Target Support Files/Pods-Salsette/Pods-Salsette.release.xcconfig"; sourceTree = "<group>"; };
 		A26ECBEDA3D5B5A569304D7F /* Pods-Salsette.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Salsette.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Salsette/Pods-Salsette.debug.xcconfig"; sourceTree = "<group>"; };
 		E4A7EBEAF4AC4F4083A3DDE9 /* Pods_Salsette.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Salsette.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -152,7 +153,6 @@
 		FB6D92071EBBD26900025CD8 /* PickerLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerLabel.swift; sourceTree = "<group>"; };
 		FB6D92091EBBD97300025CD8 /* WorkshopsEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkshopsEditViewController.swift; sourceTree = "<group>"; };
 		FB6D920B1EBBD9A100025CD8 /* ScheduleEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleEditViewController.swift; sourceTree = "<group>"; };
-		FB9B176E1E9E6ECE00682076 /* Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		FBB7DFBB1EA8A8DE006C0D54 /* SelectFacebookEventInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectFacebookEventInteractor.swift; sourceTree = "<group>"; };
 		FBD9E0BC1FACC29800D8ADF1 /* codegen.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = codegen.md; sourceTree = "<group>"; };
 		FBF5A9C11E959FA0000CED7A /* GraphManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphManager.swift; sourceTree = "<group>"; };
@@ -196,21 +196,18 @@
 		1033E54E1E75C7A0002D1615 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				106EAF3F1E93200D004686B5 /* SwiftyJSON.swift */,
 				1053CA091EF46C370034844A /* Array.swift */,
-				1068D2D91FCCAD3D005A9A95 /* NSError.swift */,
-				10AD82301EF5C83A0060F020 /* Date.swift */,
-				106EAF3A1E92DFA8004686B5 /* DateFormatters.swift */,
-				1033E5431E75AAB3002D1615 /* UIFont+Appfonts.swift */,
-				1033E5511E75C7AA002D1615 /* String.swift */,
-				10B9AF751E7DA2900033A6BF /* UImage+Additions.swift */,
 				10B9AF771E7E96870033A6BF /* CGSize+Additions.swift */,
-				FB6756D01EB45FFC00B2E4D5 /* UIView+Hero.swift */,
-				10ACDD7A1F02E310007B6F1A /* UINavigationController.swift */,
+				10AD82301EF5C83A0060F020 /* Date.swift */,
+				1068D2D91FCCAD3D005A9A95 /* NSError.swift */,
+				1033E5511E75C7AA002D1615 /* String.swift */,
 				FB136E6A1E989FCA00A5F1E4 /* UIAlertController+Loading.swift */,
 				108D142E1F102EF90056749B /* UICollectionViewFlowLayout.swift */,
+				1033E5431E75AAB3002D1615 /* UIFont+Appfonts.swift */,
+				10B9AF751E7DA2900033A6BF /* UImage+Additions.swift */,
+				10ACDD7A1F02E310007B6F1A /* UINavigationController.swift */,
 				10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */,
-				FB6D92071EBBD26900025CD8 /* PickerLabel.swift */,
+				FB6756D01EB45FFC00B2E4D5 /* UIView+Hero.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -218,13 +215,13 @@
 		104A1A141F547CB5001A111B /* GraphQL */ = {
 			isa = PBXGroup;
 			children = (
+				10D7CEBD1FDCA94600E71EBB /* GraphModel.swift */,
+				FBF5A9C11E959FA0000CED7A /* GraphManager.swift */,
+				106EB0271E94636E004686B5 /* API.swift */,
 				FBD9E0BC1FACC29800D8ADF1 /* codegen.md */,
 				104A1A171F547F5B001A111B /* schema.json */,
 				106EB02B1E94661A004686B5 /* CurrentUser.graphql */,
 				104A1A151F547D1E001A111B /* Events.graphql */,
-				106EB0271E94636E004686B5 /* API.swift */,
-				10D7CEBD1FDCA94600E71EBB /* GraphModel.swift */,
-				FBF5A9C11E959FA0000CED7A /* GraphManager.swift */,
 			);
 			name = GraphQL;
 			sourceTree = "<group>";
@@ -247,13 +244,11 @@
 		106EAF3C1E92E394004686B5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				109AFB5B1E902EA700E424F6 /* FacebookPermissions.swift */,
-				FB420F2E1EA7AA830022380D /* FacebookService.swift */,
+				10FDAA6D1FDD66530023800E /* Facebook */,
 				104A1A141F547CB5001A111B /* GraphQL */,
 				FB136E681E989EEA00A5F1E4 /* Auth0Manager.swift */,
 				FBF5A9C51E977810000CED7A /* KeychainStorage.swift */,
 				106EAF3D1E92E3B1004686B5 /* ImageDownloader.swift */,
-				FB9B176E1E9E6ECE00682076 /* Keys.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -325,9 +320,12 @@
 		10D8D8661ED9DB48008A5A76 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
-				10D8D8641ED9DB3B008A5A76 /* PassThroughView.swift */,
+				106EAF3A1E92DFA8004686B5 /* DateFormatters.swift */,
 				10D8D8671ED9DCAE008A5A76 /* InputAccessoryView.swift */,
 				10D8D8691ED9E489008A5A76 /* InputAccessoryView.xib */,
+				106EAF3F1E93200D004686B5 /* SwiftyJSON.swift */,
+				10D8D8641ED9DB3B008A5A76 /* PassThroughView.swift */,
+				FB6D92071EBBD26900025CD8 /* PickerLabel.swift */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -342,6 +340,16 @@
 				10BE40AB1EE31E58006D3DAC /* CreateWorkshopViewController.swift */,
 			);
 			name = Workshops;
+			sourceTree = "<group>";
+		};
+		10FDAA6D1FDD66530023800E /* Facebook */ = {
+			isa = PBXGroup;
+			children = (
+				10FDAA6B1FDD66280023800E /* FacebookEventEntity.swift */,
+				109AFB5B1E902EA700E424F6 /* FacebookPermissions.swift */,
+				FB420F2E1EA7AA830022380D /* FacebookService.swift */,
+			);
+			name = Facebook;
 			sourceTree = "<group>";
 		};
 		4CEF28E96403B60C28B1613B /* Pods */ = {
@@ -596,8 +604,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBB7DFBC1EA8A8DE006C0D54 /* SelectFacebookEventInteractor.swift in Sources */,
+				10FDAA6C1FDD66280023800E /* FacebookEventEntity.swift in Sources */,
 				10BE40AC1EE31E58006D3DAC /* CreateWorkshopViewController.swift in Sources */,
-				FB9B176F1E9E6ECE00682076 /* Keys.swift in Sources */,
 				FB6D920A1EBBD97300025CD8 /* WorkshopsEditViewController.swift in Sources */,
 				108D142F1F102EF90056749B /* UICollectionViewFlowLayout.swift in Sources */,
 				FBF5A9C61E977810000CED7A /* KeychainStorage.swift in Sources */,

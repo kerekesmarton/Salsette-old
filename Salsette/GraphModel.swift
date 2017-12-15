@@ -2,7 +2,7 @@
 
 import Foundation
 
-struct EventModel {
+public struct EventModel {
     let fbID: String
     let type: Dance
     var id: String? = nil
@@ -16,7 +16,7 @@ struct EventModel {
     }
 }
 
-struct WorkshopModel: Equatable {
+public struct WorkshopModel: Equatable {
     var room: String
     var startTime: Date
     var artist: String? = nil
@@ -68,6 +68,6 @@ struct WorkshopModel: Equatable {
     }
 }
 
-func ==(lhs: WorkshopModel, rhs: WorkshopModel) -> Bool {    
+public func ==(lhs: WorkshopModel, rhs: WorkshopModel) -> Bool {    
     return lhs.id == rhs.id
 }

@@ -25,6 +25,13 @@ import Foundation
 import SimpleKeychain
 import Auth0
 
+private enum Keys {
+    static let auth0Token = "auth0Token"
+    static let refreshToken = "refresh_token"
+    static let expiresIn = "expiresIn"
+    static let userId = "userId"
+}
+
 enum Auth0ManagerError: Error {
     case noIdToken
     case noRefreshToken

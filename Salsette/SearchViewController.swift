@@ -44,7 +44,6 @@ class SearchViewController: UICollectionViewController {
             collectionView?.reloadData()
         }
     }
-    var searchParameters = SearchParameters.shared
     var emptyDataSetString: String? = nil
     var emptyDataSetCustomView: UIView? = nil
     
@@ -55,7 +54,7 @@ class SearchViewController: UICollectionViewController {
         customiseTypeField()
         profileButton.isEnabled = searchInteractor.canViewProfile()
         collectionView?.emptyDataSetSource = self
-        searchInteractor.load(with: searchParameters)
+        searchInteractor.load()
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -107,7 +106,7 @@ extension SearchViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         switch textField {
         case locationField:
-            searchInteractor.didChange(.location(locationField.text!))
+            searchInteractor.didChange(.location(locationField.text))
         default:
             ()
         }
@@ -118,6 +117,7 @@ extension SearchViewController: UITextFieldDelegate {
         case typeField:
             let row = typePicker.selectedRow(inComponent: 0)
             typePicker.selectRow(row, inComponent: 0, animated: false)
+            typeField.text = Dance.string(at: row)            
         default:
             ()
         }
@@ -134,10 +134,6 @@ extension SearchViewController: UITextFieldDelegate {
         default:
             ()
         }
-        return true
-    }
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return true
     }
     
@@ -165,8 +161,7 @@ extension SearchViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        switch kind {
-        case "UICollectionElementKindSectionHeader":
+        if kind == UICollectionElementKindSectionHeader {
             let suplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SearchContainer", for: indexPath)
             let layout = collectionView.collectionViewLayout as? SearchResultsCollectionViewLayout
             layout?.headerReferenceSize = CGSize(width: collectionView.frame.width, height: 220)
@@ -178,7 +173,7 @@ extension SearchViewController {
             let heightConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.height, multiplier: 1, constant: 0)
             view.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
             return suplementaryView
-        default:
+        } else {
             let suplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SearchFooter", for: indexPath)
             let layout = collectionView.collectionViewLayout as? SearchResultsCollectionViewLayout
             layout?.footerReferenceSize = CGSize(width: collectionView.frame.width, height: 20)
@@ -230,13 +225,13 @@ extension SearchViewController {
 
 extension SearchViewController: FBSDKLoginButtonDelegate {
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        searchInteractor.load(with: searchParameters)
+        searchInteractor.load()
         profileButton.isEnabled = searchInteractor.canViewProfile()
     }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {       
         searchInteractor.deleteKeychain()
-        searchInteractor.load(with: searchParameters)
+        searchInteractor.load()
         profileButton.isEnabled = searchInteractor.canViewProfile()
     }
 }
@@ -262,7 +257,7 @@ fileprivate extension SearchViewController {
             self.locationField.becomeFirstResponder()
         }, previous: nil, done: { (doneBtn) in
             self.dateField.resignFirstResponder()
-            self.searchInteractor.load(with: self.searchParameters)
+            self.searchInteractor.load()
         })
         dateIAV.prevTitle = nil
         dateField.inputAccessoryView = dateIAV
@@ -275,7 +270,11 @@ fileprivate extension SearchViewController {
             self.dateField.becomeFirstResponder()
         }, done: { (doneBtn) in
             self.locationField.resignFirstResponder()
-            self.searchInteractor.load(with: self.searchParameters)
+            guard let searchTerm = self.locationField.text else {
+                return
+            }
+            self.searchInteractor.didChange(.location(searchTerm))
+            self.searchInteractor.load()
         })
     }
     
@@ -288,7 +287,9 @@ fileprivate extension SearchViewController {
             self.locationField.becomeFirstResponder()
         }, done: { (doneBtn) in
             self.typeField.resignFirstResponder()
-            self.searchInteractor.load(with: self.searchParameters)
+            let selectedRow = self.typePicker.selectedRow(inComponent: 0)
+            self.searchInteractor.didChange(.type(Dance.item(at: selectedRow)))
+            self.searchInteractor.load()
         })
         typeIAV.nextTitle = nil
         typeField.inputAccessoryView = typeIAV

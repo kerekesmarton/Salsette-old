@@ -15,10 +15,10 @@ struct SearchParameters {
 
 class SearchInteractor {
     enum DataType{
-        case name(String)
-        case location(String)
+        case name(String?)
+        case location(String?)
         case dates(Date?,Date?)
-        case type(Dance)
+        case type(Dance?)
     }
     let searchPresenter: SearchPresenter
     init(presenter: SearchPresenter, fbService: FacebookService = FacebookService.shared) {
@@ -36,6 +36,7 @@ class SearchInteractor {
             if startDate == nil {
                 startDate = date
                 searchPresenter.update(startDate: date)
+                didChange(.dates(startDate, nil))
             } else if endDate == nil {
                 endDate = date
                 searchPresenter.update(startDate: startDate, endDate: date)
@@ -65,7 +66,25 @@ class SearchInteractor {
     var startDate: Date?
     var endDate: Date?
     
-    func load(with parameters: SearchParameters) {
+    fileprivate func match(_ facebookEvents:[FacebookEventEntity], to eventModels: [EventModel]?) {
+        facebookEvents.forEach({ (facebookEntity) in
+            if let index = eventModels?.index(where: { return $0.id == facebookEntity.identifier }), let graphEvent = eventModels?[index] {
+                facebookEntity.event = graphEvent
+            }
+        })
+    }
+    
+    fileprivate func loadGraphEvents(for facebookEvents:[FacebookEventEntity]) {
+        let ids = facebookEvents.flatMap({ (entity) -> String? in
+            return entity.identifier
+        })
+        GraphManager.shared.searchEvents(fbIDs: ids, closure: { [weak self] (eventModels, error) in
+            self?.match(facebookEvents, to: eventModels)
+            self?.searchPresenter.results(with: facebookEvents)
+        })
+    }
+    
+    func load() {
         //          offline
         //        let items: [ContentEntityInterface] = AppTutorial.didShow ? DummySearchDatSource().dummyEvents : AppTutorial.cards
         //        completion(items,nil)
@@ -74,11 +93,12 @@ class SearchInteractor {
         
         //online
         searchPresenter.loading(message: "Loading...")
-        FacebookService.shared.loadEvents(with: parameters) { [weak self] (events, error) in
+        FacebookService.shared.loadEvents(with: searchParameters) { [weak self] (events, error) in
             if let error = error as NSError? {
                 self?.searchPresenter.results(with: error)
             } else if let events = events {
                 self?.searchPresenter.results(with: events)
+//                self?.loadGraphEvents(for: events)
             }
         }
     }

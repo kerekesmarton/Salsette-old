@@ -46,8 +46,8 @@ class WorkshopsEditViewController: UICollectionViewController {
     
     var items = [WorkshopModel](){
         didSet {
-            roomNames = items.reduce(into: Set<String>(), { $0.insert($1.room) })
-            startTimes = items.reduce(into: Set<Date>(), { $0.insert($1.startTime) })
+            items.forEach( { roomNames.insert($0.room) })
+            items.forEach( { startTimes.insert($0.startTime) })
             
             let rooms: [Room] = roomNames.sorted().map { roomName in
                 return createRoom(roomName)
@@ -80,11 +80,8 @@ class WorkshopsEditViewController: UICollectionViewController {
     }
     
     @objc private func dismissAndPerformDone() {
-        dismiss(animated: true) {
-            if let done = self.done {
-                done(self.items)
-            }
-        }
+        done?(items)
+        dismiss(animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -175,21 +172,25 @@ extension WorkshopsEditViewController {
         if sourceItem.isEqual(to: destinationItem)  {
             return
         }
-        if let sourceIndex = items.index(where: { (item) -> Bool in sourceItem.isEqual(to: item) }) {
-            items.remove(at: sourceIndex)
-        }
         
-        if let destIndex = items.index(where: { (item) -> Bool in destinationItem.isEqual(to: item) }) {
-            items.remove(at: destIndex)
+        if !sourceItem.isEmpty {
+            items.remove(item: sourceItem)
         }
+        if !destinationItem.isEmpty {
+            items.remove(item: destinationItem)
+        }                
         
         let tempItem = destinationItem
         destinationItem.room = sourceItem.room
         destinationItem.startTime = sourceItem.startTime
         sourceItem.room = tempItem.room
         sourceItem.startTime = tempItem.startTime
-        items.append(sourceItem)
-        items.append(destinationItem)
+        if !sourceItem.isEmpty {
+            items.append(sourceItem)
+        }
+        if !destinationItem.isEmpty {
+            items.append(destinationItem)
+        }
         collectionView.reloadItems(at: [sourceIndexPath])
     }
 }

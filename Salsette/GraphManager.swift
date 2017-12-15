@@ -118,6 +118,28 @@ class GraphManager {
             }
         })
     }
+
+    @discardableResult func searchEvents(fbIDs: [String], closure: @escaping ([EventModel]?, Error?)->Void) -> Cancellable? {
+        guard let client = authorisedClient else {
+            closure(nil, NSError(with: "Please log in"))
+            return nil
+        }
+        let query = FetchEventQuery(filter: EventFilter(fbIdIn: fbIDs))
+        return client.fetch(query: query, cachePolicy: .fetchIgnoringCacheData, resultHandler: { (result, error) in
+            if let serverError = result?.errors {
+                closure(nil, self.error(from: serverError))
+            } else if let _ = error {
+                closure(nil, NSError(with: "Please log in again."))
+            } else if let events = result?.data?.allEvents {
+                let models = events.map({ (event) -> EventModel in
+                    EventModel(fbID: event.fbId, type: event.type, id: event.id, workshops: WorkshopModel.workshops(from: event))
+                })
+                closure(models, nil)
+            } else {
+                closure(nil, nil)
+            }
+        })
+    }
     
     @discardableResult func serchAllEvents(closure: @escaping ([EventModel]?, Error?)->Void) -> Cancellable? {
         guard let client = authorisedClient else {

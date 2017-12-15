@@ -14,6 +14,7 @@ public protocol ContentEntityInterface {
     var shortDescription: String? { get }
     var longDescription: String? { get }
     var identifier: String? { get }
+    var event: EventModel? { get }
 }
 
 extension ContentEntityInterface {

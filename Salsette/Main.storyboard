@@ -1220,12 +1220,12 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                 </pickerView>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" id="N1d-Co-j4F">
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="4" id="N1d-Co-j4F">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="209"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mol-si-GdU" customClass="HoshiTextField" customModule="TextFieldEffects">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="64.5"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mol-si-GdU" customClass="HoshiTextField" customModule="TextFieldEffects">
+                            <rect key="frame" x="8" y="0.0" width="304" height="67"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -1238,11 +1238,17 @@
                                 </userDefinedRuntimeAttribute>
                                 <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
                                     <color key="value" red="0.111818932" green="0.11183650050000001" blue="0.1118125319" alpha="1" colorSpace="calibratedRGB"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                    <real key="value" value="0.0"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R8o-ha-vw3" customClass="HoshiTextField" customModule="TextFieldEffects">
-                            <rect key="frame" x="0.0" y="72.5" width="320" height="64"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R8o-ha-vw3" customClass="HoshiTextField" customModule="TextFieldEffects">
+                            <rect key="frame" x="8" y="71" width="304" height="67"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -1255,11 +1261,17 @@
                                 </userDefinedRuntimeAttribute>
                                 <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
                                     <color key="value" red="0.111818932" green="0.11183650050000001" blue="0.1118125319" alpha="1" colorSpace="calibratedRGB"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                    <real key="value" value="0.0"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Type" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mcj-cS-Pmz" customClass="HoshiTextField" customModule="TextFieldEffects">
-                            <rect key="frame" x="0.0" y="144.5" width="320" height="64.5"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Type" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mcj-cS-Pmz" customClass="HoshiTextField" customModule="TextFieldEffects">
+                            <rect key="frame" x="8" y="142" width="304" height="67"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -1272,10 +1284,24 @@
                                 </userDefinedRuntimeAttribute>
                                 <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
                                     <color key="value" red="0.111818932" green="0.11183650050000001" blue="0.1118125319" alpha="1" colorSpace="calibratedRGB"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                    <real key="value" value="0.0"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
                     </subviews>
+                    <constraints>
+                        <constraint firstItem="mcj-cS-Pmz" firstAttribute="leading" secondItem="N1d-Co-j4F" secondAttribute="leading" constant="8" id="7OG-2x-o27"/>
+                        <constraint firstItem="R8o-ha-vw3" firstAttribute="leading" secondItem="N1d-Co-j4F" secondAttribute="leading" constant="8" id="E8M-Yg-mnW"/>
+                        <constraint firstAttribute="trailing" secondItem="R8o-ha-vw3" secondAttribute="trailing" constant="8" id="Lr5-fV-N73"/>
+                        <constraint firstItem="Mol-si-GdU" firstAttribute="leading" secondItem="N1d-Co-j4F" secondAttribute="leading" constant="8" id="bEH-6W-dXI"/>
+                        <constraint firstAttribute="trailing" secondItem="Mol-si-GdU" secondAttribute="trailing" constant="8" id="nXl-Gp-3ag"/>
+                        <constraint firstAttribute="trailing" secondItem="mcj-cS-Pmz" secondAttribute="trailing" constant="8" id="yzX-1v-l9E"/>
+                    </constraints>
                 </stackView>
             </objects>
             <point key="canvasLocation" x="1755" y="1244.3661971830986"/>

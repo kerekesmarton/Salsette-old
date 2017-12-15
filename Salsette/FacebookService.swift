@@ -15,7 +15,7 @@ class FacebookService {
     private init() {}
 
     static let shared = FacebookService()
-    private var simpleConnection: FBSDKGraphRequestConnection?
+    fileprivate var simpleConnection: FBSDKGraphRequestConnection?
     var cachedUserEvents: Any?
     
     var isLoggedIn: Bool {
@@ -82,39 +82,21 @@ class FacebookService {
         })
     }
     
-    private var operationQueue: OperationQueue? = OperationQueue()
+    fileprivate var operationQueue: OperationQueue? = OperationQueue()
     func loadEvents(with parameters: SearchParameters, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
         cancel()
-        places(with: parameters, completion: { (ids, error) in
-            
+        events(with: parameters, completion: { (events, error) in
             if self.validError(error: error, completion: completion) {
                 return
-            } else if let ids = ids, ids.count > 0 {
-                
-                self.eventsByPlaces(with: ids,
-                                    startDate: parameters.startDate,
-                                    endDate: parameters.endDate,
-                                    completion: completion)
-            } else if parameters.location == nil {
-                self.eventsByType(with: parameters, completion: { (events, error) in
-                    
-                    if self.validError(error: error, completion: completion) {
-                        return
-                    } else if let events = events, events.count > 0 {
-                        completion(events,nil)
-                    } else {
-                        self.loadUserEvents(completion: completion)
-                    }
-                })
+            } else if let events = events, events.count > 0 {
+                completion(events,nil)
             } else {
-                completion(nil, nil)
+                self.loadUserEvents(completion: completion)
             }
         })
-        
-        
     }
     
-    private func validError(error: Error?, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) -> Bool {
+    fileprivate func validError(error: Error?, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) -> Bool {
         if let error = error {
             completion(nil, error)
             return true
@@ -123,7 +105,7 @@ class FacebookService {
         }
     }
     
-    private func filter(results: [FacebookEventEntity]?, startDate: Date?, endDate: Date?) -> [FacebookEventEntity] {
+    fileprivate func filter(results: [FacebookEventEntity]?, startDate: Date?, endDate: Date?) -> [FacebookEventEntity] {
     
         guard let results = results else {
             return []
@@ -143,9 +125,117 @@ class FacebookService {
         
     }
     
-    private var eventsByPlaceConnection: FBSDKGraphRequestConnection?
-    func eventsByPlaces(with ids:[String], startDate: Date?, endDate: Date?, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
-        self.eventsByPlaceConnection = FBSDKGraphRequestConnection()
+    fileprivate func fillDateOn(_ parameters: SearchParameters, _ request: FBSDKGraphRequest?) {
+        if let date = parameters.startDate {
+            let dateString = DateFormatters.dateFormatter.string(from: date)
+            request?.parameters.addEntries(from: ["since":dateString])
+        } else {
+            request?.parameters.addEntries(from: ["since":"now"])
+        }
+        if let date = parameters.endDate {
+            let dateString = DateFormatters.dateFormatter.string(from: date)
+            request?.parameters.addEntries(from: ["until":dateString])
+        }
+    }
+    
+    private func events(with parameters: SearchParameters, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
+        
+        var searchTerms = ""
+        if let location = parameters.location, location.count > 0 {
+            searchTerms = location
+        }
+        if let type = parameters.type?.rawValue, type.count > 0 {
+            searchTerms.append(" \(type)")
+        }
+        guard searchTerms.count > 0 else {
+            completion([],nil)
+            return
+        }
+        if parameters.type?.rawValue == nil {
+            searchTerms.append(" \(Dance.dance.rawValue)")
+        }
+        let request = FBSDKGraphRequest(graphPath: "/search", parameters: ["q":"\(searchTerms)", "type":"event", "fields":"name,place,start_time,end_time,cover,owner,description"])
+//        fillDateOn(parameters, request)
+        
+        self.simpleConnection = request?.start(completionHandler: { (connection, result, error) in
+            if let returnedError = error {
+                completion(nil, returnedError)
+            } else if let returnedResult = result {
+                
+                let results = FacebookEventEntity.create(with: returnedResult).sorted(by: { (event1, event2) -> Bool in
+                    guard let s1 = event1.startDate, let s2 = event2.startDate else {
+                        return event1.hashValue < event2.hashValue
+                    }
+                    return s1 < s2
+                })
+                completion(results, nil)
+//                completion(self.filter(results: results, startDate: parameters.startDate, endDate: parameters.endDate), nil)
+            }
+        })
+    }
+    
+    func cancel() {
+        if let existingConnection = simpleConnection {
+            existingConnection.cancel()
+            simpleConnection = nil
+        }
+        operationQueue?.cancelAllOperations()
+        if let existingConnection = eventsByPlaceConnection {
+            existingConnection.cancel()
+            eventsByPlaceConnection = nil
+        }
+        if let existingConnection = simpleConnection {
+            existingConnection.cancel()
+            simpleConnection = nil
+        }
+        
+    }
+    
+    //MARK: - unused
+    fileprivate var eventsByPlaceConnection: FBSDKGraphRequestConnection?
+}
+
+fileprivate extension FacebookService {
+     func loadPlaces(_ parameters: SearchParameters, _ completion: @escaping ([FacebookEventEntity]?, Error?) -> Void) {
+        places(with: parameters, completion: { (ids, error) in
+            
+            if self.validError(error: error, completion: completion) {
+                return
+            } else if let ids = ids, ids.count > 0 {
+                
+                self.eventsByPlaces(with: ids,
+                                    startDate: parameters.startDate,
+                                    endDate: parameters.endDate,
+                                    completion: completion)
+            } else if parameters.location == nil {
+                //
+            } else {
+                completion(nil, nil)
+            }
+        })
+    }
+    
+    private func places(with parameters: SearchParameters, completion: @escaping ([String]?, Error?)->Void) {
+        guard var queryString = parameters.location else {
+            completion([],nil)
+            return
+        }
+        let typeQuery = parameters.type?.rawValue ?? "Dance"
+        queryString.append(" \(typeQuery)")
+        let request = FBSDKGraphRequest(graphPath: "/search", parameters: ["q":"\(queryString)","type":"place", "fields":"name,location","limit":"25"])
+        simpleConnection = request?.start(completionHandler: { (connection, result, error) in
+            if let returnedError = error {
+                completion(nil, returnedError)
+            } else if let returnedResult = result {
+                let result = JSON(returnedResult)["data"].flatMap { return $1["id"].string }
+                completion(result, nil)
+            }
+        })
+    }
+    
+    
+    func eventsByPlaces(with ids:[String], startDate: Date?, endDate: Date?, completion: @escaping ([FacebookEventEntity]?, Error?) -> Void) {
+        eventsByPlaceConnection = FBSDKGraphRequestConnection()
         var eventSet = Set<FacebookEventEntity>()
         var results: [FacebookEventEntity]?
         let sortOperation = BlockOperation(block: {
@@ -193,140 +283,4 @@ class FacebookService {
             }
         })
     }
-    
-    private func eventsByType(with parameters: SearchParameters, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
-        guard let type = parameters.type?.rawValue else {
-            completion([],nil)
-            return
-        }
-        let request = FBSDKGraphRequest(graphPath: "/search", parameters: ["q":"\(type)", "type":"event", "fields":"name,place,start_time,end_time,cover,owner,description"])
-        if let date = parameters.startDate {
-            let dateString = DateFormatters.dateFormatter.string(from: date)
-            request?.parameters.addEntries(from: ["since":dateString])
-        } else {
-            request?.parameters.addEntries(from: ["since":"now"])
-        }
-        if let date = parameters.endDate {
-            let dateString = DateFormatters.dateFormatter.string(from: date)
-            request?.parameters.addEntries(from: ["until":dateString])
-        }
-        
-        self.simpleConnection = request?.start(completionHandler: { (connection, result, error) in
-            if let returnedError = error {
-                completion(nil, returnedError)
-            } else if let returnedResult = result {
-                
-                let results = FacebookEventEntity.create(with: returnedResult).sorted(by: { (event1, event2) -> Bool in
-                    guard let s1 = event1.startDate, let s2 = event2.startDate else {
-                        return event1.hashValue < event2.hashValue
-                    }
-                    return s1 < s2
-                })
-                completion(self.filter(results: results, startDate: parameters.startDate, endDate: parameters.endDate), nil)
-            }
-        })
-    }
-    
-    private func places(with parameters: SearchParameters, completion: @escaping ([String]?, Error?)->Void) {
-        guard var queryString = parameters.location else {
-            completion([],nil)
-            return
-        }
-        let typeQuery = parameters.type?.rawValue ?? "Dance"
-        queryString.append(" \(typeQuery)")
-        let request = FBSDKGraphRequest(graphPath: "/search", parameters: ["q":"\(queryString)","type":"place", "fields":"name,location","limit":"25"])
-        simpleConnection = request?.start(completionHandler: { (connection, result, error) in
-            if let returnedError = error {
-                completion(nil, returnedError)
-            } else if let returnedResult = result {
-                let result = JSON(returnedResult)["data"].flatMap { return $1["id"].string }
-                completion(result, nil)
-            }
-        })
-    }
-    
-    func cancel() {
-        if let existingConnection = simpleConnection {
-            existingConnection.cancel()
-            simpleConnection = nil
-        }
-        operationQueue?.cancelAllOperations()
-        if let existingConnection = eventsByPlaceConnection {
-            existingConnection.cancel()
-            eventsByPlaceConnection = nil
-        }
-        if let existingConnection = simpleConnection {
-            existingConnection.cancel()
-            simpleConnection = nil
-        }
-        
-    }
-}
-
-
-class FacebookEventEntity: ContentEntityInterface, Equatable, Hashable {
-    var name: String?
-    var place: String?
-    var location: String?
-    var startDate: Date?
-    var endDate: Date?
-    var imageUrl: String?
-    var image: UIImage?
-    var identifier: String?
-    var organiser: String?
-    var longDescription: String?
-    var shortDescription: String? = nil
-
-    convenience init(with dictionary:[String:Any]) {
-        self.init(with: JSON(dictionary))
-    }
-    
-    convenience init(with dictionary: JSON) {
-        self.init()
-        name = dictionary["name"].string
-        place = dictionary["place"]["name"].string
-        location = location(from: dictionary["place"]["location"])
-        identifier = dictionary["id"].string
-        imageUrl = dictionary["cover"]["source"].string
-        organiser = dictionary["owner"]["name"].string
-        if let time = dictionary["start_time"].string {
-            startDate = DateFormatters.facebookDateTimeFormatter.date(from: time)
-        }
-        if let time = dictionary["end_time"].string {
-            endDate = DateFormatters.facebookDateTimeFormatter.date(from: time)
-        }
-        longDescription = dictionary["description"].string
-    }
-
-    convenience init(with id: String) {
-        self.init()
-        self.identifier = id
-    }
-    
-    class func create(with data: Any) ->[FacebookEventEntity] {
-        let items = JSON(data)["data"]
-        return items.map({ (_, body) -> FacebookEventEntity in
-            return FacebookEventEntity(with: body)
-        })
-    }
-    
-    private func location(from json: JSON) -> String {
-        var address = "\(json["zip"].string ?? "") \(json["city"].string ?? "") \(json["street"].string ?? "") \(json["country"].string ?? "")"
-        
-        if let lon = json["longitude"].string, let lat = json["latitude"].string {
-            address.append("latitude:\(lat), longitude:\(lon)")
-        }
-        
-        return address
-    }
-    
-    var hashValue: Int {
-        guard let identifier = identifier, let hash = Int(identifier) else { return 0 }
-        return hash
-    }
-    
-}
-
-func == (lhs: FacebookEventEntity, rhs: FacebookEventEntity) -> Bool {
-    return lhs.identifier == rhs.identifier
 }
