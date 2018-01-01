@@ -1718,6 +1718,95 @@ public final class FetchAllEventQuery: GraphQLQuery {
   }
 }
 
+public final class DeleteEventMutation: GraphQLMutation {
+  public static let operationString =
+    "mutation DeleteEvent($id: ID!) {\n  deleteEvent(id: $id) {\n    __typename\n    id\n    fbID\n  }\n}"
+
+  public var id: GraphQLID
+
+  public init(id: GraphQLID) {
+    self.id = id
+  }
+
+  public var variables: GraphQLMap? {
+    return ["id": id]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes = ["Mutation"]
+
+    public static let selections: [GraphQLSelection] = [
+      GraphQLField("deleteEvent", arguments: ["id": GraphQLVariable("id")], type: .object(DeleteEvent.selections)),
+    ]
+
+    public var snapshot: Snapshot
+
+    public init(snapshot: Snapshot) {
+      self.snapshot = snapshot
+    }
+
+    public init(deleteEvent: DeleteEvent? = nil) {
+      self.init(snapshot: ["__typename": "Mutation", "deleteEvent": deleteEvent.flatMap { $0.snapshot }])
+    }
+
+    public var deleteEvent: DeleteEvent? {
+      get {
+        return (snapshot["deleteEvent"] as? Snapshot).flatMap { DeleteEvent(snapshot: $0) }
+      }
+      set {
+        snapshot.updateValue(newValue?.snapshot, forKey: "deleteEvent")
+      }
+    }
+
+    public struct DeleteEvent: GraphQLSelectionSet {
+      public static let possibleTypes = ["Event"]
+
+      public static let selections: [GraphQLSelection] = [
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+        GraphQLField("fbID", type: .nonNull(.scalar(String.self))),
+      ]
+
+      public var snapshot: Snapshot
+
+      public init(snapshot: Snapshot) {
+        self.snapshot = snapshot
+      }
+
+      public init(id: GraphQLID, fbId: String) {
+        self.init(snapshot: ["__typename": "Event", "id": id, "fbID": fbId])
+      }
+
+      public var __typename: String {
+        get {
+          return snapshot["__typename"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var id: GraphQLID {
+        get {
+          return snapshot["id"]! as! GraphQLID
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      public var fbId: String {
+        get {
+          return snapshot["fbID"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "fbID")
+        }
+      }
+    }
+  }
+}
+
 public final class CreateWorkshopMutation: GraphQLMutation {
   public static let operationString =
     "mutation CreateWorkshop($artist: String!, $name: String!, $room: String!, $startTime: DateTime!, $eventId: ID) {\n  createWorkshop(artist: $artist, name: $name, room: $room, startTime: $startTime, eventId: $eventId) {\n    __typename\n    name\n    startTime\n    artist\n    room\n    id\n  }\n}"

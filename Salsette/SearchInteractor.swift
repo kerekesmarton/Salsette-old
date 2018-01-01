@@ -66,33 +66,20 @@ class SearchInteractor {
     var startDate: Date?
     var endDate: Date?
     
-    fileprivate func match(_ facebookEvents:[FacebookEventEntity], to eventModels: [EventModel]?) {
-        facebookEvents.forEach({ (facebookEntity) in
-            if let index = eventModels?.index(where: { return $0.id == facebookEntity.identifier }), let graphEvent = eventModels?[index] {
-                facebookEntity.event = graphEvent
-            }
-        })
-    }
-    
     fileprivate func loadGraphEvents(for facebookEvents:[FacebookEventEntity]) {
         let ids = facebookEvents.flatMap({ (entity) -> String? in
             return entity.identifier
         })
         GraphManager.shared.searchEvents(fbIDs: ids, closure: { [weak self] (eventModels, error) in
-            self?.match(facebookEvents, to: eventModels)
             self?.searchPresenter.results(with: facebookEvents)
         })
     }
     
     func load() {
-        //          offline
-        //        let items: [ContentEntityInterface] = AppTutorial.didShow ? DummySearchDatSource().dummyEvents : AppTutorial.cards
-        //        completion(items,nil)
-        //        return
-        //
-        
-        //online
         searchPresenter.loading(message: "Loading...")
+        if searchParameters.type == nil {
+            searchParameters.type = .dance
+        }
         FacebookService.shared.loadEvents(with: searchParameters) { [weak self] (events, error) in
             if let error = error as NSError? {
                 self?.searchPresenter.results(with: error)
@@ -102,6 +89,20 @@ class SearchInteractor {
             }
         }
     }
+    
+    func loadInitial() {
+        searchPresenter.loading(message: "Loading...")
+        FacebookService.shared.loadUserEvents() { [weak self] (events, error) in
+            if let error = error as NSError? {
+                self?.searchPresenter.results(with: error)
+            } else if let events = events {
+                self?.searchPresenter.results(with: events)
+                //                self?.loadGraphEvents(for: events)
+            }
+        }
+    }
+    
+    
     
     func canViewProfile() -> Bool {
         return fbService.isLoggedIn
@@ -119,10 +120,12 @@ extension SearchInteractor: CalendarViewSelectionDelegate {
             return true // no start date, pick it
         }
         if startDate > date {
-            return false
+            self.startDate = nil
+            self.endDate = nil
+            controller.deselectAll()
+            return true
         }
         guard let endDate = endDate else {
-            
             return true // no end date, pick it
         }
         if startDate < date && endDate > date {
@@ -151,7 +154,6 @@ extension SearchInteractor: CalendarViewSelectionDelegate {
     }
     
     func calendarViewController(shouldDeselect date: Date, from selectedDates: [Date]) -> Bool {
-        
         guard let start = startDate, let end = endDate else {
             return true
         }

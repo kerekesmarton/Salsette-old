@@ -13,14 +13,14 @@ class CreateEventPresenter: NSObject {
     
     func viewReady() {        
         guard let fbEvent = view?.fbEvent else { return }
-        view?.state = CreateEventViewController.ViewState.loading
+        view?.state = .loading
         interactor.searchEvent(fbID: fbEvent.identifier) { [weak self] (graphEvent, error) in
             if let graphEvent = graphEvent {
-                self?.view?.state = CreateEventViewController.ViewState.eventExists(graphEvent)
+                self?.view?.state = .eventExists(graphEvent)
             } else if let error = error {
-                self?.view?.state = CreateEventViewController.ViewState.error(error)
+                self?.view?.state = .error(error)
             } else {
-                self?.view?.state = CreateEventViewController.ViewState.newEvent
+                self?.view?.state = .newEvent
             }
         }
     }
@@ -28,7 +28,7 @@ class CreateEventPresenter: NSObject {
     func shouldProceed() -> Bool {
         if view?.event == nil {
             let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Create event before adding workshops"])
-            view?.state = CreateEventViewController.ViewState.error(error)
+            view?.state = .error(error)
             return false
         } else {
             return true
@@ -38,29 +38,40 @@ class CreateEventPresenter: NSObject {
     func createEvent(type: Dance?) {
         guard let fbEvent = view?.fbEvent, let type = type else {
             let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Pick an event type"])
-            view?.state = CreateEventViewController.ViewState.error(error)
+            view?.state = .error(error)
             return
         }
         interactor.createEvent(fbID: fbEvent.identifier!, type: type) { [weak self] (graphEvent, error) in
             if let event = graphEvent {
-                self?.view?.state = CreateEventViewController.ViewState.eventExists(event)
+                self?.view?.state = .eventExists(event)
             } else if let error = error {
-                self?.view?.state = CreateEventViewController.ViewState.error(error)
+                self?.view?.state = .error(error)
             } else {
-                self?.view?.state = CreateEventViewController.ViewState.newEvent
+                self?.view?.state = .newEvent
+            }
+        }
+    }
+    
+    func deleteEvent(event: EventModel) {
+        view?.state = .loading
+        interactor.deleteEvent(graphID: event.id) { [weak self] (success, error) in
+            if let error = error {
+                self?.view?.state = .error(error)
+            } else {
+                self?.view?.state = .deleted
             }
         }
     }
     
     func update(event: EventModel, updated workshops: [WorkshopModel]) {
-        view?.state = CreateEventViewController.ViewState.loading
+        view?.state = .loading
         interactor.update(event: event, updated: workshops) { [weak self] (graphEvent, error) in
             if let graphEvent = graphEvent {
-                self?.view?.state = CreateEventViewController.ViewState.eventExists(graphEvent)
+                self?.view?.state = .eventExists(graphEvent)
             } else if let error = error {
-                self?.view?.state = CreateEventViewController.ViewState.error(error)
+                self?.view?.state = .error(error)
             } else {
-                self?.view?.state = CreateEventViewController.ViewState.newEvent
+                self?.view?.state = .newEvent
             }
         }
     }

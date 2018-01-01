@@ -39,7 +39,7 @@ class SearchViewController: UICollectionViewController {
     }()
     
     //MARK: - Results
-    var results = [ContentEntityInterface](){
+    var results = [SearchableEntity](){
         didSet {
             collectionView?.reloadData()
         }
@@ -54,7 +54,7 @@ class SearchViewController: UICollectionViewController {
         customiseTypeField()
         profileButton.isEnabled = searchInteractor.canViewProfile()
         collectionView?.emptyDataSetSource = self
-        searchInteractor.load()
+        searchInteractor.loadInitial()
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -143,6 +143,7 @@ extension SearchViewController: UITextFieldDelegate {
         }
         return true
     }
+    
 }
 
 extension SearchViewController {
@@ -206,7 +207,7 @@ extension SearchViewController {
         case loading(String)
         case failed(String)
         case needsFacebookLogin(String)
-        case success([ContentEntityInterface])
+        case success([SearchableEntity])
     }
     
     func setResult(_ viewModel: ResultsViewModel) {

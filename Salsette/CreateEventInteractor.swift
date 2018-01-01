@@ -53,6 +53,20 @@ class CreateEventInteractor {
         }
     }
     
+    func deleteEvent(graphID: String?, completion: @escaping ((Bool?, Error?) -> Void)) {
+        guard let graphID = graphID else {
+            completion(nil, nil)
+            return
+        }
+        graphManager.deleteEvent(graphID: graphID) { (success, error) in
+            if let error = error {
+                completion(nil, error)
+            } else {
+                completion(success, nil)
+            }
+        }
+    }
+    
     fileprivate func filterNew(_ updates: [WorkshopModel], _ originals: [WorkshopModel]?) -> [WorkshopModel] {
         return updates.filter({ (updated) -> Bool in
             guard let originals = originals else {

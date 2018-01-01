@@ -30,6 +30,13 @@ query FetchAllEvent {
     }
 }
 
+mutation DeleteEvent($id:ID!){
+    deleteEvent(id:$id){
+        id
+        fbID
+    }
+}
+
 mutation CreateWorkshop($artist: String!, $name: String!, $room: String!, $startTime: DateTime!, $eventId: ID) {
     createWorkshop(artist: $artist, name: $name, room: $room, startTime: $startTime, eventId: $eventId) {
         name

@@ -2,7 +2,7 @@
 
 import UIKit
 
-class FacebookEventEntity: ContentEntityInterface, Equatable, Hashable {
+class FacebookEventEntity: SearchableEntity, Equatable, Hashable {
     var name: String?
     var place: String?
     var location: String?
@@ -14,7 +14,6 @@ class FacebookEventEntity: ContentEntityInterface, Equatable, Hashable {
     var organiser: String?
     var longDescription: String?
     var shortDescription: String? = nil
-    var event: EventModel?    
     
     convenience init(with dictionary:[String:Any]) {
         self.init(with: JSON(dictionary))

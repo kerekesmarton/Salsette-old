@@ -23,7 +23,7 @@ class CreateEventViewController: UITableViewController {
             selectedEventType = event?.type
         }
     }
-    private var createdItem: ContentEntityInterface?
+    private var createdItem: SearchableEntity?
     fileprivate var selectedEventType: Dance? {
         didSet {
             typeLabel.text = selectedEventType?.rawValue
@@ -37,8 +37,8 @@ class CreateEventViewController: UITableViewController {
         presenter = CreateEventPresenter(with: self)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         nameLabel.text = fbEvent?.name
         hostLabel.text = fbEvent?.place
@@ -96,11 +96,17 @@ class CreateEventViewController: UITableViewController {
         presenter.createEvent(type: selectedEventType)
     }
     
+    @objc private func deleteEvent() {
+        guard let event = event else { return }
+        presenter.deleteEvent(event: event)
+    }
+    
     enum ViewState {
         case eventExists(EventModel)
         case newEvent
         case error(Error)
         case loading
+        case deleted
     }
     
     var state: ViewState? = nil {
@@ -117,15 +123,21 @@ class CreateEventViewController: UITableViewController {
                 createWorkshopButton()
             case .loading:
                 showLoading(true, "Fetching event", nil)
+            case .deleted:
+                showLoading(false, nil, nil)
+                navigationController?.popViewController(animated: true)
             }
         }
     }
     
+    private weak var alert: UIAlertController? = nil
     private func showLoading(_ active: Bool, _ message: String?, _ completion: (() -> Void)?) {
         if active {
-            present(UIAlertController.loadingAlert(with: message), animated: false, completion: completion)
+            let alert = UIAlertController.loadingAlert(with: message)
+            present(alert, animated: false, completion: completion)
+            self.alert = alert
         } else {
-            presentedViewController?.dismiss(animated: false, completion: completion)
+            alert?.dismiss(animated: false)
         }
     }
     
@@ -137,6 +149,10 @@ class CreateEventViewController: UITableViewController {
     private func createWorkshopButton() {
         if event == nil {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(create))
+        } else {
+            let delete = UIBarButtonItem(title: "Delete", style: .done, target: self, action: #selector(deleteEvent))
+            delete.tintColor = .red
+            self.navigationItem.rightBarButtonItem = delete
         }
     }
 }

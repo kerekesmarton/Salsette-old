@@ -156,6 +156,25 @@ class GraphManager {
         })
     }
     
+    @discardableResult func deleteEvent(graphID: String, closure: @escaping (Bool?, Error?)->Void) -> Cancellable? {
+        guard let client = authorisedClient else {
+            closure(nil, NSError(with: "Please log in"))
+            return nil
+        }
+        let input = DeleteEventMutation(id: graphID)
+        return client.perform(mutation: input, resultHandler: { (result, error) in
+            if let serverError = result?.errors {
+                closure(nil, self.error(from: serverError))
+            } else if let _ = error {
+                closure(nil, NSError(with: "Please log in again."))
+            } else if (result?.data?.deleteEvent?.id) != nil {
+                closure(true,nil)
+            } else {
+                closure(false, nil)
+            }
+        })
+    }
+    
     @discardableResult func createWorkshop(model: WorkshopModel, eventID: String, closure: @escaping (WorkshopModel?, Error?)->Void) -> Cancellable? {
         guard let client = authorisedClient else {
             closure(nil, NSError(with: "Please log in"))

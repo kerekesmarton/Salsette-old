@@ -38,6 +38,12 @@ class DateFormatters {
         return dateTimeFormatter
     }()
     
+    static var facebookDateFormatter: DateFormatter = {
+        let dateTimeFormatter = DateFormatter()
+        dateTimeFormatter.dateFormat = "yyyy-MM-dd"
+        return dateTimeFormatter
+    }()
+    
     static var graphDateTimeFormatter: DateFormatter = {
         let dateTimeFormatter = DateFormatter()
         dateTimeFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"

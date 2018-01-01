@@ -33,7 +33,7 @@ class SearchPresenter {
         dispatch(.loading(message))
     }
     
-    func results(with events: [ContentEntityInterface]) {
+    func results(with events: [SearchableEntity]) {
         if events.count > 0 {
             dispatch(.success(events))
         } else {

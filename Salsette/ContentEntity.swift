@@ -2,7 +2,7 @@
 
 import UIKit
 
-public protocol ContentEntityInterface {
+public protocol SearchableEntity {
     var image: UIImage? { get }
     var imageUrl: String? { get }
     var organiser: String? { get }
@@ -13,11 +13,10 @@ public protocol ContentEntityInterface {
     var location: String? { get }
     var shortDescription: String? { get }
     var longDescription: String? { get }
-    var identifier: String? { get }
-    var event: EventModel? { get }
+    var identifier: String? { get }    
 }
 
-extension ContentEntityInterface {
+extension SearchableEntity {
     var shortDescription: String {
         get {
             return name ?? ""

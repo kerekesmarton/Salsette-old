@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct AppTutorial: ContentEntityInterface {
+struct AppTutorial: SearchableEntity {
     var name: String?
     var image: UIImage?
     var shortDescription: String?
@@ -20,9 +20,8 @@ struct AppTutorial: ContentEntityInterface {
     var imageUrl: String? { get { return nil }}
     var identifier: String? { get { return nil }}
     var type: Dance? { get { return nil }}
-    var event: EventModel? { get { return nil }}
     
-    static var cards: [ContentEntityInterface] {
+    static var cards: [SearchableEntity] {
         get {
             didShow = true
             return [

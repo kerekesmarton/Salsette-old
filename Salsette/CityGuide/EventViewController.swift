@@ -17,7 +17,7 @@ class EventViewController: UITableViewController {
     @IBOutlet var locationLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
     var selectedIndex: IndexPath!
-    var event: ContentEntityInterface!
+    var event: SearchableEntity!
     
     override func viewDidLoad() {
         super.viewDidLoad()

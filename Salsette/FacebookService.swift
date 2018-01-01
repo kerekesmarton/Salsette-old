@@ -88,10 +88,8 @@ class FacebookService {
         events(with: parameters, completion: { (events, error) in
             if self.validError(error: error, completion: completion) {
                 return
-            } else if let events = events, events.count > 0 {
-                completion(events,nil)
             } else {
-                self.loadUserEvents(completion: completion)
+                completion(events,nil)
             }
         })
     }
@@ -127,19 +125,18 @@ class FacebookService {
     
     fileprivate func fillDateOn(_ parameters: SearchParameters, _ request: FBSDKGraphRequest?) {
         if let date = parameters.startDate {
-            let dateString = DateFormatters.dateFormatter.string(from: date)
+            let dateString = DateFormatters.facebookDateFormatter.string(from: date)
             request?.parameters.addEntries(from: ["since":dateString])
         } else {
             request?.parameters.addEntries(from: ["since":"now"])
         }
         if let date = parameters.endDate {
-            let dateString = DateFormatters.dateFormatter.string(from: date)
+            let dateString = DateFormatters.facebookDateFormatter.string(from: date)
             request?.parameters.addEntries(from: ["until":dateString])
         }
     }
     
     private func events(with parameters: SearchParameters, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
-        
         var searchTerms = ""
         if let location = parameters.location, location.count > 0 {
             searchTerms = location
@@ -150,12 +147,9 @@ class FacebookService {
         guard searchTerms.count > 0 else {
             completion([],nil)
             return
-        }
-        if parameters.type?.rawValue == nil {
-            searchTerms.append(" \(Dance.dance.rawValue)")
-        }
+        }        
         let request = FBSDKGraphRequest(graphPath: "/search", parameters: ["q":"\(searchTerms)", "type":"event", "fields":"name,place,start_time,end_time,cover,owner,description"])
-//        fillDateOn(parameters, request)
+        fillDateOn(parameters, request)
         
         self.simpleConnection = request?.start(completionHandler: { (connection, result, error) in
             if let returnedError = error {

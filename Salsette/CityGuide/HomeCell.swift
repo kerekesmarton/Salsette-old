@@ -25,7 +25,7 @@ class HomeCell: UICollectionViewCell {
         imageView.layer.borderColor = UIColor.flatWhite.cgColor
         imageView.layer.borderWidth = 0.5
     }
-    var content: ContentEntityInterface? {
+    var content: SearchableEntity? {
         didSet {
             guard let content = content else { return }
             
