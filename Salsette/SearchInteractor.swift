@@ -1,26 +1,12 @@
 //  Copyright © 2017 Marton Kerekes. All rights reserved.
 
 import Foundation
-
-struct SearchParameters {
-    var name: String?
-    var startDate: Date?
-    var endDate: Date?
-    var location: String?
-    var type: Dance?
-    
-    static var shared = SearchParameters()
-    private init() {}
-}
+import CoreLocation
 
 class SearchInteractor {
     
-    init(fbService: FacebookService = FacebookService.shared) {
-        self.fbService = fbService
-    }
-    
-    private var fbService: FacebookService
-    
+    private let fbService = FacebookService.shared
+    private let geocoder = CLGeocoder()
 //    fileprivate func loadGraphEvents(for facebookEvents:[FacebookEventEntity]) {
 //        let ids = facebookEvents.flatMap({ (entity) -> String? in
 //            return entity.identifier
@@ -42,13 +28,22 @@ class SearchInteractor {
         }
     }
     
-    
-    
     func canViewProfile() -> Bool {
         return fbService.isLoggedIn
     }
     
     func deleteKeychain() {
         KeychainStorage.shared.clear()
+    }
+    
+    func geocode(value: String, completion: @escaping ([String]?, Error?)->Void) {
+        geocoder.geocodeAddressString(value, completionHandler: { (placemarks, error) in
+            if let placemarks = placemarks, placemarks.count >= 0 {
+                
+            } else {
+                
+            }
+        })
+        
     }
 }

@@ -38,6 +38,18 @@ class SearchPresenter {
         interactor.deleteKeychain()
     }
     
+    func didChange(location text: String?) {
+        searchParameters.didChange(.location(text))
+        guard let text = text else { return }
+        interactor.geocode(value: text) { (values, error) in
+            
+        }
+    }
+    
+    func didChange(type value: Dance?) {
+        searchParameters.didChange(.type(value))
+    }
+    
     func reset(oldDate: Date) {
         searchView?.setSearch(.dates(""))
     }
@@ -50,11 +62,10 @@ class SearchPresenter {
         searchView?.setSearch(.dates(formatter.string(from: safeDate)))
     }
     
-    func update(startDate: Date?, endDate: Date?) {
-        guard let safeStartDate = startDate,
-            let safeEndDate = endDate else {
-                searchView?.setSearch(.dates(""))
-                return
+    func update(endDate: Date?) {
+        guard let safeStartDate = searchParameters.startDate, let safeEndDate = endDate else {
+            searchView?.setSearch(.dates(""))
+            return
         }
         searchView?.setSearch(.dates(formatter.string(from: safeStartDate)+" to "+formatter.string(from: safeEndDate)))
     }
@@ -62,52 +73,31 @@ class SearchPresenter {
     private var formatter: DateFormatter {
         return DateFormatters.shortDateFormatter
     }
-    
-    private var searchParameters = SearchParameters.shared
-    var newDate: Date? {
+    fileprivate var searchParameters = SearchParameters.shared
+    fileprivate var newDate: Date? {
         didSet {
             guard let date = newDate else {
                 return
             }
-            if startDate == nil {
-                startDate = date
+            if !searchParameters.hasStartDate() {
                 update(startDate: date)
-                didChange(.dates(startDate, nil))
-            } else if endDate == nil {
-                endDate = date
-                update(startDate: startDate, endDate: date)
-                didChange(.dates(startDate, endDate))
+                searchParameters.didChange(.startDate(date))
+            } else if !searchParameters.hasEndDate() {
+                update(endDate: date)
+                searchParameters.didChange(.endDate(date))
             } else {
-                startDate = date
-                update(startDate: date)
-                endDate = nil
+                searchParameters.startDate = date
+                searchParameters.endDate = nil
+                update(startDate: date)                
             }
         }
     }
     
-    enum DataType{
-        case name(String?)
-        case location(String?)
-        case dates(Date?,Date?)
-        case type(Dance?)
-    }
-    
-    func didChange(_ dataType: DataType) {
-        switch dataType {
-        case .name(let value):
-            searchParameters.name = value
-        case .location(let value):
-            searchParameters.location = value
-        case .type(let value):
-            searchParameters.type = value
-        case .dates(let start, let end):
-            searchParameters.startDate = start
-            searchParameters.endDate = end
+    private func dispatch(_ result: SearchViewController.ResultsViewModel) {
+        DispatchQueue.main.async {
+            self.searchView?.setResult(result)
         }
     }
-    
-    var startDate: Date?
-    var endDate: Date?
     
     func loading(message: String) {
         dispatch(.loading(message))
@@ -131,27 +121,21 @@ class SearchPresenter {
             dispatch(.failed("Unknown Error occured"))
         }
     }
-    
-    private func dispatch(_ result: SearchViewController.ResultsViewModel) {
-        DispatchQueue.main.async {
-            self.searchView?.setResult(result)
-        }
-    }
 }
 
 extension SearchPresenter: CalendarViewSelectionDelegate {
     
     func calendarViewController(_ controller: CalendarProxy, shouldSelect date: Date, from selectedDates: [Date]) -> Bool {
-        guard let startDate = startDate else {
+        guard let startDate = searchParameters.startDate else {
             return true // no start date, pick it
         }
         if startDate > date {
-            self.startDate = nil
-            self.endDate = nil
+            searchParameters.didChange(.startDate(nil))
+            searchParameters.didChange(.endDate(nil))
             controller.deselectAll()
             return true
         }
-        guard let endDate = endDate else {
+        guard let endDate = searchParameters.endDate else {
             return true // no end date, pick it
         }
         if startDate < date && endDate > date {
@@ -159,28 +143,27 @@ extension SearchPresenter: CalendarViewSelectionDelegate {
         } else {
             reset(oldDate: date)
             controller.deselectAll()
-            self.startDate = nil
-            self.endDate = nil
-            didChange(.dates(nil, nil))
+            searchParameters.didChange(.startDate(nil))
+            searchParameters.didChange(.endDate(nil))
             return false
         }
     }
     
     func calendarViewController(_ controller: CalendarProxy, didSelect date: Date) {
-        if startDate == nil {
+        if !searchParameters.hasStartDate() {
             newDate = date
             return
         }
-        if endDate == nil {
+        if !searchParameters.hasEndDate() {
             newDate = date
         }
-        guard let start = startDate,
-            let end = endDate else { return }
+        guard let start = searchParameters.startDate,
+            let end = searchParameters.endDate else { return }
         controller.markSelectedBetween(startDate: start, endDate: end)
     }
     
     func calendarViewController(shouldDeselect date: Date, from selectedDates: [Date]) -> Bool {
-        guard let start = startDate, let end = endDate else {
+        guard let start = searchParameters.startDate, let end = searchParameters.endDate else {
             return true
         }
         if start <= date && end >= date {

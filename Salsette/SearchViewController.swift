@@ -28,7 +28,7 @@ class SearchViewController: UICollectionViewController {
     }()
     
     var calendarView: UIView {
-        calendarProxy.interactor = presenter
+        calendarProxy.delegate = presenter
         return calendarProxy.calendar
     }
     
@@ -95,7 +95,7 @@ extension SearchViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         typeField.text = Dance.string(at: row)
-        presenter.didChange(.type(Dance.item(at: row)))
+        presenter.didChange(type: Dance.item(at: row))
     }
 }
 
@@ -104,7 +104,7 @@ extension SearchViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         switch textField {
         case locationField:
-            presenter.didChange(.location(locationField.text))
+            presenter.didChange(location: textField.text)
         default:
             ()
         }
@@ -115,7 +115,9 @@ extension SearchViewController: UITextFieldDelegate {
         case typeField:
             let row = typePicker.selectedRow(inComponent: 0)
             typePicker.selectRow(row, inComponent: 0, animated: false)
-            typeField.text = Dance.string(at: row)            
+            typeField.text = Dance.string(at: row)
+        case locationField:
+            presenter.didChange(location: textField.text)
         default:
             ()
         }
@@ -192,8 +194,10 @@ extension SearchViewController {
     
     func setSearch(_ viewModel: SearchViewModel) {
         switch viewModel {
-        case .dates(let dateString):
-            dateField.text = dateString
+        case .dates(let string):
+            dateField.text = string
+        case .type(let string):
+            typeField.text = string
         default:
             return
         }
@@ -272,7 +276,7 @@ fileprivate extension SearchViewController {
             guard let searchTerm = self.locationField.text else {
                 return
             }
-            self.presenter.didChange(.location(searchTerm))
+            self.presenter.didChange(location: searchTerm)
             self.presenter.load()
         })
     }
@@ -287,7 +291,7 @@ fileprivate extension SearchViewController {
         }, done: { (doneBtn) in
             self.typeField.resignFirstResponder()
             let selectedRow = self.typePicker.selectedRow(inComponent: 0)
-            self.presenter.didChange(.type(Dance.item(at: selectedRow)))
+            self.presenter.didChange(type: Dance.item(at: selectedRow))
             self.presenter.load()
         })
         typeIAV.nextTitle = nil

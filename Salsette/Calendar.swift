@@ -1,20 +1,12 @@
-//
-//  CalendartViewController.swift
-//  Salsette
-//
-//  Created by Marton Kerekes on 12/03/2017.
 //  Copyright © 2017 Marton Kerekes. All rights reserved.
-//
 
 import UIKit
-//import ChameleonFramework
 import FSCalendar
 
 protocol CalendarViewSelectionDelegate: class {
     func calendarViewController(_ controller: CalendarProxy, shouldSelect date: Date, from selectedDates: [Date]) -> Bool
     func calendarViewController(_ controller: CalendarProxy,didSelect date: Date)
     func calendarViewController(shouldDeselect date: Date, from selectedDates: [Date]) -> Bool
-//    func calendarViewController(didDeselect date: Date)
 }
 
 class CalendarProxy: NSObject, FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
@@ -25,7 +17,7 @@ class CalendarProxy: NSObject, FSCalendarDataSource, FSCalendarDelegate, FSCalen
         formatter.dateFormat = "dd"
         return formatter
     }()
-    var interactor: CalendarViewSelectionDelegate?
+    var delegate: CalendarViewSelectionDelegate?
     @IBOutlet var calendar: FSCalendar!
     
     override func awakeFromNib() {
@@ -91,21 +83,21 @@ class CalendarProxy: NSObject, FSCalendarDataSource, FSCalendarDelegate, FSCalen
     }
     
     func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition)   -> Bool {
-        guard let interactor = interactor else {
+        guard let interactor = delegate else {
             return monthPosition == .current
         }
         return interactor.calendarViewController(self, shouldSelect: date, from: calendar.selectedDates)
     }
     
     func calendar(_ calendar: FSCalendar, shouldDeselect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
-        guard let interactor = interactor else {
+        guard let interactor = delegate else {
             return monthPosition == .current
         }
         return interactor.calendarViewController(shouldDeselect: date, from: calendar.selectedDates)
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        if let interactor = interactor {
+        if let interactor = delegate {
             interactor.calendarViewController(self, didSelect: date)
         }
         configureVisibleCells()
