@@ -28,14 +28,12 @@ class SearchViewController: UICollectionViewController {
     }()
     
     var calendarView: UIView {
-        calendarProxy.interactor = self.searchInteractor
+        calendarProxy.interactor = presenter
         return calendarProxy.calendar
     }
     
-    lazy var searchInteractor: SearchInteractor = {
-        let interactor = SearchInteractor(presenter: SearchPresenter())
-        interactor.searchPresenter.searchView = self
-        return interactor
+    lazy var presenter: SearchPresenter = {
+       return SearchPresenter()
     }()
     
     //MARK: - Results
@@ -52,13 +50,13 @@ class SearchViewController: UICollectionViewController {
         custumiseDateField()
         customiseLocationField()
         customiseTypeField()
-        profileButton.isEnabled = searchInteractor.canViewProfile()
+        profileButton.isEnabled = presenter.isProfileEnabled()
         collectionView?.emptyDataSetSource = self
-        searchInteractor.loadInitial()
+        presenter.viewReady()
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        return searchInteractor.canViewProfile()
+        return presenter.isProfileEnabled()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -97,7 +95,7 @@ extension SearchViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         typeField.text = Dance.string(at: row)
-        searchInteractor.didChange(.type(Dance.item(at: row)))
+        presenter.didChange(.type(Dance.item(at: row)))
     }
 }
 
@@ -106,7 +104,7 @@ extension SearchViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         switch textField {
         case locationField:
-            searchInteractor.didChange(.location(locationField.text))
+            presenter.didChange(.location(locationField.text))
         default:
             ()
         }
@@ -226,14 +224,14 @@ extension SearchViewController {
 
 extension SearchViewController: FBSDKLoginButtonDelegate {
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        searchInteractor.load()
-        profileButton.isEnabled = searchInteractor.canViewProfile()
+        presenter.load()
+        profileButton.isEnabled = presenter.isProfileEnabled()
     }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {       
-        searchInteractor.deleteKeychain()
-        searchInteractor.load()
-        profileButton.isEnabled = searchInteractor.canViewProfile()
+        presenter.didLogout()
+        presenter.load()
+        profileButton.isEnabled = presenter.isProfileEnabled()
     }
 }
 
@@ -258,7 +256,7 @@ fileprivate extension SearchViewController {
             self.locationField.becomeFirstResponder()
         }, previous: nil, done: { (doneBtn) in
             self.dateField.resignFirstResponder()
-            self.searchInteractor.load()
+            self.presenter.load()
         })
         dateIAV.prevTitle = nil
         dateField.inputAccessoryView = dateIAV
@@ -274,8 +272,8 @@ fileprivate extension SearchViewController {
             guard let searchTerm = self.locationField.text else {
                 return
             }
-            self.searchInteractor.didChange(.location(searchTerm))
-            self.searchInteractor.load()
+            self.presenter.didChange(.location(searchTerm))
+            self.presenter.load()
         })
     }
     
@@ -289,8 +287,8 @@ fileprivate extension SearchViewController {
         }, done: { (doneBtn) in
             self.typeField.resignFirstResponder()
             let selectedRow = self.typePicker.selectedRow(inComponent: 0)
-            self.searchInteractor.didChange(.type(Dance.item(at: selectedRow)))
-            self.searchInteractor.load()
+            self.presenter.didChange(.type(Dance.item(at: selectedRow)))
+            self.presenter.load()
         })
         typeIAV.nextTitle = nil
         typeField.inputAccessoryView = typeIAV
