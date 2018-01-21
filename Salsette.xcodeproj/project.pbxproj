@@ -45,6 +45,7 @@
 		10B9AF761E7DA2900033A6BF /* UImage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B9AF751E7DA2900033A6BF /* UImage+Additions.swift */; };
 		10B9AF781E7E96870033A6BF /* CGSize+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B9AF771E7E96870033A6BF /* CGSize+Additions.swift */; };
 		10BE40AC1EE31E58006D3DAC /* CreateWorkshopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BE40AB1EE31E58006D3DAC /* CreateWorkshopViewController.swift */; };
+		10C705D42014BAF100D90B6B /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C705D32014BAF100D90B6B /* LocationViewController.swift */; };
 		10D3EB8F1FFAD30A00E3CC78 /* SearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D3EB8E1FFAD30A00E3CC78 /* SearchParameters.swift */; };
 		10D733431E728E7600F47A52 /* UIStoryboard+Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */; };
 		10D7CEBE1FDCA94600E71EBB /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D7CEBD1FDCA94600E71EBB /* GraphModel.swift */; };
@@ -128,6 +129,7 @@
 		10B9AF751E7DA2900033A6BF /* UImage+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UImage+Additions.swift"; sourceTree = "<group>"; };
 		10B9AF771E7E96870033A6BF /* CGSize+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Additions.swift"; sourceTree = "<group>"; };
 		10BE40AB1EE31E58006D3DAC /* CreateWorkshopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateWorkshopViewController.swift; sourceTree = "<group>"; };
+		10C705D32014BAF100D90B6B /* LocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		10D3EB8E1FFAD30A00E3CC78 /* SearchParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchParameters.swift; sourceTree = "<group>"; };
 		10D733421E728E7600F47A52 /* UIStoryboard+Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Functions.swift"; sourceTree = "<group>"; };
 		10D7CEBD1FDCA94600E71EBB /* GraphModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 		1033E52C1E75A955002D1615 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				10C705D52014BB0600D90B6B /* Location */,
 				1089BF831E708553006E091A /* SearchViewController.swift */,
 				10FCD6E91FC056B000856889 /* SearchPresenter.swift */,
 				10ACDD781EFE7E09007B6F1A /* SearchInteractor.swift */,
@@ -318,6 +321,14 @@
 				1033E5561E79CA44002D1615 /* Calendar.xcassets */,
 			);
 			name = Calendar;
+			sourceTree = "<group>";
+		};
+		10C705D52014BB0600D90B6B /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				10C705D32014BAF100D90B6B /* LocationViewController.swift */,
+			);
+			path = Location;
 			sourceTree = "<group>";
 		};
 		10D8D8661ED9DB48008A5A76 /* Additions */ = {
@@ -614,6 +625,7 @@
 				FBF5A9C61E977810000CED7A /* KeychainStorage.swift in Sources */,
 				1033E5541E75C7AA002D1615 /* String.swift in Sources */,
 				106306BC1E8E99600089DA00 /* ProfileViewController.swift in Sources */,
+				10C705D42014BAF100D90B6B /* LocationViewController.swift in Sources */,
 				10ACDD7B1F02E310007B6F1A /* UINavigationController.swift in Sources */,
 				1053CA0D1EF52D7E0034844A /* WorkshopCells.swift in Sources */,
 				FB420F2D1EA5138F0022380D /* CreateEventViewController.swift in Sources */,
@@ -737,7 +749,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -788,7 +800,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

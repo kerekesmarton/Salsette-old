@@ -1,7 +1,10 @@
 import Foundation
 
-class SearchPresenter {
+class SearchPresenter: NSObject {
     
+    init(view: SearchViewController) {
+        self.searchView = view
+    }
     weak var searchView: SearchViewController?
     var interactor = SearchInteractor()
     
@@ -38,12 +41,16 @@ class SearchPresenter {
         interactor.deleteKeychain()
     }
     
-    func didChange(location text: String?) {
+    @objc private func updateLocationSearch(text: String?) {
         searchParameters.didChange(.location(text))
         guard let text = text else { return }
         interactor.geocode(value: text) { (values, error) in
             
         }
+    }
+    func didChange(location text: String?) {
+        NSObject.cancelPreviousPerformRequests(withTarget: self)
+        perform(#selector(updateLocationSearch(text:)), with: text, afterDelay: 0.5)
     }
     
     func didChange(type value: Dance?) {
@@ -172,4 +179,3 @@ extension SearchPresenter: CalendarViewSelectionDelegate {
         return true
     }
 }
-

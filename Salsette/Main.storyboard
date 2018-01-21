@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="5Q8-GH-A3k">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5Q8-GH-A3k">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -1194,6 +1195,7 @@
                         <outlet property="loginBtn" destination="sKc-JH-GIb" id="1tn-N6-CzW"/>
                         <outlet property="loginHostView" destination="bwd-2w-2Ye" id="gay-iH-1ON"/>
                         <outlet property="profileButton" destination="dcO-1G-a9M" id="6aJ-EF-T6z"/>
+                        <outlet property="searchDisplayController" destination="YRe-e0-DZK" id="9iG-eM-iqs"/>
                         <outlet property="typeField" destination="mcj-cS-Pmz" id="zQJ-O9-tFQ"/>
                         <outlet property="typePicker" destination="gSa-XU-o2c" id="ix3-7V-4aw"/>
                     </connections>
@@ -1215,10 +1217,12 @@
                         <constraint firstAttribute="bottom" secondItem="sKc-JH-GIb" secondAttribute="bottom" constant="16" id="RYA-sx-d9l"/>
                         <constraint firstItem="sKc-JH-GIb" firstAttribute="leading" secondItem="bwd-2w-2Ye" secondAttribute="leading" constant="32" id="cQl-21-xhe"/>
                     </constraints>
+                    <viewLayoutGuide key="safeArea" id="E1W-mX-7Sn"/>
                 </view>
                 <pickerView contentMode="scaleToFill" id="gSa-XU-o2c">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <viewLayoutGuide key="safeArea" id="lOI-Y8-qYE"/>
                 </pickerView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="4" id="N1d-Co-j4F">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="209"/>
@@ -1302,7 +1306,16 @@
                         <constraint firstAttribute="trailing" secondItem="Mol-si-GdU" secondAttribute="trailing" constant="8" id="nXl-Gp-3ag"/>
                         <constraint firstAttribute="trailing" secondItem="mcj-cS-Pmz" secondAttribute="trailing" constant="8" id="yzX-1v-l9E"/>
                     </constraints>
+                    <viewLayoutGuide key="safeArea" id="bTn-nV-ZcB"/>
                 </stackView>
+                <searchDisplayController id="YRe-e0-DZK">
+                    <connections>
+                        <outlet property="delegate" destination="XYZ-TW-cFm" id="Vie-BS-lby"/>
+                        <outlet property="searchContentsController" destination="XYZ-TW-cFm" id="KcX-ke-Nja"/>
+                        <outlet property="searchResultsDataSource" destination="XYZ-TW-cFm" id="JRx-GI-iYh"/>
+                        <outlet property="searchResultsDelegate" destination="XYZ-TW-cFm" id="ADl-0e-V8H"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="1755" y="1244.3661971830986"/>
         </scene>

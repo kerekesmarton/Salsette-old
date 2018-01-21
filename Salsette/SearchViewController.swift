@@ -33,7 +33,7 @@ class SearchViewController: UICollectionViewController {
     }
     
     lazy var presenter: SearchPresenter = {
-       return SearchPresenter()
+       return SearchPresenter(view: self)
     }()
     
     //MARK: - Results
@@ -61,12 +61,12 @@ class SearchViewController: UICollectionViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let currentCell = sender as? HomeCell,
-            let vc = segue.destination as? EventViewController,
+            let eventViewController = segue.destination as? EventViewController,
             let currentCellIndex = collectionView?.indexPath(for: currentCell) {
-            vc.selectedIndex = currentCellIndex
+            eventViewController.selectedIndex = currentCellIndex
         }
-        if let vc = segue.destination as? ProfileViewController, let sender = sender as? UIButton {
-            vc.view.backgroundColor = sender.backgroundColor
+        if let profileViewController = segue.destination as? ProfileViewController, let sender = sender as? UIButton {
+            profileViewController.view.backgroundColor = sender.backgroundColor
         }
         if let nav = segue.destination as? UINavigationController,
             let eventViewController = nav.viewControllers.first as? EventViewController,
@@ -116,8 +116,12 @@ extension SearchViewController: UITextFieldDelegate {
             let row = typePicker.selectedRow(inComponent: 0)
             typePicker.selectRow(row, inComponent: 0, animated: false)
             typeField.text = Dance.string(at: row)
-        case locationField:
-            presenter.didChange(location: textField.text)
+        case locationField:            
+            let locationSearch = LocationViewController(searchResultsController: nil)
+            locationSearch.searchResultsUpdater = self
+            locationSearch.delegate = self
+            navigationItem.searchController = locationSearch
+            locationSearch.isActive = true
         default:
             ()
         }
@@ -279,6 +283,7 @@ fileprivate extension SearchViewController {
             self.presenter.didChange(location: searchTerm)
             self.presenter.load()
         })
+        locationField.delegate = self
     }
     
     func customiseTypeField() {
@@ -307,6 +312,23 @@ fileprivate extension SearchViewController {
         emptyDataSetCustomView = view
         results.removeAll()
         collectionView?.reloadData()
+    }
+}
+
+extension SearchViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        presenter.didChange(location: searchController.searchBar.text)        
+    }
+}
+
+extension SearchViewController: UISearchControllerDelegate {
+    
+    func didDismissSearchController(_ searchController: UISearchController) {
+        navigationItem.searchController = nil
+    }
+    
+    func willPresentSearchController(_ searchController: UISearchController) {
+        searchController.searchBar.becomeFirstResponder()
     }
 }
 

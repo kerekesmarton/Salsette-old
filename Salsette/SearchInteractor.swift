@@ -38,12 +38,11 @@ class SearchInteractor {
     
     func geocode(value: String, completion: @escaping ([String]?, Error?)->Void) {
         geocoder.geocodeAddressString(value, completionHandler: { (placemarks, error) in
-            if let placemarks = placemarks, placemarks.count >= 0 {
-                
-            } else {
-                
+            guard let placemarks = placemarks, placemarks.count >= 0 else {
+                print(String(describing: error))
+                return
             }
+            print(placemarks)
         })
-        
     }
 }
