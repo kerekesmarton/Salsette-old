@@ -16,7 +16,7 @@ struct AppTutorial: SearchableEntity {
     var startDate: Date? { get { return nil }}
     var endDate: Date? { get { return nil }}
     var place: String? { get { return nil }}
-    var location: String? { get { return nil }}
+    var location: SearchableLocation? { get { return nil}}
     var imageUrl: String? { get { return nil }}
     var identifier: String? { get { return nil }}
     var type: Dance? { get { return nil }}

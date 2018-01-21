@@ -2,10 +2,53 @@
 
 import UIKit
 
+class FacebookLocation: SearchableLocation {
+    
+    var city: String?
+    var country: String?
+    var address: String?
+    var lat: String?
+    var lon: String?
+    var name: String?
+    var zip: String?
+    
+    static func location(from json: JSON) -> FacebookLocation {
+        let location = FacebookLocation()
+        location.name = json["name"].string
+        location.zip = json["location"]["zip"].string
+        location.city = json["location"]["city"].string
+        location.address = json["location"]["street"].string
+        location.country = json["location"]["country"].string
+        location.lon = json["location"]["longitude"].string
+        location.lat = json["location"]["latitude"].string
+        
+        return location
+    }
+    
+    func displayableName() -> String {
+        return name ?? ""
+    }
+    
+    func displayableAddress() -> String {
+        guard let line1 = addressLine1(), let line2 = addressLine2() else { return "" }
+        return "\(line1)\n\(line2)"
+    }
+    
+    private func addressLine1() -> String? {
+        guard let city = city, let address = address, let zip = zip else { return nil }
+        return "\(zip), \(city), \(address)"
+    }
+    
+    private func addressLine2() -> String? {
+        guard let lat = lat, let lon = lon else { return nil }
+        return "latitude: \(lat), longitude: \(lon)"
+    }
+}
+
 class FacebookEventEntity: SearchableEntity, Equatable, Hashable {
     var name: String?
     var place: String?
-    var location: String?
+    var location: SearchableLocation?
     var startDate: Date?
     var endDate: Date?
     var imageUrl: String?
@@ -23,7 +66,7 @@ class FacebookEventEntity: SearchableEntity, Equatable, Hashable {
         self.init()
         name = dictionary["name"].string
         place = dictionary["place"]["name"].string
-        location = location(from: dictionary["place"]["location"])
+        location = FacebookLocation.location(from: dictionary["place"])
         identifier = dictionary["id"].string
         imageUrl = dictionary["cover"]["source"].string
         organiser = dictionary["owner"]["name"].string
@@ -46,16 +89,6 @@ class FacebookEventEntity: SearchableEntity, Equatable, Hashable {
         return items.map({ (_, body) -> FacebookEventEntity in
             return FacebookEventEntity(with: body)
         })
-    }
-    
-    private func location(from json: JSON) -> String {
-        var address = "\(json["zip"].string ?? "") \(json["city"].string ?? "") \(json["street"].string ?? "") \(json["country"].string ?? "")"
-        
-        if let lon = json["longitude"].string, let lat = json["latitude"].string {
-            address.append("latitude:\(lat), longitude:\(lon)")
-        }
-        
-        return address
     }
     
     var hashValue: Int {

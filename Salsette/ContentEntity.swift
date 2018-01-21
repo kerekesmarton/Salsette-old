@@ -2,6 +2,12 @@
 
 import UIKit
 
+public protocol SearchableLocation {
+    
+    func displayableName() -> String
+    func displayableAddress() -> String
+}
+
 public protocol SearchableEntity {
     var image: UIImage? { get }
     var imageUrl: String? { get }
@@ -10,7 +16,7 @@ public protocol SearchableEntity {
     var startDate: Date? { get }
     var endDate: Date? { get }
     var place: String? { get }
-    var location: String? { get }
+    var location: SearchableLocation? { get }
     var shortDescription: String? { get }
     var longDescription: String? { get }
     var identifier: String? { get }    

@@ -83,8 +83,8 @@ public enum Dance: String, Apollo.JSONDecodable, Apollo.JSONEncodable {
 public struct EventFilter: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(and: Optional<[EventFilter]?> = nil, or: Optional<[EventFilter]?> = nil, fbId: Optional<String?> = nil, fbIdNot: Optional<String?> = nil, fbIdIn: Optional<[String]?> = nil, fbIdNotIn: Optional<[String]?> = nil, fbIdLt: Optional<String?> = nil, fbIdLte: Optional<String?> = nil, fbIdGt: Optional<String?> = nil, fbIdGte: Optional<String?> = nil, fbIdContains: Optional<String?> = nil, fbIdNotContains: Optional<String?> = nil, fbIdStartsWith: Optional<String?> = nil, fbIdNotStartsWith: Optional<String?> = nil, fbIdEndsWith: Optional<String?> = nil, fbIdNotEndsWith: Optional<String?> = nil, id: Optional<GraphQLID?> = nil, idNot: Optional<GraphQLID?> = nil, idIn: Optional<[GraphQLID]?> = nil, idNotIn: Optional<[GraphQLID]?> = nil, idLt: Optional<GraphQLID?> = nil, idLte: Optional<GraphQLID?> = nil, idGt: Optional<GraphQLID?> = nil, idGte: Optional<GraphQLID?> = nil, idContains: Optional<GraphQLID?> = nil, idNotContains: Optional<GraphQLID?> = nil, idStartsWith: Optional<GraphQLID?> = nil, idNotStartsWith: Optional<GraphQLID?> = nil, idEndsWith: Optional<GraphQLID?> = nil, idNotEndsWith: Optional<GraphQLID?> = nil, type: Optional<Dance?> = nil, typeNot: Optional<Dance?> = nil, typeIn: Optional<[Dance]?> = nil, typeNotIn: Optional<[Dance]?> = nil, workshopsEvery: Optional<WorkshopFilter?> = nil, workshopsSome: Optional<WorkshopFilter?> = nil, workshopsNone: Optional<WorkshopFilter?> = nil) {
-    graphQLMap = ["AND": and, "OR": or, "fbID": fbId, "fbID_not": fbIdNot, "fbID_in": fbIdIn, "fbID_not_in": fbIdNotIn, "fbID_lt": fbIdLt, "fbID_lte": fbIdLte, "fbID_gt": fbIdGt, "fbID_gte": fbIdGte, "fbID_contains": fbIdContains, "fbID_not_contains": fbIdNotContains, "fbID_starts_with": fbIdStartsWith, "fbID_not_starts_with": fbIdNotStartsWith, "fbID_ends_with": fbIdEndsWith, "fbID_not_ends_with": fbIdNotEndsWith, "id": id, "id_not": idNot, "id_in": idIn, "id_not_in": idNotIn, "id_lt": idLt, "id_lte": idLte, "id_gt": idGt, "id_gte": idGte, "id_contains": idContains, "id_not_contains": idNotContains, "id_starts_with": idStartsWith, "id_not_starts_with": idNotStartsWith, "id_ends_with": idEndsWith, "id_not_ends_with": idNotEndsWith, "type": type, "type_not": typeNot, "type_in": typeIn, "type_not_in": typeNotIn, "workshops_every": workshopsEvery, "workshops_some": workshopsSome, "workshops_none": workshopsNone]
+  public init(and: Optional<[EventFilter]?> = nil, or: Optional<[EventFilter]?> = nil, fbId: Optional<String?> = nil, fbIdNot: Optional<String?> = nil, fbIdIn: Optional<[String]?> = nil, fbIdNotIn: Optional<[String]?> = nil, fbIdLt: Optional<String?> = nil, fbIdLte: Optional<String?> = nil, fbIdGt: Optional<String?> = nil, fbIdGte: Optional<String?> = nil, fbIdContains: Optional<String?> = nil, fbIdNotContains: Optional<String?> = nil, fbIdStartsWith: Optional<String?> = nil, fbIdNotStartsWith: Optional<String?> = nil, fbIdEndsWith: Optional<String?> = nil, fbIdNotEndsWith: Optional<String?> = nil, id: Optional<GraphQLID?> = nil, idNot: Optional<GraphQLID?> = nil, idIn: Optional<[GraphQLID]?> = nil, idNotIn: Optional<[GraphQLID]?> = nil, idLt: Optional<GraphQLID?> = nil, idLte: Optional<GraphQLID?> = nil, idGt: Optional<GraphQLID?> = nil, idGte: Optional<GraphQLID?> = nil, idContains: Optional<GraphQLID?> = nil, idNotContains: Optional<GraphQLID?> = nil, idStartsWith: Optional<GraphQLID?> = nil, idNotStartsWith: Optional<GraphQLID?> = nil, idEndsWith: Optional<GraphQLID?> = nil, idNotEndsWith: Optional<GraphQLID?> = nil, name: Optional<String?> = nil, nameNot: Optional<String?> = nil, nameIn: Optional<[String]?> = nil, nameNotIn: Optional<[String]?> = nil, nameLt: Optional<String?> = nil, nameLte: Optional<String?> = nil, nameGt: Optional<String?> = nil, nameGte: Optional<String?> = nil, nameContains: Optional<String?> = nil, nameNotContains: Optional<String?> = nil, nameStartsWith: Optional<String?> = nil, nameNotStartsWith: Optional<String?> = nil, nameEndsWith: Optional<String?> = nil, nameNotEndsWith: Optional<String?> = nil, type: Optional<Dance?> = nil, typeNot: Optional<Dance?> = nil, typeIn: Optional<[Dance]?> = nil, typeNotIn: Optional<[Dance]?> = nil, place: Optional<PlaceFilter?> = nil, workshopsEvery: Optional<WorkshopFilter?> = nil, workshopsSome: Optional<WorkshopFilter?> = nil, workshopsNone: Optional<WorkshopFilter?> = nil) {
+    graphQLMap = ["AND": and, "OR": or, "fbID": fbId, "fbID_not": fbIdNot, "fbID_in": fbIdIn, "fbID_not_in": fbIdNotIn, "fbID_lt": fbIdLt, "fbID_lte": fbIdLte, "fbID_gt": fbIdGt, "fbID_gte": fbIdGte, "fbID_contains": fbIdContains, "fbID_not_contains": fbIdNotContains, "fbID_starts_with": fbIdStartsWith, "fbID_not_starts_with": fbIdNotStartsWith, "fbID_ends_with": fbIdEndsWith, "fbID_not_ends_with": fbIdNotEndsWith, "id": id, "id_not": idNot, "id_in": idIn, "id_not_in": idNotIn, "id_lt": idLt, "id_lte": idLte, "id_gt": idGt, "id_gte": idGte, "id_contains": idContains, "id_not_contains": idNotContains, "id_starts_with": idStartsWith, "id_not_starts_with": idNotStartsWith, "id_ends_with": idEndsWith, "id_not_ends_with": idNotEndsWith, "name": name, "name_not": nameNot, "name_in": nameIn, "name_not_in": nameNotIn, "name_lt": nameLt, "name_lte": nameLte, "name_gt": nameGt, "name_gte": nameGte, "name_contains": nameContains, "name_not_contains": nameNotContains, "name_starts_with": nameStartsWith, "name_not_starts_with": nameNotStartsWith, "name_ends_with": nameEndsWith, "name_not_ends_with": nameNotEndsWith, "type": type, "type_not": typeNot, "type_in": typeIn, "type_not_in": typeNotIn, "place": place, "workshops_every": workshopsEvery, "workshops_some": workshopsSome, "workshops_none": workshopsNone]
   }
 
   /// Logical AND on all given filters.
@@ -385,6 +385,145 @@ public struct EventFilter: GraphQLMapConvertible {
     }
   }
 
+  public var name: Optional<String?> {
+    get {
+      return graphQLMap["name"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "name")
+    }
+  }
+
+  /// All values that are not equal to given value.
+  public var nameNot: Optional<String?> {
+    get {
+      return graphQLMap["nameNot"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameNot")
+    }
+  }
+
+  /// All values that are contained in given list.
+  public var nameIn: Optional<[String]?> {
+    get {
+      return graphQLMap["nameIn"] as! Optional<[String]?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameIn")
+    }
+  }
+
+  /// All values that are not contained in given list.
+  public var nameNotIn: Optional<[String]?> {
+    get {
+      return graphQLMap["nameNotIn"] as! Optional<[String]?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameNotIn")
+    }
+  }
+
+  /// All values less than the given value.
+  public var nameLt: Optional<String?> {
+    get {
+      return graphQLMap["nameLt"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameLt")
+    }
+  }
+
+  /// All values less than or equal the given value.
+  public var nameLte: Optional<String?> {
+    get {
+      return graphQLMap["nameLte"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameLte")
+    }
+  }
+
+  /// All values greater than the given value.
+  public var nameGt: Optional<String?> {
+    get {
+      return graphQLMap["nameGt"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameGt")
+    }
+  }
+
+  /// All values greater than or equal the given value.
+  public var nameGte: Optional<String?> {
+    get {
+      return graphQLMap["nameGte"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameGte")
+    }
+  }
+
+  /// All values containing the given string.
+  public var nameContains: Optional<String?> {
+    get {
+      return graphQLMap["nameContains"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameContains")
+    }
+  }
+
+  /// All values not containing the given string.
+  public var nameNotContains: Optional<String?> {
+    get {
+      return graphQLMap["nameNotContains"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameNotContains")
+    }
+  }
+
+  /// All values starting with the given string.
+  public var nameStartsWith: Optional<String?> {
+    get {
+      return graphQLMap["nameStartsWith"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameStartsWith")
+    }
+  }
+
+  /// All values not starting with the given string.
+  public var nameNotStartsWith: Optional<String?> {
+    get {
+      return graphQLMap["nameNotStartsWith"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameNotStartsWith")
+    }
+  }
+
+  /// All values ending with the given string.
+  public var nameEndsWith: Optional<String?> {
+    get {
+      return graphQLMap["nameEndsWith"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameEndsWith")
+    }
+  }
+
+  /// All values not ending with the given string.
+  public var nameNotEndsWith: Optional<String?> {
+    get {
+      return graphQLMap["nameNotEndsWith"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameNotEndsWith")
+    }
+  }
+
   public var type: Optional<Dance?> {
     get {
       return graphQLMap["type"] as! Optional<Dance?>
@@ -424,6 +563,15 @@ public struct EventFilter: GraphQLMapConvertible {
     }
   }
 
+  public var place: Optional<PlaceFilter?> {
+    get {
+      return graphQLMap["place"] as! Optional<PlaceFilter?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "place")
+    }
+  }
+
   public var workshopsEvery: Optional<WorkshopFilter?> {
     get {
       return graphQLMap["workshopsEvery"] as! Optional<WorkshopFilter?>
@@ -448,6 +596,618 @@ public struct EventFilter: GraphQLMapConvertible {
     }
     set {
       graphQLMap.updateValue(newValue, forKey: "workshopsNone")
+    }
+  }
+}
+
+public struct PlaceFilter: GraphQLMapConvertible {
+  public var graphQLMap: GraphQLMap
+
+  public init(and: Optional<[PlaceFilter]?> = nil, or: Optional<[PlaceFilter]?> = nil, address: Optional<String?> = nil, addressNot: Optional<String?> = nil, addressIn: Optional<[String]?> = nil, addressNotIn: Optional<[String]?> = nil, addressLt: Optional<String?> = nil, addressLte: Optional<String?> = nil, addressGt: Optional<String?> = nil, addressGte: Optional<String?> = nil, addressContains: Optional<String?> = nil, addressNotContains: Optional<String?> = nil, addressStartsWith: Optional<String?> = nil, addressNotStartsWith: Optional<String?> = nil, addressEndsWith: Optional<String?> = nil, addressNotEndsWith: Optional<String?> = nil, id: Optional<GraphQLID?> = nil, idNot: Optional<GraphQLID?> = nil, idIn: Optional<[GraphQLID]?> = nil, idNotIn: Optional<[GraphQLID]?> = nil, idLt: Optional<GraphQLID?> = nil, idLte: Optional<GraphQLID?> = nil, idGt: Optional<GraphQLID?> = nil, idGte: Optional<GraphQLID?> = nil, idContains: Optional<GraphQLID?> = nil, idNotContains: Optional<GraphQLID?> = nil, idStartsWith: Optional<GraphQLID?> = nil, idNotStartsWith: Optional<GraphQLID?> = nil, idEndsWith: Optional<GraphQLID?> = nil, idNotEndsWith: Optional<GraphQLID?> = nil, lat: Optional<Double?> = nil, latNot: Optional<Double?> = nil, latIn: Optional<[Double]?> = nil, latNotIn: Optional<[Double]?> = nil, latLt: Optional<Double?> = nil, latLte: Optional<Double?> = nil, latGt: Optional<Double?> = nil, latGte: Optional<Double?> = nil, lon: Optional<Double?> = nil, lonNot: Optional<Double?> = nil, lonIn: Optional<[Double]?> = nil, lonNotIn: Optional<[Double]?> = nil, lonLt: Optional<Double?> = nil, lonLte: Optional<Double?> = nil, lonGt: Optional<Double?> = nil, lonGte: Optional<Double?> = nil, name: Optional<String?> = nil, nameNot: Optional<String?> = nil, nameIn: Optional<[String]?> = nil, nameNotIn: Optional<[String]?> = nil, nameLt: Optional<String?> = nil, nameLte: Optional<String?> = nil, nameGt: Optional<String?> = nil, nameGte: Optional<String?> = nil, nameContains: Optional<String?> = nil, nameNotContains: Optional<String?> = nil, nameStartsWith: Optional<String?> = nil, nameNotStartsWith: Optional<String?> = nil, nameEndsWith: Optional<String?> = nil, nameNotEndsWith: Optional<String?> = nil, event: Optional<EventFilter?> = nil) {
+    graphQLMap = ["AND": and, "OR": or, "address": address, "address_not": addressNot, "address_in": addressIn, "address_not_in": addressNotIn, "address_lt": addressLt, "address_lte": addressLte, "address_gt": addressGt, "address_gte": addressGte, "address_contains": addressContains, "address_not_contains": addressNotContains, "address_starts_with": addressStartsWith, "address_not_starts_with": addressNotStartsWith, "address_ends_with": addressEndsWith, "address_not_ends_with": addressNotEndsWith, "id": id, "id_not": idNot, "id_in": idIn, "id_not_in": idNotIn, "id_lt": idLt, "id_lte": idLte, "id_gt": idGt, "id_gte": idGte, "id_contains": idContains, "id_not_contains": idNotContains, "id_starts_with": idStartsWith, "id_not_starts_with": idNotStartsWith, "id_ends_with": idEndsWith, "id_not_ends_with": idNotEndsWith, "lat": lat, "lat_not": latNot, "lat_in": latIn, "lat_not_in": latNotIn, "lat_lt": latLt, "lat_lte": latLte, "lat_gt": latGt, "lat_gte": latGte, "lon": lon, "lon_not": lonNot, "lon_in": lonIn, "lon_not_in": lonNotIn, "lon_lt": lonLt, "lon_lte": lonLte, "lon_gt": lonGt, "lon_gte": lonGte, "name": name, "name_not": nameNot, "name_in": nameIn, "name_not_in": nameNotIn, "name_lt": nameLt, "name_lte": nameLte, "name_gt": nameGt, "name_gte": nameGte, "name_contains": nameContains, "name_not_contains": nameNotContains, "name_starts_with": nameStartsWith, "name_not_starts_with": nameNotStartsWith, "name_ends_with": nameEndsWith, "name_not_ends_with": nameNotEndsWith, "event": event]
+  }
+
+  /// Logical AND on all given filters.
+  public var and: Optional<[PlaceFilter]?> {
+    get {
+      return graphQLMap["and"] as! Optional<[PlaceFilter]?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "and")
+    }
+  }
+
+  /// Logical OR on all given filters.
+  public var or: Optional<[PlaceFilter]?> {
+    get {
+      return graphQLMap["or"] as! Optional<[PlaceFilter]?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "or")
+    }
+  }
+
+  public var address: Optional<String?> {
+    get {
+      return graphQLMap["address"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "address")
+    }
+  }
+
+  /// All values that are not equal to given value.
+  public var addressNot: Optional<String?> {
+    get {
+      return graphQLMap["addressNot"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "addressNot")
+    }
+  }
+
+  /// All values that are contained in given list.
+  public var addressIn: Optional<[String]?> {
+    get {
+      return graphQLMap["addressIn"] as! Optional<[String]?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "addressIn")
+    }
+  }
+
+  /// All values that are not contained in given list.
+  public var addressNotIn: Optional<[String]?> {
+    get {
+      return graphQLMap["addressNotIn"] as! Optional<[String]?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "addressNotIn")
+    }
+  }
+
+  /// All values less than the given value.
+  public var addressLt: Optional<String?> {
+    get {
+      return graphQLMap["addressLt"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "addressLt")
+    }
+  }
+
+  /// All values less than or equal the given value.
+  public var addressLte: Optional<String?> {
+    get {
+      return graphQLMap["addressLte"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "addressLte")
+    }
+  }
+
+  /// All values greater than the given value.
+  public var addressGt: Optional<String?> {
+    get {
+      return graphQLMap["addressGt"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "addressGt")
+    }
+  }
+
+  /// All values greater than or equal the given value.
+  public var addressGte: Optional<String?> {
+    get {
+      return graphQLMap["addressGte"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "addressGte")
+    }
+  }
+
+  /// All values containing the given string.
+  public var addressContains: Optional<String?> {
+    get {
+      return graphQLMap["addressContains"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "addressContains")
+    }
+  }
+
+  /// All values not containing the given string.
+  public var addressNotContains: Optional<String?> {
+    get {
+      return graphQLMap["addressNotContains"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "addressNotContains")
+    }
+  }
+
+  /// All values starting with the given string.
+  public var addressStartsWith: Optional<String?> {
+    get {
+      return graphQLMap["addressStartsWith"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "addressStartsWith")
+    }
+  }
+
+  /// All values not starting with the given string.
+  public var addressNotStartsWith: Optional<String?> {
+    get {
+      return graphQLMap["addressNotStartsWith"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "addressNotStartsWith")
+    }
+  }
+
+  /// All values ending with the given string.
+  public var addressEndsWith: Optional<String?> {
+    get {
+      return graphQLMap["addressEndsWith"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "addressEndsWith")
+    }
+  }
+
+  /// All values not ending with the given string.
+  public var addressNotEndsWith: Optional<String?> {
+    get {
+      return graphQLMap["addressNotEndsWith"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "addressNotEndsWith")
+    }
+  }
+
+  public var id: Optional<GraphQLID?> {
+    get {
+      return graphQLMap["id"] as! Optional<GraphQLID?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "id")
+    }
+  }
+
+  /// All values that are not equal to given value.
+  public var idNot: Optional<GraphQLID?> {
+    get {
+      return graphQLMap["idNot"] as! Optional<GraphQLID?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "idNot")
+    }
+  }
+
+  /// All values that are contained in given list.
+  public var idIn: Optional<[GraphQLID]?> {
+    get {
+      return graphQLMap["idIn"] as! Optional<[GraphQLID]?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "idIn")
+    }
+  }
+
+  /// All values that are not contained in given list.
+  public var idNotIn: Optional<[GraphQLID]?> {
+    get {
+      return graphQLMap["idNotIn"] as! Optional<[GraphQLID]?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "idNotIn")
+    }
+  }
+
+  /// All values less than the given value.
+  public var idLt: Optional<GraphQLID?> {
+    get {
+      return graphQLMap["idLt"] as! Optional<GraphQLID?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "idLt")
+    }
+  }
+
+  /// All values less than or equal the given value.
+  public var idLte: Optional<GraphQLID?> {
+    get {
+      return graphQLMap["idLte"] as! Optional<GraphQLID?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "idLte")
+    }
+  }
+
+  /// All values greater than the given value.
+  public var idGt: Optional<GraphQLID?> {
+    get {
+      return graphQLMap["idGt"] as! Optional<GraphQLID?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "idGt")
+    }
+  }
+
+  /// All values greater than or equal the given value.
+  public var idGte: Optional<GraphQLID?> {
+    get {
+      return graphQLMap["idGte"] as! Optional<GraphQLID?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "idGte")
+    }
+  }
+
+  /// All values containing the given string.
+  public var idContains: Optional<GraphQLID?> {
+    get {
+      return graphQLMap["idContains"] as! Optional<GraphQLID?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "idContains")
+    }
+  }
+
+  /// All values not containing the given string.
+  public var idNotContains: Optional<GraphQLID?> {
+    get {
+      return graphQLMap["idNotContains"] as! Optional<GraphQLID?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "idNotContains")
+    }
+  }
+
+  /// All values starting with the given string.
+  public var idStartsWith: Optional<GraphQLID?> {
+    get {
+      return graphQLMap["idStartsWith"] as! Optional<GraphQLID?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "idStartsWith")
+    }
+  }
+
+  /// All values not starting with the given string.
+  public var idNotStartsWith: Optional<GraphQLID?> {
+    get {
+      return graphQLMap["idNotStartsWith"] as! Optional<GraphQLID?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "idNotStartsWith")
+    }
+  }
+
+  /// All values ending with the given string.
+  public var idEndsWith: Optional<GraphQLID?> {
+    get {
+      return graphQLMap["idEndsWith"] as! Optional<GraphQLID?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "idEndsWith")
+    }
+  }
+
+  /// All values not ending with the given string.
+  public var idNotEndsWith: Optional<GraphQLID?> {
+    get {
+      return graphQLMap["idNotEndsWith"] as! Optional<GraphQLID?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "idNotEndsWith")
+    }
+  }
+
+  public var lat: Optional<Double?> {
+    get {
+      return graphQLMap["lat"] as! Optional<Double?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "lat")
+    }
+  }
+
+  /// All values that are not equal to given value.
+  public var latNot: Optional<Double?> {
+    get {
+      return graphQLMap["latNot"] as! Optional<Double?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "latNot")
+    }
+  }
+
+  /// All values that are contained in given list.
+  public var latIn: Optional<[Double]?> {
+    get {
+      return graphQLMap["latIn"] as! Optional<[Double]?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "latIn")
+    }
+  }
+
+  /// All values that are not contained in given list.
+  public var latNotIn: Optional<[Double]?> {
+    get {
+      return graphQLMap["latNotIn"] as! Optional<[Double]?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "latNotIn")
+    }
+  }
+
+  /// All values less than the given value.
+  public var latLt: Optional<Double?> {
+    get {
+      return graphQLMap["latLt"] as! Optional<Double?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "latLt")
+    }
+  }
+
+  /// All values less than or equal the given value.
+  public var latLte: Optional<Double?> {
+    get {
+      return graphQLMap["latLte"] as! Optional<Double?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "latLte")
+    }
+  }
+
+  /// All values greater than the given value.
+  public var latGt: Optional<Double?> {
+    get {
+      return graphQLMap["latGt"] as! Optional<Double?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "latGt")
+    }
+  }
+
+  /// All values greater than or equal the given value.
+  public var latGte: Optional<Double?> {
+    get {
+      return graphQLMap["latGte"] as! Optional<Double?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "latGte")
+    }
+  }
+
+  public var lon: Optional<Double?> {
+    get {
+      return graphQLMap["lon"] as! Optional<Double?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "lon")
+    }
+  }
+
+  /// All values that are not equal to given value.
+  public var lonNot: Optional<Double?> {
+    get {
+      return graphQLMap["lonNot"] as! Optional<Double?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "lonNot")
+    }
+  }
+
+  /// All values that are contained in given list.
+  public var lonIn: Optional<[Double]?> {
+    get {
+      return graphQLMap["lonIn"] as! Optional<[Double]?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "lonIn")
+    }
+  }
+
+  /// All values that are not contained in given list.
+  public var lonNotIn: Optional<[Double]?> {
+    get {
+      return graphQLMap["lonNotIn"] as! Optional<[Double]?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "lonNotIn")
+    }
+  }
+
+  /// All values less than the given value.
+  public var lonLt: Optional<Double?> {
+    get {
+      return graphQLMap["lonLt"] as! Optional<Double?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "lonLt")
+    }
+  }
+
+  /// All values less than or equal the given value.
+  public var lonLte: Optional<Double?> {
+    get {
+      return graphQLMap["lonLte"] as! Optional<Double?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "lonLte")
+    }
+  }
+
+  /// All values greater than the given value.
+  public var lonGt: Optional<Double?> {
+    get {
+      return graphQLMap["lonGt"] as! Optional<Double?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "lonGt")
+    }
+  }
+
+  /// All values greater than or equal the given value.
+  public var lonGte: Optional<Double?> {
+    get {
+      return graphQLMap["lonGte"] as! Optional<Double?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "lonGte")
+    }
+  }
+
+  public var name: Optional<String?> {
+    get {
+      return graphQLMap["name"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "name")
+    }
+  }
+
+  /// All values that are not equal to given value.
+  public var nameNot: Optional<String?> {
+    get {
+      return graphQLMap["nameNot"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameNot")
+    }
+  }
+
+  /// All values that are contained in given list.
+  public var nameIn: Optional<[String]?> {
+    get {
+      return graphQLMap["nameIn"] as! Optional<[String]?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameIn")
+    }
+  }
+
+  /// All values that are not contained in given list.
+  public var nameNotIn: Optional<[String]?> {
+    get {
+      return graphQLMap["nameNotIn"] as! Optional<[String]?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameNotIn")
+    }
+  }
+
+  /// All values less than the given value.
+  public var nameLt: Optional<String?> {
+    get {
+      return graphQLMap["nameLt"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameLt")
+    }
+  }
+
+  /// All values less than or equal the given value.
+  public var nameLte: Optional<String?> {
+    get {
+      return graphQLMap["nameLte"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameLte")
+    }
+  }
+
+  /// All values greater than the given value.
+  public var nameGt: Optional<String?> {
+    get {
+      return graphQLMap["nameGt"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameGt")
+    }
+  }
+
+  /// All values greater than or equal the given value.
+  public var nameGte: Optional<String?> {
+    get {
+      return graphQLMap["nameGte"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameGte")
+    }
+  }
+
+  /// All values containing the given string.
+  public var nameContains: Optional<String?> {
+    get {
+      return graphQLMap["nameContains"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameContains")
+    }
+  }
+
+  /// All values not containing the given string.
+  public var nameNotContains: Optional<String?> {
+    get {
+      return graphQLMap["nameNotContains"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameNotContains")
+    }
+  }
+
+  /// All values starting with the given string.
+  public var nameStartsWith: Optional<String?> {
+    get {
+      return graphQLMap["nameStartsWith"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameStartsWith")
+    }
+  }
+
+  /// All values not starting with the given string.
+  public var nameNotStartsWith: Optional<String?> {
+    get {
+      return graphQLMap["nameNotStartsWith"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameNotStartsWith")
+    }
+  }
+
+  /// All values ending with the given string.
+  public var nameEndsWith: Optional<String?> {
+    get {
+      return graphQLMap["nameEndsWith"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameEndsWith")
+    }
+  }
+
+  /// All values not ending with the given string.
+  public var nameNotEndsWith: Optional<String?> {
+    get {
+      return graphQLMap["nameNotEndsWith"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nameNotEndsWith")
+    }
+  }
+
+  public var event: Optional<EventFilter?> {
+    get {
+      return graphQLMap["event"] as! Optional<EventFilter?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "event")
     }
   }
 }

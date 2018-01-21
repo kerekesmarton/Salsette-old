@@ -51,7 +51,7 @@ class CreateEventViewController: UITableViewController {
             endDate.text = ""
         }
         placeLabel.text = fbEvent?.place
-        locationLabel.text = fbEvent?.location
+        locationLabel.text = fbEvent?.location?.displayableName()
         descriptionLabel.text = fbEvent?.longDescription
         
         let picker = UIPickerView()
