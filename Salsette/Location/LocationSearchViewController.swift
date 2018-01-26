@@ -31,19 +31,43 @@ extension PlaceModel: SearchableLocation {
     }
 }
 
+extension CLPlacemark: SearchableLocation {
+    
+    public func displayableName() -> String? {
+        return name
+    }
+    
+    public func displayableAddress() -> String? {
+        guard let address = thoroughfare, let city = locality, let country = country, let zip = postalCode else {
+            return nil
+        }
+        
+        return "\(address), \(zip), \(city),\(country)"
+    }
+    
+    public func displayableCoordinates() -> String? {
+        guard let lat = location?.coordinate.latitude, let lon = location?.coordinate.longitude else {
+            return nil
+        }
+        return "Lat: \(lat), Lon\(lon)"
+    }
+}
+
 class LocationSearchViewController: UITableViewController {
     private let geocoder = CLGeocoder()
     var fbLocation: FacebookLocation?
+    private lazy var search: SearchController = {
+        let vc = SearchController(searchResultsController: nil)
+        vc.searchResultsUpdater = self
+        vc.delegate = self
+        vc.searchBar.placeholder = "Search"        
+        return vc
+    }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(finish))
-        let search = LocationViewController(searchResultsController: nil)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         navigationItem.searchController = search
-        search.delegate = self
-        search.searchResultsUpdater = self
         search.isActive = true
-        search.searchBar.text = fbLocation?.displayableAddress()
     }
     
     @objc func finish() {
@@ -60,7 +84,7 @@ class LocationSearchViewController: UITableViewController {
         geocode(value: text)
     }
     
-    private var places: [PlaceModel] = [] {
+    private var places: [CLPlacemark] = [] {
         didSet {
             tableView.reloadData()
         }
@@ -72,9 +96,7 @@ class LocationSearchViewController: UITableViewController {
                 self.places = []
                 return
             }
-            self.places = placemarks.flatMap({ (placemark) -> PlaceModel? in
-                return PlaceModel(placemark: placemark)
-            })
+            self.places = placemarks
         })
     }
     
@@ -84,10 +106,15 @@ class LocationSearchViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath)
-        let model = places[indexPath.row]
-        cell.textLabel?.text = model.displayableName()
-        cell.detailTextLabel?.text = model.displayableAddress()
+        let placemark = places[indexPath.row]
+        cell.textLabel?.text = placemark.displayableName()
+        cell.detailTextLabel?.text = placemark.displayableAddress()
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let placemark = places[indexPath.row]
+        
     }
 }
 
