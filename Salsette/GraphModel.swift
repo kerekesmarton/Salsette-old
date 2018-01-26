@@ -5,13 +5,19 @@ import Foundation
 public struct EventModel {
     let fbID: String
     let type: Dance
+    let name: String
+    let date: String
     var id: String? = nil
     var workshops: [WorkshopModel]? = nil
+    var place: PlaceModel? = nil
     
-    init(fbID: String, type: Dance, id: String? = nil, workshops: [WorkshopModel]? = nil) {
+    init(fbID: String, type: Dance, name: String, date: String, id: String? = nil, place: PlaceModel? = nil, workshops: [WorkshopModel]? = nil) {
         self.fbID = fbID
         self.type = type
+        self.name = name
+        self.date = date
         self.id = id
+        self.place = place
         self.workshops = workshops
     }
 }
@@ -70,4 +76,36 @@ public struct WorkshopModel: Equatable {
 
 public func ==(lhs: WorkshopModel, rhs: WorkshopModel) -> Bool {    
     return lhs.id == rhs.id
+}
+
+struct PlaceModel {
+    var address: String
+    var city: String
+    var country: String
+    var lat: Double
+    var lon: Double
+    var name: String
+    var zip: String
+    init(address: String, city: String, country: String, lat: Double, lon: Double, name: String, zip: String) {
+        self.address = address
+        self.city = city
+        self.country = country
+        self.lat = lat
+        self.lon = lon
+        self.name = name
+        self.zip = zip
+    }
+    
+    init?(fbPlace: FacebookLocation?) {
+        guard let address = fbPlace?.address, let name = fbPlace?.name, let city = fbPlace?.city, let country = fbPlace?.country, let zip = fbPlace?.zip, let lat: String = fbPlace?.lat, let lon: String = fbPlace?.lon, let cLat = Double(lat), let cLon = Double(lon) else {
+            return nil
+        }
+        self.address = address
+        self.city = city
+        self.country = country
+        self.lat = cLat
+        self.lon = cLon
+        self.name = name
+        self.zip = zip
+    }
 }

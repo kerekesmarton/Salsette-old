@@ -15,8 +15,15 @@ extension WorkshopModel {
 extension EventModel {
     fileprivate static func events(from result: FetchAllEventQuery.Data) -> [EventModel]? {
         return result.allEvents.map({ (event) -> EventModel in
-            return EventModel(fbID: event.fbId, type: event.type, id: event.id)
+            return EventModel(fbID: event.fbId, type: event.type, name: event.name, date: event.date, id: event.id)
         })
+    }
+}
+
+extension PlaceModel {
+    fileprivate static func place(from result: CreateEventMutation.Data.CreateEvent.Place?) -> PlaceModel? {
+        guard let result = result else { return nil }
+        return PlaceModel(address: result.address, city: result.city, country: result.country, lat: result.lat, lon: result.lon, name: result.name, zip: result.zip)
     }
 }
 
@@ -85,17 +92,18 @@ class GraphManager {
         token = nil
     }
     
-    @discardableResult func createEvent(model: EventModel, closure: @escaping (EventModel?, Error?)->Void) -> Cancellable? {
+    @discardableResult func createEvent(model: EventModel, place: PlaceModel, closure: @escaping (EventModel?, Error?)->Void) -> Cancellable? {
         guard let client = authorisedClient else {
             closure(nil, NSError(with: "Please log in"))
             return nil
         }
-        let input = CreateEventMutation(fbId: model.fbID, type: model.type)
+        let eventPlace = EventplacePlace(address: place.address, city: place.city, country: place.country, lat: place.lat, lon: place.lon, name: place.name, zip: place.zip)
+        let input = CreateEventMutation(date: model.date, fbId: model.fbID, name: model.name, type: model.type, place: eventPlace)
         return client.perform(mutation: input, resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
-            } else if let event = result?.data?.createEvent {
-                closure(EventModel(fbID: event.fbId, type: event.type, id: event.id), error)
+            } else if let event = result?.data?.createEvent, let place = PlaceModel.place(from: event.place) {
+                closure(EventModel(fbID: event.fbId, type: event.type, name: event.name, date: event.date, id: event.id, place: place), error)
             }
         })
     }
@@ -112,7 +120,7 @@ class GraphManager {
             } else if let _ = error {
                 closure(nil, NSError(with: "Please log in again."))
             } else if let event = result?.data?.allEvents.first {
-                closure(EventModel(fbID: event.fbId, type: event.type, id: event.id, workshops: WorkshopModel.workshops(from: event)), error)
+                closure(EventModel(fbID: event.fbId, type: event.type, name: event.name, date: event.date, id: event.id, workshops: WorkshopModel.workshops(from: event)), error)
             } else {
                 closure(nil, nil)
             }
@@ -132,7 +140,7 @@ class GraphManager {
                 closure(nil, NSError(with: "Please log in again."))
             } else if let events = result?.data?.allEvents {
                 let models = events.map({ (event) -> EventModel in
-                    EventModel(fbID: event.fbId, type: event.type, id: event.id, workshops: WorkshopModel.workshops(from: event))
+                    EventModel(fbID: event.fbId, type: event.type, name: event.name, date: event.date, id: event.id, workshops: WorkshopModel.workshops(from: event))
                 })
                 closure(models, nil)
             } else {
@@ -230,6 +238,22 @@ class GraphManager {
     }
     
     
+//    @discardableResult func createPlace(model: PlaceModel, closure: @escaping (PlaceModel?, Error?)->()) -> Cancellable? {
+//        guard let client = authorisedClient else {
+//            closure(nil, NSError(with: "Please log in"))
+//            return nil
+//        }
+//        let input = CreatePlaceMutation(address: model.address, city: model.city, country: model.country, lat: model.lat, lon: model.lon, name: model.name, zip: model.zip, event: )
+//        return client.perform(mutation: input) { (result, error) in
+//            if let serverError = result?.errors {
+//                closure(nil, self.error(from: serverError))
+//            } else if let place = result?.data?.createPlace {
+//                closure(PlaceModel(address: place.address, city: place.city, country: place.country, lat: place.lat, lon: place.lon, name: place.name, zip: place.zip), error)
+//            } else {
+//                closure(nil, nil)
+//            }
+//        }
+//    }
     
     fileprivate func error(from graphQLErrors: [GraphQLError]) -> Error {
         guard let error = graphQLErrors.first else {

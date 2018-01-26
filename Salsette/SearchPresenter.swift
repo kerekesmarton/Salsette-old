@@ -41,18 +41,6 @@ class SearchPresenter: NSObject {
         interactor.deleteKeychain()
     }
     
-    @objc private func updateLocationSearch(text: String?) {
-        searchParameters.didChange(.location(text))
-        guard let text = text else { return }
-        interactor.geocode(value: text) { (values, error) in
-            
-        }
-    }
-    func didChange(location text: String?) {
-        NSObject.cancelPreviousPerformRequests(withTarget: self)
-        perform(#selector(updateLocationSearch(text:)), with: text, afterDelay: 0.5)
-    }
-    
     func didChange(type value: Dance?) {
         searchParameters.didChange(.type(value))
     }

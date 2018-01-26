@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0451611E9933FDA98F22AA50 /* Pods_Salsette.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4A7EBEAF4AC4F4083A3DDE9 /* Pods_Salsette.framework */; };
 		100038811F546FCB003CA1BC /* CreateEventInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100038801F546FCB003CA1BC /* CreateEventInteractor.swift */; };
+		10145821201BA91B00198F70 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10145820201BA91B00198F70 /* LocationSearchViewController.swift */; };
 		1033E52B1E7589BA002D1615 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E52A1E7589BA002D1615 /* Calendar.swift */; };
 		1033E5441E75AAB3002D1615 /* UIFont+Appfonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1033E5431E75AAB3002D1615 /* UIFont+Appfonts.swift */; };
 		1033E54B1E75AB21002D1615 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1033E54A1E75AB21002D1615 /* Main.storyboard */; };
@@ -86,6 +87,7 @@
 
 /* Begin PBXFileReference section */
 		100038801F546FCB003CA1BC /* CreateEventInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventInteractor.swift; sourceTree = "<group>"; };
+		10145820201BA91B00198F70 /* LocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewController.swift; sourceTree = "<group>"; };
 		1033E52A1E7589BA002D1615 /* Calendar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		1033E5431E75AAB3002D1615 /* UIFont+Appfonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Appfonts.swift"; sourceTree = "<group>"; };
 		1033E54A1E75AB21002D1615 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 			isa = PBXGroup;
 			children = (
 				10C705D32014BAF100D90B6B /* LocationViewController.swift */,
+				10145820201BA91B00198F70 /* LocationSearchViewController.swift */,
 			);
 			path = Location;
 			sourceTree = "<group>";
@@ -630,6 +633,7 @@
 				1053CA0A1EF46C370034844A /* Array.swift in Sources */,
 				106EB0281E94636E004686B5 /* API.swift in Sources */,
 				10B9AF761E7DA2900033A6BF /* UImage+Additions.swift in Sources */,
+				10145821201BA91B00198F70 /* LocationSearchViewController.swift in Sources */,
 				10DA93231EAA00C10054F338 /* ProfileInteractor.swift in Sources */,
 				10D733431E728E7600F47A52 /* UIStoryboard+Functions.swift in Sources */,
 				FBF5A9C21E959FA0000CED7A /* GraphManager.swift in Sources */,

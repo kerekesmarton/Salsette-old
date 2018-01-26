@@ -1,10 +1,4 @@
-//
-//  CreateEventInteractor.swift
-//  Salsette
-//
-//  Created by Marton Kerekes on 28/08/2017.
 //  Copyright © 2017 Marton Kerekes. All rights reserved.
-//
 
 import UIKit
 
@@ -26,11 +20,10 @@ class CreateEventInteractor {
     
     let graphManager = GraphManager.shared
     
-    func createEvent(fbID: String, type: Dance, completion: @escaping (EventModel?, Error?) -> Void) {
-        let model = EventModel(fbID: fbID, type: type)
-        graphManager.createEvent(model: model) { (createdEvent, error) in
-            if let result = createdEvent {
-                completion(result, nil)
+    func createEvent(eventModel: EventModel, placeModel: PlaceModel, completion: @escaping (EventModel?, Error?) -> Void) {
+        graphManager.createEvent(model: eventModel, place: placeModel) { (createdEvent, error) in
+            if let event = createdEvent {
+                completion(event, nil)
             } else if let error = error {
                 completion(nil, error)
             }

@@ -64,7 +64,7 @@ class EventViewController: UITableViewController {
             }
         }))
         actionSheet.addAction(UIAlertAction(title: "Open Google Maps", style: .default, handler: { (openGoogleMapsAction) in
-            if let location = self.event.location?.displayableName().addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics),
+            if let location = self.event.location?.displayableName()?.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics),
                 let url = URL(string: "https://www.google.com/maps/place/\(location)") {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }

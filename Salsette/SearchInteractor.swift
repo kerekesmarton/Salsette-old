@@ -1,12 +1,10 @@
 //  Copyright © 2017 Marton Kerekes. All rights reserved.
 
 import Foundation
-import CoreLocation
 
 class SearchInteractor {
     
-    private let fbService = FacebookService.shared
-    private let geocoder = CLGeocoder()
+    private let fbService = FacebookService.shared    
 //    fileprivate func loadGraphEvents(for facebookEvents:[FacebookEventEntity]) {
 //        let ids = facebookEvents.flatMap({ (entity) -> String? in
 //            return entity.identifier
@@ -34,15 +32,5 @@ class SearchInteractor {
     
     func deleteKeychain() {
         KeychainStorage.shared.clear()
-    }
-    
-    func geocode(value: String, completion: @escaping ([String]?, Error?)->Void) {
-        geocoder.geocodeAddressString(value, completionHandler: { (placemarks, error) in
-            guard let placemarks = placemarks, placemarks.count >= 0 else {
-                print(String(describing: error))
-                return
-            }
-            print(placemarks)
-        })
     }
 }

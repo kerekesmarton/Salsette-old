@@ -100,28 +100,15 @@ extension SearchViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 }
 
 extension SearchViewController: UITextFieldDelegate {
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        switch textField {
-        case locationField:
-            presenter.didChange(location: textField.text)
-        default:
-            ()
-        }
-    }
-    
+        
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
         case typeField:
             let row = typePicker.selectedRow(inComponent: 0)
             typePicker.selectRow(row, inComponent: 0, animated: false)
             typeField.text = Dance.string(at: row)
-        case locationField:            
-            let locationSearch = LocationViewController(searchResultsController: nil)
-            locationSearch.searchResultsUpdater = self
-            locationSearch.delegate = self
-            navigationItem.searchController = locationSearch
-            locationSearch.isActive = true
+        case locationField:
+            performSegue(withIdentifier: "LocationSearchViewController", sender: self)
         default:
             ()
         }
@@ -270,19 +257,7 @@ fileprivate extension SearchViewController {
         dateField.inputAccessoryView = dateIAV
     }
     
-    func customiseLocationField() {
-        locationField.inputAccessoryView = InputAccessoryView.create(next: { (nextBtn) in
-            self.typeField.becomeFirstResponder()
-        }, previous: { (previousBtn) in
-            self.dateField.becomeFirstResponder()
-        }, done: { (doneBtn) in
-            self.locationField.resignFirstResponder()
-            guard let searchTerm = self.locationField.text else {
-                return
-            }
-            self.presenter.didChange(location: searchTerm)
-            self.presenter.load()
-        })
+    func customiseLocationField() {        
         locationField.delegate = self
     }
     
@@ -312,12 +287,6 @@ fileprivate extension SearchViewController {
         emptyDataSetCustomView = view
         results.removeAll()
         collectionView?.reloadData()
-    }
-}
-
-extension SearchViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        presenter.didChange(location: searchController.searchBar.text)        
     }
 }
 

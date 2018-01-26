@@ -25,21 +25,16 @@ class FacebookLocation: SearchableLocation {
         return location
     }
     
-    func displayableName() -> String {
+    func displayableName() -> String? {
         return name ?? ""
     }
     
-    func displayableAddress() -> String {
-        guard let line1 = addressLine1(), let line2 = addressLine2() else { return "" }
-        return "\(line1)\n\(line2)"
-    }
-    
-    private func addressLine1() -> String? {
+    func displayableAddress() -> String? {
         guard let city = city, let address = address, let zip = zip else { return nil }
         return "\(zip), \(city), \(address)"
     }
     
-    private func addressLine2() -> String? {
+    func displayableCoordinates() -> String? {
         guard let lat = lat, let lon = lon else { return nil }
         return "latitude: \(lat), longitude: \(lon)"
     }
