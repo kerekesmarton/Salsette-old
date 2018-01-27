@@ -44,6 +44,10 @@ class SearchPresenter: NSObject {
     func didChange(type value: Dance?) {
         searchParameters.didChange(.type(value))
     }
+
+    func didChange(placeModel: PlaceModel) {
+        searchParameters.location = placeModel
+    }
     
     func reset(oldDate: Date) {
         searchView?.setSearch(.dates(""))

@@ -22,12 +22,6 @@ class ProfileViewController: UITableViewController {
         interactor = ProfileInteractor(with: self)
     }
     
-    //offline testing
-    //    override func viewDidLoad() {
-    //        super.viewDidLoad()
-    //        set(viewState: .userReady(true))
-    //    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.flatWhite

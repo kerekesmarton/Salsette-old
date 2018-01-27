@@ -56,6 +56,7 @@ extension CLPlacemark: SearchableLocation {
 class LocationSearchViewController: UITableViewController {
     private let geocoder = CLGeocoder()
     var fbLocation: FacebookLocation?
+    var completion: ((PlaceModel) -> ())?
     private lazy var search: SearchController = {
         let vc = SearchController(searchResultsController: nil)
         vc.searchResultsUpdater = self
@@ -67,6 +68,7 @@ class LocationSearchViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationItem.searchController = search
+        search.searchBar.text = fbLocation?.displayableAddress()
         search.isActive = true
     }
     
@@ -91,12 +93,12 @@ class LocationSearchViewController: UITableViewController {
     }
     
     private func geocode(value: String) {
-        geocoder.geocodeAddressString(value, completionHandler: { (placemarks, error) in
+        geocoder.geocodeAddressString(value, completionHandler: { [weak self] (placemarks, error) in
             guard let placemarks = placemarks, placemarks.count >= 0 else {
-                self.places = []
+                self?.places = []
                 return
             }
-            self.places = placemarks
+            self?.places = placemarks
         })
     }
     
@@ -111,10 +113,11 @@ class LocationSearchViewController: UITableViewController {
         cell.detailTextLabel?.text = placemark.displayableAddress()
         return cell
     }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let placemark = places[indexPath.row]
-        
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let vc = segue.destination as? LocationRefineViewController, let cell = sender as? UITableViewCell, let index = tableView.indexPath(for: cell) else { return }
+        vc.placemark = places[index.row]
+        vc.completion = completion
     }
 }
 

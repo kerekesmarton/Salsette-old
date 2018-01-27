@@ -138,8 +138,8 @@ class FacebookService {
     
     private func events(with parameters: SearchParameters, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
         var searchTerms = ""
-        if let location = parameters.location, location.count > 0 {
-            searchTerms = location
+        if let location = parameters.location, location.name.count > 0 {
+            searchTerms = location.name
         }
         if let type = parameters.type?.rawValue, type.count > 0 {
             searchTerms.append(" \(type)")
@@ -210,7 +210,7 @@ fileprivate extension FacebookService {
     }
     
     private func places(with parameters: SearchParameters, completion: @escaping ([String]?, Error?)->Void) {
-        guard var queryString = parameters.location else {
+        guard var queryString = parameters.location?.name else {
             completion([],nil)
             return
         }

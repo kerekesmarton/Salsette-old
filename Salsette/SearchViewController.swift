@@ -58,7 +58,8 @@ class SearchViewController: UICollectionViewController {
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         return presenter.isProfileEnabled()
     }
-    
+
+    var searchNavigation: UINavigationController?
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let currentCell = sender as? HomeCell,
             let eventViewController = segue.destination as? EventViewController,
@@ -75,6 +76,13 @@ class SearchViewController: UICollectionViewController {
         {
             eventViewController.event = results[currentCellIndex.row]
             eventViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(SearchViewController.dismissEventView))
+        }
+        if let nav = segue.destination as? UINavigationController, let searchViewController = nav.viewControllers.first as? LocationSearchViewController {
+            searchNavigation = nav
+            searchViewController.completion = { [weak self] placeModel in
+                self?.presenter.didChange(placeModel: placeModel)
+                self?.searchNavigation?.dismiss(animated: true)
+            }
         }
     }
 }

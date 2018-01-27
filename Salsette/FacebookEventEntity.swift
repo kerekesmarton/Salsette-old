@@ -11,6 +11,18 @@ class FacebookLocation: SearchableLocation {
     var lon: String?
     var name: String?
     var zip: String?
+
+    init(with placeModel: PlaceModel) {
+        self.address = placeModel.address
+        self.city = placeModel.city
+        self.country = placeModel.country
+        self.lat = String(placeModel.lat)
+        self.lon = String(placeModel.lon)
+        self.name = placeModel.name
+        self.zip = placeModel.zip
+    }
+
+    init() {}
     
     static func location(from json: JSON) -> FacebookLocation {
         let location = FacebookLocation()

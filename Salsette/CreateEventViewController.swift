@@ -76,18 +76,28 @@ class CreateEventViewController: UITableViewController {
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         return presenter.shouldProceed()
     }
-    
+
+    var searchNavigation: UINavigationController?
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let nav = segue.destination as? UINavigationController,
             let workshopsEditVC = nav.viewControllers.first as? WorkshopsEditViewController {
             
             workshopsEditVC.prefilledWorkshopDate = fbEvent?.startDate?.noHours()
-            workshopsEditVC.done = { [unowned self] items in
-                guard let event = self.event else { return }
-                self.presenter.update(event: event, updated: items)
+            workshopsEditVC.done = { [weak self] items in
+                guard let event = self?.event else { return }
+                self?.presenter.update(event: event, updated: items)
             }
             guard let workshops = event?.workshops else { return }
             workshopsEditVC.items = workshops
+        }
+        if let nav = segue.destination as? UINavigationController, let searchVC = nav.viewControllers.first as? LocationSearchViewController, let fbLocation = sender as? FacebookLocation {
+            searchVC.fbLocation = fbLocation
+            searchNavigation = nav
+            searchVC.completion = { [weak self] placeModel in
+                let newLocation = FacebookLocation(with: placeModel)
+                self?.fbEvent?.location = newLocation
+                self?.searchNavigation?.dismiss(animated: true)
+            }
         }
     }
     
@@ -116,12 +126,6 @@ class CreateEventViewController: UITableViewController {
         case deleted
     }
     
-    fileprivate func setupLocationSearch(_ fbLocation: (FacebookLocation?)) {
-        let locationSearchController = LocationSearchViewController()
-        locationSearchController.fbLocation = fbLocation
-        present(UINavigationController(rootViewController: locationSearchController), animated: true)
-    }
-    
     var state: ViewState? = nil {
         didSet {
             switch state! {
@@ -146,7 +150,7 @@ class CreateEventViewController: UITableViewController {
             case .missingName:
                 ()
             case .missingLocation(let fbLocation):
-                setupLocationSearch(fbLocation)
+                performSegue(withIdentifier: "LocationSearchViewController", sender: fbLocation)
             }
         }
     }
@@ -209,9 +213,15 @@ extension CreateEventViewController {
         let picker = typeLabel.inputView as? UIPickerView
         picker?.selectRow(index, inComponent: 0, animated: false)
     }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 4 {
+        switch indexPath.row {
+        case 3:
+            performSegue(withIdentifier: "LocationSearchViewController", sender: fbEvent?.location)
+        case 4:
             activateTypeLabel()
+        default:
+            ()
         }
     }
     

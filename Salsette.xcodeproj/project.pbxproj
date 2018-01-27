@@ -72,6 +72,7 @@
 		FB6D920A1EBBD97300025CD8 /* WorkshopsEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6D92091EBBD97300025CD8 /* WorkshopsEditViewController.swift */; };
 		FB6D920C1EBBD9A100025CD8 /* ScheduleEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6D920B1EBBD9A100025CD8 /* ScheduleEditViewController.swift */; };
 		FBB7DFBC1EA8A8DE006C0D54 /* SelectFacebookEventInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB7DFBB1EA8A8DE006C0D54 /* SelectFacebookEventInteractor.swift */; };
+		FBCDF767201BEAA5009ED8A4 /* LocationSearch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBCDF766201BEAA5009ED8A4 /* LocationSearch.storyboard */; };
 		FBF5A9C21E959FA0000CED7A /* GraphManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF5A9C11E959FA0000CED7A /* GraphManager.swift */; };
 		FBF5A9C61E977810000CED7A /* KeychainStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF5A9C51E977810000CED7A /* KeychainStorage.swift */; };
 /* End PBXBuildFile section */
@@ -160,6 +161,7 @@
 		FB6D92091EBBD97300025CD8 /* WorkshopsEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkshopsEditViewController.swift; sourceTree = "<group>"; };
 		FB6D920B1EBBD9A100025CD8 /* ScheduleEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleEditViewController.swift; sourceTree = "<group>"; };
 		FBB7DFBB1EA8A8DE006C0D54 /* SelectFacebookEventInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectFacebookEventInteractor.swift; sourceTree = "<group>"; };
+		FBCDF766201BEAA5009ED8A4 /* LocationSearch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LocationSearch.storyboard; sourceTree = "<group>"; };
 		FBD9E0BC1FACC29800D8ADF1 /* codegen.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = codegen.md; sourceTree = "<group>"; };
 		FBF5A9C11E959FA0000CED7A /* GraphManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphManager.swift; sourceTree = "<group>"; };
 		FBF5A9C51E977810000CED7A /* KeychainStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainStorage.swift; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 				FB6756CE1EB45EDF00B2E4D5 /* Salsette.xcassets */,
 				1089BF881E708553006E091A /* Assets.xcassets */,
 				1033E54A1E75AB21002D1615 /* Main.storyboard */,
+				FBCDF766201BEAA5009ED8A4 /* LocationSearch.storyboard */,
 				1089BF8A1E708553006E091A /* LaunchScreen.storyboard */,
 				1089BF8D1E708553006E091A /* Info.plist */,
 				106EAF431E94333D004686B5 /* Auth0.plist */,
@@ -517,6 +520,7 @@
 				106306AE1E8B951C0089DA00 /* Calendar.xib in Resources */,
 				10D8D86A1ED9E489008A5A76 /* InputAccessoryView.xib in Resources */,
 				1033E5571E79CA44002D1615 /* Calendar.xcassets in Resources */,
+				FBCDF767201BEAA5009ED8A4 /* LocationSearch.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
