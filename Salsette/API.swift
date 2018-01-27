@@ -83,8 +83,8 @@ public enum Dance: String, Apollo.JSONDecodable, Apollo.JSONEncodable {
 public struct EventplacePlace: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(address: String, city: String, country: String, lat: Double, lon: Double, name: String, zip: String) {
-    graphQLMap = ["address": address, "city": city, "country": country, "lat": lat, "lon": lon, "name": name, "zip": zip]
+  public init(address: String, city: String, country: String, name: String, zip: String) {
+    graphQLMap = ["address": address, "city": city, "country": country, "name": name, "zip": zip]
   }
 
   public var address: String {
@@ -111,24 +111,6 @@ public struct EventplacePlace: GraphQLMapConvertible {
     }
     set {
       graphQLMap.updateValue(newValue, forKey: "country")
-    }
-  }
-
-  public var lat: Double {
-    get {
-      return graphQLMap["lat"] as! Double
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "lat")
-    }
-  }
-
-  public var lon: Double {
-    get {
-      return graphQLMap["lon"] as! Double
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "lon")
     }
   }
 
@@ -753,8 +735,8 @@ public struct EventFilter: GraphQLMapConvertible {
 public struct PlaceFilter: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(and: Optional<[PlaceFilter]?> = nil, or: Optional<[PlaceFilter]?> = nil, address: Optional<String?> = nil, addressNot: Optional<String?> = nil, addressIn: Optional<[String]?> = nil, addressNotIn: Optional<[String]?> = nil, addressLt: Optional<String?> = nil, addressLte: Optional<String?> = nil, addressGt: Optional<String?> = nil, addressGte: Optional<String?> = nil, addressContains: Optional<String?> = nil, addressNotContains: Optional<String?> = nil, addressStartsWith: Optional<String?> = nil, addressNotStartsWith: Optional<String?> = nil, addressEndsWith: Optional<String?> = nil, addressNotEndsWith: Optional<String?> = nil, city: Optional<String?> = nil, cityNot: Optional<String?> = nil, cityIn: Optional<[String]?> = nil, cityNotIn: Optional<[String]?> = nil, cityLt: Optional<String?> = nil, cityLte: Optional<String?> = nil, cityGt: Optional<String?> = nil, cityGte: Optional<String?> = nil, cityContains: Optional<String?> = nil, cityNotContains: Optional<String?> = nil, cityStartsWith: Optional<String?> = nil, cityNotStartsWith: Optional<String?> = nil, cityEndsWith: Optional<String?> = nil, cityNotEndsWith: Optional<String?> = nil, country: Optional<String?> = nil, countryNot: Optional<String?> = nil, countryIn: Optional<[String]?> = nil, countryNotIn: Optional<[String]?> = nil, countryLt: Optional<String?> = nil, countryLte: Optional<String?> = nil, countryGt: Optional<String?> = nil, countryGte: Optional<String?> = nil, countryContains: Optional<String?> = nil, countryNotContains: Optional<String?> = nil, countryStartsWith: Optional<String?> = nil, countryNotStartsWith: Optional<String?> = nil, countryEndsWith: Optional<String?> = nil, countryNotEndsWith: Optional<String?> = nil, id: Optional<GraphQLID?> = nil, idNot: Optional<GraphQLID?> = nil, idIn: Optional<[GraphQLID]?> = nil, idNotIn: Optional<[GraphQLID]?> = nil, idLt: Optional<GraphQLID?> = nil, idLte: Optional<GraphQLID?> = nil, idGt: Optional<GraphQLID?> = nil, idGte: Optional<GraphQLID?> = nil, idContains: Optional<GraphQLID?> = nil, idNotContains: Optional<GraphQLID?> = nil, idStartsWith: Optional<GraphQLID?> = nil, idNotStartsWith: Optional<GraphQLID?> = nil, idEndsWith: Optional<GraphQLID?> = nil, idNotEndsWith: Optional<GraphQLID?> = nil, lat: Optional<Double?> = nil, latNot: Optional<Double?> = nil, latIn: Optional<[Double]?> = nil, latNotIn: Optional<[Double]?> = nil, latLt: Optional<Double?> = nil, latLte: Optional<Double?> = nil, latGt: Optional<Double?> = nil, latGte: Optional<Double?> = nil, lon: Optional<Double?> = nil, lonNot: Optional<Double?> = nil, lonIn: Optional<[Double]?> = nil, lonNotIn: Optional<[Double]?> = nil, lonLt: Optional<Double?> = nil, lonLte: Optional<Double?> = nil, lonGt: Optional<Double?> = nil, lonGte: Optional<Double?> = nil, name: Optional<String?> = nil, nameNot: Optional<String?> = nil, nameIn: Optional<[String]?> = nil, nameNotIn: Optional<[String]?> = nil, nameLt: Optional<String?> = nil, nameLte: Optional<String?> = nil, nameGt: Optional<String?> = nil, nameGte: Optional<String?> = nil, nameContains: Optional<String?> = nil, nameNotContains: Optional<String?> = nil, nameStartsWith: Optional<String?> = nil, nameNotStartsWith: Optional<String?> = nil, nameEndsWith: Optional<String?> = nil, nameNotEndsWith: Optional<String?> = nil, zip: Optional<String?> = nil, zipNot: Optional<String?> = nil, zipIn: Optional<[String]?> = nil, zipNotIn: Optional<[String]?> = nil, zipLt: Optional<String?> = nil, zipLte: Optional<String?> = nil, zipGt: Optional<String?> = nil, zipGte: Optional<String?> = nil, zipContains: Optional<String?> = nil, zipNotContains: Optional<String?> = nil, zipStartsWith: Optional<String?> = nil, zipNotStartsWith: Optional<String?> = nil, zipEndsWith: Optional<String?> = nil, zipNotEndsWith: Optional<String?> = nil, event: Optional<EventFilter?> = nil) {
-    graphQLMap = ["AND": and, "OR": or, "address": address, "address_not": addressNot, "address_in": addressIn, "address_not_in": addressNotIn, "address_lt": addressLt, "address_lte": addressLte, "address_gt": addressGt, "address_gte": addressGte, "address_contains": addressContains, "address_not_contains": addressNotContains, "address_starts_with": addressStartsWith, "address_not_starts_with": addressNotStartsWith, "address_ends_with": addressEndsWith, "address_not_ends_with": addressNotEndsWith, "city": city, "city_not": cityNot, "city_in": cityIn, "city_not_in": cityNotIn, "city_lt": cityLt, "city_lte": cityLte, "city_gt": cityGt, "city_gte": cityGte, "city_contains": cityContains, "city_not_contains": cityNotContains, "city_starts_with": cityStartsWith, "city_not_starts_with": cityNotStartsWith, "city_ends_with": cityEndsWith, "city_not_ends_with": cityNotEndsWith, "country": country, "country_not": countryNot, "country_in": countryIn, "country_not_in": countryNotIn, "country_lt": countryLt, "country_lte": countryLte, "country_gt": countryGt, "country_gte": countryGte, "country_contains": countryContains, "country_not_contains": countryNotContains, "country_starts_with": countryStartsWith, "country_not_starts_with": countryNotStartsWith, "country_ends_with": countryEndsWith, "country_not_ends_with": countryNotEndsWith, "id": id, "id_not": idNot, "id_in": idIn, "id_not_in": idNotIn, "id_lt": idLt, "id_lte": idLte, "id_gt": idGt, "id_gte": idGte, "id_contains": idContains, "id_not_contains": idNotContains, "id_starts_with": idStartsWith, "id_not_starts_with": idNotStartsWith, "id_ends_with": idEndsWith, "id_not_ends_with": idNotEndsWith, "lat": lat, "lat_not": latNot, "lat_in": latIn, "lat_not_in": latNotIn, "lat_lt": latLt, "lat_lte": latLte, "lat_gt": latGt, "lat_gte": latGte, "lon": lon, "lon_not": lonNot, "lon_in": lonIn, "lon_not_in": lonNotIn, "lon_lt": lonLt, "lon_lte": lonLte, "lon_gt": lonGt, "lon_gte": lonGte, "name": name, "name_not": nameNot, "name_in": nameIn, "name_not_in": nameNotIn, "name_lt": nameLt, "name_lte": nameLte, "name_gt": nameGt, "name_gte": nameGte, "name_contains": nameContains, "name_not_contains": nameNotContains, "name_starts_with": nameStartsWith, "name_not_starts_with": nameNotStartsWith, "name_ends_with": nameEndsWith, "name_not_ends_with": nameNotEndsWith, "zip": zip, "zip_not": zipNot, "zip_in": zipIn, "zip_not_in": zipNotIn, "zip_lt": zipLt, "zip_lte": zipLte, "zip_gt": zipGt, "zip_gte": zipGte, "zip_contains": zipContains, "zip_not_contains": zipNotContains, "zip_starts_with": zipStartsWith, "zip_not_starts_with": zipNotStartsWith, "zip_ends_with": zipEndsWith, "zip_not_ends_with": zipNotEndsWith, "event": event]
+  public init(and: Optional<[PlaceFilter]?> = nil, or: Optional<[PlaceFilter]?> = nil, address: Optional<String?> = nil, addressNot: Optional<String?> = nil, addressIn: Optional<[String]?> = nil, addressNotIn: Optional<[String]?> = nil, addressLt: Optional<String?> = nil, addressLte: Optional<String?> = nil, addressGt: Optional<String?> = nil, addressGte: Optional<String?> = nil, addressContains: Optional<String?> = nil, addressNotContains: Optional<String?> = nil, addressStartsWith: Optional<String?> = nil, addressNotStartsWith: Optional<String?> = nil, addressEndsWith: Optional<String?> = nil, addressNotEndsWith: Optional<String?> = nil, city: Optional<String?> = nil, cityNot: Optional<String?> = nil, cityIn: Optional<[String]?> = nil, cityNotIn: Optional<[String]?> = nil, cityLt: Optional<String?> = nil, cityLte: Optional<String?> = nil, cityGt: Optional<String?> = nil, cityGte: Optional<String?> = nil, cityContains: Optional<String?> = nil, cityNotContains: Optional<String?> = nil, cityStartsWith: Optional<String?> = nil, cityNotStartsWith: Optional<String?> = nil, cityEndsWith: Optional<String?> = nil, cityNotEndsWith: Optional<String?> = nil, country: Optional<String?> = nil, countryNot: Optional<String?> = nil, countryIn: Optional<[String]?> = nil, countryNotIn: Optional<[String]?> = nil, countryLt: Optional<String?> = nil, countryLte: Optional<String?> = nil, countryGt: Optional<String?> = nil, countryGte: Optional<String?> = nil, countryContains: Optional<String?> = nil, countryNotContains: Optional<String?> = nil, countryStartsWith: Optional<String?> = nil, countryNotStartsWith: Optional<String?> = nil, countryEndsWith: Optional<String?> = nil, countryNotEndsWith: Optional<String?> = nil, id: Optional<GraphQLID?> = nil, idNot: Optional<GraphQLID?> = nil, idIn: Optional<[GraphQLID]?> = nil, idNotIn: Optional<[GraphQLID]?> = nil, idLt: Optional<GraphQLID?> = nil, idLte: Optional<GraphQLID?> = nil, idGt: Optional<GraphQLID?> = nil, idGte: Optional<GraphQLID?> = nil, idContains: Optional<GraphQLID?> = nil, idNotContains: Optional<GraphQLID?> = nil, idStartsWith: Optional<GraphQLID?> = nil, idNotStartsWith: Optional<GraphQLID?> = nil, idEndsWith: Optional<GraphQLID?> = nil, idNotEndsWith: Optional<GraphQLID?> = nil, name: Optional<String?> = nil, nameNot: Optional<String?> = nil, nameIn: Optional<[String]?> = nil, nameNotIn: Optional<[String]?> = nil, nameLt: Optional<String?> = nil, nameLte: Optional<String?> = nil, nameGt: Optional<String?> = nil, nameGte: Optional<String?> = nil, nameContains: Optional<String?> = nil, nameNotContains: Optional<String?> = nil, nameStartsWith: Optional<String?> = nil, nameNotStartsWith: Optional<String?> = nil, nameEndsWith: Optional<String?> = nil, nameNotEndsWith: Optional<String?> = nil, zip: Optional<String?> = nil, zipNot: Optional<String?> = nil, zipIn: Optional<[String]?> = nil, zipNotIn: Optional<[String]?> = nil, zipLt: Optional<String?> = nil, zipLte: Optional<String?> = nil, zipGt: Optional<String?> = nil, zipGte: Optional<String?> = nil, zipContains: Optional<String?> = nil, zipNotContains: Optional<String?> = nil, zipStartsWith: Optional<String?> = nil, zipNotStartsWith: Optional<String?> = nil, zipEndsWith: Optional<String?> = nil, zipNotEndsWith: Optional<String?> = nil, event: Optional<EventFilter?> = nil) {
+    graphQLMap = ["AND": and, "OR": or, "address": address, "address_not": addressNot, "address_in": addressIn, "address_not_in": addressNotIn, "address_lt": addressLt, "address_lte": addressLte, "address_gt": addressGt, "address_gte": addressGte, "address_contains": addressContains, "address_not_contains": addressNotContains, "address_starts_with": addressStartsWith, "address_not_starts_with": addressNotStartsWith, "address_ends_with": addressEndsWith, "address_not_ends_with": addressNotEndsWith, "city": city, "city_not": cityNot, "city_in": cityIn, "city_not_in": cityNotIn, "city_lt": cityLt, "city_lte": cityLte, "city_gt": cityGt, "city_gte": cityGte, "city_contains": cityContains, "city_not_contains": cityNotContains, "city_starts_with": cityStartsWith, "city_not_starts_with": cityNotStartsWith, "city_ends_with": cityEndsWith, "city_not_ends_with": cityNotEndsWith, "country": country, "country_not": countryNot, "country_in": countryIn, "country_not_in": countryNotIn, "country_lt": countryLt, "country_lte": countryLte, "country_gt": countryGt, "country_gte": countryGte, "country_contains": countryContains, "country_not_contains": countryNotContains, "country_starts_with": countryStartsWith, "country_not_starts_with": countryNotStartsWith, "country_ends_with": countryEndsWith, "country_not_ends_with": countryNotEndsWith, "id": id, "id_not": idNot, "id_in": idIn, "id_not_in": idNotIn, "id_lt": idLt, "id_lte": idLte, "id_gt": idGt, "id_gte": idGte, "id_contains": idContains, "id_not_contains": idNotContains, "id_starts_with": idStartsWith, "id_not_starts_with": idNotStartsWith, "id_ends_with": idEndsWith, "id_not_ends_with": idNotEndsWith, "name": name, "name_not": nameNot, "name_in": nameIn, "name_not_in": nameNotIn, "name_lt": nameLt, "name_lte": nameLte, "name_gt": nameGt, "name_gte": nameGte, "name_contains": nameContains, "name_not_contains": nameNotContains, "name_starts_with": nameStartsWith, "name_not_starts_with": nameNotStartsWith, "name_ends_with": nameEndsWith, "name_not_ends_with": nameNotEndsWith, "zip": zip, "zip_not": zipNot, "zip_in": zipIn, "zip_not_in": zipNotIn, "zip_lt": zipLt, "zip_lte": zipLte, "zip_gt": zipGt, "zip_gte": zipGte, "zip_contains": zipContains, "zip_not_contains": zipNotContains, "zip_starts_with": zipStartsWith, "zip_not_starts_with": zipNotStartsWith, "zip_ends_with": zipEndsWith, "zip_not_ends_with": zipNotEndsWith, "event": event]
   }
 
   /// Logical AND on all given filters.
@@ -1330,164 +1312,6 @@ public struct PlaceFilter: GraphQLMapConvertible {
     }
     set {
       graphQLMap.updateValue(newValue, forKey: "idNotEndsWith")
-    }
-  }
-
-  public var lat: Optional<Double?> {
-    get {
-      return graphQLMap["lat"] as! Optional<Double?>
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "lat")
-    }
-  }
-
-  /// All values that are not equal to given value.
-  public var latNot: Optional<Double?> {
-    get {
-      return graphQLMap["latNot"] as! Optional<Double?>
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "latNot")
-    }
-  }
-
-  /// All values that are contained in given list.
-  public var latIn: Optional<[Double]?> {
-    get {
-      return graphQLMap["latIn"] as! Optional<[Double]?>
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "latIn")
-    }
-  }
-
-  /// All values that are not contained in given list.
-  public var latNotIn: Optional<[Double]?> {
-    get {
-      return graphQLMap["latNotIn"] as! Optional<[Double]?>
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "latNotIn")
-    }
-  }
-
-  /// All values less than the given value.
-  public var latLt: Optional<Double?> {
-    get {
-      return graphQLMap["latLt"] as! Optional<Double?>
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "latLt")
-    }
-  }
-
-  /// All values less than or equal the given value.
-  public var latLte: Optional<Double?> {
-    get {
-      return graphQLMap["latLte"] as! Optional<Double?>
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "latLte")
-    }
-  }
-
-  /// All values greater than the given value.
-  public var latGt: Optional<Double?> {
-    get {
-      return graphQLMap["latGt"] as! Optional<Double?>
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "latGt")
-    }
-  }
-
-  /// All values greater than or equal the given value.
-  public var latGte: Optional<Double?> {
-    get {
-      return graphQLMap["latGte"] as! Optional<Double?>
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "latGte")
-    }
-  }
-
-  public var lon: Optional<Double?> {
-    get {
-      return graphQLMap["lon"] as! Optional<Double?>
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "lon")
-    }
-  }
-
-  /// All values that are not equal to given value.
-  public var lonNot: Optional<Double?> {
-    get {
-      return graphQLMap["lonNot"] as! Optional<Double?>
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "lonNot")
-    }
-  }
-
-  /// All values that are contained in given list.
-  public var lonIn: Optional<[Double]?> {
-    get {
-      return graphQLMap["lonIn"] as! Optional<[Double]?>
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "lonIn")
-    }
-  }
-
-  /// All values that are not contained in given list.
-  public var lonNotIn: Optional<[Double]?> {
-    get {
-      return graphQLMap["lonNotIn"] as! Optional<[Double]?>
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "lonNotIn")
-    }
-  }
-
-  /// All values less than the given value.
-  public var lonLt: Optional<Double?> {
-    get {
-      return graphQLMap["lonLt"] as! Optional<Double?>
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "lonLt")
-    }
-  }
-
-  /// All values less than or equal the given value.
-  public var lonLte: Optional<Double?> {
-    get {
-      return graphQLMap["lonLte"] as! Optional<Double?>
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "lonLte")
-    }
-  }
-
-  /// All values greater than the given value.
-  public var lonGt: Optional<Double?> {
-    get {
-      return graphQLMap["lonGt"] as! Optional<Double?>
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "lonGt")
-    }
-  }
-
-  /// All values greater than or equal the given value.
-  public var lonGte: Optional<Double?> {
-    get {
-      return graphQLMap["lonGte"] as! Optional<Double?>
-    }
-    set {
-      graphQLMap.updateValue(newValue, forKey: "lonGte")
     }
   }
 
@@ -2774,7 +2598,7 @@ public final class LoginMutation: GraphQLMutation {
 
 public final class CreateEventMutation: GraphQLMutation {
   public static let operationString =
-    "mutation CreateEvent($date: DateTime, $fbId: String!, $name: String!, $type: Dance!, $place: EventplacePlace) {\n  createEvent(date: $date, fbID: $fbId, name: $name, type: $type, place: $place) {\n    __typename\n    id\n    fbID\n    type\n    name\n    date\n    place {\n      __typename\n      address\n      city\n      country\n      lat\n      lon\n      name\n      zip\n    }\n  }\n}"
+    "mutation CreateEvent($date: DateTime, $fbId: String!, $name: String!, $type: Dance!, $place: EventplacePlace) {\n  createEvent(date: $date, fbID: $fbId, name: $name, type: $type, place: $place) {\n    __typename\n    id\n    fbID\n    type\n    name\n    date\n    place {\n      __typename\n      address\n      city\n      country\n      name\n      zip\n    }\n  }\n}"
 
   public var date: String?
   public var fbId: String
@@ -2914,8 +2738,6 @@ public final class CreateEventMutation: GraphQLMutation {
           GraphQLField("address", type: .nonNull(.scalar(String.self))),
           GraphQLField("city", type: .nonNull(.scalar(String.self))),
           GraphQLField("country", type: .nonNull(.scalar(String.self))),
-          GraphQLField("lat", type: .nonNull(.scalar(Double.self))),
-          GraphQLField("lon", type: .nonNull(.scalar(Double.self))),
           GraphQLField("name", type: .nonNull(.scalar(String.self))),
           GraphQLField("zip", type: .nonNull(.scalar(String.self))),
         ]
@@ -2926,8 +2748,8 @@ public final class CreateEventMutation: GraphQLMutation {
           self.snapshot = snapshot
         }
 
-        public init(address: String, city: String, country: String, lat: Double, lon: Double, name: String, zip: String) {
-          self.init(snapshot: ["__typename": "Place", "address": address, "city": city, "country": country, "lat": lat, "lon": lon, "name": name, "zip": zip])
+        public init(address: String, city: String, country: String, name: String, zip: String) {
+          self.init(snapshot: ["__typename": "Place", "address": address, "city": city, "country": country, "name": name, "zip": zip])
         }
 
         public var __typename: String {
@@ -2963,24 +2785,6 @@ public final class CreateEventMutation: GraphQLMutation {
           }
           set {
             snapshot.updateValue(newValue, forKey: "country")
-          }
-        }
-
-        public var lat: Double {
-          get {
-            return snapshot["lat"]! as! Double
-          }
-          set {
-            snapshot.updateValue(newValue, forKey: "lat")
-          }
-        }
-
-        public var lon: Double {
-          get {
-            return snapshot["lon"]! as! Double
-          }
-          set {
-            snapshot.updateValue(newValue, forKey: "lon")
           }
         }
 
@@ -3750,37 +3554,33 @@ public final class DeleteWorkshopMutation: GraphQLMutation {
 
 public final class CreatePlaceMutation: GraphQLMutation {
   public static let operationString =
-    "mutation CreatePlace($address: String!, $city: String!, $country: String!, $lat: Float!, $lon: Float!, $name: String!, $zip: String!, $event: PlaceeventEvent!) {\n  createPlace(address: $address, city: $city, country: $country, lat: $lat, lon: $lon, name: $name, zip: $zip, event: $event) {\n    __typename\n    address\n    city\n    country\n    lat\n    lon\n    name\n    zip\n    event {\n      __typename\n      id\n      fbID\n      type\n      name\n      date\n    }\n  }\n}"
+    "mutation CreatePlace($address: String!, $city: String!, $country: String!, $name: String!, $zip: String!, $event: PlaceeventEvent!) {\n  createPlace(address: $address, city: $city, country: $country, name: $name, zip: $zip, event: $event) {\n    __typename\n    address\n    city\n    country\n    name\n    zip\n    event {\n      __typename\n      id\n      fbID\n      type\n      name\n      date\n    }\n  }\n}"
 
   public var address: String
   public var city: String
   public var country: String
-  public var lat: Double
-  public var lon: Double
   public var name: String
   public var zip: String
   public var event: PlaceeventEvent
 
-  public init(address: String, city: String, country: String, lat: Double, lon: Double, name: String, zip: String, event: PlaceeventEvent) {
+  public init(address: String, city: String, country: String, name: String, zip: String, event: PlaceeventEvent) {
     self.address = address
     self.city = city
     self.country = country
-    self.lat = lat
-    self.lon = lon
     self.name = name
     self.zip = zip
     self.event = event
   }
 
   public var variables: GraphQLMap? {
-    return ["address": address, "city": city, "country": country, "lat": lat, "lon": lon, "name": name, "zip": zip, "event": event]
+    return ["address": address, "city": city, "country": country, "name": name, "zip": zip, "event": event]
   }
 
   public struct Data: GraphQLSelectionSet {
     public static let possibleTypes = ["Mutation"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField("createPlace", arguments: ["address": GraphQLVariable("address"), "city": GraphQLVariable("city"), "country": GraphQLVariable("country"), "lat": GraphQLVariable("lat"), "lon": GraphQLVariable("lon"), "name": GraphQLVariable("name"), "zip": GraphQLVariable("zip"), "event": GraphQLVariable("event")], type: .object(CreatePlace.selections)),
+      GraphQLField("createPlace", arguments: ["address": GraphQLVariable("address"), "city": GraphQLVariable("city"), "country": GraphQLVariable("country"), "name": GraphQLVariable("name"), "zip": GraphQLVariable("zip"), "event": GraphQLVariable("event")], type: .object(CreatePlace.selections)),
     ]
 
     public var snapshot: Snapshot
@@ -3810,8 +3610,6 @@ public final class CreatePlaceMutation: GraphQLMutation {
         GraphQLField("address", type: .nonNull(.scalar(String.self))),
         GraphQLField("city", type: .nonNull(.scalar(String.self))),
         GraphQLField("country", type: .nonNull(.scalar(String.self))),
-        GraphQLField("lat", type: .nonNull(.scalar(Double.self))),
-        GraphQLField("lon", type: .nonNull(.scalar(Double.self))),
         GraphQLField("name", type: .nonNull(.scalar(String.self))),
         GraphQLField("zip", type: .nonNull(.scalar(String.self))),
         GraphQLField("event", type: .object(Event.selections)),
@@ -3823,8 +3621,8 @@ public final class CreatePlaceMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(address: String, city: String, country: String, lat: Double, lon: Double, name: String, zip: String, event: Event? = nil) {
-        self.init(snapshot: ["__typename": "Place", "address": address, "city": city, "country": country, "lat": lat, "lon": lon, "name": name, "zip": zip, "event": event.flatMap { $0.snapshot }])
+      public init(address: String, city: String, country: String, name: String, zip: String, event: Event? = nil) {
+        self.init(snapshot: ["__typename": "Place", "address": address, "city": city, "country": country, "name": name, "zip": zip, "event": event.flatMap { $0.snapshot }])
       }
 
       public var __typename: String {
@@ -3860,24 +3658,6 @@ public final class CreatePlaceMutation: GraphQLMutation {
         }
         set {
           snapshot.updateValue(newValue, forKey: "country")
-        }
-      }
-
-      public var lat: Double {
-        get {
-          return snapshot["lat"]! as! Double
-        }
-        set {
-          snapshot.updateValue(newValue, forKey: "lat")
-        }
-      }
-
-      public var lon: Double {
-        get {
-          return snapshot["lon"]! as! Double
-        }
-        set {
-          snapshot.updateValue(newValue, forKey: "lon")
         }
       }
 

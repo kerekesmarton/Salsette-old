@@ -7,8 +7,6 @@ class FacebookLocation: SearchableLocation {
     var city: String?
     var country: String?
     var address: String?
-    var lat: String?
-    var lon: String?
     var name: String?
     var zip: String?
 
@@ -16,13 +14,11 @@ class FacebookLocation: SearchableLocation {
         self.address = placeModel.address
         self.city = placeModel.city
         self.country = placeModel.country
-        self.lat = String(placeModel.lat)
-        self.lon = String(placeModel.lon)
         self.name = placeModel.name
         self.zip = placeModel.zip
     }
 
-    init() {}
+    init(){}
     
     static func location(from json: JSON) -> FacebookLocation {
         let location = FacebookLocation()
@@ -31,8 +27,6 @@ class FacebookLocation: SearchableLocation {
         location.city = json["location"]["city"].string
         location.address = json["location"]["street"].string
         location.country = json["location"]["country"].string
-        location.lon = json["location"]["longitude"].string
-        location.lat = json["location"]["latitude"].string
         
         return location
     }
@@ -44,11 +38,6 @@ class FacebookLocation: SearchableLocation {
     func displayableAddress() -> String? {
         guard let city = city, let address = address, let zip = zip else { return nil }
         return "\(zip), \(city), \(address)"
-    }
-    
-    func displayableCoordinates() -> String? {
-        guard let lat = lat, let lon = lon else { return nil }
-        return "latitude: \(lat), longitude: \(lon)"
     }
 }
 

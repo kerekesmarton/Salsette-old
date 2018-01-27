@@ -6,14 +6,12 @@ import CoreLocation
 extension PlaceModel: SearchableLocation {
     
     init?(placemark: CLPlacemark) {
-        guard let address = placemark.thoroughfare, let name = placemark.name, let city = placemark.locality, let country = placemark.country, let zip = placemark.postalCode, let lat = placemark.location?.coordinate.latitude, let lon = placemark.location?.coordinate.longitude else {
+        guard let address = placemark.thoroughfare, let name = placemark.name, let city = placemark.locality, let country = placemark.country, let zip = placemark.postalCode else {
             return nil
         }
         self.address = address
         self.city = city
         self.country = country
-        self.lat = lat
-        self.lon = lon
         self.name = name
         self.zip = zip
     }
@@ -24,10 +22,6 @@ extension PlaceModel: SearchableLocation {
     
     func displayableAddress() -> String? {
         return "\(zip), \(city), \(address)"
-    }
-    
-    func displayableCoordinates() -> String? {
-        return "latitude: \(lat), longitude: \(lon)"
     }
 }
 

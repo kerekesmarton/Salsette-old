@@ -82,29 +82,23 @@ struct PlaceModel {
     var address: String
     var city: String
     var country: String
-    var lat: Double = 0
-    var lon: Double = 0
     var name: String
     var zip: String
-    init(address: String, city: String, country: String, lat: Double, lon: Double, name: String, zip: String) {
+    init(address: String, city: String, country: String, name: String, zip: String) {
         self.address = address
         self.city = city
         self.country = country
         self.name = name
         self.zip = zip
-        self.lat = lat
-        self.lon = lon        
     }
     
     init?(fbPlace: FacebookLocation?) {
-        guard let address = fbPlace?.address, let name = fbPlace?.name, let city = fbPlace?.city, let country = fbPlace?.country, let zip = fbPlace?.zip, let lat: String = fbPlace?.lat, let lon: String = fbPlace?.lon, let cLat = Double(lat), let cLon = Double(lon) else {
+        guard let address = fbPlace?.address, let name = fbPlace?.name, let city = fbPlace?.city, let country = fbPlace?.country, let zip = fbPlace?.zip else {
             return nil
         }
         self.address = address
         self.city = city
         self.country = country
-        self.lat = cLat
-        self.lon = cLon
         self.name = name
         self.zip = zip
     }

@@ -10,8 +10,6 @@ mutation CreateEvent($date:DateTime, $fbId: String!, $name: String!, $type: Danc
             address
             city
             country
-            lat
-            lon
             name
             zip
         }
@@ -78,14 +76,12 @@ mutation DeleteWorkshop($id:ID!){
     }
 }
 
-mutation CreatePlace($address:String!, $city:String!, $country:String!, $lat:Float!, $lon:Float!, $name:String!, $zip:String!, $event:PlaceeventEvent!) {
-createPlace(address:$address, city: $city, country:$country, lat:$lat, lon:$lon, name:$name, zip:$zip, event:$event)
+mutation CreatePlace($address:String!, $city:String!, $country:String!, $name:String!, $zip:String!, $event:PlaceeventEvent!) {
+createPlace(address:$address, city: $city, country:$country, name:$name, zip:$zip, event:$event)
 {
         address
         city
         country
-        lat
-        lon
         name
         zip
         event {

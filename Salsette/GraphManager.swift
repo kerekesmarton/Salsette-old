@@ -28,7 +28,7 @@ extension EventModel {
 extension PlaceModel {
     fileprivate static func place(from result: CreateEventMutation.Data.CreateEvent.Place?) -> PlaceModel? {
         guard let result = result else { return nil }
-        return PlaceModel(address: result.address, city: result.city, country: result.country, lat: result.lat, lon: result.lon, name: result.name, zip: result.zip)
+        return PlaceModel(address: result.address, city: result.city, country: result.country, name: result.name, zip: result.zip)
     }
 }
 
@@ -102,9 +102,7 @@ class GraphManager {
             closure(nil, NSError(with: "Please log in"))
             return nil
         }
-        var eventPlace = EventplacePlace(address: place.address, city: place.city, country: place.country, lat: place.lat, lon: place.lon, name: place.name, zip: place.zip)
-        eventPlace.graphQLMap["lat"] = Float(String(place.lat))
-        eventPlace.graphQLMap["lon"] = Float(String(place.lon))
+        let eventPlace = EventplacePlace(address: place.address, city: place.city, country: place.country, name: place.name, zip: place.zip)
         let input = CreateEventMutation(date: model.date, fbId: model.fbID, name: model.name, type: model.type, place: eventPlace)
         return client.perform(mutation: input, resultHandler: { (result, error) in
             if let serverError = result?.errors {
@@ -252,13 +250,13 @@ class GraphManager {
         }
         
         let eventInput = PlaceeventEvent(date: eventModel.date, fbId: eventModel.fbID, name: eventModel.name, type: eventModel.type)
-        let placeInput = CreatePlaceMutation(address: placeModel.address, city: placeModel.city, country: placeModel.country, lat: placeModel.lat, lon: placeModel.lon, name: placeModel.name, zip: placeModel.zip, event: eventInput)
+        let placeInput = CreatePlaceMutation(address: placeModel.address, city: placeModel.city, country: placeModel.country, name: placeModel.name, zip: placeModel.zip, event: eventInput)
         return client.perform(mutation: placeInput) { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
             } else if let place = result?.data?.createPlace {
                 var event = EventModel.event(from: place.event)
-                event?.place = PlaceModel(address: place.address, city: place.city, country: place.country, lat: place.lat, lon: place.lon, name: place.name, zip: place.zip)
+                event?.place = PlaceModel(address: place.address, city: place.city, country: place.country, name: place.name, zip: place.zip)
                 closure(event, error)
             } else {
                 closure(nil, nil)

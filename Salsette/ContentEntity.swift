@@ -6,7 +6,6 @@ public protocol SearchableLocation {
     
     func displayableName() -> String?
     func displayableAddress() -> String?
-    func displayableCoordinates() -> String?
 }
 
 public protocol SearchableEntity {

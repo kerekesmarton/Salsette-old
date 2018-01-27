@@ -398,34 +398,6 @@
               "defaultValue": null
             },
             {
-              "name": "lat",
-              "description": "",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon",
-              "description": "",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
               "name": "name",
               "description": "",
               "type": {
@@ -1562,34 +1534,6 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat",
-              "description": "",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon",
-              "description": "",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Float",
                   "ofType": null
                 }
               },
@@ -3309,34 +3253,6 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "lat",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Float",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "lon",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Float",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                },
-                {
                   "name": "name",
                   "description": null,
                   "type": {
@@ -3687,26 +3603,6 @@
                       "name": "ID",
                       "ofType": null
                     }
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "lat",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Float",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "lon",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Float",
-                    "ofType": null
                   },
                   "defaultValue": null
                 },
@@ -4501,38 +4397,6 @@
               }
             },
             {
-              "name": "lat",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "name": "lon",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                }
-              }
-            },
-            {
               "name": "name",
               "description": null,
               "isDeprecated": false,
@@ -5311,198 +5175,6 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat",
-              "description": "",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat_not",
-              "description": "All values that are not equal to given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat_in",
-              "description": "All values that are contained in given list.",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Float",
-                    "ofType": null
-                  }
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat_not_in",
-              "description": "All values that are not contained in given list.",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Float",
-                    "ofType": null
-                  }
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat_lt",
-              "description": "All values less than the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat_lte",
-              "description": "All values less than or equal the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat_gt",
-              "description": "All values greater than the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat_gte",
-              "description": "All values greater than or equal the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon",
-              "description": "",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon_not",
-              "description": "All values that are not equal to given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon_in",
-              "description": "All values that are contained in given list.",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Float",
-                    "ofType": null
-                  }
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon_not_in",
-              "description": "All values that are not contained in given list.",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Float",
-                    "ofType": null
-                  }
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon_lt",
-              "description": "All values less than the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon_lte",
-              "description": "All values less than or equal the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon_gt",
-              "description": "All values greater than the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon_gte",
-              "description": "All values greater than or equal the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
                 "ofType": null
               },
               "defaultValue": null
@@ -6469,26 +6141,6 @@
                   "name": "ID",
                   "ofType": null
                 }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat",
-              "description": "",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon",
-              "description": "",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
               },
               "defaultValue": null
             },
@@ -11587,38 +11239,6 @@
               }
             },
             {
-              "name": "lat",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "name": "lon",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null,
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                }
-              }
-            },
-            {
               "name": "name",
               "description": null,
               "isDeprecated": false,
@@ -12317,198 +11937,6 @@
               "defaultValue": null
             },
             {
-              "name": "lat",
-              "description": "",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat_not",
-              "description": "All values that are not equal to given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat_in",
-              "description": "All values that are contained in given list.",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Float",
-                    "ofType": null
-                  }
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat_not_in",
-              "description": "All values that are not contained in given list.",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Float",
-                    "ofType": null
-                  }
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat_lt",
-              "description": "All values less than the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat_lte",
-              "description": "All values less than or equal the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat_gt",
-              "description": "All values greater than the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lat_gte",
-              "description": "All values greater than or equal the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon",
-              "description": "",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon_not",
-              "description": "All values that are not equal to given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon_in",
-              "description": "All values that are contained in given list.",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Float",
-                    "ofType": null
-                  }
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon_not_in",
-              "description": "All values that are not contained in given list.",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Float",
-                    "ofType": null
-                  }
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon_lt",
-              "description": "All values less than the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon_lte",
-              "description": "All values less than or equal the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon_gt",
-              "description": "All values greater than the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "lon_gte",
-              "description": "All values greater than or equal the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
               "name": "name",
               "description": "",
               "type": {
@@ -12889,30 +12317,6 @@
             },
             {
               "name": "id_DESC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "lat_ASC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "lat_DESC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "lon_ASC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "lon_DESC",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -16955,16 +16359,6 @@
           "inputFields": null,
           "name": "Boolean",
           "description": "The `Boolean` scalar type represents `true` or `false`.",
-          "interfaces": null,
-          "enumValues": null,
-          "fields": null,
-          "kind": "SCALAR",
-          "possibleTypes": null
-        },
-        {
-          "inputFields": null,
-          "name": "Float",
-          "description": "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point).",
           "interfaces": null,
           "enumValues": null,
           "fields": null,
