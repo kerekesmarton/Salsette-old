@@ -88,5 +88,12 @@ createPlace(address:$address, city: $city, country:$country, lat:$lat, lon:$lon,
         lon
         name
         zip
+        event {
+            id
+            fbID
+            type
+            name
+            date
+        }
     }
 }

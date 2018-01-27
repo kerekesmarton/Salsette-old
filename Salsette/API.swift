@@ -3750,7 +3750,7 @@ public final class DeleteWorkshopMutation: GraphQLMutation {
 
 public final class CreatePlaceMutation: GraphQLMutation {
   public static let operationString =
-    "mutation CreatePlace($address: String!, $city: String!, $country: String!, $lat: Float!, $lon: Float!, $name: String!, $zip: String!, $event: PlaceeventEvent!) {\n  createPlace(address: $address, city: $city, country: $country, lat: $lat, lon: $lon, name: $name, zip: $zip, event: $event) {\n    __typename\n    address\n    city\n    country\n    lat\n    lon\n    name\n    zip\n  }\n}"
+    "mutation CreatePlace($address: String!, $city: String!, $country: String!, $lat: Float!, $lon: Float!, $name: String!, $zip: String!, $event: PlaceeventEvent!) {\n  createPlace(address: $address, city: $city, country: $country, lat: $lat, lon: $lon, name: $name, zip: $zip, event: $event) {\n    __typename\n    address\n    city\n    country\n    lat\n    lon\n    name\n    zip\n    event {\n      __typename\n      id\n      fbID\n      type\n      name\n      date\n    }\n  }\n}"
 
   public var address: String
   public var city: String
@@ -3814,6 +3814,7 @@ public final class CreatePlaceMutation: GraphQLMutation {
         GraphQLField("lon", type: .nonNull(.scalar(Double.self))),
         GraphQLField("name", type: .nonNull(.scalar(String.self))),
         GraphQLField("zip", type: .nonNull(.scalar(String.self))),
+        GraphQLField("event", type: .object(Event.selections)),
       ]
 
       public var snapshot: Snapshot
@@ -3822,8 +3823,8 @@ public final class CreatePlaceMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(address: String, city: String, country: String, lat: Double, lon: Double, name: String, zip: String) {
-        self.init(snapshot: ["__typename": "Place", "address": address, "city": city, "country": country, "lat": lat, "lon": lon, "name": name, "zip": zip])
+      public init(address: String, city: String, country: String, lat: Double, lon: Double, name: String, zip: String, event: Event? = nil) {
+        self.init(snapshot: ["__typename": "Place", "address": address, "city": city, "country": country, "lat": lat, "lon": lon, "name": name, "zip": zip, "event": event.flatMap { $0.snapshot }])
       }
 
       public var __typename: String {
@@ -3895,6 +3896,92 @@ public final class CreatePlaceMutation: GraphQLMutation {
         }
         set {
           snapshot.updateValue(newValue, forKey: "zip")
+        }
+      }
+
+      public var event: Event? {
+        get {
+          return (snapshot["event"] as? Snapshot).flatMap { Event(snapshot: $0) }
+        }
+        set {
+          snapshot.updateValue(newValue?.snapshot, forKey: "event")
+        }
+      }
+
+      public struct Event: GraphQLSelectionSet {
+        public static let possibleTypes = ["Event"]
+
+        public static let selections: [GraphQLSelection] = [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("fbID", type: .nonNull(.scalar(String.self))),
+          GraphQLField("type", type: .nonNull(.scalar(Dance.self))),
+          GraphQLField("name", type: .nonNull(.scalar(String.self))),
+          GraphQLField("date", type: .nonNull(.scalar(String.self))),
+        ]
+
+        public var snapshot: Snapshot
+
+        public init(snapshot: Snapshot) {
+          self.snapshot = snapshot
+        }
+
+        public init(id: GraphQLID, fbId: String, type: Dance, name: String, date: String) {
+          self.init(snapshot: ["__typename": "Event", "id": id, "fbID": fbId, "type": type, "name": name, "date": date])
+        }
+
+        public var __typename: String {
+          get {
+            return snapshot["__typename"]! as! String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var id: GraphQLID {
+          get {
+            return snapshot["id"]! as! GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var fbId: String {
+          get {
+            return snapshot["fbID"]! as! String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "fbID")
+          }
+        }
+
+        public var type: Dance {
+          get {
+            return snapshot["type"]! as! Dance
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "type")
+          }
+        }
+
+        public var name: String {
+          get {
+            return snapshot["name"]! as! String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "name")
+          }
+        }
+
+        public var date: String {
+          get {
+            return snapshot["date"]! as! String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "date")
+          }
         }
       }
     }

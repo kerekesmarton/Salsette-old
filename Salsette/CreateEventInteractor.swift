@@ -21,10 +21,10 @@ class CreateEventInteractor {
     let graphManager = GraphManager.shared
     
     func createEvent(eventModel: EventModel, placeModel: PlaceModel, completion: @escaping (EventModel?, Error?) -> Void) {
-        graphManager.createEvent(model: eventModel, place: placeModel) { (createdEvent, error) in
+        graphManager.createPlaceAndEvent(placeModel: placeModel, eventModel: eventModel) { (createdEvent, error) in
             if let event = createdEvent {
                 completion(event, nil)
-            } else if let error = error {
+            } else {
                 completion(nil, error)
             }
         }
