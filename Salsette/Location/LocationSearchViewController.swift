@@ -68,7 +68,12 @@ class LocationSearchViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationItem.searchController = search
-        search.searchBar.text = fbLocation?.displayableAddress()
+        if let name = fbLocation?.displayableName() {
+            search.searchBar.text = "\(name), \(fbLocation?.displayableAddress() ?? "")"
+        } else {
+            search.searchBar.text = fbLocation?.displayableAddress()
+        }
+
         search.isActive = true
     }
     
@@ -116,6 +121,7 @@ class LocationSearchViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let vc = segue.destination as? LocationRefineViewController, let cell = sender as? UITableViewCell, let index = tableView.indexPath(for: cell) else { return }
+        vc.useName = fbLocation?.name
         vc.placemark = places[index.row]
         vc.completion = completion
     }

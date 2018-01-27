@@ -38,7 +38,7 @@ class FacebookLocation: SearchableLocation {
     }
     
     func displayableName() -> String? {
-        return name ?? ""
+        return name
     }
     
     func displayableAddress() -> String? {

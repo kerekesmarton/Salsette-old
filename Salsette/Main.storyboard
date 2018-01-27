@@ -517,9 +517,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="xkp-gM-AbL" kind="presentation" identifier="LocationSearchViewController" id="aek-eg-rFQ"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="IM8-AR-3M4">
                                         <rect key="frame" x="0.0" y="380" width="320" height="44"/>
@@ -622,6 +619,7 @@
                         <outlet property="scheduleLabel" destination="6uj-Qr-Ukt" id="x5j-yt-YeM"/>
                         <outlet property="startDate" destination="mv6-KL-cPb" id="0fv-Tf-D4C"/>
                         <outlet property="typeLabel" destination="yKX-iW-ngb" id="ZYs-cd-hg4"/>
+                        <segue destination="xkp-gM-AbL" kind="show" identifier="LocationSearchViewController" id="Ssj-Sn-2x4"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tfz-nn-dVA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1361,7 +1359,7 @@
         <image name="users_highlighted" width="26" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Wlo-wo-Bqw"/>
+        <segue reference="Ssj-Sn-2x4"/>
         <segue reference="U4Z-63-1Uk"/>
     </inferredMetricsTieBreakers>
 </document>

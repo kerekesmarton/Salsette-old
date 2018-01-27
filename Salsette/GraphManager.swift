@@ -97,7 +97,9 @@ class GraphManager {
             closure(nil, NSError(with: "Please log in"))
             return nil
         }
-        let eventPlace = EventplacePlace(address: place.address, city: place.city, country: place.country, lat: place.lat, lon: place.lon, name: place.name, zip: place.zip)
+        var eventPlace = EventplacePlace(address: place.address, city: place.city, country: place.country, lat: place.lat, lon: place.lon, name: place.name, zip: place.zip)
+        eventPlace.graphQLMap["lat"] = Float(String(place.lat))
+        eventPlace.graphQLMap["lon"] = Float(String(place.lon))
         let input = CreateEventMutation(date: model.date, fbId: model.fbID, name: model.name, type: model.type, place: eventPlace)
         return client.perform(mutation: input, resultHandler: { (result, error) in
             if let serverError = result?.errors {

@@ -11,6 +11,7 @@ extension CLLocationCoordinate2D {
 
 class LocationRefineViewController: UITableViewController {
 
+    var useName: String?
     var completion: ((PlaceModel) -> ())?
     var placemark: CLPlacemark?
     private let geocoder = CLGeocoder()
@@ -23,7 +24,7 @@ class LocationRefineViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        nameField.text = placemark?.name
+        nameField.text = useName ?? placemark?.name
         addressField.text = "\(placemark?.subThoroughfare ?? "") \(placemark?.thoroughfare ?? "")"
         cityField.text = placemark?.locality
         countryField.text = placemark?.country
