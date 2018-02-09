@@ -93,7 +93,7 @@ class CreateEventViewController: UITableViewController {
         if let nav = segue.destination as? UINavigationController, let searchVC = nav.viewControllers.first as? LocationSearchViewController, let fbLocation = sender as? FacebookLocation {
             searchVC.fbLocation = fbLocation
             searchNavigation = nav
-            searchVC.completion = { [weak self] placeModel in
+            searchVC.accurateSearchCompletion = { [weak self] placeModel in
                 let newLocation = FacebookLocation(with: placeModel)
                 self?.fbEvent?.location = newLocation
                 self?.searchNavigation?.dismiss(animated: true)

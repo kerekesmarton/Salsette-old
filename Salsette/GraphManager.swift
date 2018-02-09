@@ -23,6 +23,16 @@ extension EventModel {
         guard let event = placeResult else { return nil }
         return EventModel(fbID: event.fbId, type: event.type, name: event.name, date: event.date, id: event.id)
     }
+    
+    fileprivate static func events(from result: FetchPlacesQuery.Data) -> [EventModel]? {
+        return result.allPlaces.flatMap({ (place) -> EventModel? in
+            guard let event = place.event else {
+                return nil
+            }
+            let placeModel = PlaceModel(address: place.address, city: place.city, country: place.country, name: place.name, zip: place.zip)
+            return EventModel(fbID: event.fbId, type: event.type, name: event.name, date: event.date, id: event.id, place: placeModel)
+        })
+    }
 }
 
 extension PlaceModel {
@@ -111,6 +121,30 @@ class GraphManager {
                 closure(EventModel(fbID: event.fbId, type: event.type, name: event.name, date: event.date, id: event.id, place: place), error)
             }
         })
+    }
+    
+    @discardableResult func searchEvent(parameters: SearchParameters, closure: @escaping ([EventModel]?, Error?)->()) -> Cancellable? {
+        guard let client = authorisedClient else {
+            closure(nil, NSError(with: "Please log in"))
+            return nil
+        }
+        guard let city = parameters.location?.graphLocation() else {
+            closure(nil, NSError(with: "Please specify more search criteria"))
+            return nil
+        }
+        let filter = PlaceFilter(city: city)
+        let query = FetchPlacesQuery(filter: filter)
+        return client.fetch(query: query) { (result, error) in
+            if let serverError = result?.errors {
+                closure(nil, self.error(from: serverError))
+            } else if let _ = error {
+                closure(nil, NSError(with: "Please log in again."))
+            } else if let data = result?.data {
+                closure(EventModel.events(from: data), nil)
+            } else {
+                closure(nil, nil)
+            }
+        }
     }
     
     @discardableResult func searchEvent(fbID: String, closure: @escaping (EventModel?, Error?)->Void) -> Cancellable? {

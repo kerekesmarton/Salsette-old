@@ -23,6 +23,9 @@ class SearchViewController: UICollectionViewController {
         }
     }
     
+    @IBOutlet var retryHostView: UIView!
+    
+    
     lazy var calendarProxy: CalendarProxy = {
         return UINib(nibName: "Calendar", bundle: nil).instantiate(withOwner: self, options: nil)[1] as! CalendarProxy
     }()
@@ -55,6 +58,11 @@ class SearchViewController: UICollectionViewController {
         presenter.viewReady()
     }
     
+    @IBAction func retryAction(_ sender: Any) {
+        presenter.load()
+    }
+    
+    
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         return presenter.isProfileEnabled()
     }
@@ -79,8 +87,8 @@ class SearchViewController: UICollectionViewController {
         }
         if let nav = segue.destination as? UINavigationController, let searchViewController = nav.viewControllers.first as? LocationSearchViewController {
             searchNavigation = nav
-            searchViewController.completion = { [weak self] placeModel in
-                self?.presenter.didChange(placeModel: placeModel)
+            searchViewController.lowAccuracySearchCompletion = { [weak self] location in
+                self?.presenter.didChange(location: location)
                 self?.searchNavigation?.dismiss(animated: true)
             }
         }
@@ -216,7 +224,7 @@ extension SearchViewController {
         case .loading(let message):
             configure(message: message)
         case .failed(let message):
-            configure(message: message)
+            configure(message: message, view: retryHostView)
         case .needsFacebookLogin(let message):
             configure(message: message, view: loginHostView)
         case .success(let items):

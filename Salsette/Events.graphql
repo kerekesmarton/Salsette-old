@@ -77,12 +77,29 @@ mutation DeleteWorkshop($id:ID!){
 }
 
 mutation CreatePlace($address:String!, $city:String!, $country:String!, $name:String!, $zip:String!, $event:PlaceeventEvent!) {
-createPlace(address:$address, city: $city, country:$country, name:$name, zip:$zip, event:$event)
-{
+    createPlace(address:$address, city: $city, country:$country, name:$name, zip:$zip, event:$event)
+    {
         address
         city
         country
         name
+        zip
+        event {
+            id
+            fbID
+            type
+            name
+            date
+        }
+    }
+}
+
+query FetchPlaces($filter:PlaceFilter!){
+    allPlaces(filter:$filter){
+        name
+        address
+        city
+        country
         zip
         event {
             id

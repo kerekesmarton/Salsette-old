@@ -1195,6 +1195,7 @@
                         <outlet property="loginBtn" destination="sKc-JH-GIb" id="1tn-N6-CzW"/>
                         <outlet property="loginHostView" destination="bwd-2w-2Ye" id="gay-iH-1ON"/>
                         <outlet property="profileButton" destination="dcO-1G-a9M" id="6aJ-EF-T6z"/>
+                        <outlet property="retryHostView" destination="5Dn-ZV-RDQ" id="dBZ-QQ-ZzL"/>
                         <outlet property="searchDisplayController" destination="YRe-e0-DZK" id="9iG-eM-iqs"/>
                         <outlet property="typeField" destination="mcj-cS-Pmz" id="zQJ-O9-tFQ"/>
                         <outlet property="typePicker" destination="gSa-XU-o2c" id="ix3-7V-4aw"/>
@@ -1202,6 +1203,27 @@
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9t9-1n-Y1U" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="5Dn-ZV-RDQ">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kqu-bc-ent">
+                            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                            <state key="normal" title="Retry"/>
+                            <connections>
+                                <action selector="retryAction:" destination="XYZ-TW-cFm" eventType="touchUpInside" id="k4Q-GV-afo"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="YqS-d1-qAs" firstAttribute="trailing" secondItem="Kqu-bc-ent" secondAttribute="trailing" id="2yj-rb-lWE"/>
+                        <constraint firstItem="Kqu-bc-ent" firstAttribute="leading" secondItem="YqS-d1-qAs" secondAttribute="leading" id="JhG-eH-5NS"/>
+                        <constraint firstItem="Kqu-bc-ent" firstAttribute="top" secondItem="YqS-d1-qAs" secondAttribute="top" id="LEc-OR-NJU"/>
+                        <constraint firstItem="YqS-d1-qAs" firstAttribute="bottom" secondItem="Kqu-bc-ent" secondAttribute="bottom" id="oox-n7-M2w"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="YqS-d1-qAs"/>
+                </view>
                 <view contentMode="scaleToFill" id="bwd-2w-2Ye">
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1359,7 +1381,7 @@
         <image name="users_highlighted" width="26" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Ssj-Sn-2x4"/>
+        <segue reference="Wlo-wo-Bqw"/>
         <segue reference="U4Z-63-1Uk"/>
     </inferredMetricsTieBreakers>
 </document>

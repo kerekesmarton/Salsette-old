@@ -20,6 +20,7 @@ struct AppTutorial: SearchableEntity {
     var imageUrl: String? { get { return nil }}
     var identifier: String? { get { return nil }}
     var type: Dance? { get { return nil }}
+    var graphEvent: EventModel? { get { return nil }}
     
     static var cards: [SearchableEntity] {
         get {

@@ -35,6 +35,10 @@ class FacebookLocation: SearchableLocation {
         return name
     }
     
+    public func graphLocation() -> String? {
+        return city
+    }
+    
     func displayableAddress() -> String? {
         guard let city = city, let address = address, let zip = zip else { return nil }
         return "\(zip), \(city), \(address)"
@@ -53,6 +57,7 @@ class FacebookEventEntity: SearchableEntity, Equatable, Hashable {
     var organiser: String?
     var longDescription: String?
     var shortDescription: String? = nil
+    var graphEvent: EventModel?
     
     convenience init(with dictionary:[String:Any]) {
         self.init(with: JSON(dictionary))

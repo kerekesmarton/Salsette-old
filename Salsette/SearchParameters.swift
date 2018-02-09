@@ -4,7 +4,7 @@ import Foundation
 
 enum DataType{
     case name(String?)
-    case location(PlaceModel?)
+    case location(SearchableLocation?)
     case startDate(Date?)
     case endDate(Date?)
     case type(Dance?)
@@ -14,7 +14,7 @@ struct SearchParameters {
     var name: String?
     var startDate: Date?
     var endDate: Date?
-    var location: PlaceModel?
+    var location: SearchableLocation?
     var type: Dance?
     
     static var shared = SearchParameters()

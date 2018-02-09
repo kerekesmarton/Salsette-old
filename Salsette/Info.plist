@@ -59,6 +59,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We would like to see your location while using Salsette to determine events around you.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To enjoy the app fully please allow access to your photos.</string>
 	<key>UILaunchStoryboardName</key>

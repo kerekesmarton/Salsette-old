@@ -1,4 +1,5 @@
 import Foundation
+import CoreLocation
 
 class SearchPresenter: NSObject {
     
@@ -12,15 +13,22 @@ class SearchPresenter: NSObject {
         return interactor.canViewProfile()
     }
     
-    func viewReady() {
-        loading(message: "Loading...")
-        interactor.loadInitial { [weak self] (events, error) in
-            if let error = error as NSError? {
-                self?.results(with: error)
-            } else if let events = events {
-                self?.results(with: events)
-            }            
+    lazy var locationMatching = LocationMatching()
+    
+    private func loadSettingUpDefaultLocation() {
+        locationMatching.reverseGeocodeCurrentLocation { [weak self] (placemark) in
+            self?.load(with: placemark)
         }
+    }
+    
+    func viewReady() {
+        loading(message: "Determining location...")
+        loadSettingUpDefaultLocation()
+    }
+    
+    func load(with placemark: CLPlacemark) {
+        searchParameters.didChange(.location(placemark))
+        load()
     }
     
     func load() {
@@ -45,8 +53,8 @@ class SearchPresenter: NSObject {
         searchParameters.didChange(.type(value))
     }
 
-    func didChange(placeModel: PlaceModel) {
-        searchParameters.location = placeModel
+    func didChange(location value: FacebookLocation) {
+        searchParameters.location = value
     }
     
     func reset(oldDate: Date) {
@@ -111,13 +119,11 @@ class SearchPresenter: NSObject {
     }
     
     func results(with error: NSError) {
-        switch (error.domain,error.code) {
+        switch (error.domain, error.code) {
         case (_,8):
             dispatch(.needsFacebookLogin("Please log in with your facebook account"))
-        case (NSURLErrorDomain,_):
-            dispatch(.failed(error.localizedDescription))
         default:
-            dispatch(.failed("Unknown Error occured"))
+            dispatch(.failed(error.localizedDescription))
         }
     }
 }

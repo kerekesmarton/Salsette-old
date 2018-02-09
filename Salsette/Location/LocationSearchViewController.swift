@@ -23,6 +23,10 @@ extension PlaceModel: SearchableLocation {
     func displayableAddress() -> String? {
         return "\(zip), \(city), \(address)"
     }
+    
+    public func graphLocation() -> String? {
+        return city
+    }
 }
 
 extension CLPlacemark: SearchableLocation {
@@ -31,8 +35,18 @@ extension CLPlacemark: SearchableLocation {
         return name
     }
     
+    public func graphLocation() -> String? {
+        if let city = locality {
+            return city
+        }
+        return nil
+    }
+    
     public func displayableAddress() -> String? {
-        guard let address = thoroughfare, let city = locality, let country = country, let zip = postalCode else {
+        guard let address = thoroughfare, let city = locality, let country = country, let zip = postalCode else {            
+            if let city = locality {
+                return city
+            }
             return nil
         }
         
@@ -48,9 +62,10 @@ extension CLPlacemark: SearchableLocation {
 }
 
 class LocationSearchViewController: UITableViewController {
-    private let geocoder = CLGeocoder()
+    lazy var locationMatcher = LocationMatching()
     var fbLocation: FacebookLocation?
-    var completion: ((PlaceModel) -> ())?
+    var accurateSearchCompletion: ((PlaceModel) -> ())?
+    var lowAccuracySearchCompletion: ((FacebookLocation) -> ())?
     private lazy var search: SearchController = {
         let vc = SearchController(searchResultsController: nil)
         vc.searchResultsUpdater = self
@@ -82,23 +97,15 @@ class LocationSearchViewController: UITableViewController {
     
     @objc private func updateLocationSearch(text: String?) {
         guard let text = text else { return }
-        geocode(value: text)
+        locationMatcher.geocode(value: text) { [weak self] (placemarks) in
+            self?.places = placemarks
+        }
     }
     
     private var places: [CLPlacemark] = [] {
         didSet {
             tableView.reloadData()
         }
-    }
-    
-    private func geocode(value: String) {
-        geocoder.geocodeAddressString(value, completionHandler: { [weak self] (placemarks, error) in
-            guard let placemarks = placemarks, placemarks.count >= 0 else {
-                self?.places = []
-                return
-            }
-            self?.places = placemarks
-        })
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -112,12 +119,27 @@ class LocationSearchViewController: UITableViewController {
         cell.detailTextLabel?.text = placemark.displayableAddress()
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let placemark = places[indexPath.row]
+        let location = FacebookLocation()
+        location.city = placemark.locality
+        location.address = placemark.displayableAddress()
+        lowAccuracySearchCompletion?(location)
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if accurateSearchCompletion != nil {
+            return true
+        }
+        return false
+    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let vc = segue.destination as? LocationRefineViewController, let cell = sender as? UITableViewCell, let index = tableView.indexPath(for: cell) else { return }
         vc.useName = fbLocation?.name
         vc.placemark = places[index.row]
-        vc.completion = completion
+        vc.completion = accurateSearchCompletion
     }
 }
 

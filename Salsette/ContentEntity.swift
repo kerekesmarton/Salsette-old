@@ -4,6 +4,7 @@ import UIKit
 
 public protocol SearchableLocation {
     
+    func graphLocation() -> String?
     func displayableName() -> String?
     func displayableAddress() -> String?
 }
@@ -19,7 +20,8 @@ public protocol SearchableEntity {
     var location: SearchableLocation? { get }
     var shortDescription: String? { get }
     var longDescription: String? { get }
-    var identifier: String? { get }    
+    var identifier: String? { get }
+    var graphEvent: EventModel? { get }
 }
 
 extension SearchableEntity {
