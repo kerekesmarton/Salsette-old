@@ -17,6 +17,7 @@ class SearchPresenter: NSObject {
     
     private func loadSettingUpDefaultLocation() {
         locationMatching.reverseGeocodeCurrentLocation { [weak self] (placemark) in
+            self?.update(location: placemark.graphLocation())
             self?.load(with: placemark)
         }
     }
@@ -61,7 +62,7 @@ class SearchPresenter: NSObject {
         searchView?.setSearch(.dates(""))
     }
     
-    func update(startDate: Date?) {
+    private func update(startDate: Date?) {
         guard let safeDate = startDate else {
             searchView?.setSearch(.dates(""))
             return
@@ -69,12 +70,19 @@ class SearchPresenter: NSObject {
         searchView?.setSearch(.dates(formatter.string(from: safeDate)))
     }
     
-    func update(endDate: Date?) {
+    private func update(endDate: Date?) {
         guard let safeStartDate = searchParameters.startDate, let safeEndDate = endDate else {
             searchView?.setSearch(.dates(""))
             return
         }
         searchView?.setSearch(.dates(formatter.string(from: safeStartDate)+" to "+formatter.string(from: safeEndDate)))
+    }
+    
+    private func update(location: String?) {
+        guard let value = location else { return }
+        DispatchQueue.main.async {
+            self.searchView?.setSearch(.location(value))
+        }
     }
     
     private var formatter: DateFormatter {
@@ -100,30 +108,30 @@ class SearchPresenter: NSObject {
         }
     }
     
-    private func dispatch(_ result: SearchViewController.ResultsViewModel) {
+    private func dispatch(result: SearchViewController.ResultsViewModel) {
         DispatchQueue.main.async {
             self.searchView?.setResult(result)
         }
     }
     
     func loading(message: String) {
-        dispatch(.loading(message))
+        dispatch(result: .loading(message))
     }
     
     func results(with events: [SearchableEntity]) {
         if events.count > 0 {
-            dispatch(.success(events))
+            dispatch(result: .success(events))
         } else {
-            dispatch(.failed("Couldn't find anything... \nSorry about that."))
+            dispatch(result: .failed("Couldn't find anything... \nSorry about that."))
         }
     }
     
     func results(with error: NSError) {
         switch (error.domain, error.code) {
         case (_,8):
-            dispatch(.needsFacebookLogin("Please log in with your facebook account"))
+            dispatch(result: .needsFacebookLogin("Please log in with your facebook account"))
         default:
-            dispatch(.failed(error.localizedDescription))
+            dispatch(result: .failed(error.localizedDescription))
         }
     }
 }

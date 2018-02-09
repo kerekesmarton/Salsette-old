@@ -205,6 +205,8 @@ extension SearchViewController {
             dateField.text = string
         case .type(let string):
             typeField.text = string
+        case .location(let string):
+            locationField.text = string
         default:
             return
         }

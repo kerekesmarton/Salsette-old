@@ -1,14 +1,6 @@
-//
-//  FacebookService.swift
-//  Salsette
-//
-//  Created by Marton Kerekes on 19/04/2017.
 //  Copyright © 2017 Marton Kerekes. All rights reserved.
-//
 
-//import UIKit
 import FBSDKCoreKit
-import Social
 
 class FacebookService {
 

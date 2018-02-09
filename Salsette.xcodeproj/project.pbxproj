@@ -39,7 +39,6 @@
 		108D142F1F102EF90056749B /* UICollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108D142E1F102EF90056749B /* UICollectionViewFlowLayout.swift */; };
 		10964C451E82E66300CDFE3F /* DummySearchDatSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10964C441E82E66300CDFE3F /* DummySearchDatSource.swift */; };
 		10986844201BD7D400C571F2 /* LocationRefineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10986843201BD7D400C571F2 /* LocationRefineViewController.swift */; };
-		109AFB5C1E902EA700E424F6 /* FacebookPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109AFB5B1E902EA700E424F6 /* FacebookPermissions.swift */; };
 		10AABB7E202C7A6300D56AC5 /* LocationMatching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AABB7D202C7A6300D56AC5 /* LocationMatching.swift */; };
 		10ACDD791EFE7E09007B6F1A /* SearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACDD781EFE7E09007B6F1A /* SearchInteractor.swift */; };
 		10ACDD7B1F02E310007B6F1A /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACDD7A1F02E310007B6F1A /* UINavigationController.swift */; };
@@ -126,7 +125,6 @@
 		10964C441E82E66300CDFE3F /* DummySearchDatSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummySearchDatSource.swift; sourceTree = "<group>"; };
 		10986843201BD7D400C571F2 /* LocationRefineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRefineViewController.swift; sourceTree = "<group>"; };
 		109AFB581E8F98B500E424F6 /* Salsette.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Salsette.entitlements; sourceTree = "<group>"; };
-		109AFB5B1E902EA700E424F6 /* FacebookPermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookPermissions.swift; sourceTree = "<group>"; };
 		10AABB7D202C7A6300D56AC5 /* LocationMatching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMatching.swift; sourceTree = "<group>"; };
 		10ACDD781EFE7E09007B6F1A /* SearchInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchInteractor.swift; sourceTree = "<group>"; };
 		10ACDD7A1F02E310007B6F1A /* UINavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
@@ -368,7 +366,6 @@
 			isa = PBXGroup;
 			children = (
 				10FDAA6B1FDD66280023800E /* FacebookEventEntity.swift */,
-				109AFB5B1E902EA700E424F6 /* FacebookPermissions.swift */,
 				FB420F2E1EA7AA830022380D /* FacebookService.swift */,
 			);
 			name = Facebook;
@@ -678,7 +675,6 @@
 				1089BF821E708553006E091A /* AppDelegate.swift in Sources */,
 				10D7CEBE1FDCA94600E71EBB /* GraphModel.swift in Sources */,
 				10964C451E82E66300CDFE3F /* DummySearchDatSource.swift in Sources */,
-				109AFB5C1E902EA700E424F6 /* FacebookPermissions.swift in Sources */,
 				1033E5441E75AAB3002D1615 /* UIFont+Appfonts.swift in Sources */,
 				1053CA081EF261230034844A /* SwappingCollectionView.swift in Sources */,
 				FB6756C91EB45E6600B2E4D5 /* SearchTutorial.swift in Sources */,
