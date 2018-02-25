@@ -103,6 +103,10 @@ class GraphManager {
         })
     }
     
+    func setToken(_ value: String) {
+        token = value
+    }
+    
     func signOut() {
         token = nil
     }

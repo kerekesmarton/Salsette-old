@@ -16,9 +16,9 @@ class SearchPresenter: NSObject {
     lazy var locationMatching = LocationMatching()
     
     private func loadSettingUpDefaultLocation() {
-        locationMatching.reverseGeocodeCurrentLocation { [weak self] (placemark) in
-            self?.update(location: placemark.graphLocation())
-            self?.load(with: placemark)
+        locationMatching.reverseGeocodeCurrentLocation { [weak self] (location) in
+            self?.update(location: location.graphLocation())
+            self?.load(with: location)
         }
     }
     
@@ -27,7 +27,7 @@ class SearchPresenter: NSObject {
         loadSettingUpDefaultLocation()
     }
     
-    func load(with placemark: CLPlacemark) {
+    func load(with placemark: SearchableLocation) {
         searchParameters.didChange(.location(placemark))
         load()
     }

@@ -1,7 +1,6 @@
 //  Copyright © 2017 Marton Kerekes. All rights reserved.
 
 import UIKit
-import TextFieldEffects
 
 class PickerLabel: UILabel {
     

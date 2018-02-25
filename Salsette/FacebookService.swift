@@ -155,14 +155,11 @@ class FacebookService {
                     return s1 < s2
                 })
                 completion(results, nil)
-//                completion(self.filter(results: results, startDate: parameters.startDate, endDate: parameters.endDate), nil)
             }
         })
     }
     
     func loadEvents(with ids:[String], completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
-        
-        
         let request = FBSDKGraphRequest(graphPath: "/search", parameters: ["ids":"\(ids)", "type":"event", "fields":"name,place,start_time,end_time,cover,owner,description"])
         self.simpleConnection = request?.start(completionHandler: { (connection, result, error) in
             if let returnedError = error {

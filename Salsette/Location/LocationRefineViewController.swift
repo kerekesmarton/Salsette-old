@@ -7,7 +7,7 @@ class LocationRefineViewController: UITableViewController {
 
     var useName: String?
     var completion: ((PlaceModel) -> ())?
-    var placemark: CLPlacemark?
+    var location: FacebookLocation?
     @IBOutlet var nameField: UITextField!
     @IBOutlet var addressField: UITextField!
     @IBOutlet var cityField: UITextField!
@@ -17,11 +17,11 @@ class LocationRefineViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        nameField.text = useName ?? placemark?.name
-        addressField.text = "\(placemark?.subThoroughfare ?? "") \(placemark?.thoroughfare ?? "")"
-        cityField.text = placemark?.locality
-        countryField.text = placemark?.country
-        zipField.text = placemark?.postalCode
+        nameField.text = useName ?? location?.name
+        addressField.text = location?.displayableAddress()
+        cityField.text = location?.city
+        countryField.text = location?.country
+        zipField.text = location?.zip
     }
 
     @IBAction func done(_ sender: Any) {
