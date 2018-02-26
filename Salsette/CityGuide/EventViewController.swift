@@ -1,9 +1,4 @@
-//
-//  Salsette
-//
-//  Created by Marton Kerekes on 22/03/2017.
 //  Copyright © 2017 Marton Kerekes. All rights reserved.
-//
 
 import UIKit
 
@@ -17,7 +12,7 @@ class EventViewController: UITableViewController {
     @IBOutlet var locationLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
     var selectedIndex: IndexPath!
-    var event: SearchableEntity!
+    var event: FacebookEventEntity!
     
     override func viewDidLoad() {
         super.viewDidLoad()

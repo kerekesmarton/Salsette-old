@@ -129,20 +129,18 @@ class GraphManager {
     
     @discardableResult func searchEvent(parameters: SearchParameters, closure: @escaping ([EventModel]?, Error?)->()) -> Cancellable? {
         guard let client = authorisedClient else {
-            closure(nil, NSError(with: "Please log in"))
+            closure(nil, NSError(domain: "Graph", code: 80, userInfo: [NSLocalizedDescriptionKey:"Please log in"]))
             return nil
         }
         guard let city = parameters.location?.graphLocation() else {
             closure(nil, NSError(with: "Please specify more search criteria"))
             return nil
         }
-        let filter = PlaceFilter(city: city)
+        let filter = PlaceFilter(cityContains: city)
         let query = FetchPlacesQuery(filter: filter)
         return client.fetch(query: query) { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
-            } else if let _ = error {
-                closure(nil, NSError(with: "Please log in again."))
             } else if let data = result?.data {
                 closure(EventModel.events(from: data), nil)
             } else {
@@ -160,8 +158,6 @@ class GraphManager {
         return client.fetch(query: query, cachePolicy: .fetchIgnoringCacheData, resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
-            } else if let _ = error {
-                closure(nil, NSError(with: "Please log in again."))
             } else if let event = result?.data?.allEvents.first {
                 closure(EventModel(fbID: event.fbId, type: event.type, name: event.name, date: event.date, id: event.id, workshops: WorkshopModel.workshops(from: event)), error)
             } else {

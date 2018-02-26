@@ -12,7 +12,7 @@ class LocationSearchViewController: UITableViewController {
         let vc = SearchController(searchResultsController: nil)
         vc.searchResultsUpdater = self
         vc.delegate = self
-        vc.searchBar.placeholder = "Search"            
+        vc.searchBar.placeholder = "Address, City, etc."            
         return vc
     }()
     

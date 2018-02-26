@@ -45,7 +45,7 @@ class FacebookLocation: SearchableLocation {
     }
 }
 
-class FacebookEventEntity: SearchableEntity, Equatable, Hashable {
+class FacebookEventEntity: Equatable, Hashable {
     var name: String?
     var place: String?
     var location: SearchableLocation?

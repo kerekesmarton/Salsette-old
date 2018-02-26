@@ -40,7 +40,7 @@ class SearchViewController: UICollectionViewController {
     }()
     
     //MARK: - Results
-    var results = [SearchableEntity](){
+    var results = [FacebookEventEntity](){
         didSet {
             collectionView?.reloadData()
         }
@@ -218,7 +218,8 @@ extension SearchViewController {
         case loading(String)
         case failed(String)
         case needsFacebookLogin(String)
-        case success([SearchableEntity])
+        case needsGraphLogin(String)
+        case success([FacebookEventEntity])
     }
     
     func setResult(_ viewModel: ResultsViewModel) {
@@ -226,14 +227,39 @@ extension SearchViewController {
         case .loading(let message):
             configure(message: message)
         case .failed(let message):
-            configure(message: message, view: retryHostView)
-        case .needsFacebookLogin(let message):
-            configure(message: message, view: loginHostView)
+            configure(message: message, view: nil)
+        case .needsFacebookLogin(_):
+            configure(message: nil, view: loginHostView)
         case .success(let items):
             self.results = items
+        case .needsGraphLogin(_):
+            graphLogin()
         }
     }
 }
+
+extension SearchViewController: UIPopoverPresentationControllerDelegate {
+    
+    func graphLogin() {
+        
+        let loginVC = GraphCreateAccountLauncher().loginViewController(loginCompletion: {
+            self.presenter.viewReady()
+        })
+        
+        let popover = loginVC.popoverPresentationController
+        popover?.delegate = self
+        popover?.sourceView = collectionView
+        popover?.permittedArrowDirections = .init(rawValue: 0)
+        popover?.sourceRect = CGRect(x: collectionView!.bounds.midX, y: collectionView!.bounds.midY, width: 0, height: 0)
+        
+        present(loginVC, animated: true)
+    }
+
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
+    }
+}
+
 
 extension SearchViewController: FBSDKLoginButtonDelegate {
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
@@ -242,7 +268,7 @@ extension SearchViewController: FBSDKLoginButtonDelegate {
     }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {       
-        presenter.didLogout()
+//        presenter.didLogout()
         presenter.load()
         profileButton.isEnabled = presenter.isProfileEnabled()
     }
@@ -255,6 +281,7 @@ extension SearchViewController: DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
     }
     
     func customView(forEmptyDataSet scrollView: UIScrollView!) -> UIView! {
+        if emptyDataSetString != nil { return nil }
         guard let emptyDataSetCustomView = emptyDataSetCustomView else { return nil }
         return emptyDataSetCustomView
     }
@@ -300,7 +327,7 @@ fileprivate extension SearchViewController {
         dismiss(animated: true)
     }
     
-    func configure(message: String, view: UIView? = nil) {
+    func configure(message: String?, view: UIView? = nil) {
         emptyDataSetString = message
         emptyDataSetCustomView = view
         results.removeAll()

@@ -72,12 +72,49 @@ public struct AUTH_PROVIDER_AUTH0: GraphQLMapConvertible {
   }
 }
 
-public enum Dance: String, Apollo.JSONDecodable, Apollo.JSONEncodable {
-  case salsa = "Salsa"
-  case bachata = "Bachata"
-  case kizomba = "Kizomba"
-  case tango = "Tango"
-  case dance = "Dance"
+public enum Dance: RawRepresentable, Equatable, Apollo.JSONDecodable, Apollo.JSONEncodable {
+  public typealias RawValue = String
+  case salsa
+  case bachata
+  case kizomba
+  case tango
+  case dance
+  /// Auto generated constant for unknown enum values
+  case unknown(RawValue)
+
+  public init?(rawValue: RawValue) {
+    switch rawValue {
+      case "Salsa": self = .salsa
+      case "Bachata": self = .bachata
+      case "Kizomba": self = .kizomba
+      case "Tango": self = .tango
+      case "Dance": self = .dance
+      default: self = .unknown(rawValue)
+    }
+  }
+
+  public var rawValue: RawValue {
+    switch self {
+      case .salsa: return "Salsa"
+      case .bachata: return "Bachata"
+      case .kizomba: return "Kizomba"
+      case .tango: return "Tango"
+      case .dance: return "Dance"
+      case .unknown(let value): return value
+    }
+  }
+
+  public static func == (lhs: Dance, rhs: Dance) -> Bool {
+    switch (lhs, rhs) {
+      case (.salsa, .salsa): return true
+      case (.bachata, .bachata): return true
+      case (.kizomba, .kizomba): return true
+      case (.tango, .tango): return true
+      case (.dance, .dance): return true
+      case (.unknown(let lhsValue), .unknown(let rhsValue)): return lhsValue == rhsValue
+      default: return false
+    }
+  }
 }
 
 public struct EventplacePlace: GraphQLMapConvertible {
@@ -2409,7 +2446,7 @@ public final class CreateUserMutation: GraphQLMutation {
     }
 
     public init(createUser: CreateUser? = nil) {
-      self.init(snapshot: ["__typename": "Mutation", "createUser": createUser.flatMap { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Mutation", "createUser": createUser.flatMap { (value: CreateUser) -> Snapshot in value.snapshot }])
     }
 
     public var createUser: CreateUser? {
@@ -2526,7 +2563,7 @@ public final class LoginMutation: GraphQLMutation {
       }
 
       public init(token: String? = nil, user: User? = nil) {
-        self.init(snapshot: ["__typename": "SigninPayload", "token": token, "user": user.flatMap { $0.snapshot }])
+        self.init(snapshot: ["__typename": "SigninPayload", "token": token, "user": user.flatMap { (value: User) -> Snapshot in value.snapshot }])
       }
 
       public var __typename: String {
@@ -2632,7 +2669,7 @@ public final class CreateEventMutation: GraphQLMutation {
     }
 
     public init(createEvent: CreateEvent? = nil) {
-      self.init(snapshot: ["__typename": "Mutation", "createEvent": createEvent.flatMap { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Mutation", "createEvent": createEvent.flatMap { (value: CreateEvent) -> Snapshot in value.snapshot }])
     }
 
     public var createEvent: CreateEvent? {
@@ -2664,7 +2701,7 @@ public final class CreateEventMutation: GraphQLMutation {
       }
 
       public init(id: GraphQLID, fbId: String, type: Dance, name: String, date: String, place: Place? = nil) {
-        self.init(snapshot: ["__typename": "Event", "id": id, "fbID": fbId, "type": type, "name": name, "date": date, "place": place.flatMap { $0.snapshot }])
+        self.init(snapshot: ["__typename": "Event", "id": id, "fbID": fbId, "type": type, "name": name, "date": date, "place": place.flatMap { (value: Place) -> Snapshot in value.snapshot }])
       }
 
       public var __typename: String {
@@ -2838,15 +2875,15 @@ public final class FetchEventQuery: GraphQLQuery {
     }
 
     public init(allEvents: [AllEvent]) {
-      self.init(snapshot: ["__typename": "Query", "allEvents": allEvents.map { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Query", "allEvents": allEvents.map { (value: AllEvent) -> Snapshot in value.snapshot }])
     }
 
     public var allEvents: [AllEvent] {
       get {
-        return (snapshot["allEvents"] as! [Snapshot]).map { AllEvent(snapshot: $0) }
+        return (snapshot["allEvents"] as! [Snapshot]).map { (value: Snapshot) -> AllEvent in AllEvent(snapshot: value) }
       }
       set {
-        snapshot.updateValue(newValue.map { $0.snapshot }, forKey: "allEvents")
+        snapshot.updateValue(newValue.map { (value: AllEvent) -> Snapshot in value.snapshot }, forKey: "allEvents")
       }
     }
 
@@ -2870,7 +2907,7 @@ public final class FetchEventQuery: GraphQLQuery {
       }
 
       public init(id: GraphQLID, fbId: String, type: Dance, name: String, date: String, workshops: [Workshop]? = nil) {
-        self.init(snapshot: ["__typename": "Event", "id": id, "fbID": fbId, "type": type, "name": name, "date": date, "workshops": workshops.flatMap { $0.map { $0.snapshot } }])
+        self.init(snapshot: ["__typename": "Event", "id": id, "fbID": fbId, "type": type, "name": name, "date": date, "workshops": workshops.flatMap { (value: [Workshop]) -> [Snapshot] in value.map { (value: Workshop) -> Snapshot in value.snapshot } }])
       }
 
       public var __typename: String {
@@ -2929,10 +2966,10 @@ public final class FetchEventQuery: GraphQLQuery {
 
       public var workshops: [Workshop]? {
         get {
-          return (snapshot["workshops"] as? [Snapshot]).flatMap { $0.map { Workshop(snapshot: $0) } }
+          return (snapshot["workshops"] as? [Snapshot]).flatMap { (value: [Snapshot]) -> [Workshop] in value.map { (value: Snapshot) -> Workshop in Workshop(snapshot: value) } }
         }
         set {
-          snapshot.updateValue(newValue.flatMap { $0.map { $0.snapshot } }, forKey: "workshops")
+          snapshot.updateValue(newValue.flatMap { (value: [Workshop]) -> [Snapshot] in value.map { (value: Workshop) -> Snapshot in value.snapshot } }, forKey: "workshops")
         }
       }
 
@@ -3037,15 +3074,15 @@ public final class FetchAllEventQuery: GraphQLQuery {
     }
 
     public init(allEvents: [AllEvent]) {
-      self.init(snapshot: ["__typename": "Query", "allEvents": allEvents.map { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Query", "allEvents": allEvents.map { (value: AllEvent) -> Snapshot in value.snapshot }])
     }
 
     public var allEvents: [AllEvent] {
       get {
-        return (snapshot["allEvents"] as! [Snapshot]).map { AllEvent(snapshot: $0) }
+        return (snapshot["allEvents"] as! [Snapshot]).map { (value: Snapshot) -> AllEvent in AllEvent(snapshot: value) }
       }
       set {
-        snapshot.updateValue(newValue.map { $0.snapshot }, forKey: "allEvents")
+        snapshot.updateValue(newValue.map { (value: AllEvent) -> Snapshot in value.snapshot }, forKey: "allEvents")
       }
     }
 
@@ -3156,7 +3193,7 @@ public final class DeleteEventMutation: GraphQLMutation {
     }
 
     public init(deleteEvent: DeleteEvent? = nil) {
-      self.init(snapshot: ["__typename": "Mutation", "deleteEvent": deleteEvent.flatMap { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Mutation", "deleteEvent": deleteEvent.flatMap { (value: DeleteEvent) -> Snapshot in value.snapshot }])
     }
 
     public var deleteEvent: DeleteEvent? {
@@ -3253,7 +3290,7 @@ public final class CreateWorkshopMutation: GraphQLMutation {
     }
 
     public init(createWorkshop: CreateWorkshop? = nil) {
-      self.init(snapshot: ["__typename": "Mutation", "createWorkshop": createWorkshop.flatMap { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Mutation", "createWorkshop": createWorkshop.flatMap { (value: CreateWorkshop) -> Snapshot in value.snapshot }])
     }
 
     public var createWorkshop: CreateWorkshop? {
@@ -3382,7 +3419,7 @@ public final class UpdateWorkshopMutation: GraphQLMutation {
     }
 
     public init(updateWorkshop: UpdateWorkshop? = nil) {
-      self.init(snapshot: ["__typename": "Mutation", "updateWorkshop": updateWorkshop.flatMap { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Mutation", "updateWorkshop": updateWorkshop.flatMap { (value: UpdateWorkshop) -> Snapshot in value.snapshot }])
     }
 
     public var updateWorkshop: UpdateWorkshop? {
@@ -3501,7 +3538,7 @@ public final class DeleteWorkshopMutation: GraphQLMutation {
     }
 
     public init(deleteWorkshop: DeleteWorkshop? = nil) {
-      self.init(snapshot: ["__typename": "Mutation", "deleteWorkshop": deleteWorkshop.flatMap { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Mutation", "deleteWorkshop": deleteWorkshop.flatMap { (value: DeleteWorkshop) -> Snapshot in value.snapshot }])
     }
 
     public var deleteWorkshop: DeleteWorkshop? {
@@ -3590,7 +3627,7 @@ public final class CreatePlaceMutation: GraphQLMutation {
     }
 
     public init(createPlace: CreatePlace? = nil) {
-      self.init(snapshot: ["__typename": "Mutation", "createPlace": createPlace.flatMap { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Mutation", "createPlace": createPlace.flatMap { (value: CreatePlace) -> Snapshot in value.snapshot }])
     }
 
     public var createPlace: CreatePlace? {
@@ -3622,7 +3659,7 @@ public final class CreatePlaceMutation: GraphQLMutation {
       }
 
       public init(address: String, city: String, country: String, name: String, zip: String, event: Event? = nil) {
-        self.init(snapshot: ["__typename": "Place", "address": address, "city": city, "country": country, "name": name, "zip": zip, "event": event.flatMap { $0.snapshot }])
+        self.init(snapshot: ["__typename": "Place", "address": address, "city": city, "country": country, "name": name, "zip": zip, "event": event.flatMap { (value: Event) -> Snapshot in value.snapshot }])
       }
 
       public var __typename: String {
@@ -3796,15 +3833,15 @@ public final class FetchPlacesQuery: GraphQLQuery {
     }
 
     public init(allPlaces: [AllPlace]) {
-      self.init(snapshot: ["__typename": "Query", "allPlaces": allPlaces.map { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Query", "allPlaces": allPlaces.map { (value: AllPlace) -> Snapshot in value.snapshot }])
     }
 
     public var allPlaces: [AllPlace] {
       get {
-        return (snapshot["allPlaces"] as! [Snapshot]).map { AllPlace(snapshot: $0) }
+        return (snapshot["allPlaces"] as! [Snapshot]).map { (value: Snapshot) -> AllPlace in AllPlace(snapshot: value) }
       }
       set {
-        snapshot.updateValue(newValue.map { $0.snapshot }, forKey: "allPlaces")
+        snapshot.updateValue(newValue.map { (value: AllPlace) -> Snapshot in value.snapshot }, forKey: "allPlaces")
       }
     }
 
@@ -3828,7 +3865,7 @@ public final class FetchPlacesQuery: GraphQLQuery {
       }
 
       public init(name: String, address: String, city: String, country: String, zip: String, event: Event? = nil) {
-        self.init(snapshot: ["__typename": "Place", "name": name, "address": address, "city": city, "country": country, "zip": zip, "event": event.flatMap { $0.snapshot }])
+        self.init(snapshot: ["__typename": "Place", "name": name, "address": address, "city": city, "country": country, "zip": zip, "event": event.flatMap { (value: Event) -> Snapshot in value.snapshot }])
       }
 
       public var __typename: String {

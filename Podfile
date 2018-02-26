@@ -4,10 +4,13 @@ workspace 'Salsette'
 
 platform :ios, '10.0'
 
+inhibit_all_warnings!
+
 use_frameworks!
 
 target 'Salsette' do
     project 'Salsette.xcodeproj'
+    
     pod 'DZNEmptyDataSet'
     pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
     pod 'TextFieldEffects'
@@ -21,6 +24,7 @@ end
 
 target 'Crawler' do
     project 'Salsette.xcodeproj'
+
     pod 'FBSDKCoreKit'
     pod 'FBSDKLoginKit'
     pod 'Apollo'

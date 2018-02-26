@@ -160,12 +160,12 @@ class FacebookService {
     }
     
     func loadEvents(with ids:[String], completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
-        let request = FBSDKGraphRequest(graphPath: "/search", parameters: ["ids":"\(ids)", "type":"event", "fields":"name,place,start_time,end_time,cover,owner,description"])
+        let idString = ids.joined(separator: ",")
+        let request = FBSDKGraphRequest(graphPath: "/", parameters: ["ids":"\(idString)", "fields":"name,place,start_time,end_time,cover,owner,description"])
         self.simpleConnection = request?.start(completionHandler: { (connection, result, error) in
             if let returnedError = error {
                 completion(nil, returnedError)
             } else if let returnedResult = result {
-                
                 let results = FacebookEventEntity.create(with: returnedResult).sorted(by: { (event1, event2) -> Bool in
                     guard let s1 = event1.startDate, let s2 = event2.startDate else {
                         return event1.hashValue < event2.hashValue

@@ -79,13 +79,11 @@ class ProfileViewController: UITableViewController {
     fileprivate var displayName: String?
     
     func showLogin() {
-        let loginVC = UIStoryboard.graphCreateAccountViewController()
-        loginVC.modalPresentationStyle = .popover
-        loginVC.modalPresentationStyle = UIModalPresentationStyle.popover
-        loginVC.preferredContentSize = CGSize(width: 300, height: 350)
-        loginVC.completion = {
+        
+        let loginVC = GraphCreateAccountLauncher().loginViewController(loginCompletion: {
             self.interactor?.viewReady()
-        }
+        })
+        
         let popover = loginVC.popoverPresentationController
         popover?.delegate = self
         popover?.sourceView = tableView

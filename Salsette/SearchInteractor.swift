@@ -36,13 +36,13 @@ class SearchInteractor {
     func load(with parameters: SearchParameters, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
         loadGraphEvents(parameters: parameters) { [weak self]  (eventModels, error) in
             guard let eventModels = eventModels, eventModels.count > 0 else {
-                completion(nil, NSError(with: "Couldn't find events"))
+                completion(nil, error)
                 return
             }
             let ids = eventModels.reduce(into: [String]()) { $0.append($1.fbID) }
             self?.loadFacebookEvents(ids: ids, completion: { [weak self] (fbEvents, error) in
-                guard let fbEvents = fbEvents, fbEvents.count > 0 else {
-                    completion(nil, NSError(with: "Couldn't find events"))
+                guard let fbEvents = fbEvents, fbEvents.count > 0, error == nil else {
+                    completion(nil, error ?? NSError(with: "Couldn't find events"))
                     return
                 }
                 self?.match(fbEvents, with: eventModels)

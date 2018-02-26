@@ -23,7 +23,7 @@ class CreateEventViewController: UITableViewController {
             selectedEventType = event?.type
         }
     }
-    private var createdItem: SearchableEntity?
+    private var createdItem: FacebookEventEntity?
     fileprivate var selectedEventType: Dance? {
         didSet {
             typeLabel.text = selectedEventType?.rawValue
@@ -144,13 +144,13 @@ class CreateEventViewController: UITableViewController {
                 showLoading(false, nil, nil)
                 navigationController?.popViewController(animated: true)
             case .missingType:
-                activateTypeLabel()
+                markMissingType()
             case .missingDate:
                 ()
             case .missingName:
                 ()
-            case .missingLocation(let fbLocation):
-                performSegue(withIdentifier: "LocationSearchViewController", sender: fbLocation)
+            case .missingLocation(_):
+                markMissingLocation()
             }
         }
     }
@@ -202,6 +202,18 @@ extension CreateEventViewController: UIPickerViewDelegate, UIPickerViewDataSourc
 
 extension CreateEventViewController {
     
+    fileprivate func markMissingLocation() {
+        activateLocationSearch()
+    }
+    
+    fileprivate func activateLocationSearch() {
+        performSegue(withIdentifier: "LocationSearchViewController", sender: fbEvent?.location)
+    }
+    
+    fileprivate func markMissingType() {
+        activateTypeLabel()
+    }
+    
     func activateTypeLabel() {
         typeLabel.becomeFirstResponder()
         guard let selectedEventType = selectedEventType,
@@ -217,7 +229,7 @@ extension CreateEventViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 3:
-            performSegue(withIdentifier: "LocationSearchViewController", sender: fbEvent?.location)
+            activateLocationSearch()
         case 4:
             activateTypeLabel()
         default:

@@ -118,7 +118,7 @@ class SearchPresenter: NSObject {
         dispatch(result: .loading(message))
     }
     
-    func results(with events: [SearchableEntity]) {
+    func results(with events: [FacebookEventEntity]) {
         if events.count > 0 {
             dispatch(result: .success(events))
         } else {
@@ -129,7 +129,9 @@ class SearchPresenter: NSObject {
     func results(with error: NSError) {
         switch (error.domain, error.code) {
         case (_,8):
-            dispatch(result: .needsFacebookLogin("Please log in with your facebook account"))
+            dispatch(result: .needsFacebookLogin(""))
+        case (_,80):
+            dispatch(result: .needsGraphLogin(""))
         default:
             dispatch(result: .failed(error.localizedDescription))
         }
