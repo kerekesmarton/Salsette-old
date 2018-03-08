@@ -2,34 +2,33 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 workspace 'Salsette'
 
-platform :ios, '9.0'
+platform :ios, '10.0'
+
+inhibit_all_warnings!
 
 use_frameworks!
 
 target 'Salsette' do
     project 'Salsette.xcodeproj'
-#    pod 'ColorMatchTabs'
+    
     pod 'DZNEmptyDataSet'
     pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
     pod 'TextFieldEffects'
-#    pod 'PermissionScope'
-#    pod 'FontAwesomeKit'
     pod 'FSCalendar'
     pod 'FBSDKCoreKit'
     pod 'FBSDKLoginKit'
-#    pod 'FBSDKShareKit'
-#    pod 'Lock', '~> 2.0'
-#    pod 'Auth0', '~> 1.0'
     pod 'Auth0'
     pod 'SimpleKeychain', '~> 0.7'
     pod 'Apollo'
-#    pod 'Hero'
+end
 
-#    post_install do |installer|
-#        installer.pods_project.targets.each do |target|
-#            target.build_configurations.each do |config|
-#                config.build_settings['SWIFT_VERSION'] = '3.0'
-#            end
-#        end
-#    end
+target 'Crawler' do
+    project 'Salsette.xcodeproj'
+
+    pod 'FBSDKCoreKit'
+    pod 'FBSDKLoginKit'
+    pod 'Apollo'
+    pod 'SimpleKeychain', '~> 0.7'
+    pod 'DZNEmptyDataSet'
+    pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
 end

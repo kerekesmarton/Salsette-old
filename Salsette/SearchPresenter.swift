@@ -1,7 +1,11 @@
 import Foundation
+import CoreLocation
 
-class SearchPresenter {
+class SearchPresenter: NSObject {
     
+    init(view: SearchViewController) {
+        self.searchView = view
+    }
     weak var searchView: SearchViewController?
     var interactor = SearchInteractor()
     
@@ -9,15 +13,23 @@ class SearchPresenter {
         return interactor.canViewProfile()
     }
     
-    func viewReady() {
-        loading(message: "Loading...")
-        interactor.loadInitial { [weak self] (events, error) in
-            if let error = error as NSError? {
-                self?.results(with: error)
-            } else if let events = events {
-                self?.results(with: events)
-            }            
+    lazy var locationMatching = LocationMatching()
+    
+    private func loadSettingUpDefaultLocation() {
+        locationMatching.reverseGeocodeCurrentLocation { [weak self] (location) in
+            self?.update(location: location.graphLocation())
+            self?.load(with: location)
         }
+    }
+    
+    func viewReady() {
+        loading(message: "Determining location...")
+        loadSettingUpDefaultLocation()
+    }
+    
+    func load(with placemark: SearchableLocation) {
+        searchParameters.didChange(.location(placemark))
+        load()
     }
     
     func load() {
@@ -30,6 +42,8 @@ class SearchPresenter {
                 self?.results(with: error)
             } else if let events = events {
                 self?.results(with: events)
+            } else {
+                self?.results(with: [])
             }
         }
     }
@@ -38,23 +52,19 @@ class SearchPresenter {
         interactor.deleteKeychain()
     }
     
-    func didChange(location text: String?) {
-        searchParameters.didChange(.location(text))
-        guard let text = text else { return }
-        interactor.geocode(value: text) { (values, error) in
-            
-        }
-    }
-    
     func didChange(type value: Dance?) {
         searchParameters.didChange(.type(value))
+    }
+
+    func didChange(location value: FacebookLocation) {
+        searchParameters.location = value
     }
     
     func reset(oldDate: Date) {
         searchView?.setSearch(.dates(""))
     }
     
-    func update(startDate: Date?) {
+    private func update(startDate: Date?) {
         guard let safeDate = startDate else {
             searchView?.setSearch(.dates(""))
             return
@@ -62,12 +72,19 @@ class SearchPresenter {
         searchView?.setSearch(.dates(formatter.string(from: safeDate)))
     }
     
-    func update(endDate: Date?) {
+    private func update(endDate: Date?) {
         guard let safeStartDate = searchParameters.startDate, let safeEndDate = endDate else {
             searchView?.setSearch(.dates(""))
             return
         }
         searchView?.setSearch(.dates(formatter.string(from: safeStartDate)+" to "+formatter.string(from: safeEndDate)))
+    }
+    
+    private func update(location: String?) {
+        guard let value = location else { return }
+        DispatchQueue.main.async {
+            self.searchView?.setSearch(.location(value))
+        }
     }
     
     private var formatter: DateFormatter {
@@ -93,32 +110,32 @@ class SearchPresenter {
         }
     }
     
-    private func dispatch(_ result: SearchViewController.ResultsViewModel) {
+    private func dispatch(result: SearchViewController.ResultsViewModel) {
         DispatchQueue.main.async {
             self.searchView?.setResult(result)
         }
     }
     
     func loading(message: String) {
-        dispatch(.loading(message))
+        dispatch(result: .loading(message))
     }
     
-    func results(with events: [SearchableEntity]) {
+    func results(with events: [FacebookEvent]) {
         if events.count > 0 {
-            dispatch(.success(events))
+            dispatch(result: .success(events))
         } else {
-            dispatch(.failed("Couldn't find anything... \nSorry about that."))
+            dispatch(result: .failed("Couldn't find anything... \nSorry about that."))
         }
     }
     
     func results(with error: NSError) {
-        switch (error.domain,error.code) {
+        switch (error.domain, error.code) {
         case (_,8):
-            dispatch(.needsFacebookLogin("Please log in with your facebook account"))
-        case (NSURLErrorDomain,_):
-            dispatch(.failed(error.localizedDescription))
+            dispatch(result: .needsFacebookLogin(""))
+        case (_,80):
+            dispatch(result: .needsGraphLogin(""))
         default:
-            dispatch(.failed("Unknown Error occured"))
+            dispatch(result: .failed(error.localizedDescription))
         }
     }
 }
@@ -172,4 +189,3 @@ extension SearchPresenter: CalendarViewSelectionDelegate {
         return true
     }
 }
-

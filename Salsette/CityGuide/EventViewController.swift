@@ -1,9 +1,4 @@
-//
-//  Salsette
-//
-//  Created by Marton Kerekes on 22/03/2017.
 //  Copyright © 2017 Marton Kerekes. All rights reserved.
-//
 
 import UIKit
 
@@ -17,7 +12,7 @@ class EventViewController: UITableViewController {
     @IBOutlet var locationLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
     var selectedIndex: IndexPath!
-    var event: SearchableEntity!
+    var event: FacebookEvent!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +34,7 @@ class EventViewController: UITableViewController {
             endDate.text = ""
         }
         placeLabel.text = event.place
-        locationLabel.text = event.location
+        locationLabel.text = event.location?.displayableName()
         descriptionLabel.text = event.longDescription
     }
     
@@ -64,7 +59,7 @@ class EventViewController: UITableViewController {
             }
         }))
         actionSheet.addAction(UIAlertAction(title: "Open Google Maps", style: .default, handler: { (openGoogleMapsAction) in
-            if let location = self.event.location?.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics),
+            if let location = self.event.location?.displayableName()?.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics),
                 let url = URL(string: "https://www.google.com/maps/place/\(location)") {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }

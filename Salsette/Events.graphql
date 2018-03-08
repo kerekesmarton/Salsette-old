@@ -1,9 +1,18 @@
 
-mutation CreateEvent($fbId: String!, $type: Dance!) {
-    createEvent( fbID: $fbId, type: $type) {
+mutation CreateEvent($date:DateTime, $fbId: String!, $name: String!, $type: Dance!, $place: EventplacePlace) {
+    createEvent(date: $date, fbID: $fbId, name: $name, type: $type, place: $place) {
         id
         fbID
         type
+        name
+        date
+        place {
+            address
+            city
+            country
+            name
+            zip
+        }
     }
 }
 
@@ -12,6 +21,8 @@ query FetchEvent($filter:EventFilter!){
         id
         fbID
         type
+        name
+        date
         workshops {
             name
             startTime
@@ -27,6 +38,8 @@ query FetchAllEvent {
         id
         fbID
         type
+        name
+        date
     }
 }
 
@@ -47,8 +60,7 @@ mutation CreateWorkshop($artist: String!, $name: String!, $room: String!, $start
     }
 }
 
-mutation UpdateWorkshop($artist: String, $name: String, $room: String, $startTime: DateTime, $id: ID!, $eventId: ID)
-{
+mutation UpdateWorkshop($artist: String, $name: String, $room: String, $startTime: DateTime, $id: ID!, $eventId: ID) {
     updateWorkshop(artist: $artist, name: $name, room: $room, startTime: $startTime, id: $id, eventId: $eventId) {
         name
         startTime
@@ -61,5 +73,40 @@ mutation UpdateWorkshop($artist: String, $name: String, $room: String, $startTim
 mutation DeleteWorkshop($id:ID!){
     deleteWorkshop(id: $id) {
         id
+    }
+}
+
+mutation CreatePlace($address:String!, $city:String!, $country:String!, $name:String!, $zip:String!, $event:PlaceeventEvent!) {
+    createPlace(address:$address, city: $city, country:$country, name:$name, zip:$zip, event:$event)
+    {
+        address
+        city
+        country
+        name
+        zip
+        event {
+            id
+            fbID
+            type
+            name
+            date
+        }
+    }
+}
+
+query FetchPlaces($filter:PlaceFilter!){
+    allPlaces(filter:$filter){
+        name
+        address
+        city
+        country
+        zip
+        event {
+            id
+            fbID
+            type
+            name
+            date
+        }
     }
 }

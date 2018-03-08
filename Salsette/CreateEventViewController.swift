@@ -17,13 +17,13 @@ class CreateEventViewController: UITableViewController {
     @IBOutlet var classesLabel: UILabel!
     @IBOutlet var scheduleLabel: UILabel!
     
-    var fbEvent: FacebookEventEntity?
+    var fbEvent: FacebookEvent?
     var event: EventModel? {
         didSet {
             selectedEventType = event?.type
         }
     }
-    private var createdItem: SearchableEntity?
+    private var createdItem: FacebookEvent?
     fileprivate var selectedEventType: Dance? {
         didSet {
             typeLabel.text = selectedEventType?.rawValue
@@ -39,7 +39,6 @@ class CreateEventViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         nameLabel.text = fbEvent?.name
         hostLabel.text = fbEvent?.place
         if let time = fbEvent?.startDate {
@@ -50,8 +49,8 @@ class CreateEventViewController: UITableViewController {
         } else {
             endDate.text = ""
         }
-        placeLabel.text = fbEvent?.place
-        locationLabel.text = fbEvent?.location
+        placeLabel.text = fbEvent?.location?.displayableName()
+        locationLabel.text = fbEvent?.location?.displayableAddress()
         descriptionLabel.text = fbEvent?.longDescription
         
         let picker = UIPickerView()
@@ -77,23 +76,37 @@ class CreateEventViewController: UITableViewController {
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         return presenter.shouldProceed()
     }
-    
+
+    var searchNavigation: UINavigationController?
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let nav = segue.destination as? UINavigationController,
             let workshopsEditVC = nav.viewControllers.first as? WorkshopsEditViewController {
             
             workshopsEditVC.prefilledWorkshopDate = fbEvent?.startDate?.noHours()
-            workshopsEditVC.done = { [unowned self] items in
-                guard let event = self.event else { return }
-                self.presenter.update(event: event, updated: items)
+            workshopsEditVC.done = { [weak self] items in
+                guard let event = self?.event else { return }
+                self?.presenter.update(event: event, updated: items)
             }
             guard let workshops = event?.workshops else { return }
             workshopsEditVC.items = workshops
         }
+        if let nav = segue.destination as? UINavigationController, let searchVC = nav.viewControllers.first as? LocationSearchViewController, let fbLocation = sender as? FacebookLocation {
+            searchVC.fbLocation = fbLocation
+            searchNavigation = nav
+            searchVC.accurateSearchCompletion = { [weak self] placeModel in
+                let newLocation = FacebookLocation(with: placeModel)
+                self?.fbEvent?.location = newLocation
+                self?.searchNavigation?.dismiss(animated: true)
+            }
+        }
     }
     
     @objc private func create() {
-        presenter.createEvent(type: selectedEventType)
+        guard let startDate = fbEvent?.startDate  else {
+            return
+        }
+        let date = DateFormatters.facebookDateFormatter.string(from: startDate)
+        presenter.createEvent(type: selectedEventType, name: fbEvent?.name, time: date, place: fbEvent?.location as? FacebookLocation)
     }
     
     @objc private func deleteEvent() {
@@ -104,6 +117,10 @@ class CreateEventViewController: UITableViewController {
     enum ViewState {
         case eventExists(EventModel)
         case newEvent
+        case missingName
+        case missingType
+        case missingLocation(FacebookLocation?)
+        case missingDate
         case error(Error)
         case loading
         case deleted
@@ -126,6 +143,14 @@ class CreateEventViewController: UITableViewController {
             case .deleted:
                 showLoading(false, nil, nil)
                 navigationController?.popViewController(animated: true)
+            case .missingType:
+                markMissingType()
+            case .missingDate:
+                ()
+            case .missingName:
+                ()
+            case .missingLocation(_):
+                markMissingLocation()
             }
         }
     }
@@ -176,17 +201,39 @@ extension CreateEventViewController: UIPickerViewDelegate, UIPickerViewDataSourc
 }
 
 extension CreateEventViewController {
+    
+    fileprivate func markMissingLocation() {
+        activateLocationSearch()
+    }
+    
+    fileprivate func activateLocationSearch() {
+        performSegue(withIdentifier: "LocationSearchViewController", sender: fbEvent?.location)
+    }
+    
+    fileprivate func markMissingType() {
+        activateTypeLabel()
+    }
+    
+    func activateTypeLabel() {
+        typeLabel.becomeFirstResponder()
+        guard let selectedEventType = selectedEventType,
+            let index = Dance.allDanceTypes.index(of: selectedEventType)
+            else {
+                self.selectedEventType = Dance.item(at: 0)
+                return
+        }
+        let picker = typeLabel.inputView as? UIPickerView
+        picker?.selectRow(index, inComponent: 0, animated: false)
+    }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 4 {
-            typeLabel.becomeFirstResponder()
-            guard let selectedEventType = selectedEventType,
-                let index = Dance.allDanceTypes.index(of: selectedEventType)
-                else {
-                    self.selectedEventType = Dance.item(at: 0)
-                    return
-            }
-            let picker = typeLabel.inputView as? UIPickerView
-            picker?.selectRow(index, inComponent: 0, animated: false)
+        switch indexPath.row {
+        case 3:
+            activateLocationSearch()
+        case 4:
+            activateTypeLabel()
+        default:
+            ()
         }
     }
     

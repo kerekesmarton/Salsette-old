@@ -22,7 +22,7 @@ class UserCell: UITableViewCell {
 class EventsCell: UITableViewCell, SelectFacebookEventProtocol {
     @IBOutlet var eventCollectionView: UICollectionView?
     var interactor: SelectFacebookEventInteractor = SelectFacebookEventInteractor(fbService: FacebookService.shared, downloader: ImageDownloader.shared)
-    var items: [FacebookEventEntity]! = [] {
+    var items: [FacebookEvent]! = [] {
         didSet {
             eventCollectionView?.delegate = self
             eventCollectionView?.dataSource = self
@@ -31,7 +31,7 @@ class EventsCell: UITableViewCell, SelectFacebookEventProtocol {
             errorMessage = "No events found"            
         }
     }
-    var selectionBlock: ((FacebookEventEntity) -> Void)?
+    var selectionBlock: ((FacebookEvent) -> Void)?
     func show(error: Error) {
         errorMessage = error.localizedDescription
         items = []
@@ -101,7 +101,7 @@ class EventCollectionViewCell: UICollectionViewCell {
     @IBOutlet var eventName: UILabel?
     @IBOutlet var eventDetails: UILabel?
     var imageUrl: String?
-    var item: FacebookEventEntity? {
+    var item: FacebookEvent? {
         didSet {
             eventName?.text = item?.name
 

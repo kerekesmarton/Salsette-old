@@ -15,8 +15,30 @@ extension WorkshopModel {
 extension EventModel {
     fileprivate static func events(from result: FetchAllEventQuery.Data) -> [EventModel]? {
         return result.allEvents.map({ (event) -> EventModel in
-            return EventModel(fbID: event.fbId, type: event.type, id: event.id)
+            return EventModel(fbID: event.fbId, type: event.type, name: event.name, date: event.date, id: event.id)
         })
+    }
+    
+    fileprivate static func event(from placeResult: CreatePlaceMutation.Data.CreatePlace.Event?) -> EventModel? {
+        guard let event = placeResult else { return nil }
+        return EventModel(fbID: event.fbId, type: event.type, name: event.name, date: event.date, id: event.id)
+    }
+    
+    fileprivate static func events(from result: FetchPlacesQuery.Data) -> [EventModel]? {
+        return result.allPlaces.flatMap({ (place) -> EventModel? in
+            guard let event = place.event else {
+                return nil
+            }
+            let placeModel = PlaceModel(address: place.address, city: place.city, country: place.country, name: place.name, zip: place.zip)
+            return EventModel(fbID: event.fbId, type: event.type, name: event.name, date: event.date, id: event.id, place: placeModel)
+        })
+    }
+}
+
+extension PlaceModel {
+    fileprivate static func place(from result: CreateEventMutation.Data.CreateEvent.Place?) -> PlaceModel? {
+        guard let result = result else { return nil }
+        return PlaceModel(address: result.address, city: result.city, country: result.country, name: result.name, zip: result.zip)
     }
 }
 
@@ -81,23 +103,50 @@ class GraphManager {
         })
     }
     
+    func setToken(_ value: String) {
+        token = value
+    }
+    
     func signOut() {
         token = nil
     }
     
-    @discardableResult func createEvent(model: EventModel, closure: @escaping (EventModel?, Error?)->Void) -> Cancellable? {
+    @discardableResult func createEvent(model: EventModel, place: PlaceModel, closure: @escaping (EventModel?, Error?)->Void) -> Cancellable? {
         guard let client = authorisedClient else {
             closure(nil, NSError(with: "Please log in"))
             return nil
         }
-        let input = CreateEventMutation(fbId: model.fbID, type: model.type)
+        let eventPlace = EventplacePlace(address: place.address, city: place.city, country: place.country, name: place.name, zip: place.zip)
+        let input = CreateEventMutation(date: model.date, fbId: model.fbID, name: model.name, type: model.type, place: eventPlace)
         return client.perform(mutation: input, resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
-            } else if let event = result?.data?.createEvent {
-                closure(EventModel(fbID: event.fbId, type: event.type, id: event.id), error)
+            } else if let event = result?.data?.createEvent, let place = PlaceModel.place(from: event.place) {
+                closure(EventModel(fbID: event.fbId, type: event.type, name: event.name, date: event.date, id: event.id, place: place), error)
             }
         })
+    }
+    
+    @discardableResult func searchEvent(parameters: SearchParameters, closure: @escaping ([EventModel]?, Error?)->()) -> Cancellable? {
+        guard let client = authorisedClient else {
+            closure(nil, NSError(domain: "Graph", code: 80, userInfo: [NSLocalizedDescriptionKey:"Please log in"]))
+            return nil
+        }
+        guard let city = parameters.location?.graphLocation() else {
+            closure(nil, NSError(with: "Please specify more search criteria"))
+            return nil
+        }
+        let filter = PlaceFilter(cityContains: city)
+        let query = FetchPlacesQuery(filter: filter)
+        return client.fetch(query: query) { (result, error) in
+            if let serverError = result?.errors {
+                closure(nil, self.error(from: serverError))
+            } else if let data = result?.data {
+                closure(EventModel.events(from: data), nil)
+            } else {
+                closure(nil, nil)
+            }
+        }
     }
     
     @discardableResult func searchEvent(fbID: String, closure: @escaping (EventModel?, Error?)->Void) -> Cancellable? {
@@ -109,10 +158,8 @@ class GraphManager {
         return client.fetch(query: query, cachePolicy: .fetchIgnoringCacheData, resultHandler: { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
-            } else if let _ = error {
-                closure(nil, NSError(with: "Please log in again."))
             } else if let event = result?.data?.allEvents.first {
-                closure(EventModel(fbID: event.fbId, type: event.type, id: event.id, workshops: WorkshopModel.workshops(from: event)), error)
+                closure(EventModel(fbID: event.fbId, type: event.type, name: event.name, date: event.date, id: event.id, workshops: WorkshopModel.workshops(from: event)), error)
             } else {
                 closure(nil, nil)
             }
@@ -132,7 +179,7 @@ class GraphManager {
                 closure(nil, NSError(with: "Please log in again."))
             } else if let events = result?.data?.allEvents {
                 let models = events.map({ (event) -> EventModel in
-                    EventModel(fbID: event.fbId, type: event.type, id: event.id, workshops: WorkshopModel.workshops(from: event))
+                    EventModel(fbID: event.fbId, type: event.type, name: event.name, date: event.date, id: event.id, workshops: WorkshopModel.workshops(from: event))
                 })
                 closure(models, nil)
             } else {
@@ -230,6 +277,26 @@ class GraphManager {
     }
     
     
+    @discardableResult func createPlaceAndEvent(placeModel: PlaceModel, eventModel: EventModel, closure: @escaping (EventModel?, Error?)->()) -> Cancellable? {
+        guard let client = authorisedClient else {
+            closure(nil, NSError(with: "Please log in"))
+            return nil
+        }
+        
+        let eventInput = PlaceeventEvent(date: eventModel.date, fbId: eventModel.fbID, name: eventModel.name, type: eventModel.type)
+        let placeInput = CreatePlaceMutation(address: placeModel.address, city: placeModel.city, country: placeModel.country, name: placeModel.name, zip: placeModel.zip, event: eventInput)
+        return client.perform(mutation: placeInput) { (result, error) in
+            if let serverError = result?.errors {
+                closure(nil, self.error(from: serverError))
+            } else if let place = result?.data?.createPlace {
+                var event = EventModel.event(from: place.event)
+                event?.place = PlaceModel(address: place.address, city: place.city, country: place.country, name: place.name, zip: place.zip)
+                closure(event, error)
+            } else {
+                closure(nil, nil)
+            }
+        }
+    }
     
     fileprivate func error(from graphQLErrors: [GraphQLError]) -> Error {
         guard let error = graphQLErrors.first else {

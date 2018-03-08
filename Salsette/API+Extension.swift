@@ -2,33 +2,6 @@
 
 import UIKit
 
-public protocol SearchableEntity {
-    var image: UIImage? { get }
-    var imageUrl: String? { get }
-    var organiser: String? { get }
-    var name: String? { get }
-    var startDate: Date? { get }
-    var endDate: Date? { get }
-    var place: String? { get }
-    var location: String? { get }
-    var shortDescription: String? { get }
-    var longDescription: String? { get }
-    var identifier: String? { get }    
-}
-
-extension SearchableEntity {
-    var shortDescription: String {
-        get {
-            return name ?? ""
-        }
-    }
-    var description: String {
-        get {
-            return ""
-        }
-    }
-}
-
 extension Dance {
     
     static let allDanceTypes = [salsa, bachata, kizomba, tango, dance]
@@ -51,9 +24,5 @@ extension Dance {
         case 3: return Dance.tango.rawValue
         default: return Dance.dance.rawValue
         }
-    }
-    
-    public static func ==(lhs: Dance, rhs: Dance) -> Bool {
-        return lhs.rawValue == rhs.rawValue
     }
 }

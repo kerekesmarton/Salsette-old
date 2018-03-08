@@ -4,7 +4,7 @@ import UIKit
 
 protocol SelectFacebookEventProtocol: class {
     var interactor: SelectFacebookEventInteractor { get set }
-    var items: [FacebookEventEntity]! { get set }
+    var items: [FacebookEvent]! { get set }
     func show(error: Error)
 }
 

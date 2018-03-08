@@ -35,13 +35,28 @@ class CreateEventPresenter: NSObject {
         }
     }
     
-    func createEvent(type: Dance?) {
-        guard let fbEvent = view?.fbEvent, let type = type else {
-            let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Pick an event type"])
-            view?.state = .error(error)
+    func createEvent(type: Dance?, name: String?, time: String?, place: FacebookLocation?) {
+        guard let fbEvent = view?.fbEvent else {            
             return
         }
-        interactor.createEvent(fbID: fbEvent.identifier!, type: type) { [weak self] (graphEvent, error) in
+        guard let type = type else {
+            view?.state = .missingType
+            return
+        }
+        guard let name = name else {
+            view?.state = .missingName
+            return
+        }
+        guard let time = time else {
+            view?.state = .missingDate
+            return
+        }
+        guard let placeModel = PlaceModel(fbPlace: place) else {
+            view?.state = .missingLocation(place)
+            return
+        }
+        let eventModel = EventModel(fbID: fbEvent.identifier!, type: type, name: name, date: time)
+        interactor.createEvent(eventModel: eventModel, placeModel: placeModel) { [weak self] (graphEvent, error) in
             if let event = graphEvent {
                 self?.view?.state = .eventExists(event)
             } else if let error = error {

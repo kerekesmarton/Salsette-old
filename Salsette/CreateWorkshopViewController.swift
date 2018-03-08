@@ -7,14 +7,13 @@
 //
 
 import UIKit
-import TextFieldEffects
 
 class CreateWorkshopViewController: UITableViewController {
     
-    @IBOutlet var nameLbl: HoshiTextField!
-    @IBOutlet var artistLbl: HoshiTextField!
-    @IBOutlet var roomLbl: HoshiTextField!
-    @IBOutlet var timeLbl: HoshiTextField!
+    @IBOutlet var nameLbl: UITextField!
+    @IBOutlet var artistLbl: UITextField!
+    @IBOutlet var roomLbl: UITextField!
+    @IBOutlet var timeLbl: UITextField!
     fileprivate var roomPickerDataSource: RoomPickerDataSource?
     var timePicker: UIDatePicker!
     

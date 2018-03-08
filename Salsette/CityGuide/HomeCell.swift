@@ -1,9 +1,4 @@
-//
-//  Salsette
-//
-//  Created by Marton Kerekes on 22/03/2017.
 //  Copyright © 2017 Marton Kerekes. All rights reserved.
-//
 
 import UIKit
 import ChameleonFramework
@@ -25,7 +20,7 @@ class HomeCell: UICollectionViewCell {
         imageView.layer.borderColor = UIColor.flatWhite.cgColor
         imageView.layer.borderWidth = 0.5
     }
-    var content: SearchableEntity? {
+    var content: FacebookEvent? {
         didSet {
             guard let content = content else { return }
             

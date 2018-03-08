@@ -8,6 +8,17 @@
 
 import UIKit
 
+struct GraphCreateAccountLauncher {
+    func loginViewController(loginCompletion:@escaping ()->()) -> GraphCreateAccountViewController {
+        let loginVC = UIStoryboard.graphCreateAccountViewController()
+        loginVC.modalPresentationStyle = .popover
+        loginVC.modalPresentationStyle = UIModalPresentationStyle.popover
+        loginVC.preferredContentSize = CGSize(width: 300, height: 350)
+        loginVC.completion = loginCompletion
+        return loginVC
+    }
+}
+
 class GraphCreateAccountViewController: UITableViewController {
     @IBOutlet var emailField: UITextField!
     @IBOutlet var passwordField: UITextField!

@@ -23,6 +23,9 @@ class SearchViewController: UICollectionViewController {
         }
     }
     
+    @IBOutlet var retryHostView: UIView!
+    
+    
     lazy var calendarProxy: CalendarProxy = {
         return UINib(nibName: "Calendar", bundle: nil).instantiate(withOwner: self, options: nil)[1] as! CalendarProxy
     }()
@@ -33,11 +36,11 @@ class SearchViewController: UICollectionViewController {
     }
     
     lazy var presenter: SearchPresenter = {
-       return SearchPresenter()
+       return SearchPresenter(view: self)
     }()
     
     //MARK: - Results
-    var results = [SearchableEntity](){
+    var results = [FacebookEvent](){
         didSet {
             collectionView?.reloadData()
         }
@@ -55,18 +58,24 @@ class SearchViewController: UICollectionViewController {
         presenter.viewReady()
     }
     
+    @IBAction func retryAction(_ sender: Any) {
+        presenter.load()
+    }
+    
+    
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         return presenter.isProfileEnabled()
     }
-    
+
+    var searchNavigation: UINavigationController?
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let currentCell = sender as? HomeCell,
-            let vc = segue.destination as? EventViewController,
+            let eventViewController = segue.destination as? EventViewController,
             let currentCellIndex = collectionView?.indexPath(for: currentCell) {
-            vc.selectedIndex = currentCellIndex
+            eventViewController.selectedIndex = currentCellIndex
         }
-        if let vc = segue.destination as? ProfileViewController, let sender = sender as? UIButton {
-            vc.view.backgroundColor = sender.backgroundColor
+        if let profileViewController = segue.destination as? ProfileViewController, let sender = sender as? UIButton {
+            profileViewController.view.backgroundColor = sender.backgroundColor
         }
         if let nav = segue.destination as? UINavigationController,
             let eventViewController = nav.viewControllers.first as? EventViewController,
@@ -75,6 +84,14 @@ class SearchViewController: UICollectionViewController {
         {
             eventViewController.event = results[currentCellIndex.row]
             eventViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(SearchViewController.dismissEventView))
+        }
+        if let nav = segue.destination as? UINavigationController, let searchViewController = nav.viewControllers.first as? LocationSearchViewController {
+            searchNavigation = nav
+            searchViewController.lowAccuracySearchCompletion = { [weak self] location in
+                self?.presenter.didChange(location: location)
+                self?.locationField.text = location.displayableName()
+                self?.searchNavigation?.dismiss(animated: true)
+            }
         }
     }
 }
@@ -100,16 +117,7 @@ extension SearchViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 }
 
 extension SearchViewController: UITextFieldDelegate {
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        switch textField {
-        case locationField:
-            presenter.didChange(location: textField.text)
-        default:
-            ()
-        }
-    }
-    
+        
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
         case typeField:
@@ -117,7 +125,7 @@ extension SearchViewController: UITextFieldDelegate {
             typePicker.selectRow(row, inComponent: 0, animated: false)
             typeField.text = Dance.string(at: row)
         case locationField:
-            presenter.didChange(location: textField.text)
+            performSegue(withIdentifier: "LocationSearchViewController", sender: self)
         default:
             ()
         }
@@ -161,24 +169,32 @@ extension SearchViewController {
         return cell
     }
     
+    fileprivate func createHeader(_ collectionView: UICollectionView, _ kind: String, _ indexPath: IndexPath) -> UICollectionReusableView {
+        let suplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SearchContainer", for: indexPath)
+        let layout = collectionView.collectionViewLayout as? SearchResultsCollectionViewLayout
+        layout?.headerReferenceSize = CGSize(width: collectionView.frame.width, height: 220)
+        suplementaryView.addSubview(container)
+        container.translatesAutoresizingMaskIntoConstraints = false
+        let horizontalConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+        let verticalConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
+        let widthConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 0)
+        let heightConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.height, multiplier: 1, constant: 0)
+        view.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        return suplementaryView
+    }
+    
+    fileprivate func createFooter(_ collectionView: UICollectionView, _ kind: String, _ indexPath: IndexPath) -> UICollectionReusableView {
+        let suplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SearchFooter", for: indexPath)
+        let layout = collectionView.collectionViewLayout as? SearchResultsCollectionViewLayout
+        layout?.footerReferenceSize = CGSize(width: collectionView.frame.width, height: 20)
+        return suplementaryView
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
-            let suplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SearchContainer", for: indexPath)
-            let layout = collectionView.collectionViewLayout as? SearchResultsCollectionViewLayout
-            layout?.headerReferenceSize = CGSize(width: collectionView.frame.width, height: 220)
-            suplementaryView.addSubview(container)            
-            container.translatesAutoresizingMaskIntoConstraints = false
-            let horizontalConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
-            let verticalConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
-            let widthConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 0)
-            let heightConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.height, multiplier: 1, constant: 0)
-            view.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-            return suplementaryView
+            return createHeader(collectionView, kind, indexPath)
         } else {
-            let suplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SearchFooter", for: indexPath)
-            let layout = collectionView.collectionViewLayout as? SearchResultsCollectionViewLayout
-            layout?.footerReferenceSize = CGSize(width: collectionView.frame.width, height: 20)
-            return suplementaryView
+            return createFooter(collectionView, kind, indexPath)
         }
     }
 }
@@ -198,6 +214,8 @@ extension SearchViewController {
             dateField.text = string
         case .type(let string):
             typeField.text = string
+        case .location(let string):
+            locationField.text = string
         default:
             return
         }
@@ -209,7 +227,8 @@ extension SearchViewController {
         case loading(String)
         case failed(String)
         case needsFacebookLogin(String)
-        case success([SearchableEntity])
+        case needsGraphLogin(String)
+        case success([FacebookEvent])
     }
     
     func setResult(_ viewModel: ResultsViewModel) {
@@ -217,14 +236,39 @@ extension SearchViewController {
         case .loading(let message):
             configure(message: message)
         case .failed(let message):
-            configure(message: message)
-        case .needsFacebookLogin(let message):
-            configure(message: message, view: loginHostView)
+            configure(message: message, view: nil)
+        case .needsFacebookLogin(_):
+            configure(message: nil, view: loginHostView)
+        case .needsGraphLogin(_):
+            graphLogin()
         case .success(let items):
             self.results = items
         }
     }
 }
+
+extension SearchViewController: UIPopoverPresentationControllerDelegate {
+    
+    func graphLogin() {
+        
+        let loginVC = GraphCreateAccountLauncher().loginViewController(loginCompletion: {
+            self.presenter.viewReady()
+        })
+        
+        let popover = loginVC.popoverPresentationController
+        popover?.delegate = self
+        popover?.sourceView = collectionView
+        popover?.permittedArrowDirections = .init(rawValue: 0)
+        popover?.sourceRect = CGRect(x: collectionView!.bounds.midX, y: collectionView!.bounds.midY, width: 0, height: 0)
+        
+        present(loginVC, animated: true)
+    }
+
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
+    }
+}
+
 
 extension SearchViewController: FBSDKLoginButtonDelegate {
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
@@ -233,7 +277,7 @@ extension SearchViewController: FBSDKLoginButtonDelegate {
     }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {       
-        presenter.didLogout()
+//        presenter.didLogout()
         presenter.load()
         profileButton.isEnabled = presenter.isProfileEnabled()
     }
@@ -246,6 +290,7 @@ extension SearchViewController: DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
     }
     
     func customView(forEmptyDataSet scrollView: UIScrollView!) -> UIView! {
+        if emptyDataSetString != nil { return nil }
         guard let emptyDataSetCustomView = emptyDataSetCustomView else { return nil }
         return emptyDataSetCustomView
     }
@@ -266,19 +311,8 @@ fileprivate extension SearchViewController {
         dateField.inputAccessoryView = dateIAV
     }
     
-    func customiseLocationField() {
-        locationField.inputAccessoryView = InputAccessoryView.create(next: { (nextBtn) in
-            self.typeField.becomeFirstResponder()
-        }, previous: { (previousBtn) in
-            self.dateField.becomeFirstResponder()
-        }, done: { (doneBtn) in
-            self.locationField.resignFirstResponder()
-            guard let searchTerm = self.locationField.text else {
-                return
-            }
-            self.presenter.didChange(location: searchTerm)
-            self.presenter.load()
-        })
+    func customiseLocationField() {        
+        locationField.delegate = self
     }
     
     func customiseTypeField() {
@@ -302,11 +336,10 @@ fileprivate extension SearchViewController {
         dismiss(animated: true)
     }
     
-    func configure(message: String, view: UIView? = nil) {
+    func configure(message: String?, view: UIView? = nil) {
         emptyDataSetString = message
         emptyDataSetCustomView = view
         results.removeAll()
         collectionView?.reloadData()
     }
 }
-
