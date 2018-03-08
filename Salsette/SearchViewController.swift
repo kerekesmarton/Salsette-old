@@ -40,7 +40,7 @@ class SearchViewController: UICollectionViewController {
     }()
     
     //MARK: - Results
-    var results = [FacebookEventEntity](){
+    var results = [FacebookEvent](){
         didSet {
             collectionView?.reloadData()
         }
@@ -219,7 +219,7 @@ extension SearchViewController {
         case failed(String)
         case needsFacebookLogin(String)
         case needsGraphLogin(String)
-        case success([FacebookEventEntity])
+        case success([FacebookEvent])
     }
     
     func setResult(_ viewModel: ResultsViewModel) {

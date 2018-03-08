@@ -45,7 +45,7 @@ class FacebookLocation: SearchableLocation {
     }
 }
 
-class FacebookEventEntity: Equatable, Hashable {
+class FacebookEvent: Equatable, Hashable {
     var name: String?
     var place: String?
     var location: SearchableLocation?
@@ -85,10 +85,13 @@ class FacebookEventEntity: Equatable, Hashable {
         self.identifier = id
     }
     
-    class func create(with data: Any) ->[FacebookEventEntity] {
-        let items = JSON(data)["data"]
-        return items.map({ (_, body) -> FacebookEventEntity in
-            return FacebookEventEntity(with: body)
+    class func extract(from data: Any) ->JSON {
+        return JSON(data)["data"]
+    }
+    
+    class func create(from json: JSON) ->[FacebookEvent] {
+        return json.map({ (_, body) -> FacebookEvent in
+            return FacebookEvent(with: body)
         })
     }
     
@@ -99,7 +102,7 @@ class FacebookEventEntity: Equatable, Hashable {
     
 }
 
-func == (lhs: FacebookEventEntity, rhs: FacebookEventEntity) -> Bool {
+func == (lhs: FacebookEvent, rhs: FacebookEvent) -> Bool {
     return lhs.identifier == rhs.identifier
 }
 

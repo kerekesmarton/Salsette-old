@@ -12,7 +12,7 @@ class EventViewController: UITableViewController {
     @IBOutlet var locationLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
     var selectedIndex: IndexPath!
-    var event: FacebookEventEntity!
+    var event: FacebookEvent!
     
     override func viewDidLoad() {
         super.viewDidLoad()

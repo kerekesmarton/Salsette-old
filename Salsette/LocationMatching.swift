@@ -3,6 +3,13 @@
 import Foundation
 import CoreLocation
 
+public protocol SearchableLocation {
+    
+    func graphLocation() -> String?
+    func displayableName() -> String?
+    func displayableAddress() -> String?
+}
+
 extension PlaceModel: SearchableLocation {
     
     init?(placemark: CLPlacemark) {

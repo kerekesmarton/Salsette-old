@@ -118,7 +118,7 @@ class SearchPresenter: NSObject {
         dispatch(result: .loading(message))
     }
     
-    func results(with events: [FacebookEventEntity]) {
+    func results(with events: [FacebookEvent]) {
         if events.count > 0 {
             dispatch(result: .success(events))
         } else {

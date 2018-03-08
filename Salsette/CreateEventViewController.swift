@@ -17,13 +17,13 @@ class CreateEventViewController: UITableViewController {
     @IBOutlet var classesLabel: UILabel!
     @IBOutlet var scheduleLabel: UILabel!
     
-    var fbEvent: FacebookEventEntity?
+    var fbEvent: FacebookEvent?
     var event: EventModel? {
         didSet {
             selectedEventType = event?.type
         }
     }
-    private var createdItem: FacebookEventEntity?
+    private var createdItem: FacebookEvent?
     fileprivate var selectedEventType: Dance? {
         didSet {
             typeLabel.text = selectedEventType?.rawValue

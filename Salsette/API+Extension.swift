@@ -2,13 +2,6 @@
 
 import UIKit
 
-public protocol SearchableLocation {
-    
-    func graphLocation() -> String?
-    func displayableName() -> String?
-    func displayableAddress() -> String?
-}
-
 extension Dance {
     
     static let allDanceTypes = [salsa, bachata, kizomba, tango, dance]

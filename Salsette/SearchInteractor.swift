@@ -12,7 +12,7 @@ class SearchInteractor {
         }
     }
     
-    private func loadFacebookEvents(ids: [String]?, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
+    private func loadFacebookEvents(ids: [String]?, completion: @escaping ([FacebookEvent]?, Error?)->Void) {
         guard let safeIds = ids, safeIds.count > 0 else {
             completion(nil, NSError(with: "Couldn't find events"))
             return
@@ -22,7 +22,7 @@ class SearchInteractor {
         })
     }
     
-    fileprivate func match(_ fbEvents: [FacebookEventEntity], with eventModels:[EventModel]) {
+    fileprivate func match(_ fbEvents: [FacebookEvent], with eventModels:[EventModel]) {
         fbEvents.forEach({ (fbEvent) in
             guard let index = eventModels.index(where: { (eventModel) -> Bool in
                 return eventModel.fbID == fbEvent.identifier
@@ -33,7 +33,7 @@ class SearchInteractor {
         })
     }
     
-    func load(with parameters: SearchParameters, completion: @escaping ([FacebookEventEntity]?, Error?)->Void) {
+    func load(with parameters: SearchParameters, completion: @escaping ([FacebookEvent]?, Error?)->Void) {
         loadGraphEvents(parameters: parameters) { [weak self]  (eventModels, error) in
             guard let eventModels = eventModels, eventModels.count > 0 else {
                 completion(nil, error)

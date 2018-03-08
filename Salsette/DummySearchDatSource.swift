@@ -8,9 +8,9 @@
 import UIKit
 
 struct DummySearchDatSource {
-    var dummyEvents: [FacebookEventEntity] {
+    var dummyEvents: [FacebookEvent] {
         
-        return [FacebookEventEntity(with: ["name": "Salsa4Us - Salsa a Ligetben - 2017 06 30",
+        return [FacebookEvent(with: ["name": "Salsa4Us - Salsa a Ligetben - 2017 06 30",
                                            "place": [
                                             "name": "Liget Club",
                                             "location": [
@@ -33,7 +33,7 @@ struct DummySearchDatSource {
                                             "id": "244520985687168"],
                                            "id": "157134578163987"]),
                 
-                FacebookEventEntity(with: ["name": "Salsa Imperial",
+                FacebookEvent(with: ["name": "Salsa Imperial",
                                            "place": [
                                             "name": "Imperial Riding School Renaissance Vienna Hotel",
                                             "location": [

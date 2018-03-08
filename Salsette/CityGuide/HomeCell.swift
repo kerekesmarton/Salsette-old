@@ -20,7 +20,7 @@ class HomeCell: UICollectionViewCell {
         imageView.layer.borderColor = UIColor.flatWhite.cgColor
         imageView.layer.borderWidth = 0.5
     }
-    var content: FacebookEventEntity? {
+    var content: FacebookEvent? {
         didSet {
             guard let content = content else { return }
             

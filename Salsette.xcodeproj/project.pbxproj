@@ -22,7 +22,7 @@
 		1053CA0A1EF46C370034844A /* Array+Salsette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053CA091EF46C370034844A /* Array+Salsette.swift */; };
 		1053CA0D1EF52D7E0034844A /* WorkshopCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053CA0C1EF52D7E0034844A /* WorkshopCells.swift */; };
 		106306AE1E8B951C0089DA00 /* Calendar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 106306AD1E8B951C0089DA00 /* Calendar.xib */; };
-		106306B41E8CE3BF0089DA00 /* ContentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306B31E8CE3BF0089DA00 /* ContentEntity.swift */; };
+		106306B41E8CE3BF0089DA00 /* API+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306B31E8CE3BF0089DA00 /* API+Extension.swift */; };
 		106306BC1E8E99600089DA00 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306BB1E8E99600089DA00 /* ProfileViewController.swift */; };
 		1068D2DA1FCCAD3D005A9A95 /* NSError+Salsette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1068D2D91FCCAD3D005A9A95 /* NSError+Salsette.swift */; };
 		106EAF3B1E92DFA8004686B5 /* DateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF3A1E92DFA8004686B5 /* DateFormatters.swift */; };
@@ -62,7 +62,7 @@
 		10AABBA9202DCF4200D56AC5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10AABBA7202DCF4200D56AC5 /* Main.storyboard */; };
 		10AABBAB202DCF4200D56AC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10AABBAA202DCF4200D56AC5 /* Assets.xcassets */; };
 		10AABBAE202DCF4200D56AC5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10AABBAC202DCF4200D56AC5 /* LaunchScreen.storyboard */; };
-		10AABBB3202DD3DD00D56AC5 /* FacebookEventEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FDAA6B1FDD66280023800E /* FacebookEventEntity.swift */; };
+		10AABBB3202DD3DD00D56AC5 /* FacebookEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FDAA6B1FDD66280023800E /* FacebookEvent.swift */; };
 		10AABBB4202DD3DD00D56AC5 /* FacebookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB420F2E1EA7AA830022380D /* FacebookService.swift */; };
 		10AABBB5202DD3E300D56AC5 /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D7CEBD1FDCA94600E71EBB /* GraphModel.swift */; };
 		10AABBB6202DD3E300D56AC5 /* GraphManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF5A9C11E959FA0000CED7A /* GraphManager.swift */; };
@@ -70,7 +70,7 @@
 		10AABBB9202DD3E700D56AC5 /* KeychainStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF5A9C51E977810000CED7A /* KeychainStorage.swift */; };
 		10AABBBA202DD3E700D56AC5 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106EAF3D1E92E3B1004686B5 /* ImageDownloader.swift */; };
 		10AABBBB202DD5CD00D56AC5 /* SearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D3EB8E1FFAD30A00E3CC78 /* SearchParameters.swift */; };
-		10AABBBC202DD5D000D56AC5 /* ContentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306B31E8CE3BF0089DA00 /* ContentEntity.swift */; };
+		10AABBBC202DD5D000D56AC5 /* API+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306B31E8CE3BF0089DA00 /* API+Extension.swift */; };
 		10AABBBD202DD60C00D56AC5 /* Array+Salsette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053CA091EF46C370034844A /* Array+Salsette.swift */; };
 		10AABBBE202DD60C00D56AC5 /* CGSize+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B9AF771E7E96870033A6BF /* CGSize+Additions.swift */; };
 		10AABBBF202DD60C00D56AC5 /* Date+Salsette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AD82301EF5C83A0060F020 /* Date+Salsette.swift */; };
@@ -101,7 +101,7 @@
 		10ECE5A62030A4DE00413A92 /* LocationMatching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AABB7D202C7A6300D56AC5 /* LocationMatching.swift */; };
 		10FCD6EA1FC056B000856889 /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FCD6E91FC056B000856889 /* SearchPresenter.swift */; };
 		10FCD6EC1FC1952A00856889 /* GraphCreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FCD6EB1FC1952A00856889 /* GraphCreateAccountViewController.swift */; };
-		10FDAA6C1FDD66280023800E /* FacebookEventEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FDAA6B1FDD66280023800E /* FacebookEventEntity.swift */; };
+		10FDAA6C1FDD66280023800E /* FacebookEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FDAA6B1FDD66280023800E /* FacebookEvent.swift */; };
 		F62E14ADBC8C4B223C86EA22 /* Pods_Crawler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C180A02E8BED5997A673B1C1 /* Pods_Crawler.framework */; };
 		FB136E691E989EEA00A5F1E4 /* Auth0Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB136E681E989EEA00A5F1E4 /* Auth0Manager.swift */; };
 		FB136E6B1E989FCA00A5F1E4 /* UIAlertController+Salsette.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB136E6A1E989FCA00A5F1E4 /* UIAlertController+Salsette.swift */; };
@@ -145,7 +145,7 @@
 		1053CA091EF46C370034844A /* Array+Salsette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Salsette.swift"; sourceTree = "<group>"; };
 		1053CA0C1EF52D7E0034844A /* WorkshopCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkshopCells.swift; sourceTree = "<group>"; };
 		106306AD1E8B951C0089DA00 /* Calendar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Calendar.xib; sourceTree = "<group>"; };
-		106306B31E8CE3BF0089DA00 /* ContentEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentEntity.swift; sourceTree = "<group>"; };
+		106306B31E8CE3BF0089DA00 /* API+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "API+Extension.swift"; sourceTree = "<group>"; };
 		106306BB1E8E99600089DA00 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		1068D2D91FCCAD3D005A9A95 /* NSError+Salsette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSError+Salsette.swift"; sourceTree = "<group>"; };
 		106EAF3A1E92DFA8004686B5 /* DateFormatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatters.swift; sourceTree = "<group>"; };
@@ -194,7 +194,7 @@
 		10DA93241EAA08B40054F338 /* UserCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCells.swift; sourceTree = "<group>"; };
 		10FCD6E91FC056B000856889 /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
 		10FCD6EB1FC1952A00856889 /* GraphCreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphCreateAccountViewController.swift; sourceTree = "<group>"; };
-		10FDAA6B1FDD66280023800E /* FacebookEventEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookEventEntity.swift; sourceTree = "<group>"; };
+		10FDAA6B1FDD66280023800E /* FacebookEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookEvent.swift; sourceTree = "<group>"; };
 		3116C0615A92BACF892E9C63 /* Pods-Salsette.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Salsette.release.xcconfig"; path = "Pods/Target Support Files/Pods-Salsette/Pods-Salsette.release.xcconfig"; sourceTree = "<group>"; };
 		42C4B232F80CE6AC3BCF1EF8 /* Pods-Crawler.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Crawler.release.xcconfig"; path = "Pods/Target Support Files/Pods-Crawler/Pods-Crawler.release.xcconfig"; sourceTree = "<group>"; };
 		A26ECBEDA3D5B5A569304D7F /* Pods-Salsette.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Salsette.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Salsette/Pods-Salsette.debug.xcconfig"; sourceTree = "<group>"; };
@@ -276,6 +276,7 @@
 				10D7CEBD1FDCA94600E71EBB /* GraphModel.swift */,
 				FBF5A9C11E959FA0000CED7A /* GraphManager.swift */,
 				106EB0271E94636E004686B5 /* API.swift */,
+				106306B31E8CE3BF0089DA00 /* API+Extension.swift */,
 				FBD9E0BC1FACC29800D8ADF1 /* codegen.md */,
 				104A1A171F547F5B001A111B /* schema.json */,
 				106EB02B1E94661A004686B5 /* CurrentUser.graphql */,
@@ -308,7 +309,6 @@
 				FBF5A9C51E977810000CED7A /* KeychainStorage.swift */,
 				106EAF3D1E92E3B1004686B5 /* ImageDownloader.swift */,
 				10D3EB8E1FFAD30A00E3CC78 /* SearchParameters.swift */,
-				106306B31E8CE3BF0089DA00 /* ContentEntity.swift */,
 				10AABB7D202C7A6300D56AC5 /* LocationMatching.swift */,
 			);
 			name = Services;
@@ -464,7 +464,7 @@
 		10FDAA6D1FDD66530023800E /* Facebook */ = {
 			isa = PBXGroup;
 			children = (
-				10FDAA6B1FDD66280023800E /* FacebookEventEntity.swift */,
+				10FDAA6B1FDD66280023800E /* FacebookEvent.swift */,
 				FB420F2E1EA7AA830022380D /* FacebookService.swift */,
 			);
 			name = Facebook;
@@ -831,7 +831,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBB7DFBC1EA8A8DE006C0D54 /* SelectFacebookEventInteractor.swift in Sources */,
-				10FDAA6C1FDD66280023800E /* FacebookEventEntity.swift in Sources */,
+				10FDAA6C1FDD66280023800E /* FacebookEvent.swift in Sources */,
 				10BE40AC1EE31E58006D3DAC /* CreateWorkshopViewController.swift in Sources */,
 				FB6D920A1EBBD97300025CD8 /* WorkshopsEditViewController.swift in Sources */,
 				108D142F1F102EF90056749B /* UICollectionViewFlowLayout.swift in Sources */,
@@ -861,7 +861,7 @@
 				10AABB7E202C7A6300D56AC5 /* LocationMatching.swift in Sources */,
 				FB6756CB1EB45E6600B2E4D5 /* HomeCell.swift in Sources */,
 				10D8D86C1EE0D0F6008A5A76 /* WorkshopsLayout.swift in Sources */,
-				106306B41E8CE3BF0089DA00 /* ContentEntity.swift in Sources */,
+				106306B41E8CE3BF0089DA00 /* API+Extension.swift in Sources */,
 				1068D2DA1FCCAD3D005A9A95 /* NSError+Salsette.swift in Sources */,
 				106EAF401E93200D004686B5 /* SwiftyJSON.swift in Sources */,
 				10B9AF781E7E96870033A6BF /* CGSize+Additions.swift in Sources */,
@@ -902,7 +902,7 @@
 				10815FF72041F72C00262297 /* InputAccessoryView.swift in Sources */,
 				10815FEF2041F4B000262297 /* WorkshopsLayout.swift in Sources */,
 				10815FED2041F4B000262297 /* WorkshopsEditViewController.swift in Sources */,
-				10AABBB3202DD3DD00D56AC5 /* FacebookEventEntity.swift in Sources */,
+				10AABBB3202DD3DD00D56AC5 /* FacebookEvent.swift in Sources */,
 				10815FEC2041F4B000262297 /* CreateEventInteractor.swift in Sources */,
 				10815FF92041F76E00262297 /* UIFont+Salsette.swift in Sources */,
 				10AABBD1202DD72D00D56AC5 /* SwiftyJSON.swift in Sources */,
@@ -915,7 +915,7 @@
 				10AABBD0202DD6E700D56AC5 /* DateFormatters.swift in Sources */,
 				10815FEB2041F4B000262297 /* CreateEventPresenter.swift in Sources */,
 				10ECE5A62030A4DE00413A92 /* LocationMatching.swift in Sources */,
-				10AABBBC202DD5D000D56AC5 /* ContentEntity.swift in Sources */,
+				10AABBBC202DD5D000D56AC5 /* API+Extension.swift in Sources */,
 				10AABBBA202DD3E700D56AC5 /* ImageDownloader.swift in Sources */,
 				10AABBB5202DD3E300D56AC5 /* GraphModel.swift in Sources */,
 				10815FF62041F72C00262297 /* SearchController.swift in Sources */,
