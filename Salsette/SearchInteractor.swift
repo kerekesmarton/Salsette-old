@@ -36,7 +36,7 @@ class SearchInteractor {
     func load(with parameters: SearchParameters, completion: @escaping ([FacebookEvent]?, Error?)->Void) {
         loadGraphEvents(parameters: parameters) { [weak self]  (eventModels, error) in
             guard let eventModels = eventModels, eventModels.count > 0 else {
-                completion(nil, error)
+                completion(nil, error ?? NSError(with: "Couldn't find events"))
                 return
             }
             let ids = eventModels.reduce(into: [String]()) { $0.append($1.fbID) }

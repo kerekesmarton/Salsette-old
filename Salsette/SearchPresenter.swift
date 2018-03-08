@@ -42,6 +42,8 @@ class SearchPresenter: NSObject {
                 self?.results(with: error)
             } else if let events = events {
                 self?.results(with: events)
+            } else {
+                self?.results(with: [])
             }
         }
     }

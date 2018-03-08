@@ -89,6 +89,7 @@ class SearchViewController: UICollectionViewController {
             searchNavigation = nav
             searchViewController.lowAccuracySearchCompletion = { [weak self] location in
                 self?.presenter.didChange(location: location)
+                self?.locationField.text = location.displayableName()
                 self?.searchNavigation?.dismiss(animated: true)
             }
         }
@@ -168,24 +169,32 @@ extension SearchViewController {
         return cell
     }
     
+    fileprivate func createHeader(_ collectionView: UICollectionView, _ kind: String, _ indexPath: IndexPath) -> UICollectionReusableView {
+        let suplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SearchContainer", for: indexPath)
+        let layout = collectionView.collectionViewLayout as? SearchResultsCollectionViewLayout
+        layout?.headerReferenceSize = CGSize(width: collectionView.frame.width, height: 220)
+        suplementaryView.addSubview(container)
+        container.translatesAutoresizingMaskIntoConstraints = false
+        let horizontalConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+        let verticalConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
+        let widthConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 0)
+        let heightConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.height, multiplier: 1, constant: 0)
+        view.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        return suplementaryView
+    }
+    
+    fileprivate func createFooter(_ collectionView: UICollectionView, _ kind: String, _ indexPath: IndexPath) -> UICollectionReusableView {
+        let suplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SearchFooter", for: indexPath)
+        let layout = collectionView.collectionViewLayout as? SearchResultsCollectionViewLayout
+        layout?.footerReferenceSize = CGSize(width: collectionView.frame.width, height: 20)
+        return suplementaryView
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
-            let suplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SearchContainer", for: indexPath)
-            let layout = collectionView.collectionViewLayout as? SearchResultsCollectionViewLayout
-            layout?.headerReferenceSize = CGSize(width: collectionView.frame.width, height: 220)
-            suplementaryView.addSubview(container)            
-            container.translatesAutoresizingMaskIntoConstraints = false
-            let horizontalConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
-            let verticalConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
-            let widthConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 0)
-            let heightConstraint = NSLayoutConstraint(item: container, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: suplementaryView, attribute: NSLayoutAttribute.height, multiplier: 1, constant: 0)
-            view.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-            return suplementaryView
+            return createHeader(collectionView, kind, indexPath)
         } else {
-            let suplementaryView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SearchFooter", for: indexPath)
-            let layout = collectionView.collectionViewLayout as? SearchResultsCollectionViewLayout
-            layout?.footerReferenceSize = CGSize(width: collectionView.frame.width, height: 20)
-            return suplementaryView
+            return createFooter(collectionView, kind, indexPath)
         }
     }
 }
@@ -230,10 +239,10 @@ extension SearchViewController {
             configure(message: message, view: nil)
         case .needsFacebookLogin(_):
             configure(message: nil, view: loginHostView)
-        case .success(let items):
-            self.results = items
         case .needsGraphLogin(_):
             graphLogin()
+        case .success(let items):
+            self.results = items
         }
     }
 }
@@ -334,15 +343,3 @@ fileprivate extension SearchViewController {
         collectionView?.reloadData()
     }
 }
-
-extension SearchViewController: UISearchControllerDelegate {
-    
-    func didDismissSearchController(_ searchController: UISearchController) {
-        navigationItem.searchController = nil
-    }
-    
-    func willPresentSearchController(_ searchController: UISearchController) {
-        searchController.searchBar.becomeFirstResponder()
-    }
-}
-
