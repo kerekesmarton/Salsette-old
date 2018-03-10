@@ -678,6 +678,7 @@
                         <outlet property="loginHostView" destination="bwd-2w-2Ye" id="gay-iH-1ON"/>
                         <outlet property="profileButton" destination="dcO-1G-a9M" id="6aJ-EF-T6z"/>
                         <outlet property="retryHostView" destination="5Dn-ZV-RDQ" id="dBZ-QQ-ZzL"/>
+                        <outlet property="retryMessage" destination="L96-wq-PSF" id="13N-OD-v8u"/>
                         <outlet property="searchDisplayController" destination="YRe-e0-DZK" id="9iG-eM-iqs"/>
                         <outlet property="typeField" destination="mcj-cS-Pmz" id="zQJ-O9-tFQ"/>
                         <outlet property="typePicker" destination="gSa-XU-o2c" id="ix3-7V-4aw"/>
@@ -710,17 +711,29 @@
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L96-wq-PSF">
+                            <rect key="frame" x="0.0" y="0.0" width="240" height="48"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="48" id="Glm-rW-sdR"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sKc-JH-GIb" customClass="FBSDKLoginButton">
-                            <rect key="frame" x="32" y="16" width="176" height="96"/>
+                            <rect key="frame" x="32" y="56" width="178" height="72"/>
                             <state key="normal" title="Button"/>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="sKc-JH-GIb" firstAttribute="top" secondItem="bwd-2w-2Ye" secondAttribute="top" constant="16" id="FEr-j3-Ja3"/>
-                        <constraint firstAttribute="trailing" secondItem="sKc-JH-GIb" secondAttribute="trailing" constant="32" id="Qkf-Mb-goH"/>
-                        <constraint firstAttribute="bottom" secondItem="sKc-JH-GIb" secondAttribute="bottom" constant="16" id="RYA-sx-d9l"/>
-                        <constraint firstItem="sKc-JH-GIb" firstAttribute="leading" secondItem="bwd-2w-2Ye" secondAttribute="leading" constant="32" id="cQl-21-xhe"/>
+                        <constraint firstItem="sKc-JH-GIb" firstAttribute="top" secondItem="L96-wq-PSF" secondAttribute="bottom" constant="8" symbolic="YES" id="6I3-xM-FLp"/>
+                        <constraint firstItem="L96-wq-PSF" firstAttribute="leading" secondItem="bwd-2w-2Ye" secondAttribute="leading" id="96C-2S-B1p"/>
+                        <constraint firstItem="sKc-JH-GIb" firstAttribute="bottom" secondItem="E1W-mX-7Sn" secondAttribute="bottom" id="Duo-Mg-6F2"/>
+                        <constraint firstItem="E1W-mX-7Sn" firstAttribute="trailing" secondItem="sKc-JH-GIb" secondAttribute="trailing" constant="30" id="EQ1-l6-3Ee"/>
+                        <constraint firstItem="sKc-JH-GIb" firstAttribute="leading" secondItem="E1W-mX-7Sn" secondAttribute="leading" constant="32" id="HXl-vw-nck"/>
+                        <constraint firstAttribute="trailing" secondItem="L96-wq-PSF" secondAttribute="trailing" id="dJc-x4-EvB"/>
+                        <constraint firstItem="L96-wq-PSF" firstAttribute="top" secondItem="E1W-mX-7Sn" secondAttribute="top" id="dOJ-DX-uOq"/>
                     </constraints>
                     <viewLayoutGuide key="safeArea" id="E1W-mX-7Sn"/>
                 </view>
@@ -733,7 +746,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="209"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mol-si-GdU" customClass="HoshiTextField" customModule="TextFieldEffects">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Date" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Mol-si-GdU" customClass="HoshiTextField" customModule="TextFieldEffects">
                             <rect key="frame" x="8" y="0.0" width="304" height="67"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -756,7 +769,7 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R8o-ha-vw3" customClass="HoshiTextField" customModule="TextFieldEffects">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Location" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="R8o-ha-vw3" customClass="HoshiTextField" customModule="TextFieldEffects">
                             <rect key="frame" x="8" y="71" width="304" height="67"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>

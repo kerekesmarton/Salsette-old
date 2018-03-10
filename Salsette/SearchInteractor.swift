@@ -6,6 +6,7 @@ class SearchInteractor {
     
     private let fbService = FacebookService.shared
     private let graphService = GraphManager.shared
+    private let noEventsError = NSError(with: "Couldn't find events")
     private func loadGraphEvents(parameters: SearchParameters, completion: @escaping ([EventModel]?, Error?)->Void) {
         graphService.searchEvent(parameters: parameters) { (events, error) in
             completion(events, error)
@@ -14,7 +15,8 @@ class SearchInteractor {
     
     private func loadFacebookEvents(ids: [String]?, completion: @escaping ([FacebookEvent]?, Error?)->Void) {
         guard let safeIds = ids, safeIds.count > 0 else {
-            completion(nil, NSError(with: "Couldn't find events"))
+            
+            completion(nil, noEventsError)
             return
         }
         fbService.loadEvents(with: safeIds, completion: { (events, error) in
@@ -36,13 +38,13 @@ class SearchInteractor {
     func load(with parameters: SearchParameters, completion: @escaping ([FacebookEvent]?, Error?)->Void) {
         loadGraphEvents(parameters: parameters) { [weak self]  (eventModels, error) in
             guard let eventModels = eventModels, eventModels.count > 0 else {
-                completion(nil, error ?? NSError(with: "Couldn't find events"))
+                completion(nil, error ?? self?.noEventsError)
                 return
             }
             let ids = eventModels.reduce(into: [String]()) { $0.append($1.fbID) }
             self?.loadFacebookEvents(ids: ids, completion: { [weak self] (fbEvents, error) in
                 guard let fbEvents = fbEvents, fbEvents.count > 0, error == nil else {
-                    completion(nil, error ?? NSError(with: "Couldn't find events"))
+                    completion(nil, error ?? self?.noEventsError)
                     return
                 }
                 self?.match(fbEvents, with: eventModels)

@@ -56,8 +56,14 @@ class SearchPresenter: NSObject {
         searchParameters.didChange(.type(value))
     }
 
-    func didChange(location value: FacebookLocation) {
+    func didChange(location value: FacebookLocation?) {
         searchParameters.location = value
+    }
+    
+    func resetDate() {        
+        searchParameters.startDate = nil
+        searchParameters.endDate = nil
+        searchView?.setSearch(.dates(""))
     }
     
     func reset(oldDate: Date) {
@@ -116,7 +122,7 @@ class SearchPresenter: NSObject {
         }
     }
     
-    func loading(message: String) {
+    private func loading(message: String) {
         dispatch(result: .loading(message))
     }
     
@@ -124,7 +130,7 @@ class SearchPresenter: NSObject {
         if events.count > 0 {
             dispatch(result: .success(events))
         } else {
-            dispatch(result: .failed("Couldn't find anything... \nSorry about that."))
+            dispatch(result: .failed("Couldn't find events."))
         }
     }
     

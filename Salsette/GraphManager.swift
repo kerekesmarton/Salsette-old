@@ -47,6 +47,7 @@ class GraphManager {
     static let shared = GraphManager()
     private static let path = "https://api.graph.cool/simple/v1/salsette"
     let client: ApolloClient = ApolloClient(url: URL(string: GraphManager.path)!)
+    let graphLoginError: NSError = NSError(domain: "Graph", code: 80, userInfo: [NSLocalizedDescriptionKey:"Please log in"])
     
     private var _authorisedClient: ApolloClient?
     private var authorisedClient: ApolloClient? {
@@ -113,7 +114,7 @@ class GraphManager {
     
     @discardableResult func createEvent(model: EventModel, place: PlaceModel, closure: @escaping (EventModel?, Error?)->Void) -> Cancellable? {
         guard let client = authorisedClient else {
-            closure(nil, NSError(with: "Please log in"))
+            closure(nil, graphLoginError)
             return nil
         }
         let eventPlace = EventplacePlace(address: place.address, city: place.city, country: place.country, name: place.name, zip: place.zip)
@@ -127,17 +128,20 @@ class GraphManager {
         })
     }
     
+    fileprivate func filter(with parameter: SearchParameters) -> PlaceFilter {
+        let startFilter = DateFormatters.graphDateTimeFormatter.string(from: parameter.startDate ?? Date.distantPast)
+        let endFilter = DateFormatters.graphDateTimeFormatter.string(from: parameter.endDate ?? Date.distantFuture)
+        let eventFilter = EventFilter(dateLte: endFilter, dateGte: startFilter, type: parameter.type)
+        let city = parameter.location?.graphLocation()
+        return PlaceFilter(cityContains: city, event:eventFilter)
+    }
+    
     @discardableResult func searchEvent(parameters: SearchParameters, closure: @escaping ([EventModel]?, Error?)->()) -> Cancellable? {
         guard let client = authorisedClient else {
-            closure(nil, NSError(domain: "Graph", code: 80, userInfo: [NSLocalizedDescriptionKey:"Please log in"]))
+            closure(nil, graphLoginError)
             return nil
         }
-        guard let city = parameters.location?.graphLocation() else {
-            closure(nil, NSError(with: "Please specify more search criteria"))
-            return nil
-        }
-        let filter = PlaceFilter(cityContains: city)
-        let query = FetchPlacesQuery(filter: filter)
+        let query = FetchPlacesQuery(filter: filter(with: parameters))
         return client.fetch(query: query) { (result, error) in
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
@@ -151,7 +155,7 @@ class GraphManager {
     
     @discardableResult func searchEvent(fbID: String, closure: @escaping (EventModel?, Error?)->Void) -> Cancellable? {
         guard let client = authorisedClient else {
-            closure(nil, NSError(with: "Please log in"))
+            closure(nil, graphLoginError)
             return nil
         }
         let query = FetchEventQuery(filter: EventFilter(fbId: fbID))
@@ -168,7 +172,7 @@ class GraphManager {
 
     @discardableResult func searchEvents(fbIDs: [String], closure: @escaping ([EventModel]?, Error?)->Void) -> Cancellable? {
         guard let client = authorisedClient else {
-            closure(nil, NSError(with: "Please log in"))
+            closure(nil, graphLoginError)
             return nil
         }
         let query = FetchEventQuery(filter: EventFilter(fbIdIn: fbIDs))
@@ -176,7 +180,7 @@ class GraphManager {
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
             } else if let _ = error {
-                closure(nil, NSError(with: "Please log in again."))
+                closure(nil, self.graphLoginError)
             } else if let events = result?.data?.allEvents {
                 let models = events.map({ (event) -> EventModel in
                     EventModel(fbID: event.fbId, type: event.type, name: event.name, date: event.date, id: event.id, workshops: WorkshopModel.workshops(from: event))
@@ -190,7 +194,7 @@ class GraphManager {
     
     @discardableResult func serchAllEvents(closure: @escaping ([EventModel]?, Error?)->Void) -> Cancellable? {
         guard let client = authorisedClient else {
-            closure(nil, NSError(with: "Please log in"))
+            closure(nil, graphLoginError)
             return nil
         }
         return client.fetch(query: FetchAllEventQuery(), cachePolicy: .fetchIgnoringCacheData, resultHandler: { (result, error) in
@@ -205,7 +209,7 @@ class GraphManager {
     
     @discardableResult func deleteEvent(graphID: String, closure: @escaping (Bool?, Error?)->Void) -> Cancellable? {
         guard let client = authorisedClient else {
-            closure(nil, NSError(with: "Please log in"))
+            closure(nil, graphLoginError)
             return nil
         }
         let input = DeleteEventMutation(id: graphID)
@@ -213,7 +217,7 @@ class GraphManager {
             if let serverError = result?.errors {
                 closure(nil, self.error(from: serverError))
             } else if let _ = error {
-                closure(nil, NSError(with: "Please log in again."))
+                closure(nil, self.graphLoginError)
             } else if (result?.data?.deleteEvent?.id) != nil {
                 closure(true,nil)
             } else {
@@ -224,7 +228,7 @@ class GraphManager {
     
     @discardableResult func createWorkshop(model: WorkshopModel, eventID: String, closure: @escaping (WorkshopModel?, Error?)->Void) -> Cancellable? {
         guard let client = authorisedClient else {
-            closure(nil, NSError(with: "Please log in"))
+            closure(nil, graphLoginError)
             return nil
         }
         let input = CreateWorkshopMutation(artist: model.artist!, name: model.name, room: model.room, startTime: model.startTimeToStr, eventId: eventID)
@@ -242,7 +246,7 @@ class GraphManager {
     
     @discardableResult func updateWorkshop(model: WorkshopModel, eventID: String, closure: @escaping (WorkshopModel?, Error?)->Void) -> Cancellable? {
         guard let client = authorisedClient else {
-            closure(nil, NSError(with: "Please log in"))
+            closure(nil, graphLoginError)
             return nil
         }
         let input = UpdateWorkshopMutation(artist: model.artist, name: model.name, room: model.room, startTime: model.startTimeToStr, id: model.id, eventId: eventID)
@@ -261,7 +265,7 @@ class GraphManager {
     
     @discardableResult func deleteWorkshop(id: String, closure: @escaping (Bool?, Error?)->Void) -> Cancellable? {
         guard let client = authorisedClient else {
-            closure(nil, NSError(with: "Please log in"))
+            closure(nil, graphLoginError)
             return nil
         }
         let input = DeleteWorkshopMutation(id: id)
@@ -279,7 +283,7 @@ class GraphManager {
     
     @discardableResult func createPlaceAndEvent(placeModel: PlaceModel, eventModel: EventModel, closure: @escaping (EventModel?, Error?)->()) -> Cancellable? {
         guard let client = authorisedClient else {
-            closure(nil, NSError(with: "Please log in"))
+            closure(nil, graphLoginError)
             return nil
         }
         

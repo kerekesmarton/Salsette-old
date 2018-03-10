@@ -23,8 +23,8 @@ class SearchViewController: UICollectionViewController {
         }
     }
     
+    @IBOutlet var retryMessage: UILabel!
     @IBOutlet var retryHostView: UIView!
-    
     
     lazy var calendarProxy: CalendarProxy = {
         return UINib(nibName: "Calendar", bundle: nil).instantiate(withOwner: self, options: nil)[1] as! CalendarProxy
@@ -88,9 +88,9 @@ class SearchViewController: UICollectionViewController {
         if let nav = segue.destination as? UINavigationController, let searchViewController = nav.viewControllers.first as? LocationSearchViewController {
             searchNavigation = nav
             searchViewController.lowAccuracySearchCompletion = { [weak self] location in
-                self?.presenter.didChange(location: location)
+                self?.presenter.load(with: location)
                 self?.locationField.text = location.displayableName()
-                self?.searchNavigation?.dismiss(animated: true)
+                self?.searchNavigation?.dismiss(animated: true)                
             }
         }
     }
@@ -117,7 +117,23 @@ extension SearchViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 }
 
 extension SearchViewController: UITextFieldDelegate {
-        
+    
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        switch textField {
+        case dateField:
+            presenter.resetDate()
+            calendarProxy.deselectAll()
+            dateField.resignFirstResponder()
+        case locationField:
+            locationField.text = ""
+            presenter.didChange(location: nil)
+        default:
+            ()
+        }
+        return false
+    }
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
         case typeField:
@@ -131,27 +147,9 @@ extension SearchViewController: UITextFieldDelegate {
         }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        switch textField {
-        case dateField:
-            locationField.becomeFirstResponder()
-        case locationField:
-            typeField.becomeFirstResponder()
-        case typeField:
-            typeField.resignFirstResponder()
-        default:
-            ()
-        }
-        return true
-    }
-    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == typeField || textField == dateField {
-            return false
-        }
-        return true
+        return false
     }
-    
 }
 
 extension SearchViewController {
@@ -236,7 +234,7 @@ extension SearchViewController {
         case .loading(let message):
             configure(message: message)
         case .failed(let message):
-            configure(message: message, view: nil)
+            configure(message: message, view: retryHostView)
         case .needsFacebookLogin(_):
             configure(message: nil, view: loginHostView)
         case .needsGraphLogin(_):
