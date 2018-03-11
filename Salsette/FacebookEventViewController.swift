@@ -1,8 +1,9 @@
-//  Copyright © 2017 Marton Kerekes. All rights reserved.
+//  Copyright © 2018 Marton Kerekes. All rights reserved.
 
 import UIKit
 
-class EventViewController: UITableViewController {
+class FacebookEventViewController: UITableViewController {
+    
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var hostLabel: UILabel!
@@ -11,8 +12,7 @@ class EventViewController: UITableViewController {
     @IBOutlet var placeLabel: UILabel!
     @IBOutlet var locationLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
-//    var selectedIndex: IndexPath!
-    var event: SearchResult!
+    var event: FacebookEvent!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,14 +21,20 @@ class EventViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         ImageDownloader.shared.downloadImage(for: event.imageUrl) { (image) in
-            self.imageView.image = image            
+            self.imageView.image = image
         }
         nameLabel.text = event.name
-//        hostLabel.text = event.place
-        startDate.text = event.startDate
-        endDate.text = event.endDate
+        hostLabel.text = event.place
+        if let time = event.startDate {
+            startDate.text = DateFormatters.relativeDateFormatter.string(from: time)
+        }
+        if let time = event.endDate {
+            endDate.text = DateFormatters.relativeDateFormatter.string(from: time)
+        } else {
+            endDate.text = ""
+        }
         placeLabel.text = event.place
-        locationLabel.text = event.location
+        locationLabel.text = event.location?.displayableName()
         descriptionLabel.text = event.longDescription
     }
     
@@ -45,21 +51,21 @@ class EventViewController: UITableViewController {
     }
     
     @IBAction func actionButtonTapped(_ sender: Any) {
-
+        
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(title: "Open Facebook", style: .default, handler: { (openFBAction) in
-            if let url = URL(string: "https://www.facebook.com/events/\(self.event.identifier)") {
+            if let id = self.event.identifier, let url = URL(string: "https://www.facebook.com/events/\(id)") {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }))
         actionSheet.addAction(UIAlertAction(title: "Open Google Maps", style: .default, handler: { (openGoogleMapsAction) in
-            if let location = self.event.place?.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics),
+            if let location = self.event.location?.displayableName()?.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics),
                 let url = URL(string: "https://www.google.com/maps/place/\(location)") {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }))
         actionSheet.addAction(UIAlertAction(title: "Share", style: .default, handler: { (openOtherAction) in
-            if let shareContent = URL(string: "fb://events/\(self.event.identifier)") {
+            if let id = self.event.identifier, let shareContent = URL(string: "fb://events/\(id)") {
                 let activityViewController = UIActivityViewController(activityItems: [shareContent], applicationActivities: nil)
                 self.present(activityViewController, animated: true, completion: {})
             }

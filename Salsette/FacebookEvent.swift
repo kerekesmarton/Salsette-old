@@ -56,8 +56,7 @@ class FacebookEvent: Equatable, Hashable {
     var identifier: String?
     var organiser: String?
     var longDescription: String?
-    var shortDescription: String? = nil
-    var graphEvent: EventModel?
+    var shortDescription: String? = nil    
     
     convenience init(with dictionary:[String:Any]) {
         self.init(with: JSON(dictionary))

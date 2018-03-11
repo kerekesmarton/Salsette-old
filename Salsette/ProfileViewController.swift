@@ -163,7 +163,7 @@ extension ProfileViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let cell = sender as? EventCollectionViewCell, let vc = segue.destination as? EventViewController {
+        if let cell = sender as? EventCollectionViewCell, let vc = segue.destination as? FacebookEventViewController {
             vc.event = cell.item
         } else if let cell = sender as? EventCollectionViewCell, let vc = segue.destination as? CreateEventViewController {
             vc.fbEvent = cell.item

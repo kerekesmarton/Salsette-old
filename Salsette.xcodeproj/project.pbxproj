@@ -18,6 +18,8 @@
 		103A90D71F77EBB60092863B /* CreateEventPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103A90D61F77EBB60092863B /* CreateEventPresenter.swift */; };
 		104A1A161F547D1E001A111B /* Events.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 104A1A151F547D1E001A111B /* Events.graphql */; };
 		104A1A181F547F5B001A111B /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 104A1A171F547F5B001A111B /* schema.json */; };
+		104E6B432055466900FA35BA /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104E6B422055466900FA35BA /* SearchResult.swift */; };
+		104E6B452055533F00FA35BA /* FacebookEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104E6B442055533F00FA35BA /* FacebookEventViewController.swift */; };
 		1053CA081EF261230034844A /* SwappingCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053CA071EF261230034844A /* SwappingCollectionView.swift */; };
 		1053CA0A1EF46C370034844A /* Array+Salsette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053CA091EF46C370034844A /* Array+Salsette.swift */; };
 		1053CA0D1EF52D7E0034844A /* WorkshopCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053CA0C1EF52D7E0034844A /* WorkshopCells.swift */; };
@@ -107,7 +109,7 @@
 		FB136E6B1E989FCA00A5F1E4 /* UIAlertController+Salsette.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB136E6A1E989FCA00A5F1E4 /* UIAlertController+Salsette.swift */; };
 		FB420F2D1EA5138F0022380D /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB420F2C1EA5138F0022380D /* CreateEventViewController.swift */; };
 		FB420F2F1EA7AA830022380D /* FacebookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB420F2E1EA7AA830022380D /* FacebookService.swift */; };
-		FB6756CB1EB45E6600B2E4D5 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6756C61EB45E6600B2E4D5 /* HomeCell.swift */; };
+		FB6756CB1EB45E6600B2E4D5 /* ResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6756C61EB45E6600B2E4D5 /* ResultCell.swift */; };
 		FB6756CD1EB45E6600B2E4D5 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6756C81EB45E6600B2E4D5 /* EventViewController.swift */; };
 		FB6756CF1EB45EDF00B2E4D5 /* Salsette.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB6756CE1EB45EDF00B2E4D5 /* Salsette.xcassets */; };
 		FB6756D11EB45FFC00B2E4D5 /* UIView+Hero.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6756D01EB45FFC00B2E4D5 /* UIView+Hero.swift */; };
@@ -141,6 +143,8 @@
 		103A90D61F77EBB60092863B /* CreateEventPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventPresenter.swift; sourceTree = "<group>"; };
 		104A1A151F547D1E001A111B /* Events.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Events.graphql; sourceTree = "<group>"; };
 		104A1A171F547F5B001A111B /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
+		104E6B422055466900FA35BA /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		104E6B442055533F00FA35BA /* FacebookEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookEventViewController.swift; sourceTree = "<group>"; };
 		1053CA071EF261230034844A /* SwappingCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwappingCollectionView.swift; sourceTree = "<group>"; };
 		1053CA091EF46C370034844A /* Array+Salsette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Salsette.swift"; sourceTree = "<group>"; };
 		1053CA0C1EF52D7E0034844A /* WorkshopCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkshopCells.swift; sourceTree = "<group>"; };
@@ -205,7 +209,7 @@
 		FB136E6A1E989FCA00A5F1E4 /* UIAlertController+Salsette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Salsette.swift"; sourceTree = "<group>"; };
 		FB420F2C1EA5138F0022380D /* CreateEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
 		FB420F2E1EA7AA830022380D /* FacebookService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookService.swift; sourceTree = "<group>"; };
-		FB6756C61EB45E6600B2E4D5 /* HomeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeCell.swift; path = CityGuide/HomeCell.swift; sourceTree = "<group>"; };
+		FB6756C61EB45E6600B2E4D5 /* ResultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResultCell.swift; path = CityGuide/ResultCell.swift; sourceTree = "<group>"; };
 		FB6756C81EB45E6600B2E4D5 /* EventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventViewController.swift; path = CityGuide/EventViewController.swift; sourceTree = "<group>"; };
 		FB6756CE1EB45EDF00B2E4D5 /* Salsette.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Salsette.xcassets; path = CityGuide/Salsette.xcassets; sourceTree = "<group>"; };
 		FB6756D01EB45FFC00B2E4D5 /* UIView+Hero.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Hero.swift"; sourceTree = "<group>"; };
@@ -251,9 +255,11 @@
 				1089BF831E708553006E091A /* SearchViewController.swift */,
 				10FCD6E91FC056B000856889 /* SearchPresenter.swift */,
 				10ACDD781EFE7E09007B6F1A /* SearchInteractor.swift */,
+				104E6B422055466900FA35BA /* SearchResult.swift */,
+				FB6756C61EB45E6600B2E4D5 /* ResultCell.swift */,
 				10964C441E82E66300CDFE3F /* DummySearchDatSource.swift */,
 				108D142C1F102E5C0056749B /* SearchResultsCollectionViewLayout.swift */,
-				10ACDD7C1F02E529007B6F1A /* Results */,
+				FB6756C81EB45E6600B2E4D5 /* EventViewController.swift */,
 				10ACDD7D1F02E655007B6F1A /* Calendar */,
 			);
 			name = Search;
@@ -409,15 +415,6 @@
 			path = Crawler;
 			sourceTree = "<group>";
 		};
-		10ACDD7C1F02E529007B6F1A /* Results */ = {
-			isa = PBXGroup;
-			children = (
-				FB6756C61EB45E6600B2E4D5 /* HomeCell.swift */,
-				FB6756C81EB45E6600B2E4D5 /* EventViewController.swift */,
-			);
-			name = Results;
-			sourceTree = "<group>";
-		};
 		10ACDD7D1F02E655007B6F1A /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
@@ -498,6 +495,7 @@
 				10FCD6EB1FC1952A00856889 /* GraphCreateAccountViewController.swift */,
 				10DA93241EAA08B40054F338 /* UserCells.swift */,
 				FBB7DFBB1EA8A8DE006C0D54 /* SelectFacebookEventInteractor.swift */,
+				104E6B442055533F00FA35BA /* FacebookEventViewController.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -840,6 +838,7 @@
 				106306BC1E8E99600089DA00 /* ProfileViewController.swift in Sources */,
 				10C705D42014BAF100D90B6B /* SearchController.swift in Sources */,
 				10ACDD7B1F02E310007B6F1A /* UINavigationController.swift in Sources */,
+				104E6B432055466900FA35BA /* SearchResult.swift in Sources */,
 				1053CA0D1EF52D7E0034844A /* WorkshopCells.swift in Sources */,
 				FB420F2D1EA5138F0022380D /* CreateEventViewController.swift in Sources */,
 				FB136E6B1E989FCA00A5F1E4 /* UIAlertController+Salsette.swift in Sources */,
@@ -858,8 +857,9 @@
 				FB420F2F1EA7AA830022380D /* FacebookService.swift in Sources */,
 				FB136E691E989EEA00A5F1E4 /* Auth0Manager.swift in Sources */,
 				10ACDD791EFE7E09007B6F1A /* SearchInteractor.swift in Sources */,
+				104E6B452055533F00FA35BA /* FacebookEventViewController.swift in Sources */,
 				10AABB7E202C7A6300D56AC5 /* LocationMatching.swift in Sources */,
-				FB6756CB1EB45E6600B2E4D5 /* HomeCell.swift in Sources */,
+				FB6756CB1EB45E6600B2E4D5 /* ResultCell.swift in Sources */,
 				10D8D86C1EE0D0F6008A5A76 /* WorkshopsLayout.swift in Sources */,
 				106306B41E8CE3BF0089DA00 /* API+Extension.swift in Sources */,
 				1068D2DA1FCCAD3D005A9A95 /* NSError+Salsette.swift in Sources */,

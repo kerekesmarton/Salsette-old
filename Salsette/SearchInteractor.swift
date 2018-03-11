@@ -15,8 +15,7 @@ class SearchInteractor {
     
     private func loadFacebookEvents(ids: [String]?, completion: @escaping ([FacebookEvent]?, Error?)->Void) {
         guard let safeIds = ids, safeIds.count > 0 else {
-            
-            completion(nil, noEventsError)
+            completion([], nil)
             return
         }
         fbService.loadEvents(with: safeIds, completion: { (events, error) in
@@ -24,18 +23,19 @@ class SearchInteractor {
         })
     }
     
-    fileprivate func match(_ fbEvents: [FacebookEvent], with eventModels:[EventModel]) {
-        fbEvents.forEach({ (fbEvent) in
-            guard let index = eventModels.index(where: { (eventModel) -> Bool in
-                return eventModel.fbID == fbEvent.identifier
-            }) else {
-                return
+    fileprivate func match(_ fbEvents: [FacebookEvent], with eventModels:[EventModel]) -> [SearchResult] {
+        return eventModels.flatMap({ (graphEvent) -> SearchResult? in
+            var result = SearchResult(graphEvent: graphEvent)            
+            if let index = fbEvents.index(where: { (fbEvent) -> Bool in
+                return graphEvent.fbID == fbEvent.identifier
+            }) {
+                result.fbEvent = fbEvents[index]
             }
-            fbEvent.graphEvent = eventModels[index]
+            return result
         })
     }
     
-    func load(with parameters: SearchParameters, completion: @escaping ([FacebookEvent]?, Error?)->Void) {
+    func load(with parameters: SearchParameters, completion: @escaping ([SearchResult]?, Error?)->Void) {
         loadGraphEvents(parameters: parameters) { [weak self]  (eventModels, error) in
             guard let eventModels = eventModels, eventModels.count > 0 else {
                 completion(nil, error ?? self?.noEventsError)
@@ -43,12 +43,11 @@ class SearchInteractor {
             }
             let ids = eventModels.reduce(into: [String]()) { $0.append($1.fbID) }
             self?.loadFacebookEvents(ids: ids, completion: { [weak self] (fbEvents, error) in
-                guard let fbEvents = fbEvents, fbEvents.count > 0, error == nil else {
-                    completion(nil, error ?? self?.noEventsError)
+                guard let fbEvents = fbEvents else {
+                    completion(nil, error)
                     return
                 }
-                self?.match(fbEvents, with: eventModels)
-                completion(fbEvents, nil)
+                completion(self?.match(fbEvents, with: eventModels), nil)
             })
         }
     }

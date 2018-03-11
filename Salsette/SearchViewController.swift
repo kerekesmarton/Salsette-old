@@ -40,7 +40,7 @@ class SearchViewController: UICollectionViewController {
     }()
     
     //MARK: - Results
-    var results = [FacebookEvent](){
+    var results = [SearchResult](){
         didSet {
             collectionView?.reloadData()
         }
@@ -68,18 +68,13 @@ class SearchViewController: UICollectionViewController {
     }
 
     var searchNavigation: UINavigationController?
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let currentCell = sender as? HomeCell,
-            let eventViewController = segue.destination as? EventViewController,
-            let currentCellIndex = collectionView?.indexPath(for: currentCell) {
-            eventViewController.selectedIndex = currentCellIndex
-        }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {        
         if let profileViewController = segue.destination as? ProfileViewController, let sender = sender as? UIButton {
             profileViewController.view.backgroundColor = sender.backgroundColor
         }
         if let nav = segue.destination as? UINavigationController,
             let eventViewController = nav.viewControllers.first as? EventViewController,
-            let currentCell = sender as? HomeCell,
+            let currentCell = sender as? ResultCell,
             let currentCellIndex = collectionView?.indexPath(for: currentCell)
         {
             eventViewController.event = results[currentCellIndex.row]
@@ -162,8 +157,8 @@ extension SearchViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: "SearchResult", for: indexPath) as? HomeCell)!
-        cell.content = results[indexPath.item]
+        let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: "SearchResult", for: indexPath) as? ResultCell)!
+        cell.event = results[indexPath.item]
         return cell
     }
     
@@ -226,7 +221,7 @@ extension SearchViewController {
         case failed(String)
         case needsFacebookLogin(String)
         case needsGraphLogin(String)
-        case success([FacebookEvent])
+        case success([SearchResult])
     }
     
     func setResult(_ viewModel: ResultsViewModel) {
@@ -275,7 +270,7 @@ extension SearchViewController: FBSDKLoginButtonDelegate {
     }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {       
-//        presenter.didLogout()
+        presenter.didLogout()
         presenter.load()
         profileButton.isEnabled = presenter.isProfileEnabled()
     }

@@ -34,9 +34,6 @@ class SearchPresenter: NSObject {
     
     func load() {
         loading(message: "Loading...")
-        if searchParameters.type == nil {
-            searchParameters.type = .dance
-        }
         interactor.load(with: searchParameters) { [weak self] (events, error) in
             if let error = error as NSError? {
                 self?.results(with: error)
@@ -126,7 +123,7 @@ class SearchPresenter: NSObject {
         dispatch(result: .loading(message))
     }
     
-    func results(with events: [FacebookEvent]) {
+    func results(with events: [SearchResult]) {
         if events.count > 0 {
             dispatch(result: .success(events))
         } else {
@@ -137,7 +134,7 @@ class SearchPresenter: NSObject {
     func results(with error: NSError) {
         switch (error.domain, error.code) {
         case (_,8):
-            dispatch(result: .needsFacebookLogin(""))
+            dispatch(result: .needsFacebookLogin("You need to sign in to facebook so we can show you rich content"))
         case (_,80):
             dispatch(result: .needsGraphLogin(""))
         default:

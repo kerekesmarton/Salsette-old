@@ -3,7 +3,7 @@
 import UIKit
 import ChameleonFramework
 
-class HomeCell: UICollectionViewCell {
+class ResultCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -20,21 +20,21 @@ class HomeCell: UICollectionViewCell {
         imageView.layer.borderColor = UIColor.flatWhite.cgColor
         imageView.layer.borderWidth = 0.5
     }
-    var content: FacebookEvent? {
+    var event: SearchResult? {
         didSet {
-            guard let content = content else { return }
+            guard let event = event else { return }
             
-            nameLabel.text = content.name
-            identifier = content.identifier
-            loadImage(for: content.identifier)
+            nameLabel.text = event.name
+            identifier = event.identifier
+            loadImage(for: event.identifier)
             configureDescriptionLabel()
         }
     }
     
     private func loadImage(for identifier: String?) {
-        if let image = content?.image {
+        if let image = event?.image {
             imageView.image = image
-        } else if let url = content?.imageUrl {
+        } else if let url = event?.imageUrl {
             ImageDownloader.shared.downloadImage(for: url, completion: { (image) in
                 if self.identifier == identifier {
                     self.imageView.image = image
@@ -44,11 +44,9 @@ class HomeCell: UICollectionViewCell {
     }
     
     private func configureDescriptionLabel() {
-        if let date = content?.startDate, let location = content?.location {
-            let dateString = DateFormatters.relativeDateFormatter.string(from: date)
-            descriptionLabel.text = "\(dateString) \n@ \(location)"
-        } else {
-            descriptionLabel.text = useShortDescription ? content?.shortDescription : content?.longDescription
+        guard let date = event?.startDate, let location = event?.location else {
+            return
         }
+        descriptionLabel.text = "\(date) \n@ \(location)"
     }
 }

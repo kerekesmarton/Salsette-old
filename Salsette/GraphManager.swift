@@ -129,11 +129,22 @@ class GraphManager {
     }
     
     fileprivate func filter(with parameter: SearchParameters) -> PlaceFilter {
-        let startFilter = DateFormatters.graphDateTimeFormatter.string(from: parameter.startDate ?? Date.distantPast)
-        let endFilter = DateFormatters.graphDateTimeFormatter.string(from: parameter.endDate ?? Date.distantFuture)
-        let eventFilter = EventFilter(dateLte: endFilter, dateGte: startFilter, type: parameter.type)
-        let city = parameter.location?.graphLocation()
-        return PlaceFilter(cityContains: city, event:eventFilter)
+        var eventFilter = EventFilter()
+        if let type = parameter.type {
+            eventFilter.type = type
+        }
+        if let start = parameter.startDate {
+            eventFilter.dateGte = DateFormatters.graphDateTimeFormatter.string(from: start)
+        }
+        if let end = parameter.endDate {
+            eventFilter.dateLte = DateFormatters.graphDateTimeFormatter.string(from: end)
+        }
+        var placeFilter = PlaceFilter(event:eventFilter)
+        if let city = parameter.location?.graphLocation() {
+            placeFilter.city = city
+        }
+        
+        return placeFilter
     }
     
     @discardableResult func searchEvent(parameters: SearchParameters, closure: @escaping ([EventModel]?, Error?)->()) -> Cancellable? {
