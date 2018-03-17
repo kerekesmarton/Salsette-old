@@ -67,8 +67,7 @@ class SearchViewController: UICollectionViewController {
         return presenter.isProfileEnabled()
     }
 
-    var searchNavigation: UINavigationController?
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {        
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let profileViewController = segue.destination as? ProfileViewController, let sender = sender as? UIButton {
             profileViewController.view.backgroundColor = sender.backgroundColor
         }
@@ -81,11 +80,10 @@ class SearchViewController: UICollectionViewController {
             eventViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(SearchViewController.dismissEventView))
         }
         if let nav = segue.destination as? UINavigationController, let searchViewController = nav.viewControllers.first as? LocationSearchViewController {
-            searchNavigation = nav
             searchViewController.lowAccuracySearchCompletion = { [weak self] location in
                 self?.presenter.load(with: location)
                 self?.locationField.text = location.displayableName()
-                self?.searchNavigation?.dismiss(animated: true)                
+                nav.dismiss(animated: true)
             }
         }
     }
