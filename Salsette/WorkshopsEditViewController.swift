@@ -93,7 +93,7 @@ class WorkshopsEditViewController: UICollectionViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "CreateWorkshopSegue", let vc = segue.destination as? CreateWorkshopViewController {
-            vc.rooms = computedItems.flatMap { return $0.roomName }
+            vc.rooms = computedItems.compactMap { return $0.roomName }
             if let workshop = sender as? WorkshopModel {
                 setup(createWorkshopViewController: vc, with: workshop)
             } else {

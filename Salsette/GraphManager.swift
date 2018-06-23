@@ -25,7 +25,7 @@ extension EventModel {
     }
     
     fileprivate static func events(from result: FetchPlacesQuery.Data) -> [EventModel]? {
-        return result.allPlaces.flatMap({ (place) -> EventModel? in
+        return result.allPlaces.compactMap({ (place) -> EventModel? in
             guard let event = place.event else {
                 return nil
             }

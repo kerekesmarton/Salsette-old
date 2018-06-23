@@ -23,6 +23,7 @@
 		1053CA081EF261230034844A /* SwappingCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053CA071EF261230034844A /* SwappingCollectionView.swift */; };
 		1053CA0A1EF46C370034844A /* Array+Salsette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053CA091EF46C370034844A /* Array+Salsette.swift */; };
 		1053CA0D1EF52D7E0034844A /* WorkshopCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1053CA0C1EF52D7E0034844A /* WorkshopCells.swift */; };
+		105D13B720651824003F35CA /* FacebookModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105D13B620651824003F35CA /* FacebookModels.swift */; };
 		106306AE1E8B951C0089DA00 /* Calendar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 106306AD1E8B951C0089DA00 /* Calendar.xib */; };
 		106306B41E8CE3BF0089DA00 /* API+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306B31E8CE3BF0089DA00 /* API+Extension.swift */; };
 		106306BC1E8E99600089DA00 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106306BB1E8E99600089DA00 /* ProfileViewController.swift */; };
@@ -148,6 +149,7 @@
 		1053CA071EF261230034844A /* SwappingCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwappingCollectionView.swift; sourceTree = "<group>"; };
 		1053CA091EF46C370034844A /* Array+Salsette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Salsette.swift"; sourceTree = "<group>"; };
 		1053CA0C1EF52D7E0034844A /* WorkshopCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkshopCells.swift; sourceTree = "<group>"; };
+		105D13B620651824003F35CA /* FacebookModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookModels.swift; sourceTree = "<group>"; };
 		106306AD1E8B951C0089DA00 /* Calendar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Calendar.xib; sourceTree = "<group>"; };
 		106306B31E8CE3BF0089DA00 /* API+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "API+Extension.swift"; sourceTree = "<group>"; };
 		106306BB1E8E99600089DA00 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -461,8 +463,9 @@
 		10FDAA6D1FDD66530023800E /* Facebook */ = {
 			isa = PBXGroup;
 			children = (
-				10FDAA6B1FDD66280023800E /* FacebookEvent.swift */,
 				FB420F2E1EA7AA830022380D /* FacebookService.swift */,
+				105D13B620651824003F35CA /* FacebookModels.swift */,
+				10FDAA6B1FDD66280023800E /* FacebookEvent.swift */,
 			);
 			name = Facebook;
 			sourceTree = "<group>";
@@ -828,6 +831,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				105D13B720651824003F35CA /* FacebookModels.swift in Sources */,
 				FBB7DFBC1EA8A8DE006C0D54 /* SelectFacebookEventInteractor.swift in Sources */,
 				10FDAA6C1FDD66280023800E /* FacebookEvent.swift in Sources */,
 				10BE40AC1EE31E58006D3DAC /* CreateWorkshopViewController.swift in Sources */,

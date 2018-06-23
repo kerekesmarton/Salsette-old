@@ -24,6 +24,7 @@ class SearchViewController: UICollectionViewController {
     }
     
     @IBOutlet var retryMessage: UILabel!
+    @IBOutlet var facebookMessage: UILabel!
     @IBOutlet var retryHostView: UIView!
     
     lazy var calendarProxy: CalendarProxy = {
@@ -45,6 +46,7 @@ class SearchViewController: UICollectionViewController {
             collectionView?.reloadData()
         }
     }
+    var shouldShowMessageOnly: Bool = true
     var emptyDataSetString: String? = nil
     var emptyDataSetCustomView: UIView? = nil
     
@@ -89,6 +91,8 @@ class SearchViewController: UICollectionViewController {
     }
 }
 
+// MARK: - Picker Delegate
+
 extension SearchViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -108,6 +112,8 @@ extension SearchViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         presenter.didChange(type: Dance.item(at: row))
     }
 }
+
+// MARK: - TextField Delegate
 
 extension SearchViewController: UITextFieldDelegate {
     
@@ -144,6 +150,8 @@ extension SearchViewController: UITextFieldDelegate {
         return false
     }
 }
+
+// MARK: - CollectionView
 
 extension SearchViewController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -190,6 +198,8 @@ extension SearchViewController {
     }
 }
 
+// MARK: - Search Output
+
 extension SearchViewController {
     
     enum SearchViewModel {
@@ -213,6 +223,8 @@ extension SearchViewController {
     }
 }
 
+// MARK: - Results Output
+
 extension SearchViewController {
     enum ResultsViewModel {
         case loading(String)
@@ -225,11 +237,13 @@ extension SearchViewController {
     func setResult(_ viewModel: ResultsViewModel) {
         switch viewModel {
         case .loading(let message):
-            configure(message: message)
+            show(message: message)
         case .failed(let message):
-            configure(message: message, view: retryHostView)
-        case .needsFacebookLogin(_):
-            configure(message: nil, view: loginHostView)
+            retryMessage.text = message
+            show(view: retryHostView)
+        case .needsFacebookLogin(let message):
+            facebookMessage.text = message
+            show(view: loginHostView)
         case .needsGraphLogin(_):
             graphLogin()
         case .success(let items):
@@ -237,6 +251,8 @@ extension SearchViewController {
         }
     }
 }
+
+// MARK: - GraphLogin Delegate via PopoverController
 
 extension SearchViewController: UIPopoverPresentationControllerDelegate {
     
@@ -261,6 +277,7 @@ extension SearchViewController: UIPopoverPresentationControllerDelegate {
 }
 
 
+// MARK: - Facebook Login button delegate methods
 extension SearchViewController: FBSDKLoginButtonDelegate {
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         presenter.load()
@@ -274,6 +291,8 @@ extension SearchViewController: FBSDKLoginButtonDelegate {
     }
 }
 
+// MARK: - Empty datasets
+
 extension SearchViewController: DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
     func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
         guard let emptyDataSetString = emptyDataSetString else { return nil }
@@ -281,11 +300,15 @@ extension SearchViewController: DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
     }
     
     func customView(forEmptyDataSet scrollView: UIScrollView!) -> UIView! {
-        if emptyDataSetString != nil { return nil }
+        if shouldShowMessageOnly {
+            return nil
+        }
         guard let emptyDataSetCustomView = emptyDataSetCustomView else { return nil }
         return emptyDataSetCustomView
     }
 }
+
+// MARK: - Date and Type Pickers
 
 fileprivate extension SearchViewController {
     func custumiseDateField() {
@@ -327,9 +350,16 @@ fileprivate extension SearchViewController {
         dismiss(animated: true)
     }
     
-    func configure(message: String?, view: UIView? = nil) {
-        emptyDataSetString = message
+    func show(view: UIView) {
+        shouldShowMessageOnly = false
         emptyDataSetCustomView = view
+        results.removeAll()
+        collectionView?.reloadData()
+    }
+    
+    func show(message: String?) {
+        shouldShowMessageOnly = true
+        emptyDataSetString = message
         results.removeAll()
         collectionView?.reloadData()
     }

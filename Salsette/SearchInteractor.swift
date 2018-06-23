@@ -24,7 +24,7 @@ class SearchInteractor {
     }
     
     fileprivate func match(_ fbEvents: [FacebookEvent], with eventModels:[EventModel]) -> [SearchResult] {
-        return eventModels.flatMap({ (graphEvent) -> SearchResult? in
+        return eventModels.compactMap({ (graphEvent) -> SearchResult? in
             var result = SearchResult(graphEvent: graphEvent)            
             if let index = fbEvents.index(where: { (fbEvent) -> Bool in
                 return graphEvent.fbID == fbEvent.identifier

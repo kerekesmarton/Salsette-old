@@ -15,11 +15,12 @@ class ResultCell: UICollectionViewCell {
         super.prepareForReuse()
         
         nameLabel.font = UIFont.hoshiFont(ofSize: 17)
+        nameLabel.textColor = UIColor.flatWhite
         descriptionLabel.font = UIFont.hoshiFont(ofSize: 14)
+        descriptionLabel.textColor = UIColor.flatWhite
         imageView.image = nil
-        imageView.layer.borderColor = UIColor.flatWhite.cgColor
-        imageView.layer.borderWidth = 0.5
     }
+    
     var event: SearchResult? {
         didSet {
             guard let event = event else { return }
@@ -40,6 +41,9 @@ class ResultCell: UICollectionViewCell {
                     self.imageView.image = image
                 }
             })
+        } else {
+            nameLabel.textColor = UIColor.flatBlack
+            descriptionLabel.textColor = UIColor.flatBlack
         }
     }
     

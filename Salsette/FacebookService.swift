@@ -44,15 +44,19 @@ class FacebookService {
             }
         })
     }
-
+    
     func loadUserCreatedEvents(completion: @escaping ([FacebookEvent]?, Error?)->Void) {
         let request = FBSDKGraphRequest(graphPath: "me/events?type=created&since=now", parameters: ["fields":"name,place,start_time,end_time,cover,owner,description"])
         simpleConnection = request?.start(completionHandler: { (connection, result, error) in
             if let returnedError = error {
                 completion(nil, returnedError)
             } else if let returnedResult = result {
-                let json = FacebookEvent.extract(from: returnedResult)
-                completion(FacebookEvent.create(from: json), nil)
+                do {
+                    let response = try FacebookEventModel.extractFacebookEvent(from: returnedResult)
+                    completion(response, nil)
+                } catch {
+                    completion(nil, NSError(with: "Failed to parse"))
+                }
             }
         })
     }
@@ -63,14 +67,23 @@ class FacebookService {
             if let returnedError = error {
                 completion(nil, returnedError)
             } else if let returnedResult = result {
-                let json = FacebookEvent.extract(from: returnedResult)
-                let sortedEvents = FacebookEvent.create(from: json).sorted(by: { (event1, event2) -> Bool in
-                    guard let s1 = event1.startDate, let s2 = event2.startDate else {
-                        return event1.hashValue < event2.hashValue
-                    }
-                    return s1 < s2
-                })
-                completion(sortedEvents, nil)
+                //                let json = FacebookEvent.extractFacebookEvent(from: returnedResult)
+                //                let sortedEvents = FacebookEvent.create(from: json).sorted(by: { (event1, event2) -> Bool in
+                //                    guard let s1 = event1.startDate, let s2 = event2.startDate else {
+                //                        return event1.hashValue < event2.hashValue
+                //                    }
+                //                    return s1 < s2
+                //                })
+                //                completion(sortedEvents, nil)
+                
+                do {
+                    let response = try FacebookEventModel.extractFacebookEvent(from: returnedResult)
+                    completion(response, nil)
+                } catch {
+                    completion(nil, NSError(with: "Failed to parse"))
+                }
+                
+                
             }
         })
     }
@@ -97,7 +110,7 @@ class FacebookService {
     }
     
     fileprivate func filter(results: [FacebookEvent]?, startDate: Date?, endDate: Date?) -> [FacebookEvent] {
-    
+        
         guard let results = results else {
             return []
         }
@@ -105,7 +118,7 @@ class FacebookService {
         let sdate = startDate ?? Date().setting(month: 1)
         let edate = endDate ?? Date().setting(month: 12)
         
-        return results.flatMap({ (event) -> FacebookEvent? in
+        return results.compactMap({ (event) -> FacebookEvent? in
             if let eventStartDate = event.startDate, let eventEndDate = event.endDate,
                 eventStartDate > sdate, eventEndDate < edate
             {
@@ -148,14 +161,21 @@ class FacebookService {
             if let returnedError = error {
                 completion(nil, returnedError)
             } else if let returnedResult = result {
-                let json = FacebookEvent.extract(from: returnedResult)
-                let results = FacebookEvent.create(from: json).sorted(by: { (event1, event2) -> Bool in
-                    guard let s1 = event1.startDate, let s2 = event2.startDate else {
-                        return event1.hashValue < event2.hashValue
-                    }
-                    return s1 < s2
-                })
-                completion(results, nil)
+                //                let json = FacebookEvent.extract(from: returnedResult)
+                //                let results = FacebookEvent.create(from: json).sorted(by: { (event1, event2) -> Bool in
+                //                    guard let s1 = event1.startDate, let s2 = event2.startDate else {
+                //                        return event1.hashValue < event2.hashValue
+                //                    }
+                //                    return s1 < s2
+                //                })
+                //                completion(results, nil)
+                
+                do {
+                    let response = try FacebookEventModel.extractFacebookEvent(from: returnedResult)
+                    completion(response, nil)
+                } catch {
+                    completion(nil, NSError(with: "Failed to parse"))
+                }
             }
         })
     }
@@ -167,14 +187,20 @@ class FacebookService {
             if let returnedError = error {
                 completion(nil, returnedError)
             } else if let returnedResult = result {
-                let json = JSON(returnedResult)
-                let results = FacebookEvent.create(from: json).sorted(by: { (event1, event2) -> Bool in
-                    guard let s1 = event1.startDate, let s2 = event2.startDate else {
-                        return event1.hashValue < event2.hashValue
-                    }
-                    return s1 < s2
-                })
-                completion(results, nil)            
+                //                let json = JSON(returnedResult)
+                //                let results = FacebookEvent.create(from: json).sorted(by: { (event1, event2) -> Bool in
+                //                    guard let s1 = event1.startDate, let s2 = event2.startDate else {
+                //                        return event1.hashValue < event2.hashValue
+                //                    }
+                //                    return s1 < s2
+                //                })
+                //                completion(results, nil)
+                do {
+                    let response = try FacebookEventModel.extractFacebookEvent(from: returnedResult)
+                    completion(response, nil)
+                } catch {
+                    completion(nil, NSError(with: "Failed to parse"))
+                }
             }
         })
     }
@@ -201,7 +227,7 @@ class FacebookService {
 }
 
 fileprivate extension FacebookService {
-     func loadPlaces(_ parameters: SearchParameters, _ completion: @escaping ([FacebookEvent]?, Error?) -> Void) {
+    func loadPlaces(_ parameters: SearchParameters, _ completion: @escaping ([FacebookEvent]?, Error?) -> Void) {
         places(with: parameters, completion: { (ids, error) in
             
             if self.validError(error: error, completion: completion) {
@@ -232,7 +258,7 @@ fileprivate extension FacebookService {
             if let returnedError = error {
                 completion(nil, returnedError)
             } else if let returnedResult = result {
-                let result = JSON(returnedResult)["data"].flatMap { return $1["id"].string }
+                let result = JSON(returnedResult)["data"].compactMap { return $1["id"].string }
                 completion(result, nil)
             }
         })
@@ -284,9 +310,14 @@ fileprivate extension FacebookService {
             if let returnedError = error {
                 completion(nil, returnedError)
             } else if let returnedResult = result {
-                let json = FacebookEvent.extract(from: returnedResult)
-                completion(FacebookEvent.create(from: json), nil)
+                do {
+                    let response = try FacebookEventModel.extractFacebookEvent(from: returnedResult)
+                    completion(response, nil)
+                } catch {
+                    completion(nil, NSError(with: "Failed to parse"))
+                }
             }
         })
+        
     }
 }
