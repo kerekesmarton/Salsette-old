@@ -24,7 +24,7 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
                         <view key="tableFooterView" contentMode="scaleToFill" misplaced="YES" id="wu6-gF-1xu">
-                            <rect key="frame" x="0.0" y="310" width="300" height="44"/>
+                            <rect key="frame" x="0.0" y="358" width="300" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
@@ -156,6 +156,23 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="detailDisclosureButton" indentationWidth="10" textLabel="nZb-HL-hUI" rowHeight="48" style="IBUITableViewCellStyleDefault" id="gMv-bW-HGt">
+                                        <rect key="frame" x="0.0" y="310" width="300" height="48"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gMv-bW-HGt" id="m6O-ox-wQg">
+                                            <rect key="frame" x="0.0" y="0.0" width="232" height="48"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Read our Privacy Policy here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="nZb-HL-hUI">
+                                                    <rect key="frame" x="16" y="0.0" width="216" height="48"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -173,7 +190,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ce8-O5-RXL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2614" y="673"/>
+            <point key="canvasLocation" x="2633" y="669"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="Puq-Gr-4Mb">
@@ -698,7 +715,7 @@
                                 <action selector="retryAction:" destination="XYZ-TW-cFm" eventType="touchUpInside" id="k4Q-GV-afo"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UXp-o6-51s">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="retry label long title retry label long title " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UXp-o6-51s">
                             <rect key="frame" x="0.0" y="0.0" width="240" height="48"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="48" id="h9S-43-1Di"/>
@@ -724,7 +741,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L96-wq-PSF">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="facebook message label long title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L96-wq-PSF">
                             <rect key="frame" x="0.0" y="0.0" width="240" height="48"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="48" id="Glm-rW-sdR"/>
@@ -874,7 +891,7 @@
                 <viewControllerPlaceholder storyboardName="LocationSearch" referencedIdentifier="UINavigationController-OJh-hc-EmM" id="xkp-gM-AbL" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lgq-O2-1FP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2573" y="333"/>
+            <point key="canvasLocation" x="2633" y="322"/>
         </scene>
         <!--LocationSearchViewController-->
         <scene sceneID="dGs-gD-pq4">
@@ -882,7 +899,7 @@
                 <viewControllerPlaceholder storyboardIdentifier="LocationSearchViewController" storyboardName="LocationSearch" referencedIdentifier="LocationSearchViewController" id="L4g-FK-fqJ" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="efr-XI-Jfp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3131" y="333"/>
+            <point key="canvasLocation" x="3173" y="322"/>
         </scene>
         <!--CreateEventViewController-->
         <scene sceneID="Bkx-z0-9zK">

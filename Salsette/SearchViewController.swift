@@ -258,15 +258,16 @@ extension SearchViewController: UIPopoverPresentationControllerDelegate {
     
     func graphLogin() {
         
-        let loginVC = GraphCreateAccountLauncher().loginViewController(loginCompletion: {
-            self.presenter.viewReady()
+        let loginVC = GraphCreateAccountLauncher().loginViewController(loginCompletion: { [weak self] in
+            self?.dismiss(animated: true)
+            self?.presenter.viewReady()
         })
         
-        let popover = loginVC.popoverPresentationController
-        popover?.delegate = self
-        popover?.sourceView = collectionView
-        popover?.permittedArrowDirections = .init(rawValue: 0)
-        popover?.sourceRect = CGRect(x: collectionView!.bounds.midX, y: collectionView!.bounds.midY, width: 0, height: 0)
+//        let popover = loginVC.popoverPresentationController
+//        popover?.delegate = self
+//        popover?.sourceView = collectionView
+//        popover?.permittedArrowDirections = .init(rawValue: 0)
+//        popover?.sourceRect = CGRect(x: collectionView!.bounds.midX, y: collectionView!.bounds.midY, width: 0, height: 0)
         
         present(loginVC, animated: true)
     }

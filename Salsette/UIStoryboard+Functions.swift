@@ -8,20 +8,14 @@
 
 import UIKit
 
-private enum Storyboards {
-    static let Main = "Main"
-}
-
-private enum ViewControllers {
-    static let GraphSignInViewController = "GraphCreateAccountViewController"
-    
-}
-
 extension UIStoryboard {
 
-    class func graphCreateAccountViewController() -> GraphCreateAccountViewController {
-        let storyBoard = UIStoryboard(name: Storyboards.Main, bundle: nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: ViewControllers.GraphSignInViewController) as! GraphCreateAccountViewController
+    static func viewController<T: UIViewController>(name: String, storyboard: String = "Main", bundle: Bundle? = nil) -> T {
+        let storyBoard = UIStoryboard(name: storyboard, bundle: bundle)        
+        guard let vc = storyBoard.instantiateViewController(withIdentifier: name) as? T else {
+            fatalError()
+        }
         return vc
+        
     }
 }

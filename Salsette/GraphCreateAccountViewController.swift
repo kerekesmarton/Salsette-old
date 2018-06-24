@@ -10,7 +10,7 @@ import UIKit
 
 struct GraphCreateAccountLauncher {
     func loginViewController(loginCompletion:@escaping ()->()) -> GraphCreateAccountViewController {
-        let loginVC = UIStoryboard.graphCreateAccountViewController()
+        let loginVC: GraphCreateAccountViewController = UIStoryboard.viewController(name: "GraphCreateAccountViewController")
         loginVC.modalPresentationStyle = .popover
         loginVC.modalPresentationStyle = UIModalPresentationStyle.popover
         loginVC.preferredContentSize = CGSize(width: 300, height: 350)
@@ -79,6 +79,20 @@ extension GraphCreateAccountViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 2 {
             marketingEmails = !marketingEmails
+        }
+    }
+    
+    private struct Data{
+        static let privacy = URL(string: "https://sites.google.com/site/salsetteevents/privacy-policy")!
+        static let termsAndConditions = URL(string: "https://sites.google.com/site/salsetteevents/terms-and-conditions")!
+    }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        if indexPath.row == 4 {
+            UIApplication.shared.open(Data.termsAndConditions, options: [:], completionHandler: nil)
+        }
+        if indexPath.row == 5 {
+            UIApplication.shared.open(Data.privacy, options: [:], completionHandler: nil)
         }
     }
 }
